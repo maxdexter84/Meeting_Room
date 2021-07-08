@@ -1,0 +1,88 @@
+def majorVersion = 0 // max is 213 due to maximum possible value of signed Integer
+def minorVersion = 1 // max is 999
+def buildVersion = Integer.parseInt(System.env["BUILD_NUMBER"] ?: "0") // max is 9999
+
+allprojects {
+    project.ext {
+        versions = [
+                android  : [
+                        compileSdkVersion: 30,
+                        targetSdkVersion : 30,
+                        minSdkVersion    : 23
+                ],
+                app      : [
+                        versionName: "$majorVersion.$minorVersion.$buildVersion",
+                        versionCode: majorVersion * 10000000 + minorVersion * 10000 + buildVersion
+                ],
+                libraries: [
+                        lifecycle         : '2.2.0',
+                        kotlin            : kotlin_version,
+                        coroutines        : '1.4.0',
+                        appcompat         : '1.2.0',
+                        androidMaterial   : '1.2.1',
+                        constraintLayout  : '2.0.4',
+                        coreKtx           : '1.3.2',
+                        navigation        : navigation_version,
+                        retrofit          : '2.9.0',
+                        timber            : '4.7.1',
+                        koinAndroid       : '2.2.2',
+                        okHttp            : '4.9.0',
+                        gson              : '2.8.6',
+                        viewpager2        : '1.0.0',
+                        loggingInterceptor: '4.9.0',
+                        room              : '2.3.0',
+                        junit             : '4.13.1',
+                        androidTestCore   : '1.3.0',
+                        mockito           : '3.6.28',
+                        coroutinesTest    : '1.4.2'
+                ]
+        ]
+        libraries = [
+                viewModel        : [
+                        "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.libraries.lifecycle}",
+                        "androidx.lifecycle:lifecycle-livedata-ktx:${versions.libraries.lifecycle}",
+                        "androidx.lifecycle:lifecycle-process:${versions.libraries.lifecycle}"
+                ],
+                kotlin           : [
+                        "org.jetbrains.kotlin:kotlin-stdlib:${versions.libraries.kotlin}",
+                        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.libraries.coroutines}"
+                ],
+                coreUi           : [
+                        "androidx.appcompat:appcompat:${versions.libraries.appcompat}",
+                        "com.google.android.material:material:${versions.libraries.androidMaterial}",
+                        "androidx.constraintlayout:constraintlayout:${versions.libraries.constraintLayout}"
+                ],
+                navigation       : [
+                        "androidx.navigation:navigation-fragment-ktx:${versions.libraries.navigation}",
+                        "androidx.navigation:navigation-ui-ktx:${versions.libraries.navigation}",
+                        "androidx.navigation:navigation-dynamic-features-fragment:${versions.libraries.navigation}"
+                ],
+                retrofit         : [
+                        "com.squareup.retrofit2:retrofit:${versions.libraries.retrofit}",
+                        "com.squareup.retrofit2:converter-gson:${versions.libraries.retrofit}",
+                        "com.squareup.retrofit2:converter-scalars:${versions.libraries.retrofit}"
+                ],
+                networking       : [
+                        "com.squareup.okhttp3:okhttp:${versions.libraries.okHttp}",
+                        "com.google.code.gson:gson:${versions.libraries.gson}",
+                        "com.squareup.okhttp3:logging-interceptor:${versions.libraries.loggingInterceptor}",
+                        "com.squareup.okhttp3:logging-interceptor:${versions.libraries.loggingInterceptor}"
+                ],
+                room             : [
+                        "androidx.room:room-runtime:${versions.libraries.room}",
+                        "androidx.room:room-ktx:${versions.libraries.room}"
+                ],
+                unitTests        : [
+                        "junit:junit:${versions.libraries.junit}",
+                        "androidx.test:core:${versions.libraries.androidTestCore}",
+                        "org.mockito:mockito-inline:${versions.libraries.mockito}",
+                        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.libraries.coroutinesTest}"
+                ],
+                koinAndroid      : "io.insert-koin:koin-android-viewmodel:${versions.libraries.koinAndroid}",
+                timber           : "com.jakewharton.timber:timber:${versions.libraries.timber}",
+                coreKtx          : "androidx.core:core-ktx:${versions.libraries.coreKtx}",
+                lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${versions.libraries.lifecycle}",
+
+        ]
+    }
+}

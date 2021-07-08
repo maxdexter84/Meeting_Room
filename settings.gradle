@@ -1,0 +1,3 @@
+rootProject.name = "Meeting Room"
+include ':app'
+include ':ui'
