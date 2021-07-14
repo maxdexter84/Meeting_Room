@@ -1,4 +1,4 @@
-package com.meeringroom.android
+package com.meetingroom.ui
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.meeringroom.android", appContext.packageName)
+        assertEquals("com.meeringroom.ui.test", appContext.packageName)
     }
 }

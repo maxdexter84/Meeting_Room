@@ -1,4 +1,4 @@
-package com.meeringroom.ui
+package com.meetingroom.android
 
 import org.junit.Test
 

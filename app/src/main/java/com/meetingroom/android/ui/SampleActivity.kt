@@ -1,12 +1,12 @@
-package com.meeringroom.android.ui
+package com.meetingroom.android.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.meeringroom.android.R
+import com.meetingroom.android.R
 
-class MainActivity : AppCompatActivity() {
+class SampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_sample)
     }
 }

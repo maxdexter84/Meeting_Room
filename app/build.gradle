@@ -4,8 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion versions.android.compileSdkVersion
 
     defaultConfig {
         applicationId "com.andersenlab.meeting_room"
@@ -40,13 +39,21 @@ android {
 }
 
 dependencies {
+    implementation libraries.kotlin
+    implementation libraries.coreUi
+    implementation libraries.viewModel
+    implementation libraries.navigation
+    implementation libraries.retrofit
+    implementation libraries.networking
+    implementation libraries.koinAndroid
+    implementation libraries.timber
+    implementation libraries.room
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation project(':ui')
+
+    kapt libraries.lifecycleCompiler
+
+    testImplementation libraries.unitTests
+    androidTestImplementation libraries.unitTests
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
