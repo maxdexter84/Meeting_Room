@@ -49,7 +49,7 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
 
-    implementation project(':ui')
+    implementation project(":ui")
 
     kapt libraries.lifecycleCompiler
 
