@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.Widget.ProgressButton.Yellow" parent="">
+        <item name="android:textAppearanceButton">@style/TextAppearance.ProgressButton.Yellow</item>
+    </style>
+
+    <style name="TextAppearance.Body.White" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.ProgressButton.Yellow" parent="@style/TextAppearance.Body.White">
+        <item name="android:textColor">@color/button_text_color_selector</item>
+    </style>
+
+    <style name="Widget.ProgressButton.Yellow" parent="">
+        <item name="android:theme">@style/ThemeOverlay.Widget.ProgressButton.Yellow</item>
+        <item name="android:background">@drawable/progress_button</item>
+    </style>
+</resources>
