@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.meetingroom.android.ui.SampleActivity">
     
-    <com.meeringroom.ui.ProgressButton
-        android:id="@+id/progress_button"
-        style="@style/Widget.ProgressButton.Yellow"
-        android:layout_width="@dimen/progress_button_width"
-        android:layout_height="@dimen/progress_button_height"
-        android:layout_marginStart="@dimen/horizontal_margin"
-        android:layout_marginEnd="@dimen/horizontal_margin"
-        android:layout_marginBottom="@dimen/vertical_margin"
-        app:enabled="true"
-        app:loading="false"
+    <com.meeringroom.ui.view.login_button.LogInButtonMainActivity
+        android:id="@+id/log_in_button_main_activity"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/button_enabled_shape"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_50_dp"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:layout_marginBottom="@dimen/dimens_16_dp"
+        app:state="enabled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
