@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
-import com.meeringroom.ui.view_utils.ViewExtensions.Companion.visibilityIf
+import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.LoginButtonLayoutBinding
 
@@ -35,6 +35,7 @@ class LogInButtonMainActivity @JvmOverloads constructor(
                 isClickable = false
                 binding.logInTextMainActivity.visibilityIf(false)
                 binding.logInProgressIndicatorMainActivity.visibilityIf(true)
+                setBackgroundResource(R.drawable.button_enabled_shape)
             }
         }
     }

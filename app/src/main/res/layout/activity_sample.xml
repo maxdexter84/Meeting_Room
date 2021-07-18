@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.meetingroom.android.ui.SampleActivity">
-    
+
     <com.meeringroom.ui.view.login_button.LogInButtonMainActivity
         android:id="@+id/log_in_button_main_activity"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="@drawable/button_enabled_shape"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_50_dp"
         android:layout_marginStart="@dimen/dimens_16_dp"
