@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.meetingroom.android.ui.MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_0_dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_graph"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
