@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Meeting Room</string>
+    <string name="office_assistant">Office Assistant</string>
+    <string name="app_motto_text">Mundane office tasks made simple :)</string>
 </resources>
