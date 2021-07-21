@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.meeringroom.ui.view.login_button.LogInButtonMainActivity
+    <com.meeringroom.ui.view.login_button.MainActionButton
         android:id="@+id/log_in_button_main_activity"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_50_dp"

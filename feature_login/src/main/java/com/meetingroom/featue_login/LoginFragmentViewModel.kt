@@ -1,4 +1,4 @@
-package com.meetingroom.android.ui
+package com.meetingroom.featue_login
 
 import androidx.lifecycle.ViewModel
 
