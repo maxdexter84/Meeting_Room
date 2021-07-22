@@ -1,4 +1,4 @@
-package com.meetingroom.featue_login
+package com.meetingroom.feature_login
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
