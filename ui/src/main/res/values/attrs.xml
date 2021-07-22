@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="CustomEditText">
+        <attr name="setErrorText" format="string" />
+        <attr name="setHintText" format="string"/>
+        <attr name="inputType" format="enum">
+            <enum name="password" value="1" />
+            <enum name="login" value="2" />
+        </attr>
+    </declare-styleable>
     <declare-styleable name="ProgressButton">
         <attr name="text" format="string"/>
         <attr name="state" format="enum">

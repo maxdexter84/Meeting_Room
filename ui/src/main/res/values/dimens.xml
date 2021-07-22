@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< ui/src/main/res/values/dimens.xml
+    <dimen name="dimens_2_dp">2dp</dimen>
+    <dimen name="dimens_8_dp">8dp</dimen>
+    <dimen name="dimens_4_dp">4dp</dimen>
+    <dimen name="dimens_54_dp">54dp</dimen>
+
     <dimen name="dimens_0_dp">0dp</dimen>
     <dimen name="dimens_14_dp">14dp</dimen>
     <dimen name="dimens_16_dp">16dp</dimen>
@@ -12,4 +18,5 @@
     <dimen name="dimens_60_dp">60dp</dimen>
     <dimen name="dimens_16_sp">16sp</dimen>
     <dimen name="dimens_34_sp">34sp</dimen>
+
 </resources>
