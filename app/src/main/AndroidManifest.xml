@@ -3,6 +3,7 @@
     package="com.meetingroom.android">
 
     <application
+        android:name=".ui.ApplicationMeetingRoom"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
