@@ -1,4 +1,4 @@
-package com.meetingroom.android.ui
+package com.meetingroom.android.di
 
 import dagger.Component
 

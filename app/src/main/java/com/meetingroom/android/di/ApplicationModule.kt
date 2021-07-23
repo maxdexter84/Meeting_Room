@@ -1,6 +1,7 @@
-package com.meetingroom.android.ui
+package com.meetingroom.android.di
 
 import android.content.Context
+import com.meetingroom.android.ApplicationMeetingRoom
 import dagger.Module
 import dagger.Provides
 
