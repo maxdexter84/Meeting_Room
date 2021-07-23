@@ -12,4 +12,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="ripple_effect">#1f000000</color>
     <color name="gray_light">#556170</color>
+    <color name="light_grey"> #ADADAD</color>
+    <color name="error_color_for_textview">#F37871</color>
+    <color name="error_color_for_line_under_edittext">#EF4B41</color>
 </resources>

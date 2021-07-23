@@ -55,9 +55,9 @@ class MainActionButton @JvmOverloads constructor(
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
 
-        context.withStyledAttributes(attrs, R.styleable.ProgressButton, defStyleAttr, 0) {
-            textButton = getString(R.styleable.ProgressButton_text).toString()
-            state = MainActionButtonState.values()[getInt(R.styleable.ProgressButton_state, 0)]
+        context.withStyledAttributes(attrs, R.styleable.MainActionButton, defStyleAttr, 0) {
+            textButton = getString(R.styleable.MainActionButton_text).toString()
+            state = MainActionButtonState.values()[getInt(R.styleable.MainActionButton_state, 0)]
         }
     }
 }
