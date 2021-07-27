@@ -1,4 +1,4 @@
-package com.meetingroom.android.network
+package com.meetingroom.android.di.network
 
 import retrofit2.Call
 import retrofit2.http.GET
