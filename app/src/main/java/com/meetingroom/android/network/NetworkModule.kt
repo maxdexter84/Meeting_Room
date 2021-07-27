@@ -1,8 +1,5 @@
-package com.meetingroom.android.di
+package com.meetingroom.android.network
 
-import android.content.Context
-import com.meetingroom.android.ApplicationMeetingRoom
-import com.meetingroom.android.di.network.ApiInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,17 +7,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@Module
-class CoreModule(private var application: ApplicationMeetingRoom) {
 
-    @Provides
-    fun getContext(): Context {
-        return application
-    }
+@Module
+class NetworkModule {
 
     @Provides
     fun getApiInterface(retrofit: Retrofit): ApiInterface =
         retrofit.create(ApiInterface::class.java)
+
 
     @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
