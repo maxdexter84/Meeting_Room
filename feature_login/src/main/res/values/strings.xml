@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="edit_email_login_fragment_hint">E-mail</string>
+    <string name="edit_password_login_fragment_hint">Password</string>
+</resources>
