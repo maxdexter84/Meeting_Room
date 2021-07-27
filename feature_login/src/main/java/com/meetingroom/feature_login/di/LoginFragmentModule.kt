@@ -1,6 +1,9 @@
-package com.meetingroom.feature_login
+package com.meetingroom.feature_login.di
 
 import androidx.lifecycle.ViewModelProvider
+import com.meetingroom.feature_login.LoginFragment
+import com.meetingroom.feature_login.LoginFragmentViewModel
+import com.meetingroom.feature_login.LoginViewModelFactory
 import dagger.Module
 import dagger.Provides
 
