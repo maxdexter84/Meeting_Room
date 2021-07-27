@@ -2,7 +2,7 @@ package com.meetingroom.android.di
 
 import android.content.Context
 import com.meetingroom.android.ApplicationMeetingRoom
-import com.meetingroom.android.di.network.ApiInterface
+import com.meetingroom.android.di.networkInterfaces.ApiInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
