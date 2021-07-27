@@ -1,5 +1,5 @@
 package com.meeringroom.ui.view.login_button
 
-enum class LogInButtonMainActvityState {
+enum class MainActionButtonState {
     DISABLED, ENABLED, LOADING
 }

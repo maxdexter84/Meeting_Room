@@ -9,29 +9,29 @@ import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.LoginButtonLayoutBinding
 
-class LogInButtonMainActivity @JvmOverloads constructor(
+class MainActionButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var state: LogInButtonMainActvityState = LogInButtonMainActvityState.DISABLED
+    private var state: MainActionButtonState = MainActionButtonState.DISABLED
     set(value) {
         field = value
         when(field) {
-            LogInButtonMainActvityState.ENABLED -> {
+            MainActionButtonState.ENABLED -> {
                 binding.logInTextMainActivity.isEnabled = true
                 isEnabled = true
                 isClickable = true
                 setBackgroundResource(R.drawable.button_enabled_shape)
             }
-            LogInButtonMainActvityState.DISABLED -> {
+            MainActionButtonState.DISABLED -> {
                 binding.logInTextMainActivity.isEnabled = false
                 isEnabled = false
                 isClickable = false
                 setBackgroundResource(R.drawable.button_disabled_shape)
             }
-            LogInButtonMainActvityState.LOADING -> {
+            MainActionButtonState.LOADING -> {
                 isClickable = false
                 binding.logInTextMainActivity.visibilityIf(false)
                 binding.logInProgressIndicatorMainActivity.visibilityIf(true)
@@ -55,9 +55,9 @@ class LogInButtonMainActivity @JvmOverloads constructor(
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
 
-        context.withStyledAttributes(attrs, R.styleable.ProgressButton, defStyleAttr, 0) {
-            textButton = getString(R.styleable.ProgressButton_text).toString()
-            state = LogInButtonMainActvityState.values()[getInt(R.styleable.ProgressButton_state, 0)]
+        context.withStyledAttributes(attrs, R.styleable.MainActionButton, defStyleAttr, 0) {
+            textButton = getString(R.styleable.MainActionButton_text).toString()
+            state = MainActionButtonState.values()[getInt(R.styleable.MainActionButton_state, 0)]
         }
     }
 }

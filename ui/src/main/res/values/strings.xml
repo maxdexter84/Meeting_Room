@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+    <string name="office_assistant">Office Assistant</string>
+    <string name="app_motto_text">Mundane office tasks made simple :)</string>
+    <string name="log_in">Log in</string>
+</resources>

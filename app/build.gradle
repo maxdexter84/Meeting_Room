@@ -52,18 +52,15 @@ dependencies {
     implementation libraries.koinAndroid
     implementation libraries.timber
     implementation libraries.room
+    implementation libraries.dagger
+    kapt libraries.daggerCompiler
 
     implementation project(":ui")
+    implementation project(":feature_login")
 
     kapt libraries.lifecycleCompiler
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
-
-    implementation 'com.google.dagger:dagger:2.36'
-    kapt 'com.google.dagger:dagger-compiler:2.36'
 }

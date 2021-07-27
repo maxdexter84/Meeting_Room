@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.meetingroom.android.ui.SampleActivity">
 
-    <com.meeringroom.ui.view.login_button.LogInButtonMainActivity
+    <com.meeringroom.ui.view.login_button.MainActionButton
         android:id="@+id/log_in_button_main_activity"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_50_dp"
