@@ -34,7 +34,9 @@ allprojects {
                         junit             : '4.13.1',
                         androidTestCore   : '1.3.0',
                         mockito           : '3.6.28',
-                        coroutinesTest    : '1.4.2'
+                        coroutinesTest    : '1.4.2',
+                        dagger            : '2.36',
+                        material          : '1.3.0'
                 ]
         ]
         libraries = [
@@ -71,6 +73,15 @@ allprojects {
                 room             : [
                         "androidx.room:room-runtime:${versions.libraries.room}",
                         "androidx.room:room-ktx:${versions.libraries.room}"
+                ],
+                dagger             : [
+                        "com.google.dagger:dagger:${versions.libraries.dagger}"
+                ],
+                daggerCompiler     : [
+                        "com.google.dagger:dagger-compiler:${versions.libraries.dagger}"
+                ],
+                material     : [
+                        "com.google.android.material:material:${versions.libraries.material}"
                 ],
                 unitTests        : [
                         "junit:junit:${versions.libraries.junit}",

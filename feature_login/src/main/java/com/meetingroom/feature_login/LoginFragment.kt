@@ -1,21 +1,27 @@
 package com.meetingroom.feature_login
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.meetingroom.feature_login.base.BaseFragment
+import androidx.fragment.app.Fragment
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
-import com.meetingroom.feature_login.di.Injector
+import javax.inject.Inject
 
-class LoginFragment: BaseFragment<LoginFragmentViewModel>() {
+class LoginFragment : Fragment() {
 
     lateinit var binding: LoginFragmentBinding
 
-    override fun onAttach(context: Context) {
-        Injector.loginFragmentComponent.inject(this)
-        super.onAttach(context)
+    @Inject
+    lateinit var viewModel: LoginFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        DaggerLoginComponent.builder()
+            .loginFragmentModule(LoginFragmentModule(this))
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -29,9 +35,6 @@ class LoginFragment: BaseFragment<LoginFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
 
-    override fun injectViewModel() {
-        viewModel = getViewModel()
     }
 }

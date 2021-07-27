@@ -1,8 +1,7 @@
 package com.meetingroom.feature_login
 
-import com.meetingroom.feature_login.base.BaseViewModel
-import javax.inject.Inject
+import androidx.lifecycle.ViewModel
 
-class LoginFragmentViewModel @Inject constructor(): BaseViewModel() {
+class LoginFragmentViewModel: ViewModel() {
 
 }
