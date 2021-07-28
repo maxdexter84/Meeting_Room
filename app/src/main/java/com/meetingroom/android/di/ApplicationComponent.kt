@@ -8,5 +8,4 @@ import retrofit2.Retrofit
 @Component(modules = [ApplicationModule::class, NetworkModule::class])
 interface ApplicationComponent {
     fun retrofit(): Retrofit
-    fun getApiInterface(): ApiInterface
 }

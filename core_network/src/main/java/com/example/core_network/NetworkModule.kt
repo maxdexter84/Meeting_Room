@@ -11,9 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class NetworkModule {
     @Provides
-    fun getApiInterface(retrofit: Retrofit): ApiInterface =
-        retrofit.create(ApiInterface::class.java)
-
+    fun getApiInterface(): ApiInterface {
+        return ApiInterface.Factory().create()
+    }
 
     @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -41,6 +41,6 @@ class NetworkModule {
 
     companion object {
         //TODO add normal URL
-        private val BASE_URL = "BASE_URL"
+        private val BASE_URL = "https://rickandmortyapi.com/api/"
     }
 }
