@@ -1,11 +1,7 @@
 package com.example.core_network.networkInterfaces
 
-import com.example.core_network.DaggerNetworkComponent
 import retrofit2.Call
-import retrofit2.Retrofit
 import retrofit2.http.GET
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface ApiInterface {
 

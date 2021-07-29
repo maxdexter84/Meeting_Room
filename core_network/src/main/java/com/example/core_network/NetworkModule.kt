@@ -1,6 +1,5 @@
 package com.example.core_network
 
-import com.example.core_network.networkInterfaces.ApiInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
