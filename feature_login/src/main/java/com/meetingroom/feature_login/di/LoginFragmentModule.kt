@@ -11,11 +11,11 @@ import dagger.Provides
 class LoginFragmentModule(private val loginFragment: LoginFragment) {
 
     @Provides
-    @LoginScreenScope
+    @ScreenScope
     fun provideViewModelFactory(): LoginViewModelFactory = LoginViewModelFactory()
 
     @Provides
-    @LoginScreenScope
+    @ScreenScope
     fun provideLoginViewModel(loginViewModelFactory: LoginViewModelFactory): LoginFragmentViewModel =
         ViewModelProvider(loginFragment, loginViewModelFactory).get(LoginFragmentViewModel::class.java)
 }
