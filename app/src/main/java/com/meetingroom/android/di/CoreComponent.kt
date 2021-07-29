@@ -1,7 +1,7 @@
 package com.meetingroom.android.di
 
 import android.content.Context
-import com.meetingroom.android.sharedpreferences.SharedPreferencesHelper
+import com.meetingroom.android.sharedpreferences.IPreferenceHelper
 import com.meetingroom.android.ui.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -11,6 +11,6 @@ import javax.inject.Singleton
 interface CoreComponent {
 
     fun context(): Context
-    fun sharedPref(): SharedPreferencesHelper
+    fun sharedPref(): IPreferenceHelper
     fun inject(activity: MainActivity)
 }
