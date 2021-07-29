@@ -34,7 +34,6 @@ class NetworkModule {
     }
 
     companion object {
-        //TODO add normal URL
-        private val BASE_URL = "https://rickandmortyapi.com/api/"
+        private const val BASE_URL = "http://178.62.212.6:8080/api/auth/"
     }
 }
