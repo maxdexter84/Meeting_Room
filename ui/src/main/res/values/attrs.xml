@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <declare-styleable name="CustomEditText">
+    <declare-styleable name="MrEditText">
         <attr name="setErrorText" format="string" />
         <attr name="setHintText" format="string"/>
         <attr name="inputType" format="enum">
@@ -9,7 +8,7 @@
             <enum name="login" value="2" />
         </attr>
     </declare-styleable>
-    <declare-styleable name="ProgressButton">
+    <declare-styleable name="MainActionButton">
         <attr name="text" format="string"/>
         <attr name="state" format="enum">
             <enum name="disabled" value="0" />

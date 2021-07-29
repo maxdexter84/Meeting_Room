@@ -71,16 +71,16 @@ class MrEditText @JvmOverloads constructor(
     }
 
     private fun setupAttributes(attrs: AttributeSet?, defStyle: Int) {
-        context.withStyledAttributes(attrs, R.styleable.CustomEditText, defStyle, 0) {
+        context.withStyledAttributes(attrs, R.styleable.MrEditText, defStyle, 0) {
 
-            binding.editTextCustomEditText.hint = getString(R.styleable.CustomEditText_setHintText)
-            textHint = getString(R.styleable.CustomEditText_setHintText)
+            binding.editTextCustomEditText.hint = getString(R.styleable.MrEditText_setHintText)
+            textHint = getString(R.styleable.MrEditText_setHintText)
             binding.errorTextCustomEditText.text =
-                getString(R.styleable.CustomEditText_setErrorText)
-            textError = getString(R.styleable.CustomEditText_setErrorText)
+                getString(R.styleable.MrEditText_setErrorText)
+            textError = getString(R.styleable.MrEditText_setErrorText)
 
             inputTypeTypes =
-                MrEditTextTypes.fromId(getInt(R.styleable.CustomEditText_inputType, 2))
+                MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
         }
         binding.editTextCustomEditText.addTextChangedListener {
             textError = ""

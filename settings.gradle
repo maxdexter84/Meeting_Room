@@ -2,3 +2,4 @@ rootProject.name = "Meeting Room"
 include ':app'
 include ':ui'
 include ':core_network'
+include ':feature_login'
