@@ -12,14 +12,4 @@ interface ApiInterface {
     //TODO create entity to getSomething and add normal path
     @GET("PATH")
     fun getSomething(): Call<MutableList<String>>
-
-    @Singleton
-    class Factory {
-        @set:Inject
-        var retrofit: Retrofit? = DaggerNetworkComponent.create().retrofit()
-        fun create(): ApiInterface {
-            return retrofit!!.create(ApiInterface::class.java)
-        }
-    }
-
 }

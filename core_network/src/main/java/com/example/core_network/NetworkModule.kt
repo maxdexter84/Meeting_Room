@@ -11,11 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class NetworkModule {
     @Provides
-    fun getApiInterface(): ApiInterface {
-        return ApiInterface.Factory().create()
-    }
-
-    @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()
