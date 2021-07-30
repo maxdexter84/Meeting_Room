@@ -9,9 +9,8 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
     private val preferences: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
     override fun saveString(key: String, value: String) {
-       with(preferences.edit()) {
-           putString(key, value).apply()
-       }
+       preferences.edit().putString(key, value).apply()
+
     }
 
     override fun getString(key: String): String? {
@@ -19,9 +18,7 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
     }
 
     override fun saveInt(key: String, value: Int) {
-        with(preferences.edit()) {
-            putInt(key, value).apply()
-        }
+        preferences.edit().putInt(key, value).apply()
     }
 
     override fun getInt(key: String): Int {
@@ -29,9 +26,7 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
     }
 
     override fun saveBoolean(key: String, value: Boolean) {
-        with(preferences.edit()) {
-            putBoolean(key, value).apply()
-        }
+        preferences.edit().putBoolean(key, value).apply()
     }
 
     override fun getBoolean(key: String): Boolean {
@@ -39,9 +34,7 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
     }
 
     override fun saveFloat(key: String, value: Float) {
-        with(preferences.edit()) {
-            putFloat(key, value).apply()
-        }
+        preferences.edit().putFloat(key, value).apply()
     }
 
     override fun getFloat(key: String): Float {
@@ -49,9 +42,7 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
     }
 
     override fun saveLong(key: String, value: Long) {
-        with(preferences.edit()) {
-            putLong(key, value).apply()
-        }
+        preferences.edit().putLong(key, value).apply()
     }
 
     override fun getLong(key: String): Long {

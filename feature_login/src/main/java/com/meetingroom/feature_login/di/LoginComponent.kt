@@ -5,7 +5,7 @@ import com.meetingroom.feature_login.LoginFragmentViewModel
 import dagger.Component
 
 @Component(modules = [LoginFragmentModule::class])
-@ScreenScope
+@Screen
 interface LoginComponent {
 
     fun provideViewModel(): LoginFragmentViewModel
