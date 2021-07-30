@@ -4,7 +4,7 @@ interface IPreferenceHelper {
 
     fun saveString(key: String, value: String)
 
-    fun getString(key: String): String
+    fun getString(key: String): String?
 
     fun saveInt(key: String, value: Int)
 
