@@ -111,5 +111,4 @@ class MrEditText @JvmOverloads constructor(
             }
         }
     }
-
 }

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MeetingRoom"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.meetingroom.android.ui.MainActivity">
+        <activity android:name="com.meetingroom.android.ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
