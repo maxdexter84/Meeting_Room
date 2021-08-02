@@ -15,7 +15,7 @@ class MainActionButton @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var state: MainActionButtonState = MainActionButtonState.DISABLED
+     var state: MainActionButtonState = MainActionButtonState.DISABLED
     set(value) {
         field = value
         when(field) {

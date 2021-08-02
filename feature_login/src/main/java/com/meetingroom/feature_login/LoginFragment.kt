@@ -13,7 +13,6 @@ import javax.inject.Inject
 class LoginFragment : Fragment() {
 
     lateinit var binding: LoginFragmentBinding
-
     @Inject
     lateinit var viewModel: LoginFragmentViewModel
 
@@ -32,6 +31,8 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
+        binding.logInButtonMainActivity.setOnClickListener { viewModel.tryToLogIn(binding.editEmailLoginFragment.text, binding.editPasswordLoginFragment.text) }
+
         return binding.root
     }
 
