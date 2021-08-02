@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/log_in_flow">
+        <include app:graph="@navigation/log_in_flow" />
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.meetingroom.feature_login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/login_fragment"/>
+<!--    <fragment-->
+<!--        android:id="@+id/login_fragment"-->
+<!--        android:name="com.meetingroom.feature_login.LoginFragment"-->
+<!--        android:label="LoginFragment"-->
+<!--        tools:layout="@layout/login_fragment">-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_next_after_login"-->
+<!--            app:destination="@id/next_after_login_fragment" />-->
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/next_after_login_fragment"-->
+<!--        android:name="com.meetingroom.feature_login.NextAfterLoginFragment"-->
+<!--        android:label="NextAfterLoginFragment"-->
+<!--        tools:layout="@layout/fragment_next_after_login">-->
+
+<!--    </fragment>-->
+
 </navigation>
