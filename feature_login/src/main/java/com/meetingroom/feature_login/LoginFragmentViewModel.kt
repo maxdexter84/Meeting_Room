@@ -8,16 +8,29 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
 
 class LoginFragmentViewModel : ViewModel() {
-    fun tryToLogIn(text: String?, text1: String?): Boolean {
-        val b = retrofit.create(LogInInterface::class.java)
-        var a = runBlocking { b.logInUser(LogInRequest(text!!, text1!!)) }
-        if (a.isSuccessful){
 
+    private val retrofit: Retrofit = DaggerNetworkComponent.create().retrofit()
+
+    fun tryToLogIn(login: String, password: String): Boolean {
+        val logIn = retrofit.create(LogInInterface::class.java)
+        if (!isInputValid(login, password)) {
+            return false
+        }
+        val request = runBlocking { logIn.logInUser(LogInRequest(login, password)) }
+        if (request.isSuccessful) {
+            // add sharedpreff
             return true
         }
         return false
     }
 
-    private val retrofit: Retrofit = DaggerNetworkComponent.create().retrofit()
+    private fun isInputValid(login: String, password: String): Boolean {
+        //TODO add normal check
+        if (login.isEmpty() || password.isEmpty()) return false
+        //  if (!login.contentEquals("@") || !login.contentEquals(".")) return false
+
+        return true
+    }
+
 
 }
