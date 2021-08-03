@@ -1,4 +1,4 @@
-package com.meetingroom.android.sharedpreferences
+package com.example.sharedpreferences.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,7 +10,6 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
 
     override fun saveString(key: String, value: String) {
        preferences.edit().putString(key, value).apply()
-
     }
 
     override fun getString(key: String): String? {

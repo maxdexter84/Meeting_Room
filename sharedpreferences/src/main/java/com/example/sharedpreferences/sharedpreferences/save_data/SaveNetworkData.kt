@@ -1,7 +1,7 @@
-package com.meetingroom.android.di.save_data
+package com.example.sharedpreferences.sharedpreferences.save_data
 
 import android.nfc.FormatException
-import com.meetingroom.android.sharedpreferences.IPreferenceHelper
+import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
 import javax.inject.Inject
 
 class SaveNetworkData @Inject constructor(private val iPreferenceHelper: IPreferenceHelper) :

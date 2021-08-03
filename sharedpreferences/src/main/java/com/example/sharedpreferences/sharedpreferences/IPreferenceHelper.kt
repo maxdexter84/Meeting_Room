@@ -1,4 +1,4 @@
-package com.meetingroom.android.sharedpreferences
+package com.example.sharedpreferences.sharedpreferences
 
 interface IPreferenceHelper {
 
