@@ -1,8 +1,6 @@
 package com.meetingroom.android.di
 
 import android.content.Context
-import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
-import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
 import com.meetingroom.android.ui.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -11,7 +9,5 @@ import javax.inject.Singleton
 @Singleton
 interface CoreComponent {
     fun context(): Context
-    fun sharedPref(): IPreferenceHelper
     fun inject(activity: MainActivity)
-    fun saveNetworkData(): SaveNetworkData
 }

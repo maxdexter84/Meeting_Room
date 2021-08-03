@@ -33,6 +33,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.context = container!!.context
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         binding.logInButtonMainActivity.setOnClickListener {
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING

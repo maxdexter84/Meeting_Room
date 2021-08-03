@@ -12,7 +12,7 @@ class SaveNetworkData @Inject constructor(private val iPreferenceHelper: IPrefer
         if (value.length < 2) throw FormatException("Too short Token")
         if (token == null) {
             token = value
-            iPreferenceHelper.saveString(value.substring(value.length / 2), value)
+            iPreferenceHelper.saveString("token", value)
         }
     }
 
@@ -20,6 +20,6 @@ class SaveNetworkData @Inject constructor(private val iPreferenceHelper: IPrefer
         if (token == null) {
             return null
         }
-        return iPreferenceHelper.getString(token!!.substring(token!!.length / 2))
+        return iPreferenceHelper.getString("token")
     }
 }
