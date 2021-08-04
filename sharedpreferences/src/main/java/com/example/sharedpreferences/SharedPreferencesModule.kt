@@ -1,6 +1,5 @@
 package com.example.sharedpreferences
 
-import android.app.Application
 import android.content.Context
 import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
 import com.example.sharedpreferences.sharedpreferences.SharedPreferencesHelper
@@ -10,10 +9,10 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class SharedPreferencesModule(private val application: Application) {
+class SharedPreferencesModule(private val context: Context) {
     @Provides
-    fun getContext(): Context {
-        return application
+    fun provideContext(): Context {
+        return context
     }
 
     @Provides

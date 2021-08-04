@@ -1,6 +1,5 @@
 package com.meetingroom.feature_login
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.example.core_network.DaggerNetworkComponent
@@ -12,7 +11,6 @@ import com.example.sharedpreferences.sharedpreferences.SharedPreferencesHelper
 import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
 import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
-import javax.inject.Inject
 
 class LoginFragmentViewModel : ViewModel() {
 
@@ -27,8 +25,10 @@ class LoginFragmentViewModel : ViewModel() {
         }
         val request = runBlocking { logIn.logInUser(LogInRequest(login, password)) }
         if (request.isSuccessful) {
+            saveNetworkData = DaggerSharedPreferencesComponent.builder().sharedPreferencesModule(
+                SharedPreferencesModule(context)
+            ).build().saveNetworkData()
             saveNetworkData = SaveNetworkData(SharedPreferencesHelper(context))
-            saveNetworkData.saveToken(request.body()!!.accessToken)
             return true
         }
         return false
