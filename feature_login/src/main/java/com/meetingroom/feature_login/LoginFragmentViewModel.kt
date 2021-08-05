@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class LoginFragmentViewModel @Inject constructor(
     val retrofit: Retrofit,
-    val saveNetworkData: SaveNetworkData
+    private val saveNetworkData: SaveNetworkData
 ) : ViewModel() {
     val post: MutableLiveData<LogInResponse> by lazy {
         MutableLiveData<LogInResponse>()
@@ -43,21 +43,6 @@ class LoginFragmentViewModel @Inject constructor(
                 }
             }
         }
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            async {
-//                val request: Response<LogInResponse> =
-//                    logIn.logInUser(LogInRequest(login, password))
-//                result = request.isSuccessful
-//                if (result) {
-////                saveNetworkData.saveToken(request.body()!!.accessToken)
-//                }
-//
-//                return@async true
-//            }
-//
-//        }
-
     }
 
     private fun isInputValid(login: String, password: String): Boolean {
@@ -67,6 +52,5 @@ class LoginFragmentViewModel @Inject constructor(
 
         return true
     }
-
 
 }

@@ -53,18 +53,6 @@ class LoginFragment : Fragment() {
                 binding.editPasswordLoginFragment.text!!
             )
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
-//            if (viewModel.tryToLogIn(
-//                    binding.editEmailLoginFragment.text!!,
-//                    binding.editPasswordLoginFragment.text!!
-//                )
-//            ) {
-//                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-//                findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
-//            } else {
-//                binding.editEmailLoginFragment.textError = "Incorrect e-mail or password!"
-//                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-//            }
-//
         }
 
         return binding.root
