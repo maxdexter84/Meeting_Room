@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.sharedpreferences.SharedPreferencesModule
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
@@ -24,6 +25,7 @@ class LoginFragment : Fragment() {
 
         DaggerLoginComponent.builder()
             .loginFragmentModule(LoginFragmentModule(this))
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
     }
@@ -33,7 +35,6 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.context = container!!.context
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         binding.logInButtonMainActivity.setOnClickListener {
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
