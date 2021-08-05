@@ -36,20 +36,35 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
-        binding.logInButtonMainActivity.setOnClickListener {
-            binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
-            if (viewModel.tryToLogIn(
-                    binding.editEmailLoginFragment.text!!,
-                    binding.editPasswordLoginFragment.text!!
-                )
-            ) {
-                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-                findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
-            } else {
-                binding.editEmailLoginFragment.textError = "Incorrect e-mail or password!"
-                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-            }
 
+        viewModel.post.observe(viewLifecycleOwner, {
+            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
+            binding.editEmailLoginFragment.textError = it.toString()
+            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+        })
+
+        binding.logInButtonMainActivity.setOnClickListener {
+            viewModel.tryToLogIn(
+                binding.editEmailLoginFragment.text!!,
+                binding.editPasswordLoginFragment.text!!
+            )
+            binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
+//            if (viewModel.tryToLogIn(
+//                    binding.editEmailLoginFragment.text!!,
+//                    binding.editPasswordLoginFragment.text!!
+//                )
+//            ) {
+//                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+//                findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+//            } else {
+//                binding.editEmailLoginFragment.textError = "Incorrect e-mail or password!"
+//                binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+//            }
+//
         }
 
         return binding.root
