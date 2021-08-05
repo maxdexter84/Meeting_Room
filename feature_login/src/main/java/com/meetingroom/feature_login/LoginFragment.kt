@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
 
-        viewModel.post.observe(viewLifecycleOwner, {
+        viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
             findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
         })

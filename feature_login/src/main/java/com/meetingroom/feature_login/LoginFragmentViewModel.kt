@@ -17,7 +17,7 @@ class LoginFragmentViewModel @Inject constructor(
     val retrofit: Retrofit,
     private val saveNetworkData: SaveNetworkData
 ) : ViewModel() {
-    val post: MutableLiveData<LogInResponse> by lazy {
+    val requestResult: MutableLiveData<LogInResponse> by lazy {
         MutableLiveData<LogInResponse>()
     }
 
@@ -35,7 +35,7 @@ class LoginFragmentViewModel @Inject constructor(
             when (val retrofitPost =
                 LogInApiHelper(logIn).logInUser(LogInRequest(login, password))) {
                 is ResultOfLogIn.Success -> {
-                    post.postValue(retrofitPost.data)
+                    requestResult.postValue(retrofitPost.data)
                     saveNetworkData.saveToken(retrofitPost.data.accessToken)
                 }
                 is ResultOfLogIn.Error -> {
