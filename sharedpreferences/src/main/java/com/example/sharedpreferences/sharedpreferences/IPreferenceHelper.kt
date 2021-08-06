@@ -1,5 +1,7 @@
 package com.example.sharedpreferences.sharedpreferences
 
+import android.content.Context
+
 interface IPreferenceHelper {
 
     fun saveString(key: String, value: String)
@@ -12,7 +14,7 @@ interface IPreferenceHelper {
 
     fun saveBoolean(key: String, value: Boolean)
 
-    fun getBoolean(key: String):Boolean
+    fun getBoolean(key: String): Boolean
 
     fun saveFloat(key: String, value: Float)
 
@@ -23,4 +25,6 @@ interface IPreferenceHelper {
     fun getLong(key: String): Long
 
     fun clearPrefs()
+
+    fun getContextFromOwner(): Context
 }

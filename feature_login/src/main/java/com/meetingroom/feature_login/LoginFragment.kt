@@ -36,7 +36,6 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
-
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
             findNavController().navigate(R.id.action_loginFragment_to_next_after_login)

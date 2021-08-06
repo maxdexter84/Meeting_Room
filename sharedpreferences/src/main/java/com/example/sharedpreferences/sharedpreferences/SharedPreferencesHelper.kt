@@ -3,13 +3,14 @@ package com.example.sharedpreferences.sharedpreferences
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedPreferencesHelper(context: Context): IPreferenceHelper {
+class SharedPreferencesHelper(val context: Context) : IPreferenceHelper {
 
     private val name = "SharedPreferencesHelper"
-    private val preferences: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+    private val preferences: SharedPreferences =
+        context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
     override fun saveString(key: String, value: String) {
-       preferences.edit().putString(key, value).apply()
+        preferences.edit().putString(key, value).apply()
     }
 
     override fun getString(key: String): String? {
@@ -50,5 +51,9 @@ class SharedPreferencesHelper(context: Context): IPreferenceHelper {
 
     override fun clearPrefs() {
         preferences.edit().clear().apply()
+    }
+
+    override fun getContextFromOwner(): Context {
+        return context
     }
 }

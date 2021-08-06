@@ -3,22 +3,18 @@ package com.meetingroom.feature_login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_network.login_stuff.LogInApiHelper
-import com.example.core_network.login_stuff.ResultOfLogIn
-import com.example.core_network.user_interfaces.LogInInterface
+import com.example.core_network.ApiHelper
+import com.example.core_network.ResultOfRequest
 import com.example.core_network.user_posts.LogInRequest
-import com.example.core_network.user_responses.LogInResponse
 import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
-import kotlinx.coroutines.*
-import retrofit2.Retrofit
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginFragmentViewModel @Inject constructor(
-    val retrofit: Retrofit,
     private val saveNetworkData: SaveNetworkData
 ) : ViewModel() {
-    val requestResult: MutableLiveData<LogInResponse> by lazy {
-        MutableLiveData<LogInResponse>()
+    val requestResult: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
     }
 
     val errorMessage: MutableLiveData<String> by lazy {
@@ -26,20 +22,21 @@ class LoginFragmentViewModel @Inject constructor(
     }
 
     fun tryToLogIn(login: String, password: String) {
-        val logIn = retrofit.create(LogInInterface::class.java)
         if (!isInputValid(login, password)) {
-            errorMessage.postValue("Incorrect e-mail or password!")
+            errorMessage.postValue(saveNetworkData.getContext().resources.getString(R.string.error_for_log_in))
             return
         }
         viewModelScope.launch {
             when (val retrofitPost =
-                LogInApiHelper(logIn).logInUser(LogInRequest(login, password))) {
-                is ResultOfLogIn.Success -> {
-                    requestResult.postValue(retrofitPost.data)
+                ApiHelper.logInUser(LogInRequest(login, password))) {
+                is ResultOfRequest.Success -> {
+                    requestResult.postValue(retrofitPost.data.email)
                     saveNetworkData.saveToken(retrofitPost.data.accessToken)
                 }
-                is ResultOfLogIn.Error -> {
-                    errorMessage.postValue("Incorrect e-mail or password!")
+                is ResultOfRequest.Error -> {
+                    errorMessage.postValue(
+                        saveNetworkData.getContext().resources.getString(R.string.error_for_log_in)
+                    )
                 }
             }
         }
