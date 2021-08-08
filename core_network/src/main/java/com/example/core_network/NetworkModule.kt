@@ -1,5 +1,6 @@
 package com.example.core_network
 
+import com.example.core_network.user_interfaces.LogInInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -9,6 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class NetworkModule {
+    @Provides
+    fun getLogInInterface(retrofit: Retrofit): LogInInterface{
+        return retrofit.create(LogInInterface::class.java)
+    }
+
     @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
