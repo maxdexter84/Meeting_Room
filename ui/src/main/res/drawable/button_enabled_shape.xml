@@ -3,7 +3,7 @@
     android:color="@color/ripple_effect">
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/dimens_14_dp" />
+            <corners android:radius="@dimen/dimens_4_dp" />
             <solid android:color="@color/button_bg_selector" />
         </shape>
     </item>
