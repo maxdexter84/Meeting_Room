@@ -10,5 +10,4 @@ interface NetworkComponent {
     fun retrofit(): Retrofit
     fun okHttpClient(): OkHttpClient
     fun logInInterface():LogInInterface
-    fun gagForInternetsRequests(): GagForInternetsRequests
 }

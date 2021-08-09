@@ -3,7 +3,7 @@ package com.meetingroom.feature_login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_module.sharedpreferences.save_data.SaveData
+import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_network.ApiHelper
 import com.example.core_network.ResultOfRequest
 import com.example.core_network.user_posts.LogInRequest
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginFragmentViewModel @Inject constructor(
-    private val saveNetworkData: SaveData
+    private val saveNetworkData: UserDataPrefHelperImpl
 ) : ViewModel() {
     val requestResult: MutableLiveData<String> by lazy {
         MutableLiveData<String>()

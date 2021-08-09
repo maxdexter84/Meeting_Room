@@ -1,6 +1,6 @@
 package com.example.core_module.sharedpreferences.save_data
 
-interface ISaveData {
+interface UserDataPrefHelper {
     fun saveToken(value: String)
 
     fun getToken(): String?

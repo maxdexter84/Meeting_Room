@@ -4,8 +4,8 @@ import android.nfc.FormatException
 import com.example.core_module.sharedpreferences.IPreferenceHelper
 import javax.inject.Inject
 
-class SaveData @Inject constructor(private val iPreferenceHelper: IPreferenceHelper) :
-    ISaveData {
+class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: IPreferenceHelper) :
+    UserDataPrefHelper {
     private var token: String? = null
 
     override fun saveToken(value: String) {

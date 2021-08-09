@@ -11,11 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class NetworkModule {
     @Provides
-    fun getGagForInternetsRequests(): GagForInternetsRequests = GagForInternetsRequests()
-
-    @Provides
     fun getLogInInterface(retrofit: Retrofit): LogInInterface {
-        return retrofit.create(LogInInterface::class.java)
+        return GagForInternetsRequests()
+//      return retrofit.create(LogInInterface::class.java)
     }
 
     @Provides

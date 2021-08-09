@@ -6,7 +6,7 @@ import retrofit2.Response
 
 object ApiHelper {
     suspend fun logInUser(logInRequest: LogInRequest): ResultOfRequest<LogInResponse> {
-        val serviceToLogIn = DaggerNetworkComponent.create().gagForInternetsRequests()
+        val serviceToLogIn = DaggerNetworkComponent.create().logInInterface()
         return safeApiCall(call = { serviceToLogIn.logInUser(logInRequest) })
     }
 
