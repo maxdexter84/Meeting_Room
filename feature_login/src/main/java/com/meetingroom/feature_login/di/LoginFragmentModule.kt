@@ -1,7 +1,7 @@
 package com.meetingroom.feature_login.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
+import com.example.core_module.sharedpreferences.save_data.SaveData
 import com.meetingroom.feature_login.LoginFragment
 import com.meetingroom.feature_login.LoginFragmentViewModel
 import com.meetingroom.feature_login.LoginViewModelFactory
@@ -14,7 +14,7 @@ class LoginFragmentModule(private val loginFragment: LoginFragment) {
     @Provides
     @Screen
     fun provideViewModelFactory(
-        saveNetworkData: SaveNetworkData
+        saveNetworkData: SaveData
     ): LoginViewModelFactory = LoginViewModelFactory( saveNetworkData)
 
     @Provides
