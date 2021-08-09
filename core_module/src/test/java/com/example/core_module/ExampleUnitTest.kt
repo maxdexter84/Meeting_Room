@@ -1,4 +1,4 @@
-package com.example.sharedpreferences
+package com.example.core_module
 
 import org.junit.Test
 

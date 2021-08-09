@@ -1,7 +1,7 @@
 package com.meetingroom.feature_login.di
 
 import com.example.core_network.NetworkModule
-import com.example.sharedpreferences.SharedPreferencesModule
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meetingroom.feature_login.LoginFragment
 import com.meetingroom.feature_login.LoginFragmentViewModel
 import dagger.Component

@@ -1,10 +1,10 @@
-package com.example.sharedpreferences
+package com.example.core_module.sharedpreferences_di
 
 import android.content.Context
-import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
-import com.example.sharedpreferences.sharedpreferences.SharedPreferencesHelper
-import com.example.sharedpreferences.sharedpreferences.save_data.ISaveNetworkData
-import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
+import com.example.core_module.sharedpreferences.IPreferenceHelper
+import com.example.core_module.sharedpreferences.SharedPreferencesHelper
+import com.example.core_module.sharedpreferences.save_data.ISaveNetworkData
+import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 import dagger.Module
 import dagger.Provides
 

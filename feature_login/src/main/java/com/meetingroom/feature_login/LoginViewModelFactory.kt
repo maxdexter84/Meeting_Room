@@ -2,7 +2,7 @@ package com.meetingroom.feature_login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
+import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 
 class LoginViewModelFactory(val saveNetworkData: SaveNetworkData) : ViewModelProvider.Factory {
 

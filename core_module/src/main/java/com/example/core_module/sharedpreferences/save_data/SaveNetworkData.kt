@@ -1,17 +1,12 @@
-package com.example.sharedpreferences.sharedpreferences.save_data
+package com.example.core_module.sharedpreferences.save_data
 
-import android.content.Context
 import android.nfc.FormatException
-import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
+import com.example.core_module.sharedpreferences.IPreferenceHelper
 import javax.inject.Inject
 
 class SaveNetworkData @Inject constructor(private val iPreferenceHelper: IPreferenceHelper) :
     ISaveNetworkData {
     private var token: String? = null
-
-    fun getContext(): Context {
-        return iPreferenceHelper.getContextFromOwner()
-    }
 
     override fun saveToken(value: String) {
         if (value.length < 2) throw FormatException("Too short Token")

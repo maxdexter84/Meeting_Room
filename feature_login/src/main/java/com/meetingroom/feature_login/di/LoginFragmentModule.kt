@@ -1,7 +1,7 @@
 package com.meetingroom.feature_login.di
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
+import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 import com.meetingroom.feature_login.LoginFragment
 import com.meetingroom.feature_login.LoginFragmentViewModel
 import com.meetingroom.feature_login.LoginViewModelFactory

@@ -1,7 +1,7 @@
-package com.example.sharedpreferences
+package com.example.core_module.sharedpreferences_di
 
-import com.example.sharedpreferences.sharedpreferences.IPreferenceHelper
-import com.example.sharedpreferences.sharedpreferences.save_data.SaveNetworkData
+import com.example.core_module.sharedpreferences.IPreferenceHelper
+import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 import dagger.Component
 
 @Component(modules = [SharedPreferencesModule::class])

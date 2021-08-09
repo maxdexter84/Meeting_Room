@@ -1,4 +1,4 @@
-package com.example.sharedpreferences.sharedpreferences
+package com.example.core_module.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -51,9 +51,5 @@ class SharedPreferencesHelper(val context: Context) : IPreferenceHelper {
 
     override fun clearPrefs() {
         preferences.edit().clear().apply()
-    }
-
-    override fun getContextFromOwner(): Context {
-        return context
     }
 }

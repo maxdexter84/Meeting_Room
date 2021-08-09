@@ -1,6 +1,4 @@
-package com.example.sharedpreferences.sharedpreferences
-
-import android.content.Context
+package com.example.core_module.sharedpreferences
 
 interface IPreferenceHelper {
 
@@ -25,6 +23,4 @@ interface IPreferenceHelper {
     fun getLong(key: String): Long
 
     fun clearPrefs()
-
-    fun getContextFromOwner(): Context
 }
