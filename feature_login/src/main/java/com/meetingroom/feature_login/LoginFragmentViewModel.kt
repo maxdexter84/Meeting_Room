@@ -41,10 +41,8 @@ class LoginFragmentViewModel @Inject constructor(
     }
 
     private fun isInputValid(login: String, password: String): Boolean {
-        //TODO add normal check
         if (login.isEmpty() || password.isEmpty()) return false
-        //  if (!login.contentEquals("@") || !login.contentEquals(".")) return false
-
+        if (login.length < 6 || password.length < 6) return false
         return true
     }
 
