@@ -3,10 +3,10 @@ package com.meetingroom.feature_login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 import com.example.core_network.ApiHelper
 import com.example.core_network.ResultOfRequest
 import com.example.core_network.user_posts.LogInRequest
-import com.example.core_module.sharedpreferences.save_data.SaveNetworkData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class LoginFragmentViewModel @Inject constructor(
 
     fun tryToLogIn(login: String, password: String) {
         if (!isInputValid(login, password)) {
-//            errorMessage.postValue(saveNetworkData.getContext().resources.getString(R.string.error_for_log_in))
+            errorMessage.postValue(R.string.error_for_log_in)
             return
         }
         viewModelScope.launch {
@@ -35,9 +35,6 @@ class LoginFragmentViewModel @Inject constructor(
                 }
                 is ResultOfRequest.Error -> {
                     errorMessage.postValue(R.string.error_for_log_in)
-//                    errorMessage.postValue(
-//                        saveNetworkData.getContext().resources.getString(R.string.error_for_log_in)
-//                    )
                 }
             }
         }
