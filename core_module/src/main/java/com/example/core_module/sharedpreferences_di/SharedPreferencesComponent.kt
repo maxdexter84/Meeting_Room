@@ -7,5 +7,5 @@ import dagger.Component
 @Component(modules = [SharedPreferencesModule::class])
 interface SharedPreferencesComponent {
     fun sharedPref(): IPreferenceHelper
-    fun saveData(): UserDataPrefHelper
+    fun userDataPrefHelper(): UserDataPrefHelper
 }
