@@ -2,4 +2,5 @@
 <resources>
     <string name="edit_email_login_fragment_hint">E-mail</string>
     <string name="edit_password_login_fragment_hint">Password</string>
+    <string name="error_for_log_in">Incorrect e-mail or password!</string>
 </resources>

@@ -47,6 +47,10 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
+    implementation project(path: ':core_network')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':core_module')
     kapt libraries.daggerCompiler
 
     implementation project(":ui")

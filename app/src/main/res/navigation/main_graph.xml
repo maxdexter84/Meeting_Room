@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
-
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.meetingroom.feature_login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/login_fragment"/>
+    app:startDestination="@id/log_in_flow">
+        <include app:graph="@navigation/log_in_flow" />
 </navigation>
