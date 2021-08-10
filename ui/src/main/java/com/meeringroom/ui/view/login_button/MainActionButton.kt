@@ -3,8 +3,10 @@ package com.meeringroom.ui.view.login_button
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isVisible
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.LoginButtonLayoutBinding
@@ -15,30 +17,32 @@ class MainActionButton @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-     var state: MainActionButtonState = MainActionButtonState.DISABLED
-    set(value) {
-        field = value
-        when(field) {
-            MainActionButtonState.ENABLED -> {
-                binding.logInTextMainActivity.isEnabled = true
-                isEnabled = true
-                isClickable = true
-                setBackgroundResource(R.drawable.button_enabled_shape)
-            }
-            MainActionButtonState.DISABLED -> {
-                binding.logInTextMainActivity.isEnabled = false
-                isEnabled = false
-                isClickable = false
-                setBackgroundResource(R.drawable.button_disabled_shape)
-            }
-            MainActionButtonState.LOADING -> {
-                isClickable = false
-                binding.logInTextMainActivity.visibilityIf(false)
-                binding.logInProgressIndicatorMainActivity.visibilityIf(true)
-                setBackgroundResource(R.drawable.button_enabled_shape)
+    var state: MainActionButtonState = MainActionButtonState.DISABLED
+        set(value) {
+            field = value
+            when (field) {
+                MainActionButtonState.ENABLED -> {
+                    binding.logInTextMainActivity.isVisible = true
+                    isEnabled = true
+                    isClickable = true
+                    binding.logInProgressIndicatorMainActivity.visibilityIf(false)
+                    setBackgroundResource(R.drawable.button_enabled_shape)
+                }
+                MainActionButtonState.DISABLED -> {
+                    binding.logInTextMainActivity.isVisible = false
+                    isEnabled = false
+                    isClickable = false
+                    binding.logInProgressIndicatorMainActivity.visibilityIf(false)
+                    setBackgroundResource(R.drawable.button_disabled_shape)
+                }
+                MainActionButtonState.LOADING -> {
+                    isClickable = false
+                    binding.logInTextMainActivity.isVisible = false
+                    binding.logInProgressIndicatorMainActivity.visibilityIf(true)
+                    setBackgroundResource(R.drawable.button_enabled_shape)
+                }
             }
         }
-    }
 
     private var textButton: String = ""
         set(value) {
