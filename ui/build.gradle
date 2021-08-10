@@ -49,5 +49,4 @@ dependencies {
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
