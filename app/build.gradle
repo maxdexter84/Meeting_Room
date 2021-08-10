@@ -54,8 +54,7 @@ dependencies {
     implementation libraries.room
     implementation libraries.dagger
     implementation libraries.navigation
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation  libraries.legacy
 
     kapt libraries.daggerCompiler
     kapt libraries.lifecycleCompiler
@@ -67,5 +66,4 @@ dependencies {
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
