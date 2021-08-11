@@ -59,6 +59,8 @@ dependencies {
 
     implementation project(":ui")
     implementation project(":feature_login")
+    implementation project(path: ':core_module')
+    implementation project(path: ':core_network')
     implementation project(":feature_set_location")
 
     kapt libraries.lifecycleCompiler

@@ -1,16 +1,19 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdkVersion versions.android.compileSdkVersion
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion versions.android.minSdkVersion
-        targetSdkVersion versions.android.targetSdkVersion
-        versionCode versions.app.versionCode
-        versionName versions.app.versionName
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -28,24 +31,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-
     implementation libraries.kotlin
+    implementation libraries.dagger
     implementation libraries.coreUi
-    implementation libraries.viewModel
-    implementation libraries.navigation
-    implementation libraries.retrofit
-    implementation libraries.networking
-    implementation libraries.koinAndroid
-    implementation libraries.timber
-    implementation libraries.room
-    implementation libraries.material
+    implementation libraries.coreKtx
+    kapt libraries.daggerCompiler
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests

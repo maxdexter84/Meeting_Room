@@ -47,11 +47,14 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
+    implementation  libraries.legacy
+
     kapt libraries.daggerCompiler
 
     implementation project(":ui")
+    implementation project(path: ':core_network')
+    implementation project(path: ':core_module')
 
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation libraries.unitTests
+    androidTestImplementation libraries.unitTests
 }

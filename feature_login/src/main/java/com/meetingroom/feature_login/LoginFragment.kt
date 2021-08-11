@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
 import com.meetingroom.feature_login.di.LoginFragmentModule
@@ -35,6 +36,23 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
+        viewModel.requestResult.observe(viewLifecycleOwner, {
+            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
+            binding.editEmailLoginFragment.textError = requireContext().getString(it)
+            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+        })
+
+        binding.logInButtonMainActivity.setOnClickListener {
+            viewModel.tryToLogIn(
+                binding.editEmailLoginFragment.text!!,
+                binding.editPasswordLoginFragment.text!!
+            )
+            binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
+        }
         return binding.root
     }
 

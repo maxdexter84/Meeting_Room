@@ -1,4 +1,4 @@
-package com.meetingroom.android.sharedpreferences
+package com.example.core_module.sharedpreferences
 
 interface IPreferenceHelper {
 
@@ -12,7 +12,7 @@ interface IPreferenceHelper {
 
     fun saveBoolean(key: String, value: Boolean)
 
-    fun getBoolean(key: String):Boolean
+    fun getBoolean(key: String): Boolean
 
     fun saveFloat(key: String, value: Float)
 
