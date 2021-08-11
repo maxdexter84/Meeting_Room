@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.feature_set_location.SharedViewModel
-import com.example.feature_set_location.country_fragment.di.CountryFragmentModule
-import com.example.feature_set_location.country_fragment.di.DaggerCountryComponent
 import com.example.feature_set_location.databinding.CountryFragmentBinding
+import com.example.feature_set_location.di.CountryFragmentModule
+import com.example.feature_set_location.di.DaggerCountryComponent
 import javax.inject.Inject
 
 

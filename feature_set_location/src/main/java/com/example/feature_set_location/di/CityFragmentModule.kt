@@ -1,4 +1,4 @@
-package com.example.feature_set_location.city_fragment.di
+package com.example.feature_set_location.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.feature_set_location.city_fragment.CityFragment
@@ -12,10 +12,10 @@ import dagger.Provides
 class CityFragmentModule(private val cityFragment: CityFragment) {
 
     @Provides
-    fun provideViewModelFactory(): CityViewModelFactory = CityViewModelFactory()
+    fun provideCityViewModelFactory(): CityViewModelFactory = CityViewModelFactory()
 
     @Provides
-    fun provideLoginViewModel(cityViewModelFactory: CityViewModelFactory): CityFragmentViewModel =
+    fun provideCityViewModel(cityViewModelFactory: CityViewModelFactory): CityFragmentViewModel =
         ViewModelProvider(cityFragment, cityViewModelFactory).get(CityFragmentViewModel::class.java)
 
 }

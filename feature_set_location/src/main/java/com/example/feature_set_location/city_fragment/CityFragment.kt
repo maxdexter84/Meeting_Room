@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.core_network.location_posts.CountryPost
 import com.example.feature_set_location.SharedViewModel
-import com.example.feature_set_location.city_fragment.di.CityFragmentModule
-import com.example.feature_set_location.city_fragment.di.DaggerCityComponent
 import com.example.feature_set_location.databinding.CityFragmentBinding
+import com.example.feature_set_location.di.CityFragmentModule
+import com.example.feature_set_location.di.DaggerCityComponent
 import javax.inject.Inject
 
 class CityFragment : Fragment() {
@@ -26,6 +26,7 @@ class CityFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         DaggerCityComponent.builder()
             .cityFragmentModule(CityFragmentModule(this))
             .build()
