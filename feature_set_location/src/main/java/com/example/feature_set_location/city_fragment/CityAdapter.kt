@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_network.location_responses.City
 import com.example.feature_set_location.databinding.CityItemBinding
-import java.util.concurrent.CyclicBarrier
 
 class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 

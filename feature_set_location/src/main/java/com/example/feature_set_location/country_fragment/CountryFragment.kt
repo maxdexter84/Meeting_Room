@@ -6,21 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
-import com.example.core_network.location_posts.CountryPost
 import com.example.feature_set_location.SharedViewModel
 import com.example.feature_set_location.country_fragment.di.CountryFragmentModule
 import com.example.feature_set_location.country_fragment.di.DaggerCountryComponent
 import com.example.feature_set_location.databinding.CountryFragmentBinding
-import com.google.android.material.appbar.AppBarLayout
-import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
-import io.reactivex.subjects.ReplaySubject
-
-
 
 
 class CountryFragment : Fragment() {

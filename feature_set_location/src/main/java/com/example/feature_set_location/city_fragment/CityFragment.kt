@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.core_network.location_posts.CountryPost
-import com.example.core_network.location_responses.City
 import com.example.feature_set_location.SharedViewModel
 import com.example.feature_set_location.city_fragment.di.CityFragmentModule
 import com.example.feature_set_location.city_fragment.di.DaggerCityComponent
-import com.example.feature_set_location.country_fragment.CountryFragmentViewModel
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import javax.inject.Inject
 
@@ -40,7 +37,7 @@ class CityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var sharedViewModel =
+        val sharedViewModel =
             ViewModelProviders.of(requireActivity()).get(SharedViewModel::class.java)
 
         sharedViewModel.getSelected()!!.observe(viewLifecycleOwner, { country ->

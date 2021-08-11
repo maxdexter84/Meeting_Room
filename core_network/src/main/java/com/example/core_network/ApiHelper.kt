@@ -2,7 +2,6 @@ package com.example.core_network
 
 import com.example.core_network.location_posts.CountryPost
 import com.example.core_network.location_responses.City
-import com.example.core_network.location_responses.Country
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
 import retrofit2.Response

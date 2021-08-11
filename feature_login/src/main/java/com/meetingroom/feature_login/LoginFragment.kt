@@ -8,10 +8,10 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meetingroom.feature_login.di.LoginFragmentModule
 import javax.inject.Inject
 
