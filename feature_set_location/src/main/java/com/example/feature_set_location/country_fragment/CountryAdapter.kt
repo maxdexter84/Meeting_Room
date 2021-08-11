@@ -25,7 +25,6 @@ class CountryAdapter : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() 
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         holder.bind(countries[position])
-
         holder.itemView.setOnClickListener { onItemClick(countries[position].name) }
     }
 

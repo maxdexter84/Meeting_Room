@@ -38,7 +38,6 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
             notifyDataSetChanged()
 
             selectedCity = binding.cityName.text.toString()
-//          onItemClick(binding.cityName.text.toString())
         }
 
         init {

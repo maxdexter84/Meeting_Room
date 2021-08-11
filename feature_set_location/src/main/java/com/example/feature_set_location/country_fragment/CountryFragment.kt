@@ -20,7 +20,6 @@ class CountryFragment : Fragment() {
 
     lateinit var binding: CountryFragmentBinding
     private val countryAdapter = CountryAdapter()
-
     lateinit var sharedViewModel: SharedViewModel
 
     @Inject

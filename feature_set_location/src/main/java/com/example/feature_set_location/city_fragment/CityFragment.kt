@@ -69,6 +69,5 @@ class CityFragment : Fragment() {
     override fun onResume() {
         viewModel.tryToGetAllAvailableCities(CountryPost(countryName))
         super.onResume()
-
     }
 }

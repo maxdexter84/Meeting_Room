@@ -14,15 +14,6 @@ class LocationFragment: Fragment() {
 
     lateinit var binding: LocationFragmentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        parentFragmentManager.setFragmentResultListener("requestKey", viewLifecycleOwner) { key, bundle ->
-//            val result = bundle.getString("bundleKey")
-//
-//        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
