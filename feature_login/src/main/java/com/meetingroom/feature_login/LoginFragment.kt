@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meetingroom.feature_login.di.LoginFragmentModule
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ class LoginFragment : Fragment() {
 
         DaggerLoginComponent.builder()
             .loginFragmentModule(LoginFragmentModule(this))
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
     }
@@ -38,7 +40,11 @@ class LoginFragment : Fragment() {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("android-app://com.meetingroom.app/locationFragment".toUri())
+                .build()
+            findNavController().navigate(request)
+//            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
         })
 
         viewModel.errorMessage.observe(viewLifecycleOwner, {
@@ -58,12 +64,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.logInButtonMainActivity.setOnClickListener {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://com.meetingroom.app/locationFragment".toUri())
-                .build()
-            findNavController().navigate(request)
-        }
+//        binding.logInButtonMainActivity.setOnClickListener {
+//            val request = NavDeepLinkRequest.Builder
+//                .fromUri("android-app://com.meetingroom.app/locationFragment".toUri())
+//                .build()
+//            findNavController().navigate(request)
+//        }
     }
 }

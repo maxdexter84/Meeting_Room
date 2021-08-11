@@ -18,10 +18,10 @@ class LocationFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        parentFragmentManager.setFragmentResultListener("requestKey", viewLifecycleOwner) { key, bundle ->
-            val result = bundle.getString("bundleKey")
-
-        }
+//        parentFragmentManager.setFragmentResultListener("requestKey", viewLifecycleOwner) { key, bundle ->
+//            val result = bundle.getString("bundleKey")
+//
+//        }
     }
 
     override fun onCreateView(

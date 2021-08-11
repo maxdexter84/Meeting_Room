@@ -1,12 +1,16 @@
 package com.example.core_network
 
+import com.example.core_network.location_interfaces.LocationInterface
+import com.example.core_network.location_posts.CountryPost
+import com.example.core_network.location_responses.City
+import com.example.core_network.location_responses.Country
 import com.example.core_network.user_interfaces.LogInInterface
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class GagForInternetsRequests : LogInInterface {
+class GagForInternetsRequests : LogInInterface, LocationInterface {
     override suspend fun logInUser(post: LogInRequest): Response<LogInResponse> {
         return if (arrayOfUsers.filter { it.username == post.username }.count() == 1) {
             Response.success(arrayOfUsers.filter { it.username == post.username }[0])
@@ -55,5 +59,19 @@ class GagForInternetsRequests : LogInInterface {
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
         private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty")
+    }
+
+    override suspend fun getAllAvailableCountries(): Response<List<CountryPost>> {
+        return Response.success(
+            arrayListOf(
+                CountryPost("Ukraine"),
+                CountryPost("Russia"),
+                CountryPost("Belarus"),
+            )
+        )
+    }
+
+    override suspend fun getAllAvailableCities(post: CountryPost): Response<List<City>> {
+        return Response.error(404, null)
     }
 }

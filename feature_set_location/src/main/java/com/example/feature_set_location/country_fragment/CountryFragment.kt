@@ -8,20 +8,19 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import com.example.core_network.location_posts.CountryPost
 import com.example.feature_set_location.country_fragment.di.CountryFragmentModule
 import com.example.feature_set_location.country_fragment.di.DaggerCountryComponent
 import com.example.feature_set_location.databinding.CountryFragmentBinding
 import javax.inject.Inject
 
-class CountryFragment: Fragment() {
+class CountryFragment : Fragment() {
 
     lateinit var binding: CountryFragmentBinding
     private val countryAdapter = CountryAdapter()
+
     @Inject
     lateinit var viewModel: CountryFragmentViewModel
-
-    //Instead of a real list from server
-    private val countryList = mutableListOf("Ukraine", "Russia", "Belarus")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +44,11 @@ class CountryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewCountryFragment.adapter = countryAdapter
-        countryAdapter.countries = countryList
+
+        viewModel.requestResult.observe(viewLifecycleOwner, {
+            countryAdapter.countries = it
+        })
+        viewModel.tryToGetAllAvailableCountries()
 
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()

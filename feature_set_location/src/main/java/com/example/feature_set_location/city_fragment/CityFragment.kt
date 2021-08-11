@@ -39,7 +39,5 @@ class CityFragment: Fragment() {
 
         requireActivity().supportFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to
         cityAdapter.selectedCity))
-//            .setFragmentResult("requestKey", bundleOf("bundleKey" to ))
-//        cityAdapter.onItemClick =
     }
 }

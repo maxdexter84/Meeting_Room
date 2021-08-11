@@ -3,13 +3,14 @@ package com.example.feature_set_location.country_fragment
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core_network.location_posts.CountryPost
 import com.example.feature_set_location.databinding.CountryItemBinding
 
 class CountryAdapter: RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
     var onItemClick: () -> Unit = {}
 
-    var countries = emptyList<String>()
+    var countries = emptyList<CountryPost>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -30,8 +31,8 @@ class CountryAdapter: RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
     class CountryViewHolder(private val binding: CountryItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(country: String) {
-            binding.countryName.text = country
+        fun bind(country: CountryPost) {
+            binding.countryName.text = country.name
         }
     }
 }
