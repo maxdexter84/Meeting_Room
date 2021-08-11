@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core_network.location_posts.CountryPost
 import com.example.feature_set_location.databinding.CountryItemBinding
 
-class CountryAdapter: RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
+class CountryAdapter : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
-    var onItemClick: () -> Unit = {}
+    var onItemClick: (String) -> Unit = {}
 
     var countries = emptyList<CountryPost>()
         set(value) {
@@ -26,10 +26,11 @@ class CountryAdapter: RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         holder.bind(countries[position])
 
-        holder.itemView.setOnClickListener { onItemClick() }
+        holder.itemView.setOnClickListener { onItemClick(countries[position].name) }
     }
 
-    class CountryViewHolder(private val binding: CountryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CountryViewHolder(private val binding: CountryItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(country: CountryPost) {
             binding.countryName.text = country.name

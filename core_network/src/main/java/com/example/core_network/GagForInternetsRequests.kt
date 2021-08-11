@@ -59,19 +59,47 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
         private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty")
+        private val countries = arrayListOf(
+            CountryPost("Ukraine"),
+            CountryPost("Russia"),
+            CountryPost("Belarus"),
+        )
+        private val countriesOfUkraine = arrayListOf(
+            City("Dnipro"),
+            City("Odessa"),
+            City("Kyiv")
+        )
+        private val countriesOfRussia = arrayListOf(
+            City("Moscow"),
+            City("Piter"),
+            City("Kazan"),
+            City("Vladivostok")
+        )
+        private val countriesOfBelarus = arrayListOf(
+            City("Minsk"),
+            City("Gomel"),
+        )
+
     }
 
     override suspend fun getAllAvailableCountries(): Response<List<CountryPost>> {
         return Response.success(
-            arrayListOf(
-                CountryPost("Ukraine"),
-                CountryPost("Russia"),
-                CountryPost("Belarus"),
-            )
+            countries
         )
     }
 
     override suspend fun getAllAvailableCities(post: CountryPost): Response<List<City>> {
+        if (countries.contains(post)) return Response.success(getAllCitiesFromCountry(post))
         return Response.error(404, null)
+    }
+
+    private fun getAllCitiesFromCountry(post: CountryPost): List<City> {
+        return when (post.name) {
+            "Ukraine" -> countriesOfUkraine
+            "Russia" -> countriesOfRussia
+            "Belarus" -> countriesOfBelarus
+            else -> arrayListOf(City("none"), City("none"), City("none"))
+        }
+
     }
 }

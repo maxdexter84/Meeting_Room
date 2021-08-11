@@ -6,38 +6,72 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.core_network.location_posts.CountryPost
+import com.example.core_network.location_responses.City
+import com.example.feature_set_location.SharedViewModel
+import com.example.feature_set_location.city_fragment.di.CityFragmentModule
+import com.example.feature_set_location.city_fragment.di.DaggerCityComponent
+import com.example.feature_set_location.country_fragment.CountryFragmentViewModel
 import com.example.feature_set_location.databinding.CityFragmentBinding
+import javax.inject.Inject
 
-class CityFragment: Fragment() {
+class CityFragment : Fragment() {
 
     lateinit var binding: CityFragmentBinding
     private val cityAdapter = CityAdapter()
+    lateinit var countryName: String
 
-    //Instead of a real list from server
-    private val countryList = mutableListOf("Dnipro", "Kyiv", "Odessa")
+    @Inject
+    lateinit var viewModel: CityFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerCityComponent.builder()
+            .cityFragmentModule(CityFragmentModule(this))
+            .build()
+            .inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        var sharedViewModel =
+            ViewModelProviders.of(requireActivity()).get(SharedViewModel::class.java)
+
+        sharedViewModel.getSelected()!!.observe(viewLifecycleOwner, { country ->
+            countryName = country
+        })
+
         binding = CityFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.recyclerViewCityFragment.adapter = cityAdapter
-        cityAdapter.cities = countryList
 
+        viewModel.requestResult.observe(viewLifecycleOwner, {
+            cityAdapter.cities = it
+        })
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()
         }
+        requireActivity().supportFragmentManager.setFragmentResult(
+            "requestKey", bundleOf(
+                "bundleKey" to
+                        cityAdapter.selectedCity
+            )
+        )
+    }
 
-        requireActivity().supportFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to
-        cityAdapter.selectedCity))
+    override fun onResume() {
+        viewModel.tryToGetAllAvailableCities(CountryPost(countryName))
+        super.onResume()
+
     }
 }

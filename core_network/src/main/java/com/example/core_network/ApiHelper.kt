@@ -1,6 +1,7 @@
 package com.example.core_network
 
 import com.example.core_network.location_posts.CountryPost
+import com.example.core_network.location_responses.City
 import com.example.core_network.location_responses.Country
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
@@ -12,9 +13,14 @@ object ApiHelper {
         return safeApiCall(call = { serviceToLogIn.logInUser(logInRequest) })
     }
 
-    suspend fun getAllAvailableCities(): ResultOfRequest<List<CountryPost>> {
+    suspend fun getAllAvailableCountries(): ResultOfRequest<List<CountryPost>> {
         val serviceToGetAllCountries = DaggerNetworkComponent.create().locationInterface()
-        return safeApiCall (call = { serviceToGetAllCountries.getAllAvailableCountries() })
+        return safeApiCall(call = { serviceToGetAllCountries.getAllAvailableCountries() })
+    }
+
+    suspend fun getAllAvailableCountries(country: CountryPost): ResultOfRequest<List<City>> {
+        val serviceToGetAllCities = DaggerNetworkComponent.create().locationInterface()
+        return safeApiCall(call = { serviceToGetAllCities.getAllAvailableCities(country) })
     }
 
     private suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): ResultOfRequest<T> {

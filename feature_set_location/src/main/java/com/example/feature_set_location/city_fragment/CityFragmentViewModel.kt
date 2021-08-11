@@ -1,4 +1,4 @@
-package com.example.feature_set_location.country_fragment
+package com.example.feature_set_location.city_fragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,19 +6,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_network.ApiHelper
 import com.example.core_network.ResultOfRequest
 import com.example.core_network.location_posts.CountryPost
+import com.example.core_network.location_responses.City
 import kotlinx.coroutines.launch
 
-
-class CountryFragmentViewModel : ViewModel() {
-    val requestResult: MutableLiveData<List<CountryPost>> by lazy {
-        MutableLiveData<List<CountryPost>>()
+class CityFragmentViewModel : ViewModel() {
+    val requestResult: MutableLiveData<List<City>> by lazy {
+        MutableLiveData<List<City>>()
     }
 
-
-    fun tryToGetAllAvailableCountries() {
+    fun tryToGetAllAvailableCities(country: CountryPost) {
         viewModelScope.launch {
-            when (val request = ApiHelper.getAllAvailableCountries()) {
+            when (val request = ApiHelper.getAllAvailableCountries(country)) {
                 is ResultOfRequest.Success -> {
+                    request.data
                     requestResult.postValue(request.data)
                 }
                 is ResultOfRequest.Error -> {

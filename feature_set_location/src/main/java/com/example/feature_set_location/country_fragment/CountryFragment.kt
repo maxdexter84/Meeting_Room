@@ -6,18 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.core_network.location_posts.CountryPost
+import com.example.feature_set_location.SharedViewModel
 import com.example.feature_set_location.country_fragment.di.CountryFragmentModule
 import com.example.feature_set_location.country_fragment.di.DaggerCountryComponent
 import com.example.feature_set_location.databinding.CountryFragmentBinding
+import com.google.android.material.appbar.AppBarLayout
+import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
+import io.reactivex.subjects.ReplaySubject
+
+
+
 
 class CountryFragment : Fragment() {
 
     lateinit var binding: CountryFragmentBinding
     private val countryAdapter = CountryAdapter()
+
+    lateinit var sharedViewModel: SharedViewModel
 
     @Inject
     lateinit var viewModel: CountryFragmentViewModel
@@ -37,6 +48,8 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = CountryFragmentBinding.inflate(inflater, container, false)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+
         return binding.root
     }
 
@@ -59,6 +72,7 @@ class CountryFragment : Fragment() {
                 .fromUri("android-app://com.meetingroom.app/cityFragment".toUri())
                 .build()
             findNavController().navigate(request)
+            sharedViewModel.select(it)
         }
     }
 }
