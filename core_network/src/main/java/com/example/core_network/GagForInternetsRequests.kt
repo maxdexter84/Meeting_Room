@@ -1,8 +1,9 @@
 package com.example.core_network
 
 import com.example.core_network.location_interfaces.LocationInterface
-import com.example.core_network.location_posts.CountryPost
-import com.example.core_network.location_responses.City
+import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
+import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
+import com.example.core_network.location_responses.GetAllAvailableCountriesResponse
 import com.example.core_network.user_interfaces.LogInInterface
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
@@ -59,45 +60,50 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         private val roles = listOf("normal user", "admin")
         private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty")
         private val countries = arrayListOf(
-            CountryPost("Ukraine"),
-            CountryPost("Russia"),
-            CountryPost("Belarus"),
+            GetAllAvailableCitiesRequest("Ukraine"),
+            GetAllAvailableCitiesRequest("Russia"),
+            GetAllAvailableCitiesRequest("Belarus"),
+        )
+        private val countriesResponse = arrayListOf(
+            GetAllAvailableCountriesResponse("Ukraine"),
+            GetAllAvailableCountriesResponse("Russia"),
+            GetAllAvailableCountriesResponse("Belarus"),
         )
         private val countriesOfUkraine = arrayListOf(
-            City("Dnipro"),
-            City("Odessa"),
-            City("Kyiv")
+            GetAllAvailableCitiesResponse("Dnipro"),
+            GetAllAvailableCitiesResponse("Odessa"),
+            GetAllAvailableCitiesResponse("Kyiv")
         )
         private val countriesOfRussia = arrayListOf(
-            City("Moscow"),
-            City("Piter"),
-            City("Kazan"),
-            City("Vladivostok")
+            GetAllAvailableCitiesResponse("Moscow"),
+            GetAllAvailableCitiesResponse("Piter"),
+            GetAllAvailableCitiesResponse("Kazan"),
+            GetAllAvailableCitiesResponse("Vladivostok")
         )
         private val countriesOfBelarus = arrayListOf(
-            City("Minsk"),
-            City("Gomel"),
+            GetAllAvailableCitiesResponse("Minsk"),
+            GetAllAvailableCitiesResponse("Gomel"),
         )
 
     }
 
-    override suspend fun getAllAvailableCountries(): Response<List<CountryPost>> {
+    override suspend fun getAllAvailableCountries(): Response<List<GetAllAvailableCountriesResponse>> {
         return Response.success(
-            countries
+            countriesResponse
         )
     }
 
-    override suspend fun getAllAvailableCities(post: CountryPost): Response<List<City>> {
+    override suspend fun getAllAvailableCities(post: GetAllAvailableCitiesRequest): Response<List<GetAllAvailableCitiesResponse>> {
         if (countries.contains(post)) return Response.success(getAllCitiesFromCountry(post))
         return Response.error(404, null)
     }
 
-    private fun getAllCitiesFromCountry(post: CountryPost): List<City> {
+    private fun getAllCitiesFromCountry(post: GetAllAvailableCitiesRequest): List<GetAllAvailableCitiesResponse> {
         return when (post.name) {
             "Ukraine" -> countriesOfUkraine
             "Russia" -> countriesOfRussia
             "Belarus" -> countriesOfBelarus
-            else -> arrayListOf(City("none"), City("none"), City("none"))
+            else -> arrayListOf(GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"))
         }
 
     }

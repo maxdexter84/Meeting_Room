@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_network.location_responses.City
+import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
 import com.example.feature_set_location.databinding.CityItemBinding
 
 class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
@@ -13,7 +13,7 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
     var selectedCity = "default"
     var onItemClick: () -> Unit = {}
 
-    var cities = emptyList<City>()
+    var cities = emptyList<GetAllAvailableCitiesResponse>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -44,7 +44,7 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
             binding.selectCityRadioButton.setOnClickListener(clickHandler)
         }
 
-        fun bind(city: City) {
+        fun bind(city: GetAllAvailableCitiesResponse) {
             binding.cityName.text = city.name
         }
     }

@@ -4,14 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
-import com.example.core_network.ApiHelper
+import com.example.core_network.RequestMaker
 import com.example.core_network.ResultOfRequest
 import com.example.core_network.user_posts.LogInRequest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginFragmentViewModel @Inject constructor(
-    private val saveNetworkData: UserDataPrefHelperImpl
+    private val saveNetworkData: UserDataPrefHelperImpl,
+    private val requestMaker: RequestMaker
 ) : ViewModel() {
     val requestResult: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -28,7 +29,7 @@ class LoginFragmentViewModel @Inject constructor(
         }
         viewModelScope.launch {
             when (val retrofitPost =
-                ApiHelper.logInUser(LogInRequest(login, password))) {
+                requestMaker.logInUser(LogInRequest(login, password))) {
                 is ResultOfRequest.Success -> {
                     requestResult.postValue(retrofitPost.data.email)
                     saveNetworkData.saveToken(retrofitPost.data.accessToken)

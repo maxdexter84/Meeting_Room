@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.core_network.location_posts.CountryPost
+import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
 import com.example.feature_set_location.SharedViewModel
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
@@ -68,7 +68,7 @@ class CityFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModel.tryToGetAllAvailableCities(CountryPost(countryName))
+        viewModel.tryToGetAllAvailableCities(GetAllAvailableCitiesRequest(countryName))
         super.onResume()
     }
 }

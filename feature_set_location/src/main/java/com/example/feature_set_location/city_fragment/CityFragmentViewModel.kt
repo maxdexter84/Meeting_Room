@@ -3,20 +3,23 @@ package com.example.feature_set_location.city_fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_network.ApiHelper
+import com.example.core_network.RequestMaker
 import com.example.core_network.ResultOfRequest
-import com.example.core_network.location_posts.CountryPost
-import com.example.core_network.location_responses.City
+import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
+import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CityFragmentViewModel : ViewModel() {
-    val requestResult: MutableLiveData<List<City>> by lazy {
-        MutableLiveData<List<City>>()
+class CityFragmentViewModel @Inject constructor(
+    private val requestMaker: RequestMaker
+) : ViewModel() {
+    val requestResult: MutableLiveData<List<GetAllAvailableCitiesResponse>> by lazy {
+        MutableLiveData<List<GetAllAvailableCitiesResponse>>()
     }
 
-    fun tryToGetAllAvailableCities(country: CountryPost) {
+    fun tryToGetAllAvailableCities(country: GetAllAvailableCitiesRequest) {
         viewModelScope.launch {
-            when (val request = ApiHelper.getAllAvailableCountries(country)) {
+            when (val request = requestMaker.getAllAvailableCountries(country)) {
                 is ResultOfRequest.Success -> {
                     request.data
                     requestResult.postValue(request.data)

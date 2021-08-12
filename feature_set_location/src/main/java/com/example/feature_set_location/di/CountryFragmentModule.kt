@@ -1,6 +1,7 @@
 package com.example.feature_set_location.di
 
 import androidx.lifecycle.ViewModelProvider
+import com.example.core_network.RequestMaker
 import com.example.feature_set_location.country_fragment.CountryFragment
 import com.example.feature_set_location.country_fragment.CountryFragmentViewModel
 import com.example.feature_set_location.country_fragment.CountryViewModelFactory
@@ -11,9 +12,15 @@ import dagger.Provides
 class CountryFragmentModule(private val countryFragment: CountryFragment) {
 
     @Provides
-    fun provideCountryViewModelFactory(): CountryViewModelFactory = CountryViewModelFactory()
+    @Screen
+    fun provideCountryViewModelFactory(requestMaker: RequestMaker): CountryViewModelFactory =
+        CountryViewModelFactory(requestMaker)
 
     @Provides
+    @Screen
     fun provideCountryViewModel(countryViewModelFactory: CountryViewModelFactory): CountryFragmentViewModel =
-        ViewModelProvider(countryFragment, countryViewModelFactory).get(CountryFragmentViewModel::class.java)
+        ViewModelProvider(
+            countryFragment,
+            countryViewModelFactory
+        ).get(CountryFragmentViewModel::class.java)
 }
