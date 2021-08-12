@@ -11,8 +11,8 @@ import retrofit2.Response
 
 class GagForInternetsRequests : LogInInterface, LocationInterface {
     override suspend fun logInUser(post: LogInRequest): Response<LogInResponse> {
-        return if (arrayOfUsers.filter { it.username == post.username }.count() == 1) {
-            Response.success(arrayOfUsers.filter { it.username == post.username }[0])
+        return if (arrayOfUsers.filter { it.username == post.email }.count() == 1) {
+            Response.success(arrayOfUsers.filter { it.username == post.email }[0])
         } else Response.error(404, ResponseBody.Companion.create(null, "Something wrong"))
     }
 

@@ -48,6 +48,6 @@ class NetworkModule {
     }
 
     companion object {
-        private const val BASE_URL = "http://178.62.212.6:8080/api/auth/"
+        private const val BASE_URL = "http://10.10.15.190:8080/api/auth/"
     }
 }
