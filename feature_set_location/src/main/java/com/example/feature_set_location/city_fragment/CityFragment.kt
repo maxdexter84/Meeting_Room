@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
 import com.example.feature_set_location.SharedViewModel
+import com.example.feature_set_location.country_fragment.CountryFragmentViewModel
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
@@ -23,6 +24,10 @@ class CityFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: CityFragmentViewModel
+
+    @Inject
+    lateinit var
+            sharedViewModel: CountryFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +49,7 @@ class CityFragment : Fragment() {
         sharedViewModel.getSelected()!!.observe(viewLifecycleOwner, { country ->
             countryName = country
         })
+
 
         binding = CityFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,7 +74,12 @@ class CityFragment : Fragment() {
     }
 
     override fun onResume() {
-        viewModel.tryToGetAllAvailableCities(GetAllAvailableCitiesRequest(countryName))
+
+        viewModel.tryToGetAllAvailableCities(
+            GetAllAvailableCitiesRequest(
+                countryName
+            )
+        )
         super.onResume()
     }
 }

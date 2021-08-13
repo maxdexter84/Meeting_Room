@@ -15,7 +15,3 @@ interface CountryComponent {
     fun inject(countryFragment: CountryFragment)
 
 }
-
-
-
-

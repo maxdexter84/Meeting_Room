@@ -64,6 +64,7 @@ class CountryFragment : Fragment() {
                 .fromUri("android-app://com.meetingroom.app/cityFragment".toUri())
                 .build()
             findNavController().navigate(request)
+            viewModel.select(it)
             sharedViewModel.select(it)
         }
     }
