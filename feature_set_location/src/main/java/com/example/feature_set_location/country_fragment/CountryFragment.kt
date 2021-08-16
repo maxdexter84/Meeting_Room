@@ -6,30 +6,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
-import com.example.feature_set_location.SharedViewModel
+import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.databinding.CountryFragmentBinding
 import com.example.feature_set_location.di.CountryFragmentModule
 import com.example.feature_set_location.di.DaggerCountryComponent
 import javax.inject.Inject
 
 
-class CountryFragment : Fragment() {
+class CountryFragment :
+    Fragment() {
 
     lateinit var binding: CountryFragmentBinding
     private val countryAdapter = CountryAdapter()
-    lateinit var sharedViewModel: SharedViewModel
 
     @Inject
     lateinit var viewModel: CountryFragmentViewModel
+
+    @Inject
+    lateinit var saveData: UserDataPrefHelperImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         DaggerCountryComponent.builder()
             .countryFragmentModule(CountryFragmentModule(this))
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
     }
@@ -40,7 +44,6 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = CountryFragmentBinding.inflate(inflater, container, false)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         return binding.root
     }
@@ -65,7 +68,7 @@ class CountryFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
             viewModel.select(it)
-            sharedViewModel.select(it)
+            saveData.saveCountryOfUserLocation(it)
         }
     }
 }

@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
-import com.example.feature_set_location.SharedViewModel
-import com.example.feature_set_location.country_fragment.CountryFragmentViewModel
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
@@ -26,14 +25,15 @@ class CityFragment : Fragment() {
     lateinit var viewModel: CityFragmentViewModel
 
     @Inject
-    lateinit var
-            sharedViewModel: CountryFragmentViewModel
+    lateinit var savedData: UserDataPrefHelperImpl
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         DaggerCityComponent.builder()
             .cityFragmentModule(CityFragmentModule(this))
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
     }
@@ -43,14 +43,13 @@ class CityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val sharedViewModel =
-            ViewModelProviders.of(requireActivity()).get(SharedViewModel::class.java)
+        countryName = savedData.getCountryOfUserLocation()!!
 
-        sharedViewModel.getSelected()!!.observe(viewLifecycleOwner, { country ->
-            countryName = country
-        })
-
-
+        viewModel.tryToGetAllAvailableCities(
+            GetAllAvailableCitiesRequest(
+                countryName
+            )
+        )
         binding = CityFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -73,13 +72,4 @@ class CityFragment : Fragment() {
         )
     }
 
-    override fun onResume() {
-
-        viewModel.tryToGetAllAvailableCities(
-            GetAllAvailableCitiesRequest(
-                countryName
-            )
-        )
-        super.onResume()
-    }
 }

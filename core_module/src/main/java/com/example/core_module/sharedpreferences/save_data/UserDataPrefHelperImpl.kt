@@ -22,4 +22,16 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
         }
         return iPreferenceHelper.getString("token")
     }
+
+    override fun saveCityOfUserLocation(value: String) {
+        iPreferenceHelper.saveString("city", value)
+    }
+
+    override fun getCityOfUserLocation(): String? = iPreferenceHelper.getString("city")
+
+    override fun saveCountryOfUserLocation(value: String) {
+        iPreferenceHelper.saveString("country", value)
+    }
+
+    override fun getCountryOfUserLocation(): String? = iPreferenceHelper.getString("country")
 }
