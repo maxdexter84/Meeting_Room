@@ -4,20 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
 import com.example.feature_set_location.databinding.CityItemBinding
 
 class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
-    private var selectedPosition = -1
-    var selectedCity = "default"
-    var onItemClick: () -> Unit = {}
-
-    var cities = emptyList<GetAllAvailableCitiesResponse>()
+    lateinit var callBack: CallBack
+    var cities = listOf<CityAdapterModel>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
 
     override fun getItemCount() = cities.size
 
@@ -27,25 +24,29 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.binding.selectCityRadioButton.isChecked = position == selectedPosition
+        holder.binding.selectCityRadioButton.isChecked = cities[position].isSelected
         holder.bind(cities[position])
     }
 
-    inner class CityViewHolder(val binding: CityItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CityViewHolder(val binding: CityItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         private val clickHandler: (View) -> Unit = {
-            selectedPosition = adapterPosition
             notifyDataSetChanged()
-
-            selectedCity = binding.cityName.text.toString()
+            callBack.saveCity(binding.cityName.text.toString())
         }
 
         init {
             binding.selectCityRadioButton.setOnClickListener(clickHandler)
         }
 
-        fun bind(city: GetAllAvailableCitiesResponse) {
-            binding.cityName.text = city.name
+        fun bind(city: CityAdapterModel) {
+            binding.cityName.text = city.cityName
         }
     }
+
+    interface CallBack {
+        fun saveCity(city: String)
+    }
+
 }

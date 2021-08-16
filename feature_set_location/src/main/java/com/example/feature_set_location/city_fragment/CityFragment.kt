@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
@@ -15,7 +14,7 @@ import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
 import javax.inject.Inject
 
-class CityFragment : Fragment() {
+class CityFragment : Fragment(), CityAdapter.CallBack {
 
     lateinit var binding: CityFragmentBinding
     private val cityAdapter = CityAdapter()
@@ -36,6 +35,7 @@ class CityFragment : Fragment() {
             .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
+        cityAdapter.callBack = this
     }
 
     override fun onCreateView(
@@ -57,19 +57,35 @@ class CityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewCityFragment.adapter = cityAdapter
-
+        savedData.getCityOfUserLocation()
         viewModel.requestResult.observe(viewLifecycleOwner, {
-            cityAdapter.cities = it
+            val alreadySelectedCity =
+                savedData?.getCityOfUserLocation() ?:""
+            for (i in it) {
+                if (i.name == alreadySelectedCity) {
+                    cityAdapter.cities += CityAdapterModel(i.name, true)
+                } else {
+                    cityAdapter.cities += CityAdapterModel(i.name, false)
+                }
+            }
         })
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()
         }
-        requireActivity().supportFragmentManager.setFragmentResult(
-            "requestKey", bundleOf(
-                "bundleKey" to
-                        cityAdapter.selectedCity
-            )
-        )
+    }
+
+    override fun saveCity(city: String) {
+        cityAdapter.cities.filter {
+            it.cityName != city
+        }.map {
+            it.isSelected = false
+        }
+        cityAdapter.cities.filter {
+            it.cityName == city
+        }.map {
+            it.isSelected = true
+        }
+        savedData.saveCityOfUserLocation(city)
     }
 
 }
