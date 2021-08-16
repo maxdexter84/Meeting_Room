@@ -61,11 +61,11 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
         viewModel.requestResult.observe(viewLifecycleOwner, {
             val alreadySelectedCity =
                 savedData?.getCityOfUserLocation() ?:""
-            for (i in it) {
-                if (i.name == alreadySelectedCity) {
-                    cityAdapter.cities += CityAdapterModel(i.name, true)
+            for (city in it) {
+                if (city.name == alreadySelectedCity) {
+                    cityAdapter.cities += CityAdapterModel(city.name, true)
                 } else {
-                    cityAdapter.cities += CityAdapterModel(i.name, false)
+                    cityAdapter.cities += CityAdapterModel(city.name, false)
                 }
             }
         })
