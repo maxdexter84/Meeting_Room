@@ -3,45 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/countryFragment">
+    app:startDestination="@id/log_in_flow">
+    <include app:graph="@navigation/nav_between_locations_fragment" />
+    <include app:graph="@navigation/log_in_flow"/>
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.meetingroom.feature_login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/login_fragment">
-
-        <action
-            android:id="@+id/action_loginFragment_to_locationFragment2"
-            app:destination="@id/locationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/locationFragment"
-        android:name="com.example.feature_set_location.LocationFragment"
-        android:label="LocationFragment">
-        <deepLink
-            app:uri="android-app://com.meetingroom.app/locationFragment"/>
-        <action
-            android:id="@+id/action_locationFragment_to_countryFragment"
-            app:destination="@id/countryFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/countryFragment"
-        android:name="com.example.feature_set_location.country_fragment.CountryFragment"
-        android:label="CountryFragment">
-
-        <deepLink
-            app:uri="android-app://com.meetingroom.app/countryFragment"/>
-        <action
-            android:id="@+id/action_countryFragment_to_cityFragment"
-            app:destination="@id/cityFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/cityFragment"
-        android:name="com.example.feature_set_location.city_fragment.CityFragment"
-        android:label="CityFragment">
-
-        <deepLink
-            app:uri="android-app://com.meetingroom.app/cityFragment"/>
-    </fragment>
 </navigation>

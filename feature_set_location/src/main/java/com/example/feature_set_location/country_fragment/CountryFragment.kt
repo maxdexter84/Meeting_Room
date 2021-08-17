@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CountryFragmentBinding
 import com.example.feature_set_location.di.CountryFragmentModule
 import com.example.feature_set_location.di.DaggerCountryComponent
@@ -63,11 +62,7 @@ class CountryFragment :
         }
 
         countryAdapter.onItemClick = {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://com.meetingroom.app/cityFragment".toUri())
-                .build()
-            findNavController().navigate(request)
-            viewModel.select(it)
+            findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
             saveData.saveCountryOfUserLocation(it)
         }
     }

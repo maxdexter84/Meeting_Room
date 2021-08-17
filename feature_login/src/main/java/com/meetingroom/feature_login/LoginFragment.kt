@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.login_button.MainActionButtonState
@@ -40,11 +38,7 @@ class LoginFragment : Fragment() {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://com.meetingroom.app/locationFragment".toUri())
-                .build()
-            findNavController().navigate(request)
-//            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+            findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
         })
 
         viewModel.errorMessage.observe(viewLifecycleOwner, {
@@ -62,13 +56,4 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        binding.logInButtonMainActivity.setOnClickListener {
-//            val request = NavDeepLinkRequest.Builder
-//                .fromUri("android-app://com.meetingroom.app/locationFragment".toUri())
-//                .build()
-//            findNavController().navigate(request)
-//        }
-    }
 }

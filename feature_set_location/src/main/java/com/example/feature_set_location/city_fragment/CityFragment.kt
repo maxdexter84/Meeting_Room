@@ -57,10 +57,9 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewCityFragment.adapter = cityAdapter
-        savedData.getCityOfUserLocation()
         viewModel.requestResult.observe(viewLifecycleOwner, {
             val alreadySelectedCity =
-                savedData?.getCityOfUserLocation() ?:""
+                savedData?.getCityOfUserLocation() ?: ""
             for (city in it) {
                 if (city.name == alreadySelectedCity) {
                     cityAdapter.cities += CityAdapterModel(city.name, true)
@@ -70,7 +69,7 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
             }
         })
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
-            findNavController().popBackStack()
+                findNavController().popBackStack()
         }
     }
 
@@ -86,6 +85,7 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
             it.isSelected = true
         }
         savedData.saveCityOfUserLocation(city)
+        savedData.saveCountryOfUserLocation(countryName)
     }
 
 }

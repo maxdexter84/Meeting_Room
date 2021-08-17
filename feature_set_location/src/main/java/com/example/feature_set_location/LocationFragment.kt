@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import com.example.feature_set_location.databinding.LocationFragmentBinding
 
-class LocationFragment: Fragment() {
+class LocationFragment : Fragment() {
 
     lateinit var binding: LocationFragmentBinding
 
@@ -27,10 +25,7 @@ class LocationFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.selectLayoutLocationFragment.setOnClickListener {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("android-app://com.meetingroom.app/countryFragment".toUri())
-                .build()
-            findNavController().navigate(request)
+            findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
     }
 }

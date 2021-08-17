@@ -1,6 +1,5 @@
 package com.example.feature_set_location.country_fragment
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,6 @@ class CountryFragmentViewModel @Inject constructor(
         MutableLiveData<List<GetAllAvailableCountriesResponse>>()
     }
 
-
     fun tryToGetAllAvailableCountries() {
         viewModelScope.launch {
             when (val request = requestMaker.getAllAvailableCountries()) {
@@ -32,16 +30,6 @@ class CountryFragmentViewModel @Inject constructor(
             }
         }
 
-    }
-
-    val selected = MutableLiveData<String>()
-
-    fun select(country: String) {
-        selected.value = country
-    }
-
-    fun getSelected(): LiveData<String>? {
-        return selected
     }
 
 }
