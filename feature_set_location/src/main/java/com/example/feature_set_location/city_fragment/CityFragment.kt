@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
 import com.example.feature_set_location.databinding.CityFragmentBinding
@@ -14,17 +13,17 @@ import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
 import javax.inject.Inject
 
-class CityFragment : Fragment(), CityAdapter.CallBack {
+class CityFragment : Fragment() {
 
-    lateinit var binding: CityFragmentBinding
-    private val cityAdapter = CityAdapter()
-    lateinit var countryName: String
+    private lateinit var binding: CityFragmentBinding
+    private val cityAdapter =
+        CityAdapter(onItemClick = {
+            saveCityAndCountry(it)
+        })
+//    lateinit var countryName: String
 
     @Inject
     lateinit var viewModel: CityFragmentViewModel
-
-    @Inject
-    lateinit var savedData: UserDataPrefHelperImpl
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +34,6 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
             .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
-        cityAdapter.callBack = this
     }
 
     override fun onCreateView(
@@ -43,11 +41,11 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        countryName = savedData.getCountryOfUserLocation()!!
-
+//        countryName = viewModel.saveData.getCountryOfUserLocation()!!
         viewModel.tryToGetAllAvailableCities(
             GetAllAvailableCitiesRequest(
-                countryName
+//                countryName
+                        viewModel.saveData.getCountryOfUserLocation()!!
             )
         )
         binding = CityFragmentBinding.inflate(inflater, container, false)
@@ -59,21 +57,17 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
         binding.recyclerViewCityFragment.adapter = cityAdapter
         viewModel.requestResult.observe(viewLifecycleOwner, {
             val alreadySelectedCity =
-                savedData?.getCityOfUserLocation() ?: ""
+                viewModel.saveData?.getCityOfUserLocation() ?: ""
             for (city in it) {
-                if (city.name == alreadySelectedCity) {
-                    cityAdapter.cities += CityAdapterModel(city.name, true)
-                } else {
-                    cityAdapter.cities += CityAdapterModel(city.name, false)
-                }
+                cityAdapter.cities += CityAdapterModel(city.name, alreadySelectedCity == city.name)
             }
         })
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
-                findNavController().popBackStack()
+            findNavController().popBackStack()
         }
     }
 
-    override fun saveCity(city: String) {
+     private fun saveCityAndCountry(city: String) {
         cityAdapter.cities.filter {
             it.cityName != city
         }.map {
@@ -84,8 +78,8 @@ class CityFragment : Fragment(), CityAdapter.CallBack {
         }.map {
             it.isSelected = true
         }
-        savedData.saveCityOfUserLocation(city)
-        savedData.saveCountryOfUserLocation(countryName)
+        viewModel.saveData.saveCityOfUserLocation(city)
+//        viewModel.saveData.saveCountryOfUserLocation(countryName)
     }
 
 }

@@ -15,17 +15,13 @@ import com.example.feature_set_location.di.DaggerCountryComponent
 import javax.inject.Inject
 
 
-class CountryFragment :
-    Fragment() {
+class CountryFragment : Fragment() {
 
     lateinit var binding: CountryFragmentBinding
     private val countryAdapter = CountryAdapter()
 
     @Inject
     lateinit var viewModel: CountryFragmentViewModel
-
-    @Inject
-    lateinit var saveData: UserDataPrefHelperImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +59,7 @@ class CountryFragment :
 
         countryAdapter.onItemClick = {
             findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
-            saveData.saveCountryOfUserLocation(it)
+            viewModel.saveData.saveCountryOfUserLocation(it)
         }
     }
 }
