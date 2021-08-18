@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: LoginFragmentBinding
 
     @Inject
     lateinit var viewModel: LoginFragmentViewModel

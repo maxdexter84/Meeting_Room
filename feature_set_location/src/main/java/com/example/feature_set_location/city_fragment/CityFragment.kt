@@ -18,9 +18,8 @@ class CityFragment : Fragment() {
     private lateinit var binding: CityFragmentBinding
     private val cityAdapter =
         CityAdapter(onItemClick = {
-            saveCityAndCountry(it)
+            saveCity(it)
         })
-//    lateinit var countryName: String
 
     @Inject
     lateinit var viewModel: CityFragmentViewModel
@@ -41,10 +40,8 @@ class CityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        countryName = viewModel.saveData.getCountryOfUserLocation()!!
         viewModel.tryToGetAllAvailableCities(
             GetAllAvailableCitiesRequest(
-//                countryName
                         viewModel.saveData.getCountryOfUserLocation()!!
             )
         )
@@ -67,7 +64,7 @@ class CityFragment : Fragment() {
         }
     }
 
-     private fun saveCityAndCountry(city: String) {
+     private fun saveCity(city: String) {
         cityAdapter.cities.filter {
             it.cityName != city
         }.map {
@@ -79,7 +76,6 @@ class CityFragment : Fragment() {
             it.isSelected = true
         }
         viewModel.saveData.saveCityOfUserLocation(city)
-//        viewModel.saveData.saveCountryOfUserLocation(countryName)
     }
 
 }

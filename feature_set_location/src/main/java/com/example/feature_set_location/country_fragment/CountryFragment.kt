@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CountryFragmentBinding
@@ -18,7 +17,9 @@ import javax.inject.Inject
 class CountryFragment : Fragment() {
 
     lateinit var binding: CountryFragmentBinding
-    private val countryAdapter = CountryAdapter()
+    private val countryAdapter = CountryAdapter(onItemClick = {
+        moveToCitiesAndSaveCountryName(it)
+    })
 
     @Inject
     lateinit var viewModel: CountryFragmentViewModel
@@ -39,7 +40,6 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = CountryFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -56,10 +56,10 @@ class CountryFragment : Fragment() {
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
 
-        countryAdapter.onItemClick = {
-            findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
-            viewModel.saveData.saveCountryOfUserLocation(it)
-        }
+    private fun moveToCitiesAndSaveCountryName(countryName: String) {
+        findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
+        viewModel.saveData.saveCountryOfUserLocation(countryName)
     }
 }

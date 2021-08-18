@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core_network.location_responses.GetAllAvailableCountriesResponse
 import com.example.feature_set_location.databinding.CountryItemBinding
 
-class CountryAdapter(var onItemClick: (String) -> Unit = {}) : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
+class CountryAdapter(var onItemClick: (String) -> Unit) : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
     var countries = listOf<GetAllAvailableCountriesResponse>()
         set(value) {
