@@ -28,12 +28,10 @@ class CityAdapter(private val onItemClick: (String) -> Unit) :
 
         with(holder.binding) {
             root.setOnClickListener {
-                onItemClick.invoke(cities[position].cityName)
-                notifyDataSetChanged()
+                userClickedOnItem(position)
             }
             selectCityRadioButton.setOnClickListener {
-                onItemClick.invoke(cities[position].cityName)
-                notifyDataSetChanged()
+                userClickedOnItem(position)
             }
         }
     }
@@ -46,5 +44,9 @@ class CityAdapter(private val onItemClick: (String) -> Unit) :
         }
     }
 
+    private fun userClickedOnItem(position: Int) {
+        onItemClick.invoke(cities[position].cityName)
+        notifyDataSetChanged()
+    }
 
 }
