@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class CountryFragmentViewModel @Inject constructor(
     private val requestMaker: RequestMaker,
-    val saveData: UserDataPrefHelperImpl
+    private val saveData: UserDataPrefHelperImpl
 ) : ViewModel() {
     val requestResult: MutableLiveData<List<GetAllAvailableCountriesResponse>> by lazy {
         MutableLiveData<List<GetAllAvailableCountriesResponse>>()
@@ -32,6 +32,10 @@ class CountryFragmentViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun saveCountryOfUserLocation(countryName: String) {
+        saveData.saveCountryOfUserLocation(countryName)
     }
 
 }

@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class CityFragmentViewModel @Inject constructor(
     private val requestMaker: RequestMaker,
-    val saveData: UserDataPrefHelperImpl
+    private val saveData: UserDataPrefHelperImpl
 ) : ViewModel() {
     val requestResult: MutableLiveData<List<GetAllAvailableCitiesResponse>> by lazy {
         MutableLiveData<List<GetAllAvailableCitiesResponse>>()
@@ -29,10 +29,17 @@ class CityFragmentViewModel @Inject constructor(
                 is ResultOfRequest.Error -> {
                     requestResult.postValue(null)
                 }
-
             }
         }
 
     }
+
+    fun saveCityOfUserLocation(cityName: String) {
+        saveData.saveCityOfUserLocation(cityName)
+    }
+
+    fun getCityOfUserLocation(): String? = saveData.getCityOfUserLocation()
+
+    fun getCountryOfUserLocation(): String? = saveData.getCountryOfUserLocation()
 
 }

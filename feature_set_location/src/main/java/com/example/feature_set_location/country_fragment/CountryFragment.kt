@@ -60,6 +60,6 @@ class CountryFragment : Fragment() {
 
     private fun moveToCitiesAndSaveCountryName(countryName: String) {
         findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
-        viewModel.saveData.saveCountryOfUserLocation(countryName)
+        viewModel.saveCountryOfUserLocation(countryName)
     }
 }

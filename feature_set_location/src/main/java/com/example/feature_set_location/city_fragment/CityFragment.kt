@@ -24,7 +24,6 @@ class CityFragment : Fragment() {
     @Inject
     lateinit var viewModel: CityFragmentViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,7 +41,7 @@ class CityFragment : Fragment() {
     ): View {
         viewModel.tryToGetAllAvailableCities(
             GetAllAvailableCitiesRequest(
-                        viewModel.saveData.getCountryOfUserLocation()!!
+                viewModel.getCountryOfUserLocation()!!
             )
         )
         binding = CityFragmentBinding.inflate(inflater, container, false)
@@ -54,7 +53,7 @@ class CityFragment : Fragment() {
         binding.recyclerViewCityFragment.adapter = cityAdapter
         viewModel.requestResult.observe(viewLifecycleOwner, {
             val alreadySelectedCity =
-                viewModel.saveData?.getCityOfUserLocation() ?: ""
+                viewModel?.getCityOfUserLocation() ?: ""
             for (city in it) {
                 cityAdapter.cities += CityAdapterModel(city.name, alreadySelectedCity == city.name)
             }
@@ -64,7 +63,7 @@ class CityFragment : Fragment() {
         }
     }
 
-     private fun saveCity(city: String) {
+    private fun saveCity(city: String) {
         cityAdapter.cities.filter {
             it.cityName != city
         }.map {
@@ -75,7 +74,7 @@ class CityFragment : Fragment() {
         }.map {
             it.isSelected = true
         }
-        viewModel.saveData.saveCityOfUserLocation(city)
+        viewModel.saveCityOfUserLocation(city)
     }
 
 }
