@@ -19,6 +19,10 @@ class CityFragmentViewModel @Inject constructor(
         MutableLiveData<List<GetAllAvailableCitiesResponse>>()
     }
 
+    init {
+        tryToGetAllAvailableCities(GetAllAvailableCitiesRequest(getCountryOfUserLocation()!!))
+    }
+
     fun tryToGetAllAvailableCities(country: GetAllAvailableCitiesRequest) {
         viewModelScope.launch {
             when (val request = requestMaker.getAllAvailableCountries(country)) {

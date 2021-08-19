@@ -39,11 +39,6 @@ class CityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.tryToGetAllAvailableCities(
-            GetAllAvailableCitiesRequest(
-                viewModel.getCountryOfUserLocation()!!
-            )
-        )
         binding = CityFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

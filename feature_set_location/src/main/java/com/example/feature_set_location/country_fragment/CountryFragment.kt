@@ -51,7 +51,6 @@ class CountryFragment : Fragment() {
         viewModel.requestResult.observe(viewLifecycleOwner, {
             countryAdapter.countries = it
         })
-        viewModel.tryToGetAllAvailableCountries()
 
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()

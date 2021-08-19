@@ -19,6 +19,10 @@ class CountryFragmentViewModel @Inject constructor(
         MutableLiveData<List<GetAllAvailableCountriesResponse>>()
     }
 
+    init {
+        tryToGetAllAvailableCountries()
+    }
+
     fun tryToGetAllAvailableCountries() {
         viewModelScope.launch {
             when (val request = requestMaker.getAllAvailableCountries()) {
