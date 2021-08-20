@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
         binding = LoginFragmentBinding.inflate(inflater, container, false)
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-            findNavController().navigate(R.id.action_loginFragment_to_next_after_login)
+            findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
         })
 
         viewModel.errorMessage.observe(viewLifecycleOwner, {
@@ -53,7 +53,6 @@ class LoginFragment : Fragment() {
             )
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
         }
-
         return binding.root
     }
 

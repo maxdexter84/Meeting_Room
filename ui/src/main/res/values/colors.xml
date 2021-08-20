@@ -13,6 +13,8 @@
     <color name="ripple_effect">#1f000000</color>
     <color name="gray_light">#556170</color>
     <color name="light_grey"> #ADADAD</color>
-    <color name="error_color_for_textview">#F37871</color>
+    <color name="error_color_for_textview">#EF4B41</color>
     <color name="error_color_for_line_under_edittext">#EF4B41</color>
+    <color name="tool_bar_color"> #F9F9F9</color>
+    <color name="background_set_location_fragment">#F8F8F8</color>
 </resources>

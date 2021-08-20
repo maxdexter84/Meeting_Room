@@ -1,15 +1,19 @@
 package com.example.core_network
 
+import com.example.core_network.location_interfaces.LocationInterface
+import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
+import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
+import com.example.core_network.location_responses.GetAllAvailableCountriesResponse
 import com.example.core_network.user_interfaces.LogInInterface
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-class GagForInternetsRequests : LogInInterface {
+class GagForInternetsRequests : LogInInterface, LocationInterface {
     override suspend fun logInUser(post: LogInRequest): Response<LogInResponse> {
-        return if (arrayOfUsers.filter { it.username == post.username }.count() == 1) {
-            Response.success(arrayOfUsers.filter { it.username == post.username }[0])
+        return if (arrayOfUsers.filter { it.username == post.email }.count() == 1) {
+            Response.success(arrayOfUsers.filter { it.username == post.email }[0])
         } else Response.error(404, ResponseBody.Companion.create(null, "Something wrong"))
     }
 
@@ -55,5 +59,52 @@ class GagForInternetsRequests : LogInInterface {
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
         private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty")
+        private val countries = arrayListOf(
+            GetAllAvailableCitiesRequest("Ukraine"),
+            GetAllAvailableCitiesRequest("Russia"),
+            GetAllAvailableCitiesRequest("Belarus"),
+        )
+        private val countriesResponse = arrayListOf(
+            GetAllAvailableCountriesResponse("Ukraine"),
+            GetAllAvailableCountriesResponse("Russia"),
+            GetAllAvailableCountriesResponse("Belarus"),
+        )
+        private val countriesOfUkraine = arrayListOf(
+            GetAllAvailableCitiesResponse("Dnipro"),
+            GetAllAvailableCitiesResponse("Odessa"),
+            GetAllAvailableCitiesResponse("Kyiv")
+        )
+        private val countriesOfRussia = arrayListOf(
+            GetAllAvailableCitiesResponse("Moscow"),
+            GetAllAvailableCitiesResponse("Piter"),
+            GetAllAvailableCitiesResponse("Kazan"),
+            GetAllAvailableCitiesResponse("Vladivostok")
+        )
+        private val countriesOfBelarus = arrayListOf(
+            GetAllAvailableCitiesResponse("Minsk"),
+            GetAllAvailableCitiesResponse("Gomel"),
+        )
+
+    }
+
+    override suspend fun getAllAvailableCountries(): Response<List<GetAllAvailableCountriesResponse>> {
+        return Response.success(
+            countriesResponse
+        )
+    }
+
+    override suspend fun getAllAvailableCities(post: GetAllAvailableCitiesRequest): Response<List<GetAllAvailableCitiesResponse>> {
+        if (countries.contains(post)) return Response.success(getAllCitiesFromCountry(post))
+        return Response.error(404, null)
+    }
+
+    private fun getAllCitiesFromCountry(post: GetAllAvailableCitiesRequest): List<GetAllAvailableCitiesResponse> {
+        return when (post.name) {
+            "Ukraine" -> countriesOfUkraine
+            "Russia" -> countriesOfRussia
+            "Belarus" -> countriesOfBelarus
+            else -> arrayListOf(GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"))
+        }
+
     }
 }

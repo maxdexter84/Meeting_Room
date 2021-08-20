@@ -1,5 +1,6 @@
 package com.example.core_network
 
+import com.example.core_network.location_interfaces.LocationInterface
 import com.example.core_network.user_interfaces.LogInInterface
 import dagger.Module
 import dagger.Provides
@@ -10,6 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class NetworkModule {
+
+    @Provides
+    fun getLocationInterface(retrofit: Retrofit):LocationInterface{
+        return GagForInternetsRequests()
+    }
+
     @Provides
     fun getLogInInterface(retrofit: Retrofit): LogInInterface {
         return GagForInternetsRequests()
@@ -41,6 +48,6 @@ class NetworkModule {
     }
 
     companion object {
-        private const val BASE_URL = "http://178.62.212.6:8080/api/auth/"
+        private const val BASE_URL = "http://10.10.15.190:8080/api/auth/"
     }
 }
