@@ -42,8 +42,13 @@ class LoginFragmentViewModel @Inject constructor(
     }
 
     private fun isInputValid(login: String, password: String): Boolean {
-        if (login.isEmpty() || password.isEmpty()) return false
-        if (login.length < 6 || password.length < 6) return false
+        if (login.length < 8 || password.length < 8) return false
+        if (!login.contains("@andersenlab.com")) return false
+        Regex("(?=.*[0-9])(?=.*[!@?#\$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#\$%^&*]{8,}")
+            .find(
+                password
+            )
+            ?: return false
         return true
     }
 
