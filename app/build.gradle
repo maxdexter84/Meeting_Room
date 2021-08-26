@@ -53,8 +53,7 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
-    implementation project(path: ':core_network')
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation libraries.legacy
 
     kapt libraries.daggerCompiler
 
@@ -63,6 +62,7 @@ dependencies {
     implementation project(path: ':core_module')
     implementation project(path: ':core_network')
     implementation project(":feature_set_location")
+    implementation project(path: ':core_network')
 
     kapt libraries.lifecycleCompiler
 
