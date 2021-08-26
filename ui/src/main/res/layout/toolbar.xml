@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mr_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimens_56_dp"
+    android:background="@color/white_for_toolbar_background"
+    android:elevation="@dimen/dimens_4_dp"
+    android:theme="@style/popupMenuStyle"
+    app:menu="@menu/base_menu">
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textColor="@color/black_for_toolbar_title"
+        android:textSize="@dimen/dimens_20_dp"
+        android:textStyle="bold"
+        tools:text="Rooms" />
+
+</androidx.appcompat.widget.Toolbar>

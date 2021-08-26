@@ -3,8 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/log_in_flow">
+    app:startDestination="@id/PrepareToolBarDelete">
     <include app:graph="@navigation/nav_between_locations_fragment" />
     <include app:graph="@navigation/log_in_flow"/>
-
+    <fragment
+        android:id="@+id/PrepareToolBarDelete"
+        android:name="com.meetingroom.android.PrepareToolBarDelete"
+        android:label="ToolBar"
+        tools:layout="@layout/fragment_prepare_tool_bar_delete" />
 </navigation>

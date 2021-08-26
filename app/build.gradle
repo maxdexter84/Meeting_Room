@@ -54,6 +54,7 @@ dependencies {
     implementation libraries.room
     implementation libraries.dagger
     implementation project(path: ':core_network')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     kapt libraries.daggerCompiler
 
