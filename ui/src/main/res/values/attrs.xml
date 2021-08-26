@@ -19,8 +19,8 @@
     <declare-styleable name="MrToolBar">
         <attr name="setTitle" format="string" />
         <attr name="bottomType" format="enum">
-            <enum name="settings" value="1" />
-            <enum name="add" value="2" />
+            <enum name="more" value="0" />
+            <enum name="add" value="1" />
         </attr>
     </declare-styleable>
 </resources>

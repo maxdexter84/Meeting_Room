@@ -10,5 +10,9 @@
         android:id="@+id/PrepareToolBarDelete"
         android:name="com.meetingroom.android.PrepareToolBarDelete"
         android:label="ToolBar"
-        tools:layout="@layout/fragment_prepare_tool_bar_delete" />
+        tools:layout="@layout/fragment_prepare_tool_bar_delete" >
+        <action
+            android:id="@+id/action_PrepareToolBarDelete_to_nav_between_locations_fragment"
+            app:destination="@id/nav_between_locations_fragment" />
+    </fragment>
 </navigation>

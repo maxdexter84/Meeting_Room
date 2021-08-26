@@ -7,9 +7,10 @@
     tools:context=".PrepareToolBarDelete">
 
     <com.meeringroom.ui.view.toolbar.MrToolBar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:bottomType="settings"
+        app:bottomType="more"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:setTitle="My space"/>
