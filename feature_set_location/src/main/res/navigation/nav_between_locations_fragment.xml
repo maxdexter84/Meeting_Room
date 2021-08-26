@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_locationFragment_to_countryFragment"
             app:destination="@id/countryFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_logoutTestFragment"
+            app:destination="@id/logoutTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/countryFragment"
@@ -27,4 +30,9 @@
         android:name="com.example.feature_set_location.city_fragment.CityFragment"
         android:label="CityFragment"
         tools:layout="@layout/city_fragment" />
+    <fragment
+        android:id="@+id/logoutTestFragment"
+        android:name="com.example.feature_set_location.test_logout_fragment.LogoutTestFragment"
+        android:label="logout_test_layout"
+        tools:layout="@layout/logout_test_layout" />
 </navigation>

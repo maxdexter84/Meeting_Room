@@ -27,5 +27,9 @@ class LocationFragment : Fragment() {
         binding.selectLayoutLocationFragment.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
+
+        binding.confirmLocationFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_logoutTestFragment)
+        }
     }
 }

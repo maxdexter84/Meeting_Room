@@ -13,4 +13,5 @@ interface UserDataPrefHelper {
 
     fun getCountryOfUserLocation(): String?
 
+    fun getTokenDay(): Int?
 }
