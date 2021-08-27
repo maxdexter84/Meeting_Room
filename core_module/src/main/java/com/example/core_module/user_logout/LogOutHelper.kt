@@ -3,7 +3,7 @@ package com.example.core_module.user_logout
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import java.util.*
 
-class LogoutUser(
+class LogOutHelper(
     private val saveData: UserDataPrefHelperImpl
 ) {
     fun deleteExpiredToken(): Boolean {
