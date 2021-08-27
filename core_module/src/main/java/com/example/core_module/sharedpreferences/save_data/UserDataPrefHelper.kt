@@ -13,7 +13,7 @@ interface UserDataPrefHelper {
 
     fun getCountryOfUserLocation(): String?
 
-    fun getTokenDay(): Int?
+    fun getTokenDay(): Long?
 
     fun deleteToken()
 }

@@ -1,24 +1,30 @@
 package com.example.core_module.user_logout
 
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
-import java.util.*
+import kotlinx.datetime.Clock
 
 class LogOutHelper(
     private val saveData: UserDataPrefHelperImpl
 ) {
-    fun deleteExpiredToken(): Boolean {
-        val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
-        val tokenDay = saveData.getTokenDay() ?: return false
 
-        return if (tokenDay - currentDay >= 7) {
-            saveData.deleteToken()
-            true
-        } else {
-            false
+    fun isDeleteRequired() {
+        val currentDayInMillis = Clock.System.now().toEpochMilliseconds()
+        val tokenDayInMillis = saveData.getTokenDay() ?: return
+        val tokenExpirationTime = tokenDayInMillis + (86400000 * 7)
+        if (currentDayInMillis >= tokenExpirationTime) {
+            deleteExpiredToken()
         }
+    }
+
+    private fun deleteExpiredToken() {
+        saveData.deleteToken()
     }
 
     fun logout() {
         saveData.deleteToken()
+    }
+
+    private companion object {
+        const val DELETE_THRESHOLD = 7
     }
 }
