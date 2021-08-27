@@ -40,4 +40,8 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
     }
 
     override fun getCountryOfUserLocation(): String? = iPreferenceHelper.getString("country")
+
+    override fun deleteToken() {
+        iPreferenceHelper.deleteUserToken("token", "token_day")
+    }
 }

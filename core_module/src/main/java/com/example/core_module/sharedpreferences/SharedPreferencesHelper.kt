@@ -52,4 +52,11 @@ class SharedPreferencesHelper(val context: Context) : IPreferenceHelper {
     override fun clearPrefs() {
         preferences.edit().clear().apply()
     }
+
+    override fun deleteUserToken(token: String, tokenDay: String) {
+        preferences.edit()
+            .remove(token)
+            .remove(tokenDay)
+            .apply()
+    }
 }

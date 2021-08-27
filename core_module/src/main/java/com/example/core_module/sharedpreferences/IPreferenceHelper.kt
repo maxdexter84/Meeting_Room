@@ -23,4 +23,6 @@ interface IPreferenceHelper {
     fun getLong(key: String): Long
 
     fun clearPrefs()
+
+    fun deleteUserToken(token: String, tokenDay: String)
 }

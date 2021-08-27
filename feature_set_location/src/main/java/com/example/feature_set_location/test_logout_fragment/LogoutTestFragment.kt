@@ -9,12 +9,12 @@ import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.user_logout.LogoutUser
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.LogoutTestLayoutBinding
-import java.util.*
 import javax.inject.Inject
 
 class LogoutTestFragment : Fragment(R.layout.logout_test_layout) {
 
     private lateinit var binding: LogoutTestLayoutBinding
+
     @Inject
     lateinit var logoutUser: LogoutUser
 
@@ -38,9 +38,16 @@ class LogoutTestFragment : Fragment(R.layout.logout_test_layout) {
         }
     }
 
-    private fun checkUserTokenExpired() {
-        if (logoutUser.deleteExpiredToken()) {
+    override fun onStart() {
+        super.onStart()
+        if (!logoutUser.deleteExpiredToken()) {
+            Toast.makeText(requireContext(), "Not expired!", Toast.LENGTH_SHORT).show()
+        }
+    }
 
+    private fun checkUserTokenExpired() {
+        if (!logoutUser.deleteExpiredToken()) {
+            Toast.makeText(requireContext(), "Not expired!", Toast.LENGTH_SHORT).show()
         }
     }
 }
