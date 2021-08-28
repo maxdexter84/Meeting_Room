@@ -14,9 +14,4 @@
             android:id="@+id/log_out"
             android:title="@string/text_for_log_out" />
     </group>
-    <item
-        android:id="@+id/add_event"
-        android:icon="@drawable/ic_baseline_add_icon"
-        android:title="@string/text_for_add_event"
-        app:showAsAction="always" />
 </menu>
