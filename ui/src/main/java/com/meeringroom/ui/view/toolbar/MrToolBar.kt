@@ -29,36 +29,9 @@ class MrToolBar @JvmOverloads constructor(
     private var toolBarState: MrToolBarState = MrToolBarState.MORE
         set(value) {
             field = value
-            binding.mrToolbar.menu.clear()
-            binding.mrToolbar.inflateMenu(R.menu.base_menu)
-            when (field) {
-                MrToolBarState.MORE -> {
-                    MenuCompat.setGroupDividerEnabled(binding.mrToolbar.menu, true)
-                    for (i in 2 until binding.mrToolbar.menu.size()) {
-                        val menuItem = binding.mrToolbar.menu.getItem(i)
-                        val spannable =
-                            SpannableString(binding.mrToolbar.menu.getItem(i).title.toString())
-                        spannable.setSpan(
-                            ForegroundColorSpan(
-                                ResourcesCompat.getColor(
-                                    resources,
-                                    R.color.red_for_logout_text,
-                                    null
-                                )
-                            ), 0, spannable.length, 0
-                        )
-                        menuItem.title = spannable
-                    }
-                    binding.mrToolbar.dismissPopupMenus()
-                    binding.mrToolbar.menu.removeItem(R.id.add_event)
-                }
-                MrToolBarState.ADDEVENT -> {
-                    binding.mrToolbar.menu.removeGroup(R.id.group_of_items_1)
-                    binding.mrToolbar.menu.removeGroup(R.id.group_of_items_2)
-                }
-
-            }
+            changeToolBarLayout(field)
         }
+
 
     var configuration: ToolbarHandlerSettingsOptions =
         ToolbarHandlerSettingsOptions.More({}, {}, {})
@@ -68,7 +41,7 @@ class MrToolBar @JvmOverloads constructor(
             onThemeColorsClick = configuration.onThemeColorsClick
             onLocationSettingsClick = configuration.onLocationSettingsClick
             onAddEventClick = configuration.onAddEventClick
-            changeInputType(value)
+            changeToolBarState(value)
         }
 
     private var onLogOutClick: () -> Unit = configuration.onLogOutClick
@@ -78,34 +51,6 @@ class MrToolBar @JvmOverloads constructor(
 
     init {
         setupAttributes(attrs, defStyle)
-    }
-
-    sealed class ToolbarHandlerSettingsOptions(
-        var onLogOutClick: () -> Unit,
-        var onThemeColorsClick: () -> Unit,
-        var onLocationSettingsClick: () -> Unit,
-        var onAddEventClick: () -> Unit
-    ) {
-        class More(
-            onLogOutClick: () -> Unit,
-            onThemeColorsClick: () -> Unit,
-            onLocationSettingsClick: () -> Unit,
-        ) :
-            ToolbarHandlerSettingsOptions(
-                onLogOutClick,
-                onThemeColorsClick,
-                onLocationSettingsClick,
-                onAddEventClick = {}
-            )
-
-        class AddEvent(
-            onAddEventClick: () -> Unit
-        ) : ToolbarHandlerSettingsOptions(
-            onLogOutClick = {},
-            onThemeColorsClick = {},
-            onLocationSettingsClick = {},
-            onAddEventClick
-        )
     }
 
     private fun setupAttributes(attrs: AttributeSet?, defStyle: Int) {
@@ -141,7 +86,7 @@ class MrToolBar @JvmOverloads constructor(
         return true
     }
 
-    private fun changeInputType(type: ToolbarHandlerSettingsOptions) {
+    private fun changeToolBarState(type: ToolbarHandlerSettingsOptions) {
         toolBarState = when (type) {
             is ToolbarHandlerSettingsOptions.AddEvent -> {
                 MrToolBarState.ADDEVENT
@@ -150,5 +95,64 @@ class MrToolBar @JvmOverloads constructor(
                 MrToolBarState.MORE
             }
         }
+    }
+
+    private fun changeToolBarLayout(field: MrToolBarState) {
+        binding.mrToolbar.menu.clear()
+        binding.mrToolbar.inflateMenu(R.menu.base_menu)
+        when (field) {
+            MrToolBarState.MORE -> {
+                MenuCompat.setGroupDividerEnabled(binding.mrToolbar.menu, true)
+                for (i in 2 until binding.mrToolbar.menu.size()) {
+                    val menuItem = binding.mrToolbar.menu.getItem(i)
+                    val spannable =
+                        SpannableString(binding.mrToolbar.menu.getItem(i).title.toString())
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ResourcesCompat.getColor(
+                                resources,
+                                R.color.red_for_logout_text,
+                                null
+                            )
+                        ), 0, spannable.length, 0
+                    )
+                    menuItem.title = spannable
+                }
+                binding.mrToolbar.dismissPopupMenus()
+                binding.mrToolbar.menu.removeItem(R.id.add_event)
+            }
+            MrToolBarState.ADDEVENT -> {
+                binding.mrToolbar.menu.removeGroup(R.id.group_of_items_1)
+                binding.mrToolbar.menu.removeGroup(R.id.group_of_items_2)
+            }
+        }
+    }
+
+    sealed class ToolbarHandlerSettingsOptions(
+        var onLogOutClick: () -> Unit,
+        var onThemeColorsClick: () -> Unit,
+        var onLocationSettingsClick: () -> Unit,
+        var onAddEventClick: () -> Unit
+    ) {
+        class More(
+            onLogOutClick: () -> Unit,
+            onThemeColorsClick: () -> Unit,
+            onLocationSettingsClick: () -> Unit,
+        ) :
+            ToolbarHandlerSettingsOptions(
+                onLogOutClick,
+                onThemeColorsClick,
+                onLocationSettingsClick,
+                onAddEventClick = {}
+            )
+
+        class AddEvent(
+            onAddEventClick: () -> Unit
+        ) : ToolbarHandlerSettingsOptions(
+            onLogOutClick = {},
+            onThemeColorsClick = {},
+            onLocationSettingsClick = {},
+            onAddEventClick
+        )
     }
 }
