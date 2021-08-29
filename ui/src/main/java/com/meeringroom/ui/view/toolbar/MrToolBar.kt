@@ -18,13 +18,13 @@ class MrToolBar @JvmOverloads constructor(
 
     private var toolBarState: MrToolBarState = MrToolBarState.MORE
 
-    var configuration: ToolbarHandlerSettingsOptions =
+    private var configuration: ToolbarHandlerSettingsOptions =
         ToolbarHandlerSettingsOptions.AddEvent("") {}
         set(value) {
             field = value
             changeToolBarState(value)
-            binding.toolbarTitle.text = value.title
-            binding.icon.setOnClickListener {
+            binding.mrtoolbarTitle.text = value.title
+            binding.mrtoolbarIcon.setOnClickListener {
                 configuration.onIconClick.invoke()
             }
         }
@@ -35,7 +35,7 @@ class MrToolBar @JvmOverloads constructor(
 
     private fun setupAttributes(attrs: AttributeSet?, defStyle: Int) {
         context.withStyledAttributes(attrs, R.styleable.MrToolBar, defStyle, 0) {
-            binding.toolbarTitle.text = getString(R.styleable.MrToolBar_setTitle) ?: ""
+            binding.mrtoolbarTitle.text = getString(R.styleable.MrToolBar_setTitle) ?: ""
             toolBarState = MrToolBarState.values()[getInt(R.styleable.MrToolBar_bottomType, 0)]
             initConfiguration(toolBarState)
         }
@@ -45,13 +45,13 @@ class MrToolBar @JvmOverloads constructor(
         when (toolBarState) {
             MrToolBarState.MORE -> {
                 configuration =
-                    ToolbarHandlerSettingsOptions.More(binding.toolbarTitle.text.toString()) {}
-                binding.icon.setButtonDrawable(configuration.drawableImageId)
+                    ToolbarHandlerSettingsOptions.More(binding.mrtoolbarTitle.text.toString()) {}
+                binding.mrtoolbarIcon.setButtonDrawable(configuration.drawableImageId)
             }
             MrToolBarState.ADDEVENT -> {
                 configuration =
-                    ToolbarHandlerSettingsOptions.AddEvent(binding.toolbarTitle.text.toString()) {}
-                binding.icon.setButtonDrawable(configuration.drawableImageId)
+                    ToolbarHandlerSettingsOptions.AddEvent(binding.mrtoolbarTitle.text.toString()) {}
+                binding.mrtoolbarIcon.setButtonDrawable(configuration.drawableImageId)
             }
         }
     }
@@ -67,19 +67,18 @@ class MrToolBar @JvmOverloads constructor(
         }
     }
 
+    fun changeToolBarConfiguration(newConfiguration: ToolbarHandlerSettingsOptions) {
+        configuration = newConfiguration
+    }
+
     fun requireIconAsView(): View {
-        return binding.icon
+        return binding.mrtoolbarIcon
     }
 
-    sealed class ToolbarHandlerSettingsOptions(
-        val title: String,
-        var drawableImageId: Int,
-        var onIconClick: () -> Unit
-    ) {
-        class More(title: String, onIconClick: () -> Unit) :
-            ToolbarHandlerSettingsOptions(title, R.drawable.ic_baseline_add_icon, onIconClick)
+    fun getToolBarTitle(): String = binding.mrtoolbarTitle.text.toString()
 
-        class AddEvent(title: String, onIconClick: () -> Unit) :
-            ToolbarHandlerSettingsOptions(title, R.drawable.ic_baseline_more_vert, onIconClick)
+    fun setToolBarTitle(title: String) {
+        binding.mrtoolbarTitle.text = title
     }
+
 }
