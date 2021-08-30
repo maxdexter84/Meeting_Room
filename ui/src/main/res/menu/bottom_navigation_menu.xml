@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/my_space"
+        android:icon="@drawable/ic_home_icon"
+        android:title="My space" />
+    <item
+        android:id="@+id/rooms"
+        android:icon="@drawable/ic_people_icon"
+        android:title="Rooms" />
+    <item
+        android:id="@+id/fire"
+        android:icon="@drawable/ic_fire_icon"
+        android:title="Rooms"
+        />
+    <item
+        android:id="@+id/workplace"
+        android:icon="@drawable/ic_workplaces_icon"
+        android:title="Workplace" />
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/ic_map_icon"
+        android:title="Map" />
+</menu>
