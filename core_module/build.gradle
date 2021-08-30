@@ -38,6 +38,8 @@ dependencies {
     implementation libraries.dagger
     implementation libraries.coreUi
     implementation libraries.coreKtx
+    implementation libraries.legacy
+    implementation libraries.datetime
     kapt libraries.daggerCompiler
 
     testImplementation libraries.unitTests

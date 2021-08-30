@@ -47,7 +47,7 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
-    implementation  libraries.legacy
+    implementation libraries.legacy
 
     kapt libraries.daggerCompiler
 

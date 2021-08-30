@@ -2,6 +2,7 @@ package com.example.core_module.sharedpreferences.save_data
 
 import android.nfc.FormatException
 import com.example.core_module.sharedpreferences.IPreferenceHelper
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: IPreferenceHelper) :
@@ -13,8 +14,13 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
         if (token == null) {
             token = value
             iPreferenceHelper.saveString("token", value)
+            iPreferenceHelper.saveLong("token_day", getCurrentDay())
         }
     }
+
+    private fun getCurrentDay() = Clock.System.now().toEpochMilliseconds()
+
+    override fun getTokenDay(): Long? = iPreferenceHelper.getLong("token_day")
 
     override fun getToken(): String? {
         if (token == null) {
@@ -34,4 +40,8 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
     }
 
     override fun getCountryOfUserLocation(): String? = iPreferenceHelper.getString("country")
+
+    override fun deleteToken() {
+        iPreferenceHelper.deleteUserToken("token", "token_day")
+    }
 }
