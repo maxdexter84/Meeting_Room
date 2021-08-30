@@ -20,7 +20,7 @@ interface IPreferenceHelper {
 
     fun saveLong(key: String, value: Long)
 
-    fun getLong(key: String): Long
+    fun getLong(key: String): Long?
 
     fun clearPrefs()
 

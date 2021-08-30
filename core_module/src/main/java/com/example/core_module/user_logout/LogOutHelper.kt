@@ -10,7 +10,7 @@ class LogOutHelper(
     fun isDeleteRequired() {
         val currentDayInMillis = Clock.System.now().toEpochMilliseconds()
         val tokenDayInMillis = saveData.getTokenDay() ?: return
-        val tokenExpirationTime = tokenDayInMillis + (86400000 * 7)
+        val tokenExpirationTime = tokenDayInMillis + (DAY_LENGTH_IN_MILLIS * 7)
         if (currentDayInMillis >= tokenExpirationTime) {
             deleteExpiredToken()
         }
@@ -25,6 +25,6 @@ class LogOutHelper(
     }
 
     private companion object {
-        const val DELETE_THRESHOLD = 7
+        const val DAY_LENGTH_IN_MILLIS = 86400000
     }
 }
