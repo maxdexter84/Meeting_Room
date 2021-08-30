@@ -16,14 +16,12 @@ class MrToolBar @JvmOverloads constructor(
     private var binding: ToolbarBinding =
         ToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private var toolBarState: MrToolBarState = MrToolBarState.MORE
 
-    private var configuration: ToolbarHandlerSettingsOptions =
-        ToolbarHandlerSettingsOptions.AddEvent("") {}
+    private var configuration: ToolbarHandlerOptions =
+        ToolbarHandlerOptions.AddEvent {}
         set(value) {
             field = value
-            changeToolBarState(value)
-            binding.mrtoolbarTitle.text = value.title
+            binding.mrtoolbarIcon.setButtonDrawable(value.drawableImageId)
             binding.mrtoolbarIcon.setOnClickListener {
                 configuration.onIconClick.invoke()
             }
@@ -36,38 +34,28 @@ class MrToolBar @JvmOverloads constructor(
     private fun setupAttributes(attrs: AttributeSet?, defStyle: Int) {
         context.withStyledAttributes(attrs, R.styleable.MrToolBar, defStyle, 0) {
             binding.mrtoolbarTitle.text = getString(R.styleable.MrToolBar_setTitle) ?: ""
-            toolBarState = MrToolBarState.values()[getInt(R.styleable.MrToolBar_bottomType, 0)]
-            initConfiguration(toolBarState)
+
+            changeConfiguration(getInt(R.styleable.MrToolBar_bottomType, 0))
         }
     }
 
-    private fun initConfiguration(toolBarState: MrToolBarState) {
+    private fun changeConfiguration(toolBarState: Int) {
         when (toolBarState) {
-            MrToolBarState.MORE -> {
+            0 -> {
                 configuration =
-                    ToolbarHandlerSettingsOptions.More(binding.mrtoolbarTitle.text.toString()) {}
+                    ToolbarHandlerOptions.More {}
                 binding.mrtoolbarIcon.setButtonDrawable(configuration.drawableImageId)
             }
-            MrToolBarState.ADDEVENT -> {
+            1 -> {
                 configuration =
-                    ToolbarHandlerSettingsOptions.AddEvent(binding.mrtoolbarTitle.text.toString()) {}
+                    ToolbarHandlerOptions.AddEvent {}
                 binding.mrtoolbarIcon.setButtonDrawable(configuration.drawableImageId)
             }
         }
     }
 
-    private fun changeToolBarState(type: ToolbarHandlerSettingsOptions) {
-        toolBarState = when (type) {
-            is ToolbarHandlerSettingsOptions.AddEvent -> {
-                MrToolBarState.ADDEVENT
-            }
-            is ToolbarHandlerSettingsOptions.More -> {
-                MrToolBarState.MORE
-            }
-        }
-    }
 
-    fun changeToolBarConfiguration(newConfiguration: ToolbarHandlerSettingsOptions) {
+    fun changeToolBarConfiguration(newConfiguration: ToolbarHandlerOptions) {
         configuration = newConfiguration
     }
 
