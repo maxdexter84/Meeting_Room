@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/my_space"
-        android:icon="@drawable/ic_home_icon"
-        android:title="My space" />
+        android:icon="@drawable/ic_my_space_icon"
+        android:title="@string/text_for_my_space_icon" />
     <item
         android:id="@+id/rooms"
-        android:icon="@drawable/ic_people_icon"
-        android:title="Rooms" />
+        android:icon="@drawable/ic_rooms_icon"
+        android:title="@string/text_for_rooms_icon" />
     <item
         android:id="@+id/fire"
-        android:icon="@drawable/ic_fire_icon"
-        android:title="Rooms"
+        android:icon="@drawable/ic_meet_now_icon"
+        android:title="@string/text_for_meet_now_icon"
         />
     <item
         android:id="@+id/workplace"
         android:icon="@drawable/ic_workplaces_icon"
-        android:title="Workplace" />
+        android:title="@string/text_for_workplace_icon" />
     <item
         android:id="@+id/map"
         android:icon="@drawable/ic_map_icon"
-        android:title="Map" />
+        android:title="@string/text_for_map_icon" />
 </menu>
