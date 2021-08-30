@@ -53,7 +53,7 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
-    implementation project(path: ':core_network')
+    implementation libraries.legacy
 
     kapt libraries.daggerCompiler
 

@@ -2,18 +2,25 @@
 <resources>
     <declare-styleable name="MrEditText">
         <attr name="setErrorText" format="string" />
-        <attr name="setHintText" format="string"/>
+        <attr name="setHintText" format="string" />
         <attr name="inputType" format="enum">
             <enum name="password" value="1" />
             <enum name="login" value="2" />
         </attr>
     </declare-styleable>
     <declare-styleable name="MainActionButton">
-        <attr name="text" format="string"/>
+        <attr name="text" format="string" />
         <attr name="state" format="enum">
             <enum name="disabled" value="0" />
             <enum name="enabled" value="1" />
             <enum name="loading" value="2" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MrToolBar">
+        <attr name="setTitle" format="string" />
+        <attr name="bottomType" format="enum">
+            <enum name="more" value="0" />
+            <enum name="add" value="1" />
         </attr>
     </declare-styleable>
 </resources>

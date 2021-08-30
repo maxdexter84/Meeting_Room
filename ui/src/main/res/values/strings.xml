@@ -2,4 +2,8 @@
     <string name="office_assistant">Office Assistant</string>
     <string name="app_motto_text">Mundane office tasks made simple :)</string>
     <string name="log_in">Log in</string>
+    <string name="location_settings">Location settings</string>
+    <string name="text_for_theme_colors">Theme colors</string>
+    <string name="text_for_log_out">Log out</string>
+    <string name="text_for_add_event">Add Event</string>
 </resources>

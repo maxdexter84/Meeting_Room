@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
-import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent

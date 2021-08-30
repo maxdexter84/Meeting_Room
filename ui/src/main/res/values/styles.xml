@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ThemeOverlay.Widget.ProgressButton.Yellow" parent="">
         <item name="android:textAppearanceButton">@style/TextAppearance.ProgressButton.Yellow</item>
     </style>
@@ -18,4 +19,9 @@
         <item name="android:theme">@style/ThemeOverlay.Widget.ProgressButton.Yellow</item>
         <item name="android:background">@drawable/progress_button</item>
     </style>
+
+    <style name="popupMenuStyle" parent="@android:style/Widget.PopupMenu">
+        <item name="android:listPreferredItemHeightSmall">@dimen/dimens_29_dp</item>
+    </style>
+
 </resources>
