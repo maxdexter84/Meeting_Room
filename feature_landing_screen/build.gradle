@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion versions.android.compileSdkVersion
+    compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion versions.android.minSdkVersion
-        targetSdkVersion versions.android.targetSdkVersion
-        versionCode versions.app.versionCode
-        versionName versions.app.versionName
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -29,7 +30,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -47,14 +47,16 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.dagger
+    implementation libraries.legacy
 
     kapt libraries.daggerCompiler
 
     implementation project(":ui")
-    implementation project(":core_network")
+    implementation project(path: ':core_network')
     implementation project(path: ':core_module')
-    implementation project(':feature_landing_screen')
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
+
+
 }
