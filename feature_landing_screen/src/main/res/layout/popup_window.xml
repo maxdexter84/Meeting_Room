@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/popup_local_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="@string/location_settings"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:background="@drawable/popup_ripple_effect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/popup_theme_colour"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingBottom="4dp"
+        android:text="@string/theme_colour"
+        android:background="@drawable/popup_ripple_effect"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/popup_local_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/popup_local_settings" />
+
+
+    <View
+        android:id="@+id/popup_view_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        app:layout_constraintEnd_toEndOf="@+id/popup_local_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/popup_theme_colour" />
+
+    <TextView
+        android:id="@+id/popup_log_out"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/popup_ripple_effect"
+        android:text="@string/log_out"
+        android:textColor="@color/red_for_logout_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/popup_theme_colour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/popup_view_divider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing_screen.di
+package com.meetingroom.andersen.feature_landing.di
 
 import javax.inject.Scope
 

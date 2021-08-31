@@ -7,17 +7,11 @@ class LogOutHelper(
     private val saveData: UserDataPrefHelperImpl
 ) {
 
-    fun isDeleteRequired() {
+    fun isDeleteRequired(): Boolean {
         val currentDayInMillis = Clock.System.now().toEpochMilliseconds()
-        val tokenDayInMillis = saveData.getTokenDay() ?: return
+        val tokenDayInMillis = saveData.getTokenDay() ?: return false
         val tokenExpirationTime = tokenDayInMillis + (DAY_LENGTH_IN_MILLIS * 7)
-        if (currentDayInMillis >= tokenExpirationTime) {
-            deleteExpiredToken()
-        }
-    }
-
-    private fun deleteExpiredToken() {
-        saveData.deleteToken()
+        return currentDayInMillis >= tokenExpirationTime
     }
 
     fun logout() {

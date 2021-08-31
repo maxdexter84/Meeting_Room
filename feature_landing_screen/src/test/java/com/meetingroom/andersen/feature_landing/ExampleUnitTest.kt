@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing_screen
+package com.meetingroom.andersen.feature_landing
 
 import org.junit.Test
 
