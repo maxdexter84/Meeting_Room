@@ -73,7 +73,7 @@ class LandingFragment : Fragment() {
                 dismiss()
             }
             overlapAnchor = true
-            showAsDropDown(view, 200, 0)
+            showAsDropDown(view, 215, 0)
         }
     }
 }

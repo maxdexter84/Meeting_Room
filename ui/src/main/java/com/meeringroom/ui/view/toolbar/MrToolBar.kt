@@ -60,7 +60,7 @@ class MrToolBar @JvmOverloads constructor(
     }
 
     fun requireIconAsView(): View {
-        return binding.mrtoolbarIcon
+        return binding.viewForRecuire
     }
 
     fun getToolBarTitle(): String = binding.mrtoolbarTitle.text.toString()
