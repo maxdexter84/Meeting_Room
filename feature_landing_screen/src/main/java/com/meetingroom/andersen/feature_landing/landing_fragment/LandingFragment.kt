@@ -64,6 +64,7 @@ class LandingFragment : Fragment() {
             width = WindowManager.LayoutParams.WRAP_CONTENT
             isOutsideTouchable = true
             isFocusable = true
+            overlapAnchor = true
             elevation = 20f
             setBackgroundDrawable(null)
             bindingPopup.popupLocalSettings.setOnClickListener { dismiss() }
@@ -72,7 +73,6 @@ class LandingFragment : Fragment() {
                 viewModel.logout()
                 dismiss()
             }
-            overlapAnchor = true
             showAsDropDown(view, 215, 0)
         }
     }
