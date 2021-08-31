@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimens_56_dp"
     android:background="@color/white_for_toolbar_background"
-    android:elevation="@dimen/dimens_4_dp"
-    android:theme="@style/popupMenuStyle">
+    android:elevation="@dimen/dimens_4_dp">
 
     <TextView
         android:id="@+id/mrtoolbar_title"
@@ -15,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginLeft="@dimen/dimens_20_dp"
-        android:layout_marginTop="10dp"
         android:textColor="@color/black_for_toolbar_title"
-        android:textSize="@dimen/dimens_20_dp"
+        android:textSize="@dimen/dimens_20_sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Rooms" />
@@ -35,4 +34,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:button="@drawable/ic_baseline_more_vert" />
+
+    <View
+        android:id="@+id/view_for_recuire"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="220dp"
+        app:layout_constraintEnd_toStartOf="@+id/mrtoolbar_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dimens_20_dp"
+        android:background="@null"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
