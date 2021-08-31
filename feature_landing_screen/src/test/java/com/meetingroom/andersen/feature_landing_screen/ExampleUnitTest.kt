@@ -1,4 +1,4 @@
-package ru.startandroid.develop.feature_landing_screen
+package com.meetingroom.andersen.feature_landing_screen
 
 import org.junit.Test
 

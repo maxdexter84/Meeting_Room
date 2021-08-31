@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.startandroid.develop.feature_landing_screen">
+    package="com.meetingroom.andersen.feature_landing_screen">
 
 </manifest>

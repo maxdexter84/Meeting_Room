@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/landingFragment"
-        android:name="ru.startandroid.develop.feature_landing_screen.landing_fragment.LandingFragment"
+        android:name="com.meetingroom.andersen.feature_landing_screen.landing_fragment.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_landing" />
 </navigation>

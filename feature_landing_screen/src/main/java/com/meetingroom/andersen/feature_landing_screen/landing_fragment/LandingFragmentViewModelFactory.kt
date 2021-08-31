@@ -1,4 +1,4 @@
-package ru.startandroid.develop.feature_landing_screen.landing_fragment
+package com.meetingroom.andersen.feature_landing_screen.landing_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -1,4 +1,4 @@
-package ru.startandroid.develop.feature_landing_screen.di
+package com.meetingroom.andersen.feature_landing_screen.di
 
 import javax.inject.Scope
 

@@ -1,4 +1,4 @@
-package ru.startandroid.develop.feature_landing_screen.landing_fragment
+package com.meetingroom.andersen.feature_landing_screen.landing_fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -11,10 +11,10 @@ import androidx.core.view.MenuCompat
 import androidx.fragment.app.Fragment
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
-import ru.startandroid.develop.feature_landing_screen.R
-import ru.startandroid.develop.feature_landing_screen.databinding.FragmentLandingBinding
-import ru.startandroid.develop.feature_landing_screen.di.DaggerLandingFragmentComponent
-import ru.startandroid.develop.feature_landing_screen.di.LandingFragmentModule
+import com.meetingroom.andersen.feature_landing_screen.R
+import com.meetingroom.andersen.feature_landing_screen.databinding.FragmentLandingBinding
+import com.meetingroom.andersen.feature_landing_screen.di.DaggerLandingFragmentComponent
+import com.meetingroom.andersen.feature_landing_screen.di.LandingFragmentModule
 import javax.inject.Inject
 
 class LandingFragment : Fragment(R.layout.fragment_landing) {
