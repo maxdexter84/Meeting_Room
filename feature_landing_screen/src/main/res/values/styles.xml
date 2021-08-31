@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Change Overflow Menu ListView Item Height & Property -->
-        <item name="android:listPreferredItemHeightSmall">100dp</item>
-        <item name="android:listPreferredItemPaddingLeft">50dp</item>
-        <item name="android:listPreferredItemPaddingRight">50dp</item>
-    </style>
-</resources>

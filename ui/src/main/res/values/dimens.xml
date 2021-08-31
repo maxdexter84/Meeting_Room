@@ -6,6 +6,8 @@
     <dimen name="dimens_54_dp">54dp</dimen>
 
     <dimen name="dimens_0_dp">0dp</dimen>
+    <dimen name="dimens_1_dp">1dp</dimen>
+    <dimen name="dimens_5_dp">5dp</dimen>
     <dimen name="dimens_12_dp">12dp</dimen>
     <dimen name="dimens_14_dp">14dp</dimen>
     <dimen name="dimens_16_dp">16dp</dimen>
