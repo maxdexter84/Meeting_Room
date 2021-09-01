@@ -12,7 +12,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:setTitle="My space" />
+
+    <include
+        android:id="@+id/navigation_view"
+        layout="@layout/bottom_navigation_tool_bar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

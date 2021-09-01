@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.bottomnavigation.BottomNavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_bottom_navigation_view"
+    android:layout_width="@dimen/dimens_0_dp"
+    android:layout_height="@dimen/dimens_56_dp"
+    android:layout_marginStart="@dimen/dimens_0_dp"
+    android:layout_marginEnd="@dimen/dimens_0_dp"
+    android:animateLayoutChanges="false"
+    android:animationCache="false"
+    android:background="@color/white_for_toolbar_background"
+    app:itemIconTint="@drawable/selected_item_change_color"
+    app:itemRippleColor="@null"
+    app:itemTextColor="@drawable/selected_item_change_color"
+    app:labelVisibilityMode="labeled"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:menu="@menu/bottom_navigation_menu">
+
+
+</com.google.android.material.bottomnavigation.BottomNavigationView>

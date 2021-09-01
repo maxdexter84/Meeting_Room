@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/my_space_bottom_nav_icon"
+        android:icon="@drawable/ic_my_space_icon"
+        android:title="@string/text_for_my_space_icon" />
+    <item
+        android:id="@+id/rooms_bottom_nav_icon"
+        android:icon="@drawable/ic_rooms_icon"
+        android:title="@string/text_for_rooms_icon" />
+    <item
+        android:id="@+id/meet_now_bottom_nav_icon"
+        android:icon="@drawable/ic_meet_now_icon"
+        android:title="@string/text_for_meet_now_icon" />
+    <item
+        android:id="@+id/workplace_bottom_nav_icon"
+        android:icon="@drawable/ic_workplaces_icon"
+        android:title="@string/text_for_workplace_icon" />
+    <item
+        android:id="@+id/map_bottom_nav_icon"
+        android:icon="@drawable/ic_map_icon"
+        android:title="@string/text_for_map_icon" />
+</menu>
