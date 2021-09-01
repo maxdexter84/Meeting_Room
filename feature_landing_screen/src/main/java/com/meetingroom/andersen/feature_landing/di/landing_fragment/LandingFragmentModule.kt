@@ -1,13 +1,14 @@
-package com.meetingroom.andersen.feature_landing.di
+package com.meetingroom.andersen.feature_landing.di.landing_fragment
 
 import androidx.lifecycle.ViewModelProvider
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_module.user_logout.LogOutHelper
+import com.meetingroom.andersen.feature_landing.di.Screen
 import dagger.Module
 import dagger.Provides
-import com.meetingroom.andersen.feature_landing.landing_fragment.LandingFragment
-import com.meetingroom.andersen.feature_landing.landing_fragment.LandingFragmentViewModel
-import com.meetingroom.andersen.feature_landing.landing_fragment.LandingFragmentViewModelFactory
+import com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment
+import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
+import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModelFactory
 
 @Module
 class LandingFragmentModule(private val landingFragment: LandingFragment) {

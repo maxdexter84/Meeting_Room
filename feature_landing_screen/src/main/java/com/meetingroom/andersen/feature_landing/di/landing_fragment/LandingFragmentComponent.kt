@@ -1,8 +1,9 @@
-package com.meetingroom.andersen.feature_landing.di
+package com.meetingroom.andersen.feature_landing.di.landing_fragment
 
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.meetingroom.andersen.feature_landing.di.Screen
 import dagger.Component
-import com.meetingroom.andersen.feature_landing.landing_fragment.LandingFragment
+import com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment
 
 @Component(modules = [LandingFragmentModule::class, SharedPreferencesModule::class])
 @Screen
