@@ -23,4 +23,7 @@
     <color name="yellow_for_selected_item">#F3AF00</color>
     <color name="color_for_popup_window_divider">#E0E0E0</color>
     <color name="none">#00000000</color>
+    <color name="disabled_bell_colour">#D2D2D2</color>
+    <color name="enabled_bell_colour">#8C8C8C</color>
+    <color name="event_title_text_colour">#020303</color>
 </resources>

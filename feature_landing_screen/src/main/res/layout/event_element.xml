@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimens_16_dp"
+    android:layout_marginEnd="@dimen/dimens_16_dp"
+    android:layout_marginBottom="@dimen/dimens_12_dp"
+    app:cardCornerRadius="@dimen/dimens_4_dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="114dp">
+
+
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_12_dp"
+            android:layout_marginTop="@dimen/dimens_12_dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:lineSpacingExtra="@dimen/dimens_5_sp"
+            android:textColor="@color/event_title_text_colour"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/event_reminder_bell"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Retrospective - AlphaBank Home Insurance App" />
+
+        <ImageView
+            android:id="@+id/event_reminder_bell"
+            android:layout_width="@dimen/dimens_28_dp"
+            android:layout_height="@dimen/dimens_28_dp"
+            android:layout_marginTop="@dimen/dimens_30_dp"
+            android:layout_marginEnd="@dimen/dimens_16_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/ic_disable_bell" />
+
+        <View
+            android:id="@+id/event_city_colour_line"
+            android:layout_width="@dimen/dimens_3_dp"
+            android:layout_height="@dimen/dimens_0_dp"
+            tools:background="#C41328"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8C8C8C"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/dimens_12_sp"
+            app:layout_constraintEnd_toEndOf="@+id/event_reminder_bell"
+            app:layout_constraintStart_toStartOf="@+id/event_reminder_bell"
+            app:layout_constraintTop_toBottomOf="@+id/event_reminder_bell"
+            tools:text="30 min" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="14.00-15.30"
+            android:textColor="#556170"
+            android:textSize="@dimen/dimens_12_sp"
+            app:layout_constraintStart_toStartOf="@+id/event_title"
+            app:layout_constraintTop_toBottomOf="@+id/event_title" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_30_dp"
+            android:layout_marginTop="4dp"
+            android:textSize="@dimen/dimens_12_sp"
+            tools:text="18 Sept 2021"
+            android:textColor="#556170"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/event_title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
