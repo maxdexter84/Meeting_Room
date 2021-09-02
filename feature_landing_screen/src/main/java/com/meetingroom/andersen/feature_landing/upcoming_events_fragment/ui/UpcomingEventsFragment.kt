@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing.landing_fragment.ui
+package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -8,26 +8,28 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
-import com.meetingroom.andersen.feature_landing.databinding.FragmentLandingBinding
+import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopupWindowBinding
-import com.meetingroom.andersen.feature_landing.di.landing_fragment.DaggerLandingFragmentComponent
-import com.meetingroom.andersen.feature_landing.di.landing_fragment.LandingFragmentModule
-import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
+import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
+import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.UpcomingEventsFragmentModule
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
 import javax.inject.Inject
 
 class UpcomingEventsFragment : Fragment() {
 
-    private lateinit var binding: FragmentLandingBinding
+    private lateinit var binding: FragmentUpcomingEventsBinding
+    private lateinit var eventAdapter: UpcomingEventAdapter
 
     @Inject
-    lateinit var viewModel: LandingFragmentViewModel
+    lateinit var viewModel: UpcomingEventsFragmentViewModel
 
     override fun onAttach(context: Context) {
-        DaggerLandingFragmentComponent.builder()
-            .landingFragmentModule(LandingFragmentModule(this))
+        DaggerUpcomingEventsFragmentComponent.builder()
+            .upcomingEventsFragmentModule(UpcomingEventsFragmentModule(this))
             .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
@@ -39,7 +41,7 @@ class UpcomingEventsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLandingBinding.inflate(inflater, container, false)
+        binding = FragmentUpcomingEventsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,11 +50,18 @@ class UpcomingEventsFragment : Fragment() {
 
         initRecyclerView()
         initToolbar()
+        viewModel.gagData.observe(viewLifecycleOwner, eventAdapter::submitList)
     }
 
     private fun initRecyclerView() {
+        eventAdapter = UpcomingEventAdapter()
+        val manager = LinearLayoutManager(requireContext())
         with(binding) {
-
+            upcomingEventsRecyclerView.apply {
+                setHasFixedSize(true)
+                adapter = eventAdapter
+                layoutManager = manager
+            }
         }
     }
 

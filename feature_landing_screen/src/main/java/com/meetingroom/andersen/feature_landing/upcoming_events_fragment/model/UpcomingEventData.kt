@@ -1,6 +1,6 @@
-package com.meetingroom.andersen.feature_landing.landing_fragment.model
+package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model
 
-data class EventUpcomingData(
+data class UpcomingEventData(
     val title: String,
     val startTime: String,
     val endTime: String,

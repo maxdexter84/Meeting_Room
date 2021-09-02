@@ -1,12 +1,12 @@
-package com.meetingroom.andersen.feature_landing.landing_fragment.presentation
+package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation
 
 import com.meetingroom.andersen.feature_landing.R
-import com.meetingroom.andersen.feature_landing.landing_fragment.model.EventUpcomingData
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 
 class GagForUpcomingEvents {
 
-    fun generate(size: Int): List<EventUpcomingData> {
-        val list = ArrayList<EventUpcomingData>()
+    fun generate(size: Int): List<UpcomingEventData> {
+        val list = ArrayList<UpcomingEventData>()
 
         for (i in 0 until size) {
             val title = when (i % 9) {
@@ -81,7 +81,7 @@ class GagForUpcomingEvents {
                 else -> R.color.teal_light
             }
 
-            val item = EventUpcomingData(
+            val item = UpcomingEventData(
                 title,
                 startTime,
                 endTime,

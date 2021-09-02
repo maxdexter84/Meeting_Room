@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landing_fragment.ui.UpcomingEventsFragment">
+    tools:context=".upcoming_events_fragment.ui.UpcomingEventsFragment">
 
     <com.meeringroom.ui.view.toolbar.MrToolBar
         android:id="@+id/landing_toolbar"

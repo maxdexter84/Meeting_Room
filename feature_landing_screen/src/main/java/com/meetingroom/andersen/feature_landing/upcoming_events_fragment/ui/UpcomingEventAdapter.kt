@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing.landing_fragment.ui
+package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
-import com.meetingroom.andersen.feature_landing.landing_fragment.model.EventUpcomingData
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 
-class EventRecyclerAdapter :
-    ListAdapter<EventUpcomingData, EventRecyclerAdapter.UpcomingEventViewHolder>(DiffCallBack()) {
+class UpcomingEventAdapter :
+    ListAdapter<UpcomingEventData, UpcomingEventAdapter.UpcomingEventViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingEventViewHolder {
         val binding =
@@ -28,33 +28,33 @@ class EventRecyclerAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(eventUpcomingData: EventUpcomingData) {
+        fun bind(upcomingEventData: UpcomingEventData) {
             with(binding) {
-                eventTitleUpcoming.text = eventUpcomingData.title
+                eventTitleUpcoming.text = upcomingEventData.title
                 eventPlannedTimeUpcoming.text =
-                    "${eventUpcomingData.startTime}-${eventUpcomingData.endTime}"
-                eventPlannedDateUpcoming.text = eventUpcomingData.eventDate
-                eventRoomUpcoming.text = eventUpcomingData.eventRoom
-                eventCityColourLineUpcoming.setBackgroundColor(eventUpcomingData.eventRoomColour)
-                if (!eventUpcomingData.reminderActive) {
+                    "${upcomingEventData.startTime}-${upcomingEventData.endTime}"
+                eventPlannedDateUpcoming.text = upcomingEventData.eventDate
+                eventRoomUpcoming.text = upcomingEventData.eventRoom
+                eventCityColourLineUpcoming.setBackgroundColor(upcomingEventData.eventRoomColour)
+                if (!upcomingEventData.reminderActive) {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_disable_bell)
                     eventReminderCounterUpcoming.visibility = View.INVISIBLE
                 } else {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
-                    eventReminderCounterUpcoming.text = eventUpcomingData.reminderRemainingTime
+                    eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
                 }
                 eventReminderBellUpcoming.setOnClickListener {
-                    eventUpcomingData.reminderActive = !eventUpcomingData.reminderActive
+                    upcomingEventData.reminderActive = !upcomingEventData.reminderActive
                 }
             }
         }
     }
 
-    class DiffCallBack : DiffUtil.ItemCallback<EventUpcomingData>() {
-        override fun areItemsTheSame(oldItem: EventUpcomingData, newItem: EventUpcomingData) =
+    class DiffCallBack : DiffUtil.ItemCallback<UpcomingEventData>() {
+        override fun areItemsTheSame(oldItem: UpcomingEventData, newItem: UpcomingEventData) =
             oldItem.title == newItem.title && oldItem.reminderActive == newItem.reminderActive
 
-        override fun areContentsTheSame(oldItem: EventUpcomingData, newItem: EventUpcomingData) =
+        override fun areContentsTheSame(oldItem: UpcomingEventData, newItem: UpcomingEventData) =
             oldItem == newItem
     }
 }
