@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landing_fragment.ui.LandingFragment">
+    tools:context=".landing_fragment.ui.UpcomingEventsFragment">
 
     <com.meeringroom.ui.view.toolbar.MrToolBar
         android:id="@+id/landing_toolbar"
@@ -16,13 +16,14 @@
         tools:setTitle="My space" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/upcoming_events_recycler_view"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
         app:layout_constraintBottom_toTopOf="@+id/navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/landing_toolbar"
-        tools:listitem="@layout/event_element" />
+        tools:listitem="@layout/event_element_upcoming" />
 
     <include
         android:id="@+id/navigation_view"

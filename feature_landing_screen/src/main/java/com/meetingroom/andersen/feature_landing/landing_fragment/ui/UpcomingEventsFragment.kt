@@ -18,7 +18,7 @@ import com.meetingroom.andersen.feature_landing.di.landing_fragment.LandingFragm
 import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
 import javax.inject.Inject
 
-class LandingFragment : Fragment() {
+class UpcomingEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentLandingBinding
 
@@ -46,6 +46,17 @@ class LandingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRecyclerView()
+        initToolbar()
+    }
+
+    private fun initRecyclerView() {
+        with(binding) {
+
+        }
+    }
+
+    private fun initToolbar() {
         with(binding) {
             landingToolbar.setToolBarTitle(getString(R.string.toolbar_landing_title))
             landingToolbar.changeToolBarConfiguration(
