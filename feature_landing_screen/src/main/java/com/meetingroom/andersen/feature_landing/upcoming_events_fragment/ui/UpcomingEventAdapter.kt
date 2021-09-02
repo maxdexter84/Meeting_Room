@@ -35,7 +35,7 @@ class UpcomingEventAdapter :
                     "${upcomingEventData.startTime}-${upcomingEventData.endTime}"
                 eventPlannedDateUpcoming.text = upcomingEventData.eventDate
                 eventRoomUpcoming.text = upcomingEventData.eventRoom
-                eventCityColourLineUpcoming.setBackgroundColor(upcomingEventData.eventRoomColour)
+                eventCityColourLineUpcoming.setBackgroundResource(upcomingEventData.eventRoomColour)
                 if (!upcomingEventData.reminderActive) {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_disable_bell)
                     eventReminderCounterUpcoming.visibility = View.INVISIBLE
@@ -52,7 +52,7 @@ class UpcomingEventAdapter :
 
     class DiffCallBack : DiffUtil.ItemCallback<UpcomingEventData>() {
         override fun areItemsTheSame(oldItem: UpcomingEventData, newItem: UpcomingEventData) =
-            oldItem.title == newItem.title && oldItem.reminderActive == newItem.reminderActive
+            oldItem.title == newItem.title
 
         override fun areContentsTheSame(oldItem: UpcomingEventData, newItem: UpcomingEventData) =
             oldItem == newItem
