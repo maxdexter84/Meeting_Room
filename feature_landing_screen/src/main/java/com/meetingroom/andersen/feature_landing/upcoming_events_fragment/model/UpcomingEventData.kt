@@ -8,5 +8,5 @@ data class UpcomingEventData(
     val eventRoom: String,
     val eventRoomColour: Int,
     val reminderRemainingTime: String = "30 min",
-    var reminderActive: Boolean = false,
+    var reminderActive: Boolean,
 )

@@ -81,6 +81,11 @@ class GagForUpcomingEvents {
                 else -> R.color.teal_light
             }
 
+            val eventBellActive = when (i % 2) {
+                0 -> false
+                else -> true
+            }
+
             val item = UpcomingEventData(
                 title,
                 startTime,
@@ -88,6 +93,7 @@ class GagForUpcomingEvents {
                 eventDate,
                 eventRoom,
                 eventRoomColour,
+                reminderActive = eventBellActive
             )
 
             list += item

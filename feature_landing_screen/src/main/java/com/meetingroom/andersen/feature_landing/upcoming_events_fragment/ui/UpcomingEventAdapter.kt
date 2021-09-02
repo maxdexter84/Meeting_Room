@@ -24,7 +24,7 @@ class UpcomingEventAdapter :
         holder.bind(getItem(position))
     }
 
-    class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
+    inner class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
@@ -42,9 +42,6 @@ class UpcomingEventAdapter :
                 } else {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
-                }
-                eventReminderBellUpcoming.setOnClickListener {
-                    upcomingEventData.reminderActive = !upcomingEventData.reminderActive
                 }
             }
         }
