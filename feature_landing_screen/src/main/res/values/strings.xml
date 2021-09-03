@@ -3,4 +3,7 @@
     <string name="location_settings">Location Settings</string>
     <string name="theme_colour">Theme colour</string>
     <string name="log_out">Log out</string>
+    <string name="relieved_face_emoji">😌</string>
+    <string name="feels_lonely_upcoming">It feels lonely in here.</string>
+    <string name="book_meeting_suggestion_upcoming_empty">Why don\'t you book a meeting room now? You will then see your upcoming events \nin this section.</string>
 </resources>

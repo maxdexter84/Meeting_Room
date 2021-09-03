@@ -10,6 +10,7 @@ import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
+import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopupWindowBinding
@@ -49,7 +50,18 @@ class UpcomingEventsFragment : Fragment() {
 
         initRecyclerView()
         initToolbar()
-        viewModel.gagData.observe(viewLifecycleOwner, eventAdapter::setData)
+        viewModel.gagData.observe(viewLifecycleOwner) {
+            eventAdapter.setData(it)
+            if (it.isEmpty()) initEmptyUpcomingMessage(true) else initEmptyUpcomingMessage(false)
+        }
+    }
+
+    private fun initEmptyUpcomingMessage(visibility: Boolean) {
+        with(binding) {
+            emojiEmptyUpcomings.visibilityIf(visibility)
+            feelsLonelyEmptyUpcomings.visibilityIf(visibility)
+            bookMeetingSuggestionEmptyUpcomings.visibilityIf(visibility)
+        }
     }
 
     private fun initRecyclerView() {
