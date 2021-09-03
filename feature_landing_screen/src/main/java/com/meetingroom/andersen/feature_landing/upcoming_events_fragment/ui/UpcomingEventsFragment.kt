@@ -52,7 +52,7 @@ class UpcomingEventsFragment : Fragment() {
         initToolbar()
         viewModel.gagData.observe(viewLifecycleOwner) {
             eventAdapter.setData(it)
-            if (it.isEmpty()) initEmptyUpcomingMessage(true) else initEmptyUpcomingMessage(false)
+            initEmptyUpcomingMessage(it.isEmpty())
         }
     }
 
