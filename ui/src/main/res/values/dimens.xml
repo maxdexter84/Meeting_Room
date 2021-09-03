@@ -27,6 +27,7 @@
     <dimen name="dimens_60_dp">60dp</dimen>
     <dimen name="dimens_64_dp">64dp</dimen>
     <dimen name="dimens_72_dp">72dp</dimen>
+    <dimen name="dimens_124_dp">124dp</dimen>
     <dimen name="dimens_5_sp">5sp</dimen>
     <dimen name="dimens_12_sp">12sp</dimen>
     <dimen name="dimens_14_sp">14sp</dimen>
