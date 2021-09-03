@@ -11,13 +11,13 @@ class UpcomingEventsFragmentViewModel(
     gagForUpcomingEvents: GagForUpcomingEvents
 ) : ViewModel() {
 
-    private val _gagData = MutableLiveData<List<UpcomingEventData>>()
+    private val mutableGagData = MutableLiveData<List<UpcomingEventData>>()
     val gagData: LiveData<List<UpcomingEventData>>
-        get() = _gagData
+        get() = mutableGagData
 
     init {
         if (logOutHelper.isDeleteRequired()) logOutHelper.logout()
-        _gagData.value = gagForUpcomingEvents.generate(9)
+        mutableGagData.value = gagForUpcomingEvents.generate(9)
     }
 
     fun logout() {

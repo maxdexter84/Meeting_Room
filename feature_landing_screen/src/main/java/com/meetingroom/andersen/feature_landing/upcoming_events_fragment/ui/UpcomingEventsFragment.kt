@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
@@ -22,7 +21,7 @@ import javax.inject.Inject
 class UpcomingEventsFragment : Fragment() {
 
     private lateinit var binding: FragmentUpcomingEventsBinding
-    private lateinit var eventAdapter: UpcomingEventAdapter
+    private val eventAdapter by lazy { UpcomingEventAdapter() }
 
     @Inject
     lateinit var viewModel: UpcomingEventsFragmentViewModel
@@ -50,17 +49,14 @@ class UpcomingEventsFragment : Fragment() {
 
         initRecyclerView()
         initToolbar()
-        viewModel.gagData.observe(viewLifecycleOwner, eventAdapter::submitList)
+        viewModel.gagData.observe(viewLifecycleOwner, eventAdapter::setData)
     }
 
     private fun initRecyclerView() {
-        eventAdapter = UpcomingEventAdapter()
-        val manager = LinearLayoutManager(requireContext())
         with(binding) {
             upcomingEventsRecyclerView.apply {
                 setHasFixedSize(true)
                 adapter = eventAdapter
-                layoutManager = manager
             }
         }
     }

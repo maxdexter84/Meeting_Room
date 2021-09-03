@@ -12,20 +12,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/event_card_upcoming_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="124dp">
 
         <TextView
             android:id="@+id/event_title_upcoming"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimens_0_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimens_12_dp"
             android:layout_marginTop="@dimen/dimens_12_dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto"
             android:lineSpacingExtra="@dimen/dimens_5_sp"
+            android:textStyle="bold"
             android:textColor="@color/event_title_text_colour"
-            android:textSize="20sp"
+            android:textSize="@dimen/dimens_18_sp"
             app:layout_constraintEnd_toStartOf="@+id/event_reminder_bell_upcoming"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="#C41328" />
+            tools:background="@color/red_for_logout_text" />
 
         <TextView
             android:id="@+id/event_reminder_counter_upcoming"
@@ -92,14 +92,12 @@
             android:id="@+id/event_room_upcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="@dimen/dimens_12_dp"
             android:fontFamily="@font/roboto"
             android:textColor="@color/event_title_text_colour"
             android:textSize="@dimen/dimens_12_sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/event_planned_time_upcoming"
-            app:layout_constraintTop_toBottomOf="@+id/event_planned_time_upcoming"
             tools:text="Amsterdam" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

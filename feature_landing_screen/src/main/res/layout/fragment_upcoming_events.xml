@@ -19,6 +19,7 @@
         android:id="@+id/upcoming_events_recycler_view"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
