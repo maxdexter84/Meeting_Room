@@ -69,18 +69,18 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
             GetAllAvailableCountriesResponse("Russia"),
             GetAllAvailableCountriesResponse("Belarus"),
         )
-        private val countriesOfUkraine = arrayListOf(
+        private val citiesOfUkraine = arrayListOf(
             GetAllAvailableCitiesResponse("Dnipro"),
             GetAllAvailableCitiesResponse("Odessa"),
             GetAllAvailableCitiesResponse("Kyiv")
         )
-        private val countriesOfRussia = arrayListOf(
+        private val citiesOfRussia = arrayListOf(
             GetAllAvailableCitiesResponse("Moscow"),
             GetAllAvailableCitiesResponse("Piter"),
             GetAllAvailableCitiesResponse("Kazan"),
             GetAllAvailableCitiesResponse("Vladivostok")
         )
-        private val countriesOfBelarus = arrayListOf(
+        private val citiesOfBelarus = arrayListOf(
             GetAllAvailableCitiesResponse("Minsk"),
             GetAllAvailableCitiesResponse("Gomel"),
         )
@@ -100,9 +100,9 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
 
     private fun getAllCitiesFromCountry(post: GetAllAvailableCitiesRequest): List<GetAllAvailableCitiesResponse> {
         return when (post.name) {
-            "Ukraine" -> countriesOfUkraine
-            "Russia" -> countriesOfRussia
-            "Belarus" -> countriesOfBelarus
+            "Ukraine" -> citiesOfUkraine
+            "Russia" -> citiesOfRussia
+            "Belarus" -> citiesOfBelarus
             else -> arrayListOf(GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"))
         }
 
