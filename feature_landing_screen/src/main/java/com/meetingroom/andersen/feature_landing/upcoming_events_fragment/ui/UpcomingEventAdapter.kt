@@ -1,6 +1,5 @@
 package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -48,12 +47,15 @@ class UpcomingEventAdapter :
     class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
         fun bind(upcomingEventData: UpcomingEventData) {
             with(binding) {
                 eventTitleUpcoming.text = upcomingEventData.title
                 eventPlannedTimeUpcoming.text =
-                    "${upcomingEventData.startTime}-${upcomingEventData.endTime}"
+                    String.format(
+                        binding.root.resources.getString(R.string.event_planned_time_upcoming),
+                        upcomingEventData.startTime,
+                        upcomingEventData.endTime
+                    )
                 eventPlannedDateUpcoming.text = upcomingEventData.eventDate
                 eventRoomUpcoming.text = upcomingEventData.eventRoom
                 eventCityColourLineUpcoming.setBackgroundResource(upcomingEventData.eventRoomColour)
