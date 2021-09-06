@@ -44,4 +44,12 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
     override fun deleteToken() {
         iPreferenceHelper.deleteUserToken("token", "token_day")
     }
+
+    override fun saveUserRoles(roles: Collection<String>) {
+        iPreferenceHelper.saveCollectionAsStringSet("user_roles", roles)
+    }
+
+    override fun getUserRoles(): Collection<String>? =
+        iPreferenceHelper.getCollectionAsStringSet("user_roles")
+
 }

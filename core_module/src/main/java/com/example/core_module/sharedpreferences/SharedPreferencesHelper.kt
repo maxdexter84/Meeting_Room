@@ -59,4 +59,13 @@ class SharedPreferencesHelper(val context: Context) : IPreferenceHelper {
             .remove(tokenDay)
             .apply()
     }
+
+    override fun saveCollectionAsStringSet(key: String, collection: Collection<String>) {
+        preferences.edit().putStringSet(key, collection.toSet()).apply()
+    }
+
+    override fun getCollectionAsStringSet(key: String): Collection<String>? {
+        return preferences.getStringSet(key, null)
+    }
+
 }

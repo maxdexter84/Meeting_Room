@@ -25,4 +25,8 @@ interface IPreferenceHelper {
     fun clearPrefs()
 
     fun deleteUserToken(token: String, tokenDay: String)
+
+    fun saveCollectionAsStringSet(key: String, collection: Collection<String>)
+
+    fun getCollectionAsStringSet(key: String): Collection<String>?
 }
