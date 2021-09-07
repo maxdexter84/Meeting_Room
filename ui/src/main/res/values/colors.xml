@@ -26,4 +26,7 @@
     <color name="disabled_bell_colour">#D2D2D2</color>
     <color name="enabled_bell_colour">#8C8C8C</color>
     <color name="event_title_text_colour">#020303</color>
+    <color name="yellow_for_ripple_effect">#FBFCE7</color>
+    <color name="start_for_gradient">#f8f8f8</color>
+    <color name="end_for_gradient">#aeaeae</color>
 </resources>

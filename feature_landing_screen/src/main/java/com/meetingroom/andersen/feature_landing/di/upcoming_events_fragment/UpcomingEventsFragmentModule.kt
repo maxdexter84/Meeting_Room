@@ -1,8 +1,6 @@
 package com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
-import com.example.core_module.user_logout.LogOutHelper
 import com.meetingroom.andersen.feature_landing.di.Screen
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.GagForUpcomingEvents
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
@@ -20,17 +18,10 @@ class UpcomingEventsFragmentModule(private val upcomingEventsFragment: UpcomingE
 
     @Provides
     @Screen
-    fun provideLogOutHelper(saveData: UserDataPrefHelperImpl): LogOutHelper {
-        return LogOutHelper(saveData)
-    }
-
-    @Provides
-    @Screen
     fun provideViewModelFactory(
-        logOutHelper: LogOutHelper,
         gagForUpcomingEvents: GagForUpcomingEvents
     ): UpcomingEventsFragmentViewModelFactory =
-        UpcomingEventsFragmentViewModelFactory(logOutHelper, gagForUpcomingEvents)
+        UpcomingEventsFragmentViewModelFactory(gagForUpcomingEvents)
 
     @Provides
     @Screen

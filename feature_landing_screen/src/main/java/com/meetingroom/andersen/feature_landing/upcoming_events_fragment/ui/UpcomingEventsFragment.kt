@@ -5,15 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
-import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meeringroom.ui.view_utils.visibilityIf
-import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
-import com.meetingroom.andersen.feature_landing.databinding.PopupWindowBinding
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.UpcomingEventsFragmentModule
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
@@ -30,7 +24,6 @@ class UpcomingEventsFragment : Fragment() {
     override fun onAttach(context: Context) {
         DaggerUpcomingEventsFragmentComponent.builder()
             .upcomingEventsFragmentModule(UpcomingEventsFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
         super.onAttach(context)
@@ -49,7 +42,6 @@ class UpcomingEventsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-        initToolbar()
         viewModel.gagData.observe(viewLifecycleOwner) {
             eventAdapter.setData(it)
             initEmptyUpcomingMessage(it.isEmpty())
@@ -70,39 +62,6 @@ class UpcomingEventsFragment : Fragment() {
                 setHasFixedSize(true)
                 adapter = eventAdapter
             }
-        }
-    }
-
-    private fun initToolbar() {
-        with(binding) {
-            landingToolbar.setToolBarTitle(getString(R.string.toolbar_landing_title))
-            landingToolbar.changeToolBarConfiguration(
-                ToolbarHandlerOptions.More(
-                    onIconClick = { showPopupWindow(landingToolbar.requireIconAsView()) }
-                )
-            )
-        }
-    }
-
-    private fun showPopupWindow(view: View) {
-        val popupWindow = PopupWindow(requireActivity())
-        val bindingPopup = PopupWindowBinding.inflate(LayoutInflater.from(requireContext()))
-        with(popupWindow) {
-            contentView = bindingPopup.root
-            height = WindowManager.LayoutParams.WRAP_CONTENT
-            width = WindowManager.LayoutParams.WRAP_CONTENT
-            isOutsideTouchable = true
-            isFocusable = true
-            overlapAnchor = true
-            elevation = 20f
-            setBackgroundDrawable(null)
-            bindingPopup.popupLocalSettings.setOnClickListener { dismiss() }
-            bindingPopup.popupThemeColour.setOnClickListener { dismiss() }
-            bindingPopup.popupLogOut.setOnClickListener {
-                viewModel.logout()
-                dismiss()
-            }
-            showAsDropDown(view, 215, 0)
         }
     }
 }
