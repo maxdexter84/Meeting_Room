@@ -6,24 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".upcoming_events_fragment.ui.UpcomingEventsFragment">
 
-    <com.meeringroom.ui.view.toolbar.MrToolBar
-        android:id="@+id/landing_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:setTitle="My space" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upcoming_events_recycler_view"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/landing_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/event_element_upcoming"
         tools:visibility="gone" />
 
@@ -67,10 +58,10 @@
         android:lineSpacingExtra="@dimen/dimens_5_sp"
         android:text="@string/book_meeting_suggestion_upcoming_empty"
         android:textSize="@dimen/dimens_16_sp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/landing_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
     <ProgressBar
@@ -80,14 +71,10 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/yellow_for_selected_item"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/landing_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone" />
-
-    <include
-        android:id="@+id/navigation_view"
-        layout="@layout/bottom_navigation_tool_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
