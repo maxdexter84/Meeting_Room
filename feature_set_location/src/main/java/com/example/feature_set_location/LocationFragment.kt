@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.feature_set_location.databinding.LocationFragmentBinding
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 
-class LocationFragment : Fragment() {
-
-    lateinit var binding: LocationFragmentBinding
+class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentBinding::inflate) {
 
     override fun onCreateView(
         inflater: LayoutInflater,

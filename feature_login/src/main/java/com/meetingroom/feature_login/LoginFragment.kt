@@ -4,18 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
 import com.meetingroom.feature_login.di.LoginFragmentModule
 import javax.inject.Inject
 
-class LoginFragment : Fragment() {
-
-    private lateinit var binding: LoginFragmentBinding
+class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
 
     @Inject
     lateinit var viewModel: LoginFragmentViewModel

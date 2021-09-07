@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
@@ -13,9 +13,9 @@ import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.Upco
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
 import javax.inject.Inject
 
-class UpcomingEventsFragment : Fragment() {
+class UpcomingEventsFragment :
+    BaseFragment<FragmentUpcomingEventsBinding>(FragmentUpcomingEventsBinding::inflate) {
 
-    private lateinit var binding: FragmentUpcomingEventsBinding
     private val eventAdapter by lazy { UpcomingEventAdapter() }
 
     @Inject
