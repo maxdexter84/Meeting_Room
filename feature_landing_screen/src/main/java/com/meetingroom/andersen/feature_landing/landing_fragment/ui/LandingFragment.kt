@@ -4,12 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
-import androidx.fragment.app.Fragment
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.google.android.material.tabs.TabLayoutMediator
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentLandingBinding
@@ -19,9 +18,7 @@ import com.meetingroom.andersen.feature_landing.di.landing_fragment.LandingFragm
 import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
 import javax.inject.Inject
 
-class LandingFragment : Fragment() {
-
-    private lateinit var binding: FragmentLandingBinding
+class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
 
     @Inject
     lateinit var viewModel: LandingFragmentViewModel
@@ -33,15 +30,6 @@ class LandingFragment : Fragment() {
             .build()
             .inject(this)
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLandingBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

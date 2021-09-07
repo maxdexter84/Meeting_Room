@@ -93,7 +93,7 @@ allprojects {
                         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.libraries.coroutinesTest}",
                         "androidx.test.espresso:espresso-core:${versions.libraries.espresso}"
                 ],
-                datetime : "org.jetbrains.kotlinx:kotlinx-datetime:${versions.libraries.datetime}",
+                datetime         : "org.jetbrains.kotlinx:kotlinx-datetime:${versions.libraries.datetime}",
                 koinAndroid      : "io.insert-koin:koin-android-viewmodel:${versions.libraries.koinAndroid}",
                 timber           : "com.jakewharton.timber:timber:${versions.libraries.timber}",
                 coreKtx          : "androidx.core:core-ktx:${versions.libraries.coreKtx}",

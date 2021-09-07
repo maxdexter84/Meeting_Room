@@ -1,21 +1,17 @@
 package com.meetingroom.feature_login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
 import com.meetingroom.feature_login.di.LoginFragmentModule
 import javax.inject.Inject
 
-class LoginFragment : Fragment() {
-
-    private lateinit var binding: LoginFragmentBinding
+class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
 
     @Inject
     lateinit var viewModel: LoginFragmentViewModel
@@ -30,12 +26,8 @@ class LoginFragment : Fragment() {
             .inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = LoginFragmentBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
             findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
@@ -53,6 +45,5 @@ class LoginFragment : Fragment() {
             )
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
         }
-        return binding.root
     }
 }

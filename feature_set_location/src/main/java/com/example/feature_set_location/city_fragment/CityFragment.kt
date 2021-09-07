@@ -1,20 +1,17 @@
 package com.example.feature_set_location.city_fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
+import com.meeringroom.ui.view.base_fragment.BaseFragment
 import javax.inject.Inject
 
-class CityFragment : Fragment() {
+class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::inflate) {
 
-    private lateinit var binding: CityFragmentBinding
     private val cityAdapter =
         CityAdapter(onItemClick = {
             saveCity(it)
@@ -31,15 +28,6 @@ class CityFragment : Fragment() {
             .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = CityFragmentBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
