@@ -1,9 +1,7 @@
 package com.meetingroom.feature_login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
@@ -28,12 +26,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             .inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = LoginFragmentBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.requestResult.observe(viewLifecycleOwner, {
             binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
             findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
@@ -51,6 +45,5 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             )
             binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
         }
-        return binding.root
     }
 }

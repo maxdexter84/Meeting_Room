@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
@@ -31,15 +30,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBind
             .build()
             .inject(this)
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLandingBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

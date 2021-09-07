@@ -1,9 +1,7 @@
 package com.example.feature_set_location.city_fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.databinding.CityFragmentBinding
@@ -30,15 +28,6 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
             .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = CityFragmentBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
