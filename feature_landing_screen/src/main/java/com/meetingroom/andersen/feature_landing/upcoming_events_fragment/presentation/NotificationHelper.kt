@@ -28,12 +28,8 @@ class NotificationHelper @Inject internal constructor(private val context: Conte
         }
     }
 
-    fun setNotification(upcomingEventData: UpcomingEventData) {
-        scheduleNotification(upcomingEventData)
-    }
-
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun scheduleNotification(upcomingEventData: UpcomingEventData) {
+    fun setNotification(upcomingEventData: UpcomingEventData) {
         val title = upcomingEventData.title
         val notificationDescription =
             String.format(
