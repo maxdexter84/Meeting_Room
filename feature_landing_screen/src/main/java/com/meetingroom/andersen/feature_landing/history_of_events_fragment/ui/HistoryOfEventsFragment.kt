@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentHistoryOfEventsBinding
 import com.meetingroom.andersen.feature_landing.di.history_of_events_fragment.DaggerHistoryOfEventsFragmentComponent
 import com.meetingroom.andersen.feature_landing.history_of_events_fragment.presentation.GagForHistoryEvents
@@ -31,15 +32,29 @@ class HistoryOfEventsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        eventAdapter.setData(GagForHistoryEvents().generateData(9))
+
         initRecyclerView()
+        viewModel.gagData.observe(viewLifecycleOwner) {
+            eventAdapter.setData(it)
+            initEmptyUpcomingMessage(it.isEmpty())
+        }
     }
+
     private fun initRecyclerView() {
         with(binding) {
-            upcomingEventsRecyclerView.apply {
+            historyEventsRecyclerView.apply {
                 setHasFixedSize(true)
                 adapter = eventAdapter
             }
+        }
+    }
+
+    private fun initEmptyUpcomingMessage(visibility: Boolean) {
+        with(binding) {
+           progressBarHistoryEvents.visibility = View.GONE
+           eventsBookedInTheLast10DaysTitle.visibilityIf(!visibility)
+           historyEventsRecyclerView.visibilityIf(!visibility)
+           noHistoryEventsMessage.visibilityIf(visibility)
         }
     }
 }

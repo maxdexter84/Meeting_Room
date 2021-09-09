@@ -7,6 +7,8 @@
     <string name="feels_lonely_upcoming">It feels lonely in here.</string>
     <string name="book_meeting_suggestion_upcoming_empty">Why don\'t you book a meeting room now? You will then see your upcoming events \nin this section.</string>
     <string name="event_planned_time_upcoming">%1$s-%2$s</string>
+    <string name="events_booked_in_the_last_10_days_text">Events booked in the last 10 days</string>
+    <string name="no_events_booked_message">No events booked in the last 10 days</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
