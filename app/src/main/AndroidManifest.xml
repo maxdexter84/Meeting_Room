@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SampleActivity"/>
+        <receiver android:name="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.BroadcastForUpcomingEvent"/>
     </application>
 
 </manifest>

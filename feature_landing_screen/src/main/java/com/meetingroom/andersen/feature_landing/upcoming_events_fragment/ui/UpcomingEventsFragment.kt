@@ -14,8 +14,8 @@ import javax.inject.Inject
 class UpcomingEventsFragment :
     BaseFragment<FragmentUpcomingEventsBinding>(FragmentUpcomingEventsBinding::inflate) {
 
-    private val eventAdapter by lazy { UpcomingEventAdapter() }
-
+    @Inject
+    lateinit var eventAdapter: UpcomingEventAdapter
     @Inject
     lateinit var viewModel: UpcomingEventsFragmentViewModel
 

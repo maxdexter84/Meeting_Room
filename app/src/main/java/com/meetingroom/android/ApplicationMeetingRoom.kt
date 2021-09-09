@@ -16,16 +16,16 @@ class ApplicationMeetingRoom : Application(), AppComponentProvider {
         initComponent()
     }
 
-  private fun initComponent(){
-      appComponent =
-          DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this))
-              .networkModule(
-                  NetworkModule()
-              ).build()
-  }
+    private fun initComponent() {
+        appComponent =
+            DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this))
+                .networkModule(
+                    NetworkModule()
+                ).build()
+    }
 
     override fun provideCoreComponent(): ApplicationComponent {
-        if(this::appComponent.isInitialized.not()){
+        if (this::appComponent.isInitialized.not()) {
             initComponent()
         }
         return appComponent

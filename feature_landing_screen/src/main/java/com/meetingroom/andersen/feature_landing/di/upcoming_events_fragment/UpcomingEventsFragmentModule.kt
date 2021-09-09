@@ -14,6 +14,10 @@ class UpcomingEventsFragmentModule(private val upcomingEventsFragment: UpcomingE
 
     @Provides
     @Screen
+    fun provideActivityContext() = upcomingEventsFragment.requireContext()
+
+    @Provides
+    @Screen
     fun provideGagForUpcomingEvents() = GagForUpcomingEvents()
 
     @Provides

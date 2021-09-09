@@ -1,0 +1,12 @@
+package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
+
+class BroadcastForUpcomingEvent: BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        Toast.makeText(context, "Yo!", Toast.LENGTH_SHORT).show()
+    }
+}

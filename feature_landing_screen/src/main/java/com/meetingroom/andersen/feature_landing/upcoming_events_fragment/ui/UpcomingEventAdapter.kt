@@ -8,8 +8,10 @@ import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.NotificationHelper
+import javax.inject.Inject
 
-class UpcomingEventAdapter :
+class UpcomingEventAdapter @Inject constructor(private val notificationHelper: NotificationHelper) :
     RecyclerView.Adapter<UpcomingEventAdapter.UpcomingEventViewHolder>() {
 
     private val events = ArrayList<UpcomingEventData>()
@@ -44,7 +46,7 @@ class UpcomingEventAdapter :
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
+    inner class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(upcomingEventData: UpcomingEventData) {
@@ -66,6 +68,9 @@ class UpcomingEventAdapter :
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
+                    eventReminderBellUpcoming.setOnClickListener {
+                        notificationHelper.setNotification(upcomingEventData)
+                    }
                 }
             }
         }
