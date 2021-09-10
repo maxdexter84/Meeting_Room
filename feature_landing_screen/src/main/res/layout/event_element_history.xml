@@ -85,7 +85,9 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_room_upcoming">
+            app:layout_constraintTop_toBottomOf="@+id/event_room_upcoming"
+            tools:visibility = "visible"
+            >
 
             <View
                 android:id="@+id/divider"

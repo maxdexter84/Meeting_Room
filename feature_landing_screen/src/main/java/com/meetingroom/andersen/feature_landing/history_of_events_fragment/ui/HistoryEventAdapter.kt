@@ -2,6 +2,7 @@ package com.meetingroom.andersen.feature_landing.history_of_events_fragment.ui
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +13,8 @@ import com.meetingroom.andersen.feature_landing.databinding.EventElementHistoryB
 import com.meetingroom.andersen.feature_landing.history_of_events_fragment.model.HistoryEventData
 
 
-class HistoryEventAdapter : RecyclerView.Adapter<HistoryEventAdapter.HistoryEventViewHolder>() {
+class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
+    RecyclerView.Adapter<HistoryEventAdapter.HistoryEventViewHolder>() {
     private val events = ArrayList<HistoryEventData>()
 
     override fun onCreateViewHolder(
@@ -45,7 +47,7 @@ class HistoryEventAdapter : RecyclerView.Adapter<HistoryEventAdapter.HistoryEven
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class HistoryEventViewHolder(private val binding: EventElementHistoryBinding) :
+    inner class HistoryEventViewHolder(private val binding: EventElementHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(historyEventData: HistoryEventData) {
@@ -67,15 +69,16 @@ class HistoryEventAdapter : RecyclerView.Adapter<HistoryEventAdapter.HistoryEven
                     bookerEmail.text = historyEventData.bookerEmail
                     bookerSkype.text = historyEventData.bookerSkype
                     descriptonOfEvent.text = historyEventData.description
-                    qwerty(eventTitleUpcoming.text.toString())
+                    return@setOnLongClickListener true
+                }
+                bookerEmail.setOnClickListener {
+                    onBookersFieldsClick(it, bookerEmail.text.toString())
+                }
+                bookerSkype.setOnClickListener {
+                    onBookersFieldsClick(it, bookerSkype.text.toString())
                 }
             }
 
-        }
-
-        private fun qwerty(string: String): Boolean {
-            Log.e("forMax", string)
-            return true
         }
     }
 
