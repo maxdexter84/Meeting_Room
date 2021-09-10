@@ -7,14 +7,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.meetingroom.andersen.feature_landing.R
 
-class BroadcastForUpcomingEvent : BroadcastReceiver() {
+class ReceiverForUpcomingEvent : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null) return
         val notification = NotificationCompat.Builder(
             context,
             NotificationHelper.REMINDER_NOTIFICATION_CHANNEL
-        )
-            .setSmallIcon(R.drawable.ic_small_andersen_icon_notification)
+        ).setSmallIcon(R.drawable.ic_small_andersen_icon_notification)
             .setContentTitle(intent?.getStringExtra(NotificationHelper.REMINDER_NOTIFICATION_TITLE))
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)

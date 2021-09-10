@@ -39,8 +39,8 @@ class NotificationHelper @Inject internal constructor(private val context: Conte
                 upcomingEventData.reminderRemainingTime,
             )
         val currentTime = Clock.System.now().toEpochMilliseconds()
-        val notificationScheduledTime = 500 * 10
-        val intent = Intent(context, BroadcastForUpcomingEvent::class.java)
+        val notificationScheduledTime = 200 * 10
+        val intent = Intent(context, ReceiverForUpcomingEvent::class.java)
         intent.putExtra(REMINDER_NOTIFICATION_TITLE, title)
         intent.putExtra(REMINDER_NOTIFICATION_DESCRIPTION, notificationDescription)
         val pendingIntent = PendingIntent.getBroadcast(
