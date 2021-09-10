@@ -10,7 +10,7 @@ import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.U
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 
-class NotificationHelper @Inject internal constructor(private val context: Context) {
+class NotificationHelper @Inject constructor(private val context: Context) {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -30,7 +30,6 @@ class NotificationHelper @Inject internal constructor(private val context: Conte
 
     @SuppressLint("UnspecifiedImmutableFlag")
     fun setNotification(upcomingEventData: UpcomingEventData) {
-        val title = upcomingEventData.title
         val notificationDescription =
             String.format(
                 context.resources.getString(R.string.event_upcoming_notification_description),
@@ -41,7 +40,7 @@ class NotificationHelper @Inject internal constructor(private val context: Conte
         val currentTime = Clock.System.now().toEpochMilliseconds()
         val notificationScheduledTime = 200 * 10
         val intent = Intent(context, ReceiverForUpcomingEvent::class.java)
-        intent.putExtra(REMINDER_NOTIFICATION_TITLE, title)
+        intent.putExtra(REMINDER_NOTIFICATION_TITLE, upcomingEventData.title)
         intent.putExtra(REMINDER_NOTIFICATION_DESCRIPTION, notificationDescription)
         val pendingIntent = PendingIntent.getBroadcast(
             context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
