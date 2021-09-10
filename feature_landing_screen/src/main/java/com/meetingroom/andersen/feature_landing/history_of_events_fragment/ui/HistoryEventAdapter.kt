@@ -1,6 +1,5 @@
 package com.meetingroom.andersen.feature_landing.history_of_events_fragment.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,13 +68,13 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
                     bookerEmail.text = historyEventData.bookerEmail
                     bookerSkype.text = historyEventData.bookerSkype
                     descriptonOfEvent.text = historyEventData.description
+                    bookerEmail.setOnClickListener {
+                        onBookersFieldsClick(it, bookerEmail.text.toString())
+                    }
+                    bookerSkype.setOnClickListener {
+                        onBookersFieldsClick(it, bookerSkype.text.toString())
+                    }
                     return@setOnLongClickListener true
-                }
-                bookerEmail.setOnClickListener {
-                    onBookersFieldsClick(it, bookerEmail.text.toString())
-                }
-                bookerSkype.setOnClickListener {
-                    onBookersFieldsClick(it, bookerSkype.text.toString())
                 }
             }
 

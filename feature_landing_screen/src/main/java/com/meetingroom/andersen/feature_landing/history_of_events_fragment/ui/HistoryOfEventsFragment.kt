@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
@@ -16,7 +15,6 @@ import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding
 import com.meetingroom.andersen.feature_landing.di.history_of_events_fragment.DaggerHistoryOfEventsFragmentComponent
 import com.meetingroom.andersen.feature_landing.history_of_events_fragment.presentation.HistoryOfEventsFragmentViewModel
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 
 class HistoryOfEventsFragment :
@@ -24,7 +22,7 @@ class HistoryOfEventsFragment :
 
     private val eventAdapter by lazy {
         HistoryEventAdapter { view, text ->
-            showCopy(view, text)
+            showCopyPrompt(view, text)
         }
     }
 
@@ -55,17 +53,13 @@ class HistoryOfEventsFragment :
                 setHasFixedSize(true)
                 adapter = eventAdapter
             }
-            eventsBookedInTheLast10DaysTitle.setOnClickListener {
-                showCopy(it, "Qwerty")
-            }
         }
     }
 
-    private fun showCopy(incomingView: View?, text: String) {
+    private fun showCopyPrompt(incomingView: View?, text: String) {
         val popupWindow = PopupWindow(requireActivity())
 
         val bindingPopup = PopoverCopyBinding.inflate(LayoutInflater.from(requireContext()))
-
         with(popupWindow) {
             contentView = bindingPopup.root
             isOutsideTouchable = true
@@ -73,22 +67,18 @@ class HistoryOfEventsFragment :
             overlapAnchor = true
             setBackgroundDrawable(null)
             bindingPopup.textCopyClick.setOnClickListener {
-                qwerty(text)
+                saveTextToRAM(text)
                 dismiss()
             }
         }
-//        popupWindow.showAsDropDown(incomingView)
         popupWindow.showAsDropDown(incomingView, incomingView!!.width / 2, -incomingView!!.height * 2)
     }
 
-    private fun qwerty(text: String): Boolean {
+    private fun saveTextToRAM(text: String) {
         val myClipboard =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val myClip: ClipData = ClipData.newPlainText("Label", text)
         myClipboard.setPrimaryClip(myClip)
-
-        Log.e("forMax", text)
-        return true
     }
 
     private fun initEmptyUpcomingMessage(visibility: Boolean) {

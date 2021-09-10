@@ -7,7 +7,6 @@ import com.example.core_network.RequestMaker
 import com.meetingroom.andersen.feature_landing.history_of_events_fragment.model.HistoryEventData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import javax.inject.Inject
 
 class HistoryOfEventsFragmentViewModel @Inject constructor(
@@ -18,7 +17,7 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(1000)
+            delay(3000)
             gagData.value = GagForHistoryEvents().generateData(9)
 //            gagData.value = emptyList()
         }

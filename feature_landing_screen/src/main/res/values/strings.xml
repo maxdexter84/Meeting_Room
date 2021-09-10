@@ -9,6 +9,7 @@
     <string name="event_planned_time_upcoming">%1$s-%2$s</string>
     <string name="events_booked_in_the_last_10_days_text">Events booked in the last 10 days</string>
     <string name="no_events_booked_message">No events booked in the last 10 days</string>
+    <string name="copy">Copy</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

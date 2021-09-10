@@ -30,6 +30,7 @@
     <dimen name="dimens_72_dp">72dp</dimen>
     <dimen name="dimens_80_dp">80dp</dimen>
     <dimen name="dimens_124_dp">124dp</dimen>
+    <dimen name="dimens_256_dp">256dp</dimen>
     <dimen name="dimens_328_dp">328dp</dimen>
     <dimen name="dimens_5_sp">5sp</dimen>
     <dimen name="dimens_12_sp">12sp</dimen>

@@ -2,7 +2,6 @@ package com.meetingroom.andersen.feature_landing.history_of_events_fragment.pres
 
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.history_of_events_fragment.model.HistoryEventData
-import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 
 class GagForHistoryEvents {
     fun generateData(size: Int): List<HistoryEventData> {
@@ -80,10 +79,6 @@ class GagForHistoryEvents {
                 else -> R.color.teal_light
             }
 
-            val eventBellActive = when (i % 2) {
-                0 -> false
-                else -> true
-            }
             val bookerName = when (i % 9) {
                 0 -> "Alexandrov Alexandr"
                 1 -> "Nick Jonson"
@@ -95,6 +90,7 @@ class GagForHistoryEvents {
                 7 -> "Ulia Normalnaya"
                 else -> "Dasha Nerialnaya"
             }
+
             val bookerPosition = when (i % 9) {
                 0 -> "PM"
                 1 -> "Android developer"
@@ -106,6 +102,7 @@ class GagForHistoryEvents {
                 7 -> "Recruiter"
                 else -> "BA"
             }
+
             val bookerEmail = when (i % 9) {
                 0 -> "a.alexandrov"
                 1 -> "nick-dick"
