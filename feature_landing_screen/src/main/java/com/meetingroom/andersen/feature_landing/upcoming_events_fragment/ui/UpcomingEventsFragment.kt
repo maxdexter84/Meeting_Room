@@ -3,11 +3,14 @@ package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.UpcomingEventsFragmentModule
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
 import javax.inject.Inject
 
@@ -15,13 +18,19 @@ class UpcomingEventsFragment :
     BaseFragment<FragmentUpcomingEventsBinding>(FragmentUpcomingEventsBinding::inflate) {
 
     @Inject
-    lateinit var eventAdapter: UpcomingEventAdapter
+    lateinit var notificationHelper: NotificationHelper
+
     @Inject
     lateinit var viewModel: UpcomingEventsFragmentViewModel
+
+    private val eventAdapter = UpcomingEventAdapter(onEventClicked = {
+        createNotification(it)
+    })
 
     override fun onAttach(context: Context) {
         DaggerUpcomingEventsFragmentComponent.builder()
             .upcomingEventsFragmentModule(UpcomingEventsFragmentModule(this))
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
         super.onAttach(context)
@@ -29,7 +38,6 @@ class UpcomingEventsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initRecyclerView()
         viewModel.gagData.observe(viewLifecycleOwner) {
             eventAdapter.setData(it)
@@ -52,5 +60,9 @@ class UpcomingEventsFragment :
                 adapter = eventAdapter
             }
         }
+    }
+
+    private fun createNotification(upcomingEventData: UpcomingEventData) {
+        NotificationHelper.setNotification(upcomingEventData, notificationHelper)
     }
 }
