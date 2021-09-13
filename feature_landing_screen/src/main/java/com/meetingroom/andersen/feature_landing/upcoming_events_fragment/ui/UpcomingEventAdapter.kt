@@ -9,7 +9,7 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 
-class UpcomingEventAdapter :
+class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
     RecyclerView.Adapter<UpcomingEventAdapter.UpcomingEventViewHolder>() {
 
     private val events = ArrayList<UpcomingEventData>()
@@ -44,7 +44,7 @@ class UpcomingEventAdapter :
         diffResult.dispatchUpdatesTo(this)
     }
 
-    class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
+    inner class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(upcomingEventData: UpcomingEventData) {
@@ -66,6 +66,9 @@ class UpcomingEventAdapter :
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
+                    eventReminderBellUpcoming.setOnClickListener {
+                        onEventClicked(upcomingEventData)
+                    }
                 }
             }
         }

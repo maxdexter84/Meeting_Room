@@ -62,6 +62,7 @@ dependencies {
     implementation project(path: ':core_module')
     implementation project(path: ':core_network')
     implementation project(":feature_set_location")
+    implementation project(":feature_landing_screen")
 
     kapt libraries.lifecycleCompiler
 
