@@ -48,7 +48,7 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
                     1,
                     "qwerty",
                     "qwerty$andersenEnding",
-                    roles.subList(0, 1),
+                    roles,
                     "usual",
                     "gYqefdszxfg78chv4bjok8954985rdtyfwqyg5Tavhac"
                 )
