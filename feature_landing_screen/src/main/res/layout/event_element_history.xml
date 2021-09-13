@@ -16,13 +16,14 @@
 
         <TextView
             android:id="@+id/event_title_upcoming"
-            android:layout_width="@dimen/dimens_256_dp"
+            android:layout_width="@dimen/dimens_0_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimens_12_dp"
             android:layout_marginTop="@dimen/dimens_12_dp"
             android:layout_marginEnd="@dimen/dimens_16_dp"
             android:fontFamily="@font/roboto"
             android:lineSpacingExtra="@dimen/dimens_5_sp"
+            android:paddingRight="@dimen/dimens_72_dp"
             android:textColor="@color/event_title_text_colour"
             android:textSize="@dimen/dimens_18_sp"
             android:textStyle="bold"

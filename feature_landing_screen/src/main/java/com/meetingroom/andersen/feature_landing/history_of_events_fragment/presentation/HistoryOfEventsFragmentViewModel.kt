@@ -19,7 +19,6 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             delay(1000)
             gagData.value = GagForHistoryEvents().generateData(9)
-//            gagData.value = emptyList()
         }
     }
 }

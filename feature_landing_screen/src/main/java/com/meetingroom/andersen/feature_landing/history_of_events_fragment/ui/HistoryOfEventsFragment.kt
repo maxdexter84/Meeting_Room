@@ -85,7 +85,7 @@ class HistoryOfEventsFragment :
 
     private fun initEmptyUpcomingMessage(visibility: Boolean) {
         with(binding) {
-            progressBarHistoryEvents.visibility = View.GONE
+            progressBarHistoryEvents.visibilityIf(false)
             eventsBookedInTheLast10DaysTitle.visibilityIf(!visibility)
             historyEventsRecyclerView.visibilityIf(!visibility)
             noHistoryEventsMessage.visibilityIf(visibility)
