@@ -33,6 +33,7 @@ class LoginFragmentViewModel @Inject constructor(
                 is ResultOfRequest.Success -> {
                     requestResult.postValue(retrofitPost.data.email)
                     saveNetworkData.saveToken(retrofitPost.data.accessToken)
+                    saveNetworkData.saveUserRoles(retrofitPost.data.roles)
                 }
                 is ResultOfRequest.Error -> {
                     errorMessage.postValue(R.string.error_for_log_in)

@@ -16,4 +16,8 @@ interface UserDataPrefHelper {
     fun getTokenDay(): Long?
 
     fun deleteToken()
+
+    fun saveUserRoles(roles: Collection<String>)
+
+    fun getUserRoles(): Collection<String>?
 }
