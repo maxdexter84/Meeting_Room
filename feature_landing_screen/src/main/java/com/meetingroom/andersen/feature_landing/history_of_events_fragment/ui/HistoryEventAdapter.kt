@@ -68,13 +68,13 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
                     bookerEmail.text = historyEventData.bookerEmail
                     bookerSkype.text = historyEventData.bookerSkype
                     descriptonOfEvent.text = historyEventData.description
-                    bookerEmail.setOnClickListener {
-                        onBookersFieldsClick(it, bookerEmail.text.toString())
-                    }
-                    bookerSkype.setOnClickListener {
-                        onBookersFieldsClick(it, bookerSkype.text.toString())
-                    }
                     return@setOnLongClickListener true
+                }
+                bookerEmail.setOnClickListener {
+                    onBookersFieldsClick(it, bookerEmail.text.toString())
+                }
+                bookerSkype.setOnClickListener {
+                    onBookersFieldsClick(it, bookerSkype.text.toString())
                 }
             }
 
