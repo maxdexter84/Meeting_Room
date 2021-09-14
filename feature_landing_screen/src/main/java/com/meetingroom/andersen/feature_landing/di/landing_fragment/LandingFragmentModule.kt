@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_module.user_logout.LogOutHelper
 import com.meetingroom.andersen.feature_landing.di.Screen
-import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModelFactory
 import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
+import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModelFactory
 import com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment
 import dagger.Module
 import dagger.Provides
