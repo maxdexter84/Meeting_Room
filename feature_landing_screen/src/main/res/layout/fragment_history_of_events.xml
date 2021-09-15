@@ -23,6 +23,8 @@
         android:id="@+id/history_events_recycler_view"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/dimens_12_dp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
