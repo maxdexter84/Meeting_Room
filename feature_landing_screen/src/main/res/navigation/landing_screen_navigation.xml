@@ -9,5 +9,18 @@
         android:id="@+id/landingFragment"
         android:name="com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment"
         android:label="fragment_landing"
-        tools:layout="@layout/fragment_landing" />
+        tools:layout="@layout/fragment_landing" >
+        <action
+            android:id="@+id/action_landingFragment_to_modifyUpcomingEventFragment"
+            app:destination="@id/modifyUpcomingEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifyUpcomingEventFragment"
+        android:name="com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment"
+        android:label="fragment_modify_upcoming_event"
+        tools:layout="@layout/fragment_modify_upcoming_event" >
+        <argument
+            android:name="upcomingEvent"
+            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+    </fragment>
 </navigation>
