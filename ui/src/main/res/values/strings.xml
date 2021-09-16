@@ -11,4 +11,6 @@
     <string name="text_for_meet_now_icon">Meet now</string>
     <string name="text_for_rooms_icon">Rooms</string>
     <string name="text_for_my_space_icon">My space</string>
+    <string name="modify_event_toolbar">Modify event</string>
+    <string name="button_toolbar_save">SAVE</string>
 </resources>

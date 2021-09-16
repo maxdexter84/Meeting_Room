@@ -6,14 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".modify_upcoming_fragment.ui.ModifyUpcomingEventFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
-        android:text="Modify"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    <include
+        android:id="@+id/modify_event_toolbar"
+        layout="@layout/toolbar_with_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,9 +46,11 @@ class UpcomingEventsFragment :
 
     private fun initEmptyUpcomingMessage(visibility: Boolean) {
         with(binding) {
+            progressBarUpcomingEvents.visibilityIf(false)
             emojiEmptyUpcomings.visibilityIf(visibility)
             feelsLonelyEmptyUpcomings.visibilityIf(visibility)
             bookMeetingSuggestionEmptyUpcomings.visibilityIf(visibility)
+            upcomingEventsRecyclerView.visibilityIf(!visibility)
         }
     }
 
