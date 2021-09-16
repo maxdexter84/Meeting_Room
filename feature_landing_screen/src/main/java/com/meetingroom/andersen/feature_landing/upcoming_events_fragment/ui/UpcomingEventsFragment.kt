@@ -12,6 +12,7 @@ import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEven
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.UpcomingEventsFragmentModule
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
 import javax.inject.Inject
 
@@ -22,9 +23,12 @@ class UpcomingEventsFragment :
     @Inject
     lateinit var viewModel: UpcomingEventsFragmentViewModel
 
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
+
     private val eventAdapter = UpcomingEventAdapter(onEventClicked = {
-        createNotification(it)
-    })
+        navigateToModify()
+    }, onBellClicked = { createNotification(it) })
 
     override fun onAttach(context: Context) {
         DaggerUpcomingEventsFragmentComponent.builder()
@@ -63,7 +67,11 @@ class UpcomingEventsFragment :
         }
     }
 
-    private fun createNotification(upcomingEventData: UpcomingEventData) {
+    private fun navigateToModify() {
         findNavController().navigate(R.id.action_landingFragment_to_modifyUpcomingEventFragment)
+    }
+
+    private fun createNotification(upcomingEventData: UpcomingEventData) {
+        NotificationHelper.setNotification(upcomingEventData, notificationHelper)
     }
 }

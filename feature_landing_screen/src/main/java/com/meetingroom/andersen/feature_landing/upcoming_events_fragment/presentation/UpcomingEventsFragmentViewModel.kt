@@ -15,7 +15,7 @@ class UpcomingEventsFragmentViewModel(
 
     init {
         viewModelScope.launch {
-            delay(2000)
+            delay(1000)
             gagData.value = gagForUpcomingEvents.generate(9)
         }
     }

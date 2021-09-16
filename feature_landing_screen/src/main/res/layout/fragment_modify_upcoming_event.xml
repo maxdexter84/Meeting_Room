@@ -13,4 +13,240 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/event_modify_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_28_dp"
+        android:fontFamily="@font/roboto"
+        android:lineSpacingExtra="@dimen/dimens_1_dp"
+        android:text="Assessment John Smith"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimens_20_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_event_toolbar" />
+
+    <View
+        android:id="@+id/modify_divider_line_1"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_modify_title" />
+
+    <ImageView
+        android:id="@+id/modify_time_icon"
+        android:layout_width="@dimen/dimens_24_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:src="@drawable/ic_modify_event_time_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modify_divider_line_1"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/modify_start_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="@dimen/dimens_32_dp"
+        android:fontFamily="@font/roboto"
+        android:text="Wed, 26 May"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimens_16_sp"
+        app:layout_constraintBottom_toBottomOf="@+id/modify_time_icon"
+        app:layout_constraintStart_toEndOf="@+id/modify_time_icon"
+        app:layout_constraintTop_toTopOf="@+id/modify_time_icon" />
+
+    <TextView
+        android:id="@+id/modify_start_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:fontFamily="@font/roboto"
+        android:text="14:00"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimens_16_sp"
+        app:layout_constraintBottom_toBottomOf="@+id/modify_start_date_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/modify_start_date_picker" />
+
+    <TextView
+        android:id="@+id/modify_event_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_32_dp"
+        android:fontFamily="@font/roboto"
+        android:text="Wed, 26 May"
+        android:textColor="@color/grey_text_color"
+        android:textSize="@dimen/dimens_16_sp"
+        app:layout_constraintStart_toStartOf="@+id/modify_start_date_picker"
+        app:layout_constraintTop_toBottomOf="@+id/modify_start_date_picker" />
+
+    <TextView
+        android:id="@+id/modify_end_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:fontFamily="@font/roboto"
+        android:text="15:30"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimens_16_sp"
+        app:layout_constraintBottom_toBottomOf="@+id/modify_event_end_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/modify_event_end_date" />
+
+    <View
+        android:id="@+id/modify_divider_line_2"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_event_end_date" />
+
+    <LinearLayout
+        android:id="@+id/modify_room_chooser"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_56_dp"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_2"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="@dimen/dimens_24_dp"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_16_dp"
+            android:src="@drawable/ic_modify_room_icon"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_32_dp"
+            android:fontFamily="@font/roboto"
+            android:text="Amsterdam"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimens_16_sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/modify_divider_line_3"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_room_chooser" />
+
+    <LinearLayout
+        android:id="@+id/set_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_56_dp"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_3">
+
+        <ImageView
+            android:layout_width="@dimen/dimens_24_dp"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_16_dp"
+            android:src="@drawable/ic_bell_set_reminder"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/reminder_left_time"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_32_dp"
+            android:fontFamily="@font/roboto"
+            android:text="Never"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimens_16_sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/modify_event_description"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_56_dp"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/set_reminder">
+
+        <ImageView
+            android:layout_width="@dimen/dimens_24_dp"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_16_dp"
+            android:src="@drawable/ic_modify_desc_icon"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_32_dp"
+            android:fontFamily="@font/roboto"
+            android:text="Important meeting"
+            android:textColor="@color/grey_text_color"
+            android:textSize="@dimen/dimens_16_sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/modify_divider_line_4"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_event_description" />
+
+    <LinearLayout
+        android:id="@+id/modify_delete_event"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_56_dp"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_4">
+
+        <ImageView
+            android:layout_width="@dimen/dimens_24_dp"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_16_dp"
+            android:src="@drawable/ic_modify_delete_trash_can"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginStart="@dimen/dimens_32_dp"
+            android:fontFamily="@font/roboto"
+            android:text="DELETE EVENT"
+            android:textColor="@color/red_for_logout_text"
+            android:textSize="@dimen/dimens_16_sp" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/modify_bottom_navigation"
+        layout="@layout/bottom_navigation_tool_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

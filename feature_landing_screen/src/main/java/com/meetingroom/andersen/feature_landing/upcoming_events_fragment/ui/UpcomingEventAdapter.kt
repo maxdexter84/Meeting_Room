@@ -9,7 +9,7 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 
-class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
+class UpcomingEventAdapter(var onEventClicked: () -> Unit, var onBellClicked: (UpcomingEventData) -> Unit) :
     RecyclerView.Adapter<UpcomingEventAdapter.UpcomingEventViewHolder>() {
 
     private val events = ArrayList<UpcomingEventData>()
@@ -59,7 +59,7 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                 eventPlannedDateUpcoming.text = upcomingEventData.eventDate
                 eventRoomUpcoming.text = upcomingEventData.eventRoom
                 eventCityColourLineUpcoming.setBackgroundResource(upcomingEventData.eventRoomColour)
-                eventCardUpcomingRoot.setOnClickListener { onEventClicked(upcomingEventData) }
+                eventCardUpcomingRoot.setOnClickListener { onEventClicked() }
                 if (!upcomingEventData.reminderActive) {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_disable_bell)
                     eventReminderCounterUpcoming.visibilityIf(false)
@@ -67,6 +67,7 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
+                    eventReminderBellUpcoming.setOnClickListener { onBellClicked(upcomingEventData) }
                 }
             }
         }
