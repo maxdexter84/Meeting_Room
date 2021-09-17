@@ -15,12 +15,15 @@
 
     <TextView
         android:id="@+id/event_modify_title"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
         android:layout_marginTop="@dimen/dimens_28_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
         android:fontFamily="@font/roboto"
+        android:gravity="center"
         android:lineSpacingExtra="@dimen/dimens_1_dp"
-        android:text="Assessment John Smith"
+        tools:text="Assessment John Smith"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_20_sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +57,7 @@
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginStart="@dimen/dimens_32_dp"
         android:fontFamily="@font/roboto"
-        android:text="Wed, 26 May"
+        tools:text="Wed, 26 May"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_time_icon"
@@ -67,7 +70,7 @@
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
         android:fontFamily="@font/roboto"
-        android:text="14:00"
+        tools:text="14:00"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_start_date_picker"
@@ -80,7 +83,7 @@
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginTop="@dimen/dimens_32_dp"
         android:fontFamily="@font/roboto"
-        android:text="Wed, 26 May"
+        tools:text="Wed, 26 May"
         android:textColor="@color/grey_text_color"
         android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintStart_toStartOf="@+id/modify_start_date_picker"
@@ -92,7 +95,7 @@
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
         android:fontFamily="@font/roboto"
-        android:text="15:30"
+        tools:text="15:30"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_event_end_date"
@@ -128,11 +131,12 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:id="@+id/event_room_name"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimens_24_dp"
             android:layout_marginStart="@dimen/dimens_32_dp"
             android:fontFamily="@font/roboto"
-            android:text="Amsterdam"
+            tools:text="Amsterdam"
             android:textColor="@color/black"
             android:textSize="@dimen/dimens_16_sp" />
 
@@ -155,7 +159,8 @@
         android:paddingTop="@dimen/dimens_16_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_3">
+        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_3"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="@dimen/dimens_24_dp"
@@ -170,7 +175,7 @@
             android:layout_height="@dimen/dimens_24_dp"
             android:layout_marginStart="@dimen/dimens_32_dp"
             android:fontFamily="@font/roboto"
-            android:text="Never"
+            tools:text="Never"
             android:textColor="@color/black"
             android:textSize="@dimen/dimens_16_sp" />
 
@@ -184,7 +189,8 @@
         android:paddingTop="@dimen/dimens_16_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/set_reminder">
+        app:layout_constraintTop_toBottomOf="@id/set_reminder"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="@dimen/dimens_24_dp"
@@ -222,7 +228,8 @@
         android:paddingTop="@dimen/dimens_16_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_4">
+        app:layout_constraintTop_toBottomOf="@id/modify_divider_line_4"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="@dimen/dimens_24_dp"
@@ -236,7 +243,7 @@
             android:layout_height="@dimen/dimens_24_dp"
             android:layout_marginStart="@dimen/dimens_32_dp"
             android:fontFamily="@font/roboto"
-            android:text="DELETE EVENT"
+            android:text="@string/delete_event_modify_fragment"
             android:textColor="@color/red_for_logout_text"
             android:textSize="@dimen/dimens_16_sp" />
 

@@ -13,6 +13,7 @@
     <string name="event_upcoming_notification_description">%1$s room, %2$s.\nYour event starts in %3$s.</string>
     <string name="notification_channel_reminder_name">MEETING ROOMS</string>
     <string name="notification_channel_reminder_description">This is the channel for upcoming events reminders</string>
+    <string name="delete_event_modify_fragment">DELETE EVENT</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

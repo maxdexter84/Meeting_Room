@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation
+package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation
 
 import android.content.BroadcastReceiver
 import android.content.Context

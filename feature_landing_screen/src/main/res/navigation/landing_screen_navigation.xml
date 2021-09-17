@@ -20,7 +20,7 @@
         android:label="fragment_modify_upcoming_event"
         tools:layout="@layout/fragment_modify_upcoming_event" >
         <argument
-            android:name="upcomingEvent"
+            android:name="upcoming_event"
             app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
     </fragment>
 </navigation>
