@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimens_56_dp"
+    android:id="@+id/toolbar_save"
+    android:background="@color/white_for_toolbar_background"
+    android:elevation="@dimen/dimens_4_dp">
+
+    <ImageView
+        android:id="@+id/toolbar_save_cancel"
+        android:layout_width="@dimen/dimens_24_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_x_icon_toolbar"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/toolbar_save_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_32_dp"
+        android:text="@string/modify_event_toolbar"
+        style="@style/TextAppearanceTitle"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toolbar_save_cancel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.meeringroom.ui.view.login_button.MainActionButton
+        android:id="@+id/button_save_toolbar"
+        app:state="enabled"
+        app:text="@string/button_toolbar_save"
+        android:layout_width="@dimen/dimens_70_dp"
+        android:layout_height="@dimen/dimens_32_dp"
+        android:layout_marginEnd="@dimen/dimens_32_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

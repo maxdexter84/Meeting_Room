@@ -59,6 +59,7 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                 eventPlannedDateUpcoming.text = upcomingEventData.eventDate
                 eventRoomUpcoming.text = upcomingEventData.eventRoom
                 eventCityColourLineUpcoming.setBackgroundResource(upcomingEventData.eventRoomColour)
+                eventCardUpcomingRoot.setOnClickListener { onEventClicked(upcomingEventData) }
                 if (!upcomingEventData.reminderActive) {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_disable_bell)
                     eventReminderCounterUpcoming.visibilityIf(false)
@@ -66,9 +67,6 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
-                    eventReminderBellUpcoming.setOnClickListener {
-                        onEventClicked(upcomingEventData)
-                    }
                 }
             }
         }

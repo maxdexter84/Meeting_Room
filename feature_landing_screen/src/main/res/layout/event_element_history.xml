@@ -21,12 +21,8 @@
             android:layout_marginStart="@dimen/dimens_12_dp"
             android:layout_marginTop="@dimen/dimens_12_dp"
             android:layout_marginEnd="@dimen/dimens_16_dp"
-            android:fontFamily="@font/roboto"
-            android:lineSpacingExtra="@dimen/dimens_5_sp"
+            style="@style/EventCardTitleTextAppearance"
             android:paddingRight="@dimen/dimens_72_dp"
-            android:textColor="@color/event_title_text_colour"
-            android:textSize="@dimen/dimens_18_sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Retrospective - AlphaBank Home Insurance App" />
@@ -42,25 +38,21 @@
 
         <TextView
             android:id="@+id/event_planned_time_upcoming"
+            style="@style/TextAppearanceSmallDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/dimens_4_dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/dimens_12_sp"
             app:layout_constraintStart_toStartOf="@+id/event_title_upcoming"
             app:layout_constraintTop_toBottomOf="@+id/event_title_upcoming"
             tools:text="14.00-15.30" />
 
         <TextView
             android:id="@+id/event_planned_date_upcoming"
+            style="@style/TextAppearanceSmallDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimens_30_dp"
             android:layout_marginTop="@dimen/dimens_4_dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/dimens_12_sp"
             app:layout_constraintStart_toEndOf="@+id/event_planned_time_upcoming"
             app:layout_constraintTop_toBottomOf="@+id/event_title_upcoming"
             tools:text="18 Sept 2021" />
@@ -115,9 +107,9 @@
 
             <TextView
                 android:id="@+id/role_of_booker"
+                style="@style/TextAppearanceSmallDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dimens_12_sp"
                 app:layout_constraintStart_toStartOf="@+id/name_of_booker"
                 app:layout_constraintTop_toBottomOf="@+id/name_of_booker"
                 tools:text="PM" />
@@ -142,15 +134,13 @@
 
             <TextView
                 android:id="@+id/descripton_of_event"
+                style="@style/TextAppearanceSmallDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimens_12_dp"
                 android:layout_marginEnd="@dimen/dimens_20_dp"
-                android:fontFamily="@font/roboto"
                 android:minLines="2"
                 android:paddingBottom="@dimen/dimens_12_dp"
-                android:textColor="@color/light_grey"
-                android:textSize="@dimen/dimens_12_sp"
                 app:layout_constraintStart_toStartOf="@+id/name_of_booker"
                 app:layout_constraintTop_toBottomOf="@+id/booker_skype"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />

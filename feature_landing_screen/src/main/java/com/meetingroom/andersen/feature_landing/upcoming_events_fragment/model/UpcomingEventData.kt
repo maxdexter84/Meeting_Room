@@ -1,5 +1,9 @@
 package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class UpcomingEventData(
     val title: String,
     val startTime: String,
@@ -9,4 +13,4 @@ data class UpcomingEventData(
     val eventRoomColour: Int,
     val reminderRemainingTime: String = "30 min",
     var reminderActive: Boolean,
-)
+) : Parcelable
