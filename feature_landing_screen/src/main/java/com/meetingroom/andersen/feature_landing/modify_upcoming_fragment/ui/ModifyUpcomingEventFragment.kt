@@ -47,7 +47,7 @@ class ModifyUpcomingEventFragment :
     override fun onStart() {
         super.onStart()
         with(binding) {
-            eventModifyTitle.text = args.upcomingEvent.title
+            eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
             eventRoomName.text = args.upcomingEvent.eventRoom
