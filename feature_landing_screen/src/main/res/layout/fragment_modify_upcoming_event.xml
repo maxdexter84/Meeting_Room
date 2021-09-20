@@ -15,25 +15,22 @@
 
     <EditText
         android:id="@+id/event_modify_title"
+        style="@style/TextAppearanceTitle"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_16_dp"
         android:layout_marginTop="@dimen/dimens_28_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
-        android:fontFamily="@font/roboto"
-        android:gravity="center"
         android:background="@null"
+        android:gravity="center"
+        android:hint="@string/modify_event_add_title_hint"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxLength="50"
-        android:hint="@string/modify_event_add_title_hint"
-        android:lineSpacingExtra="@dimen/dimens_1_dp"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dimens_20_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modify_event_toolbar"
-        tools:text="Assessment John Smith"
-        android:importantForAutofill="no" />
+        tools:text="Assessment John Smith" />
 
     <View
         android:id="@+id/modify_divider_line_1"
@@ -58,12 +55,10 @@
 
     <TextView
         android:id="@+id/modify_start_date_picker"
+        style="@style/TextAppearanceDescription"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginStart="@dimen/dimens_32_dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_time_icon"
         app:layout_constraintStart_toEndOf="@+id/modify_time_icon"
         app:layout_constraintTop_toTopOf="@+id/modify_time_icon"
@@ -71,12 +66,10 @@
 
     <TextView
         android:id="@+id/modify_start_time_picker"
+        style="@style/TextAppearanceDescription"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_start_date_picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/modify_start_date_picker"
@@ -84,24 +77,20 @@
 
     <TextView
         android:id="@+id/modify_event_end_date"
+        style="@style/TextAppearanceDescriptionDisabled"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginTop="@dimen/dimens_32_dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/grey_text_color"
-        android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintStart_toStartOf="@+id/modify_start_date_picker"
         app:layout_constraintTop_toBottomOf="@+id/modify_start_date_picker"
         tools:text="Wed, 26 May" />
 
     <TextView
         android:id="@+id/modify_end_time_picker"
+        style="@style/TextAppearanceDescription"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
-        android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintBottom_toBottomOf="@+id/modify_event_end_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/modify_event_end_date"
@@ -137,12 +126,10 @@
 
         <TextView
             android:id="@+id/event_room_name"
+            style="@style/TextAppearanceDescription"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimens_24_dp"
             android:layout_marginStart="@dimen/dimens_32_dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dimens_16_sp"
             tools:text="Amsterdam" />
 
     </LinearLayout>
@@ -176,12 +163,10 @@
 
         <TextView
             android:id="@+id/reminder_left_time"
+            style="@style/TextAppearanceDescription"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimens_24_dp"
             android:layout_marginStart="@dimen/dimens_32_dp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dimens_16_sp"
             tools:text="Never" />
 
     </LinearLayout>
@@ -191,7 +176,7 @@
         android:layout_width="@dimen/dimens_24_dp"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginStart="@dimen/dimens_16_dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
         android:src="@drawable/ic_modify_desc_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/set_reminder"
@@ -207,16 +192,14 @@
         android:background="@null"
         android:fontFamily="@font/roboto"
         android:hint="@string/event_description_modify_edit_text_hint"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxLength="150"
-        android:textColorHint="@color/grey_text_color"
-        android:textColor="@color/grey_text_color"
-        android:textSize="@dimen/dimens_16_sp"
+        style="@style/TextAppearanceDescriptionDisabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/description_of_event_icon"
-        app:layout_constraintTop_toBottomOf="@id/set_reminder"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@id/set_reminder" />
 
     <View
         android:id="@+id/modify_divider_line_4"
