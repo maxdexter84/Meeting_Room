@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:text="@string/location_text"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dimens_20_sp" />
+            style="@style/TextAppearanceTitle"/>
 
     </LinearLayout>
 

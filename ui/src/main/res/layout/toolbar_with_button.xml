@@ -26,10 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_32_dp"
         android:text="@string/modify_event_toolbar"
-        android:textColor="@color/black"
+        style="@style/TextAppearanceTitle"
         android:textStyle="bold"
-        android:textSize="@dimen/dimens_20_sp"
-        android:fontFamily="@font/roboto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/toolbar_save_cancel"
         app:layout_constraintTop_toTopOf="parent" />

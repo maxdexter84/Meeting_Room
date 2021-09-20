@@ -20,23 +20,49 @@
         <item name="android:background">@drawable/progress_button</item>
     </style>
 
+    <style name="TextAppearanceLargeTitle">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_34_sp</item>
+        <item name="android:textColor">@color/event_title_text_colour</item>
+    </style>
+
     <style name="TextAppearanceTitle" >
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_20_sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/event_title_text_colour</item>
         <item name="android:lineSpacingExtra">1dp</item>
+    </style>
+
+    <style name="TextAppearanceSmallTitle">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/event_title_text_colour</item>
+        <item name="android:textSize">@dimen/dimens_12_sp</item>
+    </style>
+
+    <style name="EventCardTitleTextAppearance">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_18_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/event_title_text_colour</item>
+        <item name="android:lineSpacingExtra">@dimen/dimens_5_sp</item>
     </style>
 
     <style name="TextAppearanceDescription">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_16_sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/event_title_text_colour</item>
     </style>
 
     <style name="TextAppearanceDescriptionDisabled">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_16_sp</item>
         <item name="android:textColor">@color/grey_text_color</item>
+    </style>
+
+    <style name="TextAppearanceSmallDescription">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_12_sp</item>
+        <item name="android:textColor">@color/gray_light</item>
     </style>
 
 </resources>
