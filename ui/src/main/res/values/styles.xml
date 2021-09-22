@@ -65,4 +65,16 @@
         <item name="android:textColor">@color/gray_light</item>
     </style>
 
+    <style name="DatePickerDialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColorSecondaryInverse">@color/picker_text_gray_light_color</item>
+        <item name="android:textColorPrimaryInverse">@color/picker_black_color</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:textColorSecondary">@color/picker_dark_gray_color</item>
+        <item name="android:colorControlActivated">@color/yellow</item>
+        <item name="android:textColorPrimary">@color/picker_black_color</item>
+        <item name="android:textColor">@color/picker_black_color</item>
+    </style>
+
 </resources>

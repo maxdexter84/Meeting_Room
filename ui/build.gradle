@@ -53,6 +53,7 @@ dependencies {
     implementation libraries.timber
     implementation libraries.room
     implementation libraries.material
+    implementation 'androidx.databinding:viewbinding:4.1.3'
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests

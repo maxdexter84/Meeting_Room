@@ -46,15 +46,15 @@ class GagForUpcomingEvents {
             }
 
             val eventDate = when (i % 9) {
-                0 -> "7 dec 2021"
-                1 -> "21 may 2021"
-                2 -> "18 sept 2021"
-                3 -> "14 dec 2021"
-                4 -> "17 dec 2021"
-                5 -> "3 jun 2021"
-                6 -> "19 apr 2021"
-                7 -> "20 oct 2021"
-                else -> "2 jul 2021"
+                0 -> "7 Dec 2021"
+                1 -> "21 May 2021"
+                2 -> "18 Sep 2021"
+                3 -> "14 Dec 2021"
+                4 -> "17 Dec 2021"
+                5 -> "3 Jun 2021"
+                6 -> "19 Apr 2021"
+                7 -> "20 Oct 2021"
+                else -> "2 Jul 2021"
             }
 
             val eventRoom = when (i % 9) {
