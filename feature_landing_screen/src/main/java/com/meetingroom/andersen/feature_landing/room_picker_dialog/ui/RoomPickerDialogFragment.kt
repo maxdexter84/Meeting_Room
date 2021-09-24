@@ -58,6 +58,7 @@ class RoomPickerDialogFragment : DialogFragment() {
             }
         }
         initRecyclerView()
+        isCancelable = false
     }
 
     private fun initRecyclerView() {
@@ -88,6 +89,4 @@ class RoomPickerDialogFragment : DialogFragment() {
             )
         )
     }
-
-    //TODO: Закрыть диалог после секунды после выбора
 }
