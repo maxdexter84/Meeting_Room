@@ -35,4 +35,5 @@
     <color name="picker_black_color">#020303</color>
     <color name="picker_dark_gray_color">#8C8C8C</color>
     <color name="picker_text_gray_light_color">#556170</color>
+    <color name="picker_gray_60_dark_color">#EBEBF5</color>
 </resources>
