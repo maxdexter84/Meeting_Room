@@ -46,25 +46,23 @@ class RoomPickerAdapter(private val onItemSelected: (String) -> Unit) :
                 if (roomPickerData.isEnabled) {
                     roomName.setTextColor(
                         ContextCompat.getColor(
-                            binding.root.context,
+                            root.context,
                             R.color.grey_text_color
                         )
                     )
-                    roomRadioButton.isEnabled = false
-                    roomRadioButton.isClickable = false
                 } else {
                     root.setOnClickListener { userChoseRoom(roomPickerData) }
                     roomRadioButton.setOnClickListener { userChoseRoom(roomPickerData) }
                     roomRadioButton.isChecked = roomPickerData.isSelected
                     roomName.setTextColor(
                         ContextCompat.getColor(
-                            binding.root.context,
+                            root.context,
                             R.color.event_title_text_colour
                         )
                     )
-                    roomRadioButton.isEnabled = true
-                    roomRadioButton.isClickable = true
                 }
+                roomRadioButton.isEnabled = !roomPickerData.isEnabled
+                roomRadioButton.isClickable = !roomPickerData.isEnabled
             }
         }
 
