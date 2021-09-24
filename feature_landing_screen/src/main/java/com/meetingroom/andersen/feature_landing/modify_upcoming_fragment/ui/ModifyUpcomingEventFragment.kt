@@ -31,7 +31,7 @@ import java.util.*
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
-    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate) {
+    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
@@ -90,7 +90,10 @@ class ModifyUpcomingEventFragment :
 
     private fun showDatePickerDialog(dateString: String) {
         val localDate = dateString.stringToDate("d MMM yyyy")
-        val picker = MaterialDatePicker.Builder.datePicker()
+        val year = localDate.year
+        val month = localDate.monthValue - 1
+        val day = localDate.dayOfMonth
+        /*val picker = MaterialDatePicker.Builder.datePicker()
             .setSelection(localDate.atTime(LocalTime.MIDNIGHT).atZone(ZoneOffset.UTC).toInstant().toEpochMilli())
             .build()
         picker.show(childFragmentManager, DATE_PICKER_TAG)
@@ -98,15 +101,15 @@ class ModifyUpcomingEventFragment :
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.timeInMillis = it
             onDateSet(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-        }
-        //DatePickerDialog(requireContext(), R.style.DatePickerDialog, this, year, month, day).show()
+        }*/
+        DatePickerDialog(requireContext(), R.style.DatePickerDialog, this, year, month, day).show()
     }
 
     private fun showTimePickerDialog(timeString: String, tag: String) {
         val localTime: LocalTime = timeString.stringToTime("HH.mm")
         val hour = localTime.hour
         val minute = localTime.minute
-        val picker = MaterialTimePicker.Builder()
+        /*val picker = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(hour)
             .setMinute(minute)
@@ -114,8 +117,8 @@ class ModifyUpcomingEventFragment :
         picker.show(childFragmentManager, tag)
         picker.addOnPositiveButtonClickListener {
             onTimeSet(tag, picker.hour, picker.minute)
-        }
-        //TimePickerDialog(requireContext(), this, hour, minute, true).show()
+        }*/
+        TimePickerDialog(requireContext(), this, hour, minute, true).show()
     }
 
     private fun onDateSet(year: Int, month: Int, day: Int) {
@@ -140,5 +143,13 @@ class ModifyUpcomingEventFragment :
         private const val DATE_PICKER_TAG ="DATE_PICKER"
         private const val START_TIME_PICKER_TAG = "START_TIME_PICKER"
         private const val END_TIME_PICKER_TAG = "END_TIME_PICKER"
+    }
+
+    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+        TODO("Not yet implemented")
     }
 }
