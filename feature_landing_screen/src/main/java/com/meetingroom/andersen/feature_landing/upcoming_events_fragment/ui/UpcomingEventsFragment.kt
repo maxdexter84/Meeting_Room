@@ -63,7 +63,7 @@ class UpcomingEventsFragment :
     private fun navigateToModify(upcomingEventData: UpcomingEventData) {
         findNavController().navigate(
             LandingFragmentDirections.actionLandingFragmentToModifyUpcomingEventFragment(
-                upcomingEventData
+                upcomingEventData,
             )
         )
     }

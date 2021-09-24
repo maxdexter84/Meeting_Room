@@ -23,4 +23,8 @@
             android:name="upcoming_event"
             app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
     </fragment>
+    <dialog
+        android:id="@+id/roomPickerDialogFragment"
+        android:name="com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomPickerDialogFragment"
+        android:label="RoomPickerDialogFragment" />
 </navigation>

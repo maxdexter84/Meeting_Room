@@ -11,6 +11,7 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomPickerDialogFragment
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
@@ -23,6 +24,8 @@ class ModifyUpcomingEventFragment :
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
+
+    private val dialogRoom by lazy { RoomPickerDialogFragment() }
 
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
@@ -41,6 +44,9 @@ class ModifyUpcomingEventFragment :
                 requireActivity().onBackPressed()
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
+            modifyRoomChooser.setOnClickListener {
+                dialogRoom.show(childFragmentManager, "TAG")
+            }
         }
     }
 
@@ -54,7 +60,13 @@ class ModifyUpcomingEventFragment :
             reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
+
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     private fun createNotification() {
