@@ -3,5 +3,4 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presen
 import androidx.lifecycle.ViewModel
 
 class ModifyUpcomingEventViewModel : ViewModel() {
-
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background_set_location_fragment">
 
     <include
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/city_text"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/city_item"
         android:layout_marginTop="@dimen/dimens_14_dp"
         android:layout_marginStart="@dimen/dimens_16_dp"/>
 

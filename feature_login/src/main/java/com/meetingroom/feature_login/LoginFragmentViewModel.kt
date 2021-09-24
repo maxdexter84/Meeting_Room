@@ -48,7 +48,6 @@ class LoginFragmentViewModel @Inject constructor(
             .find(
                 password
             ) != null
-
     }
 
 }

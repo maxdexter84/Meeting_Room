@@ -3,6 +3,7 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
@@ -41,6 +42,13 @@ class ModifyUpcomingEventFragment :
                 requireActivity().onBackPressed()
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
+            modifyRoomChooser.setOnClickListener {
+                findNavController().navigate(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
+                        args.upcomingEvent
+                    )
+                )
+            }
         }
     }
 
