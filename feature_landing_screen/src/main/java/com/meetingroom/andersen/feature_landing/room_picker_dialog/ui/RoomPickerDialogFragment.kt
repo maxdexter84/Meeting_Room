@@ -49,7 +49,7 @@ class RoomPickerDialogFragment : DialogFragment() {
         viewModel.gagRooms.observe(viewLifecycleOwner) {
             val alreadySelectedRoom =
                 viewModel.getUserChosenRoom() ?: ""
-            for (room in it) {
+            it.forEach { room ->
                 roomAdapter.rooms += RoomPickerData(
                     room.roomName,
                     alreadySelectedRoom == room.roomName,
@@ -80,8 +80,8 @@ class RoomPickerDialogFragment : DialogFragment() {
             it.isSelected = true
         }
         viewModel.saveUserChosenRoom(roomName)
-        if (viewModel.getUserChosenRoom() != null) {
-            args.upcomingEvent.eventRoom = viewModel.getUserChosenRoom()!!
+        viewModel.getUserChosenRoom()?.let {
+            args.upcomingEvent.eventRoom = it
         }
         findNavController().navigate(
             RoomPickerDialogFragmentDirections.actionRoomPickerDialogFragmentToModifyUpcomingEventFragment2(
