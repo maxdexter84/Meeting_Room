@@ -10,6 +10,4 @@
     android:paddingBottom="@dimen/dimens_8_dp"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:listitem="@layout/room_adapter_item"
-    tools:context=".room_picker_dialog.ui.RoomPickerDialogFragment">
-
-</androidx.recyclerview.widget.RecyclerView>
+    tools:context=".room_picker_dialog.ui.RoomPickerDialogFragment"/>

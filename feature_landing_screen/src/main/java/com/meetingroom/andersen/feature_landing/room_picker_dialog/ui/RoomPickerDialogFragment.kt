@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meetingroom.andersen.feature_landing.databinding.RoomPickerFragmentBinding
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.DaggerRoomPickerComponent
@@ -19,6 +20,7 @@ class RoomPickerDialogFragment : DialogFragment() {
 
     private lateinit var binding: RoomPickerFragmentBinding
     private val roomAdapter by lazy { RoomPickerAdapter { saveRoom(it) } }
+    private val args: RoomPickerDialogFragmentArgs by navArgs()
 
     @Inject
     lateinit var viewModel: RoomPickerViewModel
@@ -77,11 +79,15 @@ class RoomPickerDialogFragment : DialogFragment() {
             it.isSelected = true
         }
         viewModel.saveUserChosenRoom(roomName)
-        dismiss()
+        if (viewModel.getUserChosenRoom() != null) {
+            args.upcomingEvent.eventRoom = viewModel.getUserChosenRoom()!!
+        }
+        findNavController().navigate(
+            RoomPickerDialogFragmentDirections.actionRoomPickerDialogFragmentToModifyUpcomingEventFragment2(
+                args.upcomingEvent
+            )
+        )
     }
 
-    //TODO: Убрать баг с перезагрузкой повторнo данных
-    //TODO: Выводить выбранную комнату на экран
-    //TODO: Удалить chosenRoom при выходе с модифай
     //TODO: Закрыть диалог после секунды после выбора
 }

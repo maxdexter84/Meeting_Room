@@ -15,7 +15,6 @@ class GagForRooms {
                 5 -> "Paris"
                 else -> "London"
             }
-
             list += GagRoomData(data)
         }
         return list

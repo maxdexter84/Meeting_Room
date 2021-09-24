@@ -3,6 +3,7 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
@@ -11,7 +12,6 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomPickerDialogFragment
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
@@ -24,8 +24,6 @@ class ModifyUpcomingEventFragment :
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
-
-    private val dialogRoom by lazy { RoomPickerDialogFragment() }
 
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
@@ -45,7 +43,11 @@ class ModifyUpcomingEventFragment :
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
             modifyRoomChooser.setOnClickListener {
-                dialogRoom.show(childFragmentManager, "TAG")
+                findNavController().navigate(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
+                        args.upcomingEvent
+                    )
+                )
             }
         }
     }
@@ -60,13 +62,7 @@ class ModifyUpcomingEventFragment :
             reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
-
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 
     private fun createNotification() {
