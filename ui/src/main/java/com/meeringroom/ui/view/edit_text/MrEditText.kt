@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.widget.addTextChangedListener
+import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.CustomEdittextBinding
 
@@ -99,14 +100,14 @@ class MrEditText @JvmOverloads constructor(
 
                     binding.editTextCustomEditText.setSelection(binding.editTextCustomEditText.text.length)
                 }
-                binding.toggleButtonCustomEditText.visibility = View.VISIBLE
+                binding.toggleButtonCustomEditText.visibilityIf(true)
             }
             is MrEditTextTypes.Login -> {
-                binding.toggleButtonCustomEditText.visibility = View.GONE
+                binding.toggleButtonCustomEditText.visibilityIf(false)
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
             else -> {
-                binding.toggleButtonCustomEditText.visibility = View.GONE
+                binding.toggleButtonCustomEditText.visibilityIf(false)
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
         }
