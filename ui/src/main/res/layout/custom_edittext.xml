@@ -1,57 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:id="@+id/constraint_layout">
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/edit_text_custom_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens_8_dp"
-            android:background="@null"
-            android:hint=""
-            android:inputType="textPassword"
-            android:textCursorDrawable="@drawable/color_cursor"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/edit_text_custom_edit_text"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_8_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:background="@null"
+        android:hint=""
+        android:inputType="textPassword"
+        android:textCursorDrawable="@drawable/color_cursor"
+        app:layout_constraintEnd_toStartOf="@+id/toggle_button_custom_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ToggleButton
-            android:id="@+id/toggle_button_custom_edit_text"
-            android:layout_width="@dimen/dimens_54_dp"
-            android:layout_height="@dimen/dimens_54_dp"
-            android:background="@null"
-            android:button="@drawable/toggle_selector"
-            android:checked="true"
-            android:text=""
-            android:textOff=""
-            android:textOn=""
-            app:layout_constraintBottom_toBottomOf="@+id/edit_text_custom_edit_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ToggleButton
+        android:id="@+id/toggle_button_custom_edit_text"
+        android:layout_width="@dimen/dimens_20_dp"
+        android:layout_height="@dimen/dimens_20_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:background="@null"
+        android:button="@drawable/toggle_selector"
+        android:checked="true"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="@+id/edit_text_custom_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view_custom_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dimens_2_dp"
-            android:layout_marginStart="@dimen/dimens_8_dp"
-            android:layout_marginTop="@dimen/dimens_4_dp"
-            android:layout_marginEnd="@dimen/dimens_8_dp"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_custom_edit_text" />
+    <View
+        android:id="@+id/view_custom_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimens_2_dp"
+        android:layout_marginStart="@dimen/dimens_8_dp"
+        android:layout_marginTop="@dimen/dimens_4_dp"
+        android:layout_marginEnd="@dimen/dimens_8_dp"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_custom_edit_text" />
 
-        <TextView
-            android:id="@+id/error_text_custom_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/error_color_for_textview"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/view_custom_edit_text"
-            app:layout_constraintTop_toBottomOf="@+id/view_custom_edit_text" />
+    <TextView
+        android:id="@+id/error_text_custom_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/error_color_for_textview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view_custom_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/view_custom_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
