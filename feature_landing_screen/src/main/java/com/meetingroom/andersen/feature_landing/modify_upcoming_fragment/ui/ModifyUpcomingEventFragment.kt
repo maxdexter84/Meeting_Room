@@ -9,9 +9,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
@@ -23,10 +20,8 @@ import com.meetingroom.andersen.feature_landing.utils.dateToString
 import com.meetingroom.andersen.feature_landing.utils.stringToDate
 import com.meetingroom.andersen.feature_landing.utils.stringToTime
 import com.meetingroom.andersen.feature_landing.utils.timeToString
-import org.koin.android.ext.android.get
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
 
@@ -102,7 +97,7 @@ class ModifyUpcomingEventFragment :
             calendar.timeInMillis = it
             onDateSet(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
         }*/
-        DatePickerDialog(requireContext(), R.style.DatePickerDialog, this, year, month, day).show()
+        DatePickerDialog(requireContext(), this, year, month, day).show()
     }
 
     private fun showTimePickerDialog(timeString: String, tag: String) {
@@ -118,7 +113,9 @@ class ModifyUpcomingEventFragment :
         picker.addOnPositiveButtonClickListener {
             onTimeSet(tag, picker.hour, picker.minute)
         }*/
-        TimePickerDialog(requireContext(), this, hour, minute, true).show()
+        val dialog = TimePickerDialog(requireContext(), this, hour, minute, true)
+        dialog.setTitle(R.string.time_picker__dialog_title)
+        dialog.show()
     }
 
     private fun onDateSet(year: Int, month: Int, day: Int) {
@@ -145,11 +142,21 @@ class ModifyUpcomingEventFragment :
         private const val END_TIME_PICKER_TAG = "END_TIME_PICKER"
     }
 
-    override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        TODO("Not yet implemented")
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        val dateString = LocalDate.of(year, month + 1, day).dateToString("d MMM yyyy")
+        with(binding) {
+            modifyStartDatePicker.text = dateString
+            modifyEventEndDate.text = dateString
+        }
     }
 
-    override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
-        TODO("Not yet implemented")
+    override fun onTimeSet(timePicker: TimePicker?, hour: Int, minute: Int) {
+        val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
+        if (tag == START_TIME_PICKER_TAG) {
+            binding.modifyStartTimePicker.text = timeString
+        }
+        if (tag == END_TIME_PICKER_TAG) {
+            binding.modifyEndTimePicker.text = timeString
+        }
     }
 }

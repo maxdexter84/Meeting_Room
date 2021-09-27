@@ -65,96 +65,84 @@
         <item name="android:textColor">@color/gray_light</item>
     </style>
 
-    <style name="DatePickerDialog" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textColorSecondaryInverse">@color/picker_text_gray_light_color</item>
-        <item name="android:textColorPrimaryInverse">@color/picker_black_color</item>
+    <style name="Dialog.Light" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="colorAccent">@color/white</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColorSecondary">@color/picker_dark_gray_color</item>
         <item name="android:colorControlActivated">@color/yellow</item>
-        <item name="android:textColorPrimary">@color/picker_black_color</item>
-        <item name="android:textColor">@color/picker_black_color</item>
-    </style>
-
-    <style name="DatePicker" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <!--<item name="fontFamily">@font/roboto</item>-->
-        <item name="colorPrimary">@color/yellow</item>
-        <item name="colorControlActivated">@color/purple</item>
-        <item name="colorButtonNormal">@color/black</item>
-        <!--<item name="android:textColorSecondaryInverse">@color/picker_text_gray_light_color</item>
-        <item name="android:textColorPrimaryInverse">@color/picker_black_color</item>
-        <item name="colorAccent">@color/yellow</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColorSecondary">@color/picker_dark_gray_color</item>
-        <item name="colorControlActivated">@color/yellow</item>
-        <item name="android:textColorPrimary">@color/picker_black_color</item>
-        <item name="android:textColor">@color/picker_black_color</item>
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorOnPrimary">@color/picker_black_color</item>-->
-    </style>
-
-    <style name="TimePickerDialog" parent="ThemeOverlay.AppCompat.Dialog">
         <item name="fontFamily">@font/roboto</item>
-        <item name="android:textColorSecondaryInverse">@color/picker_text_gray_light_color</item>
-        <item name="android:textColorPrimaryInverse">@color/picker_black_color</item>
-        <item name="colorAccent">@color/white</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColorSecondary">@color/picker_dark_gray_color</item>
-        <item name="android:colorControlActivated">@color/yellow</item>
-        <item name="android:textColorPrimary">@color/picker_black_color</item>
-        <item name="android:textColor">@color/picker_black_color</item>
-        <item name="colorPrimary"></item>
+        <item name="buttonBarButtonStyle">@style/Picker.Button</item>
     </style>
 
-    <!--<style name="TimePickerDialog" parent="@style/Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="colorPrimary">@color/picker_gray_60_dark_color</item>
-        <item name="colorControlActivated">@color/yellow</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorSecondary">@color/picker_text_gray_light_color</item>
-    </style>-->
-
-    <style name="TimePicker" parent="@style/Widget.MaterialComponents.TimePicker">
-        <item name="android:layout_height">wrap_content</item>
-        <!--<item name="fontFamily">@font/roboto</item>
-        <item name="android:textColorSecondaryInverse">@color/picker_text_gray_light_color</item>
-        <item name="android:textColorPrimaryInverse">@color/picker_black_color</item>
-        <item name="colorAccent">@color/black</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:textColorSecondary">@color/picker_dark_gray_color</item>
-        <item name="android:colorControlActivated">@color/black</item>
-        <item name="android:textColorPrimary">@color/picker_black_color</item>
-        <item name="android:textColor">@color/picker_black_color</item>
-        <item name="colorPrimary">@color/yellow</item>
-        <item name="clockFaceBackgroundColor">@color/white</item>
-        <item name="materialClockStyle">@style/TimePicker.Clock</item>-->
+    <style name="DatePickerDialog.Light" parent="Dialog.Light">
+        <item name="android:textColorSecondaryInverse">@color/text_gray_light</item>
+        <item name="android:textColorPrimaryInverse">@color/black_color</item>
+        <item name="android:textColorSecondary">@color/dark_gray</item>
+        <item name="android:textColor">@color/black_color</item>
+        <item name="materialCalendarStyle">@style/DatePicker</item>
     </style>
 
-    <!--<style name="TimePicker.Clock" parent="Widget.MaterialComponents.TimePicker.Clock">
-        <item name="clockFaceBackgroundColor">@color/white</item>
-        <item name="clockHandColor">@color/yellow</item>
-        <item name="clockNumberTextColor">@color/picker_black_color</item>
+    <style name="TimePickerDialog.Light" parent="Dialog.Light">
+        <item name="android:textColor">@color/text_unvisible</item>
+        <item name="android:timePickerStyle">@style/TimePicker</item>
+        <item name="android:labelTextSize">10sp</item>
+        <item name="fontWeight">500</item>
     </style>
 
-    <style name="TimePicker.Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="DatePicker" parent="@style/Widget.MaterialComponents.MaterialCalendar">
+        <item name="daySelectedStyle">@style/DatePicker.Day</item>
+        <item name="dayTodayStyle">@style/DatePicker.Day</item>
+        <item name="dayStyle">@style/DatePicker.Day</item>
+    </style>
+
+    <style name= "DatePicker.Day" parent="Widget.MaterialComponents.MaterialCalendar.Day">
+        <item name="itemFillColor">@color/white</item>
+        <item name="itemStrokeColor">@color/yellow</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="TimePicker" parent="@android:style/Widget.Material.TimePicker">
+        <item name="android:headerBackground">@color/white</item>
+        <item name="android:headerTimeTextAppearance">@style/TimePicker.TextAppearance</item>
+        <item name="android:numbersTextColor">@color/black_color</item>
+        <item name="android:numbersSelectorColor">@color/yellow</item>
+        <item name="android:numbersBackgroundColor">@color/gray_60_dark</item>
+        <item name="android:numbersInnerTextColor">@color/text_gray_light</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="TimePicker.TextAppearance" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">60sp</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="fontStyle">normal</item>
+        <item name="fontWeight">300</item>
+        <item name="android:textColor">@color/time_picker_text_color_selector</item>
+        <item name="android:textColorSecondary">@color/purple</item>
+    </style>
+
+    <style name="TimePicker.ImageButton" parent="Widget.MaterialComponents.TimePicker.ImageButton">
         <item name="backgroundTint">
-            @color/black
+            @color/purple
         </item>
+        <item name="background">@color/yellow</item>
         <item name="strokeColor">@color/black</item>
+        <item name="fontFamily">@font/roboto</item>
         <item name="strokeWidth">3dp</item>
     </style>
 
-    <style name="TimePicker.Display" parent="Widget.MaterialComponents.TimePicker.Display">
-        <item name="clockFaceBackgroundColor">@color/white</item>
-        <item name="clockHandColor">@color/black</item>
-        <item name="clockNumberTextColor">@color/purple</item>
+    <style name="Picker.Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeColor">@color/cream_dark</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
     <style name="TimePicker.Display.TextInputEditText." parent="Widget.MaterialComponents.TimePicker.Display.TextInputEditText">
         <item name="clockFaceBackgroundColor">@color/white</item>
         <item name="clockHandColor">@color/black</item>
-        <item name="clockNumberTextColor">@color/purple</item>
-    </style>-->
+        <item name="fontFamily">@font/roboto</item>
+    </style>
 
 </resources>

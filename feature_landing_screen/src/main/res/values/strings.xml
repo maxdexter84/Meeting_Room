@@ -16,6 +16,7 @@
     <string name="delete_event_modify_fragment">DELETE EVENT</string>
     <string name="event_description_modify_edit_text_hint">Event description</string>
     <string name="modify_event_add_title_hint">Add title</string>
+    <string name="time_picker__dialog_title">SELECT TIME</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
