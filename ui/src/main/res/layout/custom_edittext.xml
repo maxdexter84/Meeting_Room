@@ -10,7 +10,7 @@
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_8_dp"
-        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:layout_marginEnd="@dimen/dimens_12_dp"
         android:background="@null"
         android:hint=""
         android:inputType="textPassword"
