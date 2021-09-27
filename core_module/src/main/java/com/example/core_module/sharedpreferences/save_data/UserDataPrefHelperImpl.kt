@@ -5,6 +5,7 @@ import com.example.core_module.SharedpreferencesKeys.ACCESS_TOKEN_KEY
 import com.example.core_module.SharedpreferencesKeys.CITY_OF_USER_LOCATION_KEY
 import com.example.core_module.SharedpreferencesKeys.COUNTRY_OF_USER_LOCATION_KEY
 import com.example.core_module.SharedpreferencesKeys.ROOM_OF_USER_SELECTION
+import com.example.core_module.SharedpreferencesKeys.TIME_OF_USER_SELECTION
 import com.example.core_module.SharedpreferencesKeys.TOKEN_DAY_KEY
 import com.example.core_module.SharedpreferencesKeys.USER_ROLES_KEY
 import com.example.core_module.sharedpreferences.IPreferenceHelper
@@ -68,4 +69,11 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
     override fun getUserRoles(): Collection<String>? =
         iPreferenceHelper.getCollectionAsStringSet(USER_ROLES_KEY)
 
+    override fun saveTimeOfUserSelection(value: String) {
+        iPreferenceHelper.saveString(TIME_OF_USER_SELECTION, value)
+    }
+
+    override fun getTimeOfUserSelection(): String? = iPreferenceHelper.getString(
+        TIME_OF_USER_SELECTION
+    )
 }

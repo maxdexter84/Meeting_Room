@@ -49,6 +49,13 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
+            setReminder.setOnClickListener {
+                findNavController().navigate(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
+                        args.upcomingEvent
+                    )
+                )
+            }
         }
     }
 

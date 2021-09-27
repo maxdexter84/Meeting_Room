@@ -5,11 +5,11 @@ import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImp
 
 class TimeForNotificationViewModel(private val saveData: UserDataPrefHelperImpl) : ViewModel() {
 
-    fun saveUserTime() {
-
+    fun saveUserTime(time: String) {
+        saveData.saveTimeOfUserSelection(time)
     }
 
-    fun getUserTime() {
+    fun getUserSelectedTime(): String? = saveData.getTimeOfUserSelection()
 
-    }
+    fun sf() = "Shared"
 }

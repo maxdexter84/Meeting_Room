@@ -17,6 +17,10 @@ interface UserDataPrefHelper {
 
     fun getRoomOfUserSelection() : String?
 
+    fun saveTimeOfUserSelection(value: String)
+
+    fun getTimeOfUserSelection() : String?
+
     fun getTokenDay(): Long?
 
     fun deleteToken()
