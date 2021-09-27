@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_8_dp"
         android:layout_marginEnd="@dimen/dimens_12_dp"
+        android:textSize="@dimen/dimens_16_sp"
         android:background="@null"
         android:hint=""
         android:inputType="textPassword"
