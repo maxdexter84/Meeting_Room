@@ -54,5 +54,23 @@
         <argument
             android:name="upcomingEvent"
             app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+        <action
+            android:id="@+id/action_timeForNotificationDialog_to_timeForNotificationCustomDialog"
+            app:destination="@id/timeForNotificationCustomDialog"
+            app:popUpTo="@id/timeForNotificationDialog"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationCustomDialog"
+        android:name="com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui.TimeForNotificationCustomDialog"
+        android:label="TimeForNotificationCustomDialog" >
+        <action
+            android:id="@+id/action_timeForNotificationCustomDialog_to_modifyUpcomingEventFragment"
+            app:destination="@id/modifyUpcomingEventFragment"
+            app:popUpTo="@id/modifyUpcomingEventFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="upcomingEvent"
+            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
     </dialog>
 </navigation>

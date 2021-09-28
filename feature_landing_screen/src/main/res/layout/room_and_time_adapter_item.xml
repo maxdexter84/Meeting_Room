@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.AppCompatRadioButton
-        android:id="@+id/room_radio_button"
+        android:id="@+id/room_and_time_radio_button"
         android:layout_width="@dimen/dimens_30_dp"
         android:layout_height="@dimen/dimens_30_dp"
         android:layout_marginStart="@dimen/dimens_24_dp"
@@ -17,16 +17,16 @@
         tools:ignore="TouchTargetSizeCheck"/>
 
     <TextView
-        android:id="@+id/room_name"
+        android:id="@+id/room_and_time_name"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_24_dp"
         android:layout_marginStart="@dimen/dimens_20_dp"
         style="@style/TextAppearanceDescription"
-        app:layout_constraintBottom_toBottomOf="@+id/room_radio_button"
+        app:layout_constraintBottom_toBottomOf="@+id/room_and_time_radio_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/room_radio_button"
-        app:layout_constraintTop_toTopOf="@+id/room_radio_button"
+        app:layout_constraintStart_toEndOf="@+id/room_and_time_radio_button"
+        app:layout_constraintTop_toTopOf="@+id/room_and_time_radio_button"
         tools:text="Never"/>
 
     <View
@@ -37,6 +37,6 @@
         android:background="@color/color_for_popup_window_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/room_radio_button" />
+        app:layout_constraintTop_toBottomOf="@id/room_and_time_radio_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

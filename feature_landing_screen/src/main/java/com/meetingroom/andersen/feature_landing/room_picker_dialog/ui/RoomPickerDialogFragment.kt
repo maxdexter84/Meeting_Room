@@ -2,24 +2,22 @@ package com.meetingroom.andersen.feature_landing.room_picker_dialog.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
-import com.meetingroom.andersen.feature_landing.databinding.RoomPickerFragmentBinding
+import com.meeringroom.ui.view.base_classes.BaseDialogFragment
+import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFragmentBinding
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.DaggerRoomPickerComponent
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.RoomPickerModule
-import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomPickerData
+import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.presentation.RoomPickerViewModel
 import javax.inject.Inject
 
-class RoomPickerDialogFragment : DialogFragment() {
+class RoomPickerDialogFragment :
+    BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
 
-    private lateinit var binding: RoomPickerFragmentBinding
-    private val roomAdapter by lazy { RoomPickerAdapter { saveRoom(it) } }
+    private val roomAdapter by lazy { RoomAndTimePickerAdapter { saveRoom(it) } }
     private val args: RoomPickerDialogFragmentArgs by navArgs()
 
     @Inject
@@ -34,15 +32,6 @@ class RoomPickerDialogFragment : DialogFragment() {
         super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = RoomPickerFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,7 +39,7 @@ class RoomPickerDialogFragment : DialogFragment() {
             val alreadySelectedRoom =
                 viewModel.getUserChosenRoom() ?: ""
             it.forEach { room ->
-                roomAdapter.rooms += RoomPickerData(
+                roomAdapter.roomsAndTime += RoomAndTimePickerData(
                     room.roomName,
                     alreadySelectedRoom == room.roomName,
                     room.roomName == "Paris" || room.roomName == "London"
@@ -69,16 +58,7 @@ class RoomPickerDialogFragment : DialogFragment() {
     }
 
     private fun saveRoom(roomName: String) {
-        roomAdapter.rooms.filter {
-            it.room != roomName
-        }.map {
-            it.isSelected = false
-        }
-        roomAdapter.rooms.filter {
-            it.room == roomName
-        }.map {
-            it.isSelected = true
-        }
+        viewModel.changeSelected(roomAdapter.roomsAndTime, roomName)
         viewModel.saveUserChosenRoom(roomName)
         viewModel.getUserChosenRoom()?.let {
             args.upcomingEvent.eventRoom = it
