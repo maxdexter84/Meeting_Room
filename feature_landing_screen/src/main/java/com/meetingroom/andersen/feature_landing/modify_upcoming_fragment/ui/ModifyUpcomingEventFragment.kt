@@ -9,6 +9,10 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
@@ -22,6 +26,7 @@ import com.meetingroom.andersen.feature_landing.utils.stringToTime
 import com.meetingroom.andersen.feature_landing.utils.timeToString
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
 
@@ -88,58 +93,19 @@ class ModifyUpcomingEventFragment :
         val year = localDate.year
         val month = localDate.monthValue - 1
         val day = localDate.dayOfMonth
-        /*val picker = MaterialDatePicker.Builder.datePicker()
-            .setSelection(localDate.atTime(LocalTime.MIDNIGHT).atZone(ZoneOffset.UTC).toInstant().toEpochMilli())
-            .build()
-        picker.show(childFragmentManager, DATE_PICKER_TAG)
-        picker.addOnPositiveButtonClickListener {
-            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            calendar.timeInMillis = it
-            onDateSet(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-        }*/
-        DatePickerDialog(requireContext(), this, year, month, day).show()
+
+        val dialog = DatePickerDialog(requireContext(), this, year, month, day)
+        dialog.show()
     }
 
     private fun showTimePickerDialog(timeString: String, tag: String) {
         val localTime: LocalTime = timeString.stringToTime("HH.mm")
         val hour = localTime.hour
         val minute = localTime.minute
-        /*val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(hour)
-            .setMinute(minute)
-            .build()
-        picker.show(childFragmentManager, tag)
-        picker.addOnPositiveButtonClickListener {
-            onTimeSet(tag, picker.hour, picker.minute)
-        }*/
+
         val dialog = TimePickerDialog(requireContext(), this, hour, minute, true)
-        dialog.setTitle(R.string.time_picker__dialog_title)
+        dialog.setTitle(R.string.time_picker_dialog_title)
         dialog.show()
-    }
-
-    private fun onDateSet(year: Int, month: Int, day: Int) {
-        val dateString = LocalDate.of(year, month + 1, day).dateToString("d MMM yyyy")
-        with(binding) {
-            modifyStartDatePicker.text = dateString
-            modifyEventEndDate.text = dateString
-        }
-    }
-
-    private fun onTimeSet(tag: String, hour: Int, minute: Int) {
-        val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
-        if (tag == START_TIME_PICKER_TAG) {
-            binding.modifyStartTimePicker.text = timeString
-        }
-        if (tag == END_TIME_PICKER_TAG) {
-            binding.modifyEndTimePicker.text = timeString
-        }
-    }
-
-    companion object {
-        private const val DATE_PICKER_TAG ="DATE_PICKER"
-        private const val START_TIME_PICKER_TAG = "START_TIME_PICKER"
-        private const val END_TIME_PICKER_TAG = "END_TIME_PICKER"
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
@@ -158,5 +124,10 @@ class ModifyUpcomingEventFragment :
         if (tag == END_TIME_PICKER_TAG) {
             binding.modifyEndTimePicker.text = timeString
         }
+    }
+
+    companion object {
+        private const val START_TIME_PICKER_TAG = "START_TIME_PICKER"
+        private const val END_TIME_PICKER_TAG = "END_TIME_PICKER"
     }
 }
