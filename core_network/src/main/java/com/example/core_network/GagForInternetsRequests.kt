@@ -51,6 +51,14 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
                     roles,
                     "usual",
                     "gYqefdszxfg78chv4bjok8954985rdtyfwqyg5Tavhac"
+                ),
+                LogInResponse(
+                    1,
+                    names[5],
+                    names[5] + andersenEnding,
+                    roles,
+                    "usual",
+                    "498565465ehdg+52s5xg56sg5s5hs56h4s5x"
                 )
 
             )
@@ -58,7 +66,7 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         private const val andersenEnding: String = "@andersenlab.com"
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
-        private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty")
+        private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty", "v.khrytanenka")
         private val countries = arrayListOf(
             GetAllAvailableCitiesRequest("Ukraine"),
             GetAllAvailableCitiesRequest("Russia"),

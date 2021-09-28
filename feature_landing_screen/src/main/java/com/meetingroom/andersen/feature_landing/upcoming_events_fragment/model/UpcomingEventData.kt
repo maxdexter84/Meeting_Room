@@ -9,7 +9,7 @@ data class UpcomingEventData(
     val startTime: String,
     val endTime: String,
     val eventDate: String,
-    val eventRoom: String,
+    var eventRoom: String,
     val eventRoomColour: Int,
     val reminderRemainingTime: String = "30 min",
     var reminderActive: Boolean,

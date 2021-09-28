@@ -22,5 +22,21 @@
         <argument
             android:name="upcoming_event"
             app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+        <action
+            android:id="@+id/action_modifyUpcomingEventFragment_to_roomPickerDialogFragment2"
+            app:destination="@id/roomPickerDialogFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/roomPickerDialogFragment"
+        android:name="com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomPickerDialogFragment"
+        android:label="RoomPickerDialogFragment" >
+        <action
+            android:id="@+id/action_roomPickerDialogFragment_to_modifyUpcomingEventFragment2"
+            app:destination="@id/modifyUpcomingEventFragment"
+            app:popUpTo="@id/modifyUpcomingEventFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="upcomingEvent"
+            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+    </dialog>
 </navigation>

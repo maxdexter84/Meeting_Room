@@ -6,14 +6,10 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import android.widget.DatePicker
-import android.widget.TimePicker
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
 import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
@@ -27,7 +23,6 @@ import com.meetingroom.andersen.feature_landing.utils.stringToTime
 import com.meetingroom.andersen.feature_landing.utils.timeToString
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
 
@@ -59,6 +54,13 @@ class ModifyUpcomingEventFragment :
                 requireActivity().onBackPressed()
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
+            modifyRoomChooser.setOnClickListener {
+                findNavController().navigate(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
+                        args.upcomingEvent
+                    )
+                )
+            }
         }
     }
 

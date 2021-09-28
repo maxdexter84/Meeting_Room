@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/room_radio_button"
+        android:layout_width="@dimen/dimens_30_dp"
+        android:layout_height="@dimen/dimens_30_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_12_dp"
+        app:buttonTint="@drawable/radio_button_colour_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <TextView
+        android:id="@+id/room_name"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="@dimen/dimens_20_dp"
+        style="@style/TextAppearanceDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/room_radio_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/room_radio_button"
+        app:layout_constraintTop_toTopOf="@+id/room_radio_button"
+        tools:text="Never"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginStart="@dimen/dimens_12_dp"
+        android:layout_marginTop="@dimen/dimens_10_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/room_radio_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
