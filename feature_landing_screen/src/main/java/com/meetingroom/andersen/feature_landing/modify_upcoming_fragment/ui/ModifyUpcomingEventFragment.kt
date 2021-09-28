@@ -23,7 +23,6 @@ import com.meetingroom.andersen.feature_landing.utils.stringToTime
 import com.meetingroom.andersen.feature_landing.utils.timeToString
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.*
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
@@ -97,18 +96,18 @@ class ModifyUpcomingEventFragment :
         val month = localDate.monthValue - 1
         val day = localDate.dayOfMonth
 
-        val dialog = DatePickerDialog(requireContext(), this, year, month, day)
-        dialog.show()
+        DatePickerDialog(requireContext(), this, year, month, day).show()
     }
 
-    private fun showTimePickerDialog(timeString: String, listener: TimePickerDialog.OnTimeSetListener) {
+    private fun showTimePickerDialog(timeString: String, listener: OnTimeSetListener) {
         val localTime: LocalTime = timeString.stringToTime("HH.mm")
         val hour = localTime.hour
         val minute = localTime.minute
 
-        val dialog = TimePickerDialog(requireContext(), listener, hour, minute, true)
-        dialog.setTitle(R.string.time_picker_dialog_title)
-        dialog.show()
+        TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
+            setTitle(R.string.time_picker_dialog_title)
+            show()
+        }
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
