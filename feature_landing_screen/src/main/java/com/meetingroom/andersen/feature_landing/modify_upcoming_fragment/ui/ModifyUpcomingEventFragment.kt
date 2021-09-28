@@ -2,6 +2,7 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -31,7 +32,7 @@ import java.util.*
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
-    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate), DatePickerDialog.OnDateSetListener {
 
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
@@ -76,10 +77,10 @@ class ModifyUpcomingEventFragment :
                 showDatePickerDialog(modifyStartDatePicker.text.toString())
             }
             modifyStartTimePicker.setOnClickListener {
-                showTimePickerDialog(modifyStartTimePicker.text.toString(), START_TIME_PICKER_TAG)
+                showTimePickerDialog(modifyStartTimePicker.text.toString(), startTimePickerListener)
             }
             modifyEndTimePicker.setOnClickListener {
-                showTimePickerDialog(modifyEndTimePicker.text.toString(), END_TIME_PICKER_TAG)
+                showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
             }
         }
     }
@@ -98,12 +99,12 @@ class ModifyUpcomingEventFragment :
         dialog.show()
     }
 
-    private fun showTimePickerDialog(timeString: String, tag: String) {
+    private fun showTimePickerDialog(timeString: String, listener: TimePickerDialog.OnTimeSetListener) {
         val localTime: LocalTime = timeString.stringToTime("HH.mm")
         val hour = localTime.hour
         val minute = localTime.minute
 
-        val dialog = TimePickerDialog(requireContext(), this, hour, minute, true)
+        val dialog = TimePickerDialog(requireContext(), listener, hour, minute, true)
         dialog.setTitle(R.string.time_picker_dialog_title)
         dialog.show()
     }
@@ -116,18 +117,13 @@ class ModifyUpcomingEventFragment :
         }
     }
 
-    override fun onTimeSet(timePicker: TimePicker?, hour: Int, minute: Int) {
-        val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
-        if (tag == START_TIME_PICKER_TAG) {
+    private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
+            val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
             binding.modifyStartTimePicker.text = timeString
-        }
-        if (tag == END_TIME_PICKER_TAG) {
-            binding.modifyEndTimePicker.text = timeString
-        }
     }
 
-    companion object {
-        private const val START_TIME_PICKER_TAG = "START_TIME_PICKER"
-        private const val END_TIME_PICKER_TAG = "END_TIME_PICKER"
+    private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
+            val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
+            binding.modifyEndTimePicker.text = timeString
     }
 }
