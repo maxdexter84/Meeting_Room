@@ -61,6 +61,10 @@ class ModifyUpcomingEventFragment :
 
     override fun onStart() {
         super.onStart()
+        initFields()
+    }
+
+    private fun initFields() { // TODO: придумать вариант по короче
         with(binding) {
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
