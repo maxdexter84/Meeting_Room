@@ -2,17 +2,20 @@
     <!-- Base application theme. -->
     <style name="Theme.MeetingRoom" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimary">@color/black_color</item>
         <item name="colorPrimaryVariant">@color/purple_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_light</item>
+        <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/teal_dark</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/gray</item>
         <!-- Customize your theme here. -->
         <item name="popupMenuStyle">@style/PopupMenuToolbar</item>
+
+        <item name="android:timePickerDialogTheme">@style/TimePickerDialog.Light</item>
+        <item name="android:datePickerDialogTheme">@style/DatePickerDialog.Light</item>
     </style>
 
     <style name="PopupMenuToolbar" parent="@style/Widget.AppCompat.PopupWindow">
