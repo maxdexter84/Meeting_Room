@@ -12,6 +12,7 @@ class LogOutHelper(
         val tokenDayInMillis = saveData.getTokenDay() ?: return false
         val tokenExpirationTime = tokenDayInMillis + (DAY_LENGTH_IN_MILLIS * 7)
         return currentDayInMillis >= tokenExpirationTime
+        return false
     }
 
     fun logout() {

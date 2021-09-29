@@ -46,16 +46,18 @@ class TimeForNotificationCustomDialog :
     }
 
     private fun navigate() {
-        val timeType =
-            when {
-                binding.customTimeInMinutes.isChecked -> "min"
-                binding.customTimeInHours.isChecked -> "hours"
-                binding.customTimeInDays.isChecked -> "days"
-                else -> ""
+        with(binding) {
+            val timeType =
+                when {
+                    customTimeInMinutes.isChecked -> "min"
+                    customTimeInHours.isChecked -> "hours"
+                    customTimeInDays.isChecked -> "days"
+                    else -> ""
+                }
+            viewModel.saveUserTime("In ${userCustomTimeEditText.text} $timeType")
+            viewModel.getUserSelectedTime()?.let {
+                args.upcomingEvent.reminderRemainingTime = it
             }
-        viewModel.saveUserTime("In ${binding.userCustomTimeEditText.text} $timeType")
-        viewModel.getUserSelectedTime()?.let {
-            args.upcomingEvent.reminderRemainingTime = it
         }
         findNavController().navigate(
             TimeForNotificationCustomDialogDirections.actionTimeForNotificationCustomDialogToModifyUpcomingEventFragment(
