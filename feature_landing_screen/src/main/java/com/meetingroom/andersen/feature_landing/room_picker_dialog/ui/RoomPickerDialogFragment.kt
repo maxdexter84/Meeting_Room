@@ -34,16 +34,16 @@ class RoomPickerDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.gagRooms.observe(viewLifecycleOwner) {
-            val alreadySelectedRoom =
-                viewModel.getUserChosenRoom() ?: ""
-            it.forEach { room ->
-                roomAdapter.roomsAndTime += RoomAndTimePickerData(
-                    room.roomName,
-                    alreadySelectedRoom == room.roomName,
-                    room.roomName == "Paris" || room.roomName == "London"
-                )
+        viewModel.gagRooms.observe(viewLifecycleOwner) { gagRoomData ->
+            viewModel.userChosenRoom.observe(viewLifecycleOwner) {
+                val alreadySelectedRoom = it
+                gagRoomData.forEach { room ->
+                    roomAdapter.roomsAndTime += RoomAndTimePickerData(
+                        room.roomName,
+                        alreadySelectedRoom == room.roomName,
+                        room.roomName == "Paris" || room.roomName == "London"
+                    )
+                }
             }
         }
         initRecyclerView()
@@ -60,8 +60,8 @@ class RoomPickerDialogFragment :
     private fun saveRoom(roomName: String) {
         viewModel.changeSelected(roomAdapter.roomsAndTime, roomName)
         viewModel.saveUserChosenRoom(roomName)
-        viewModel.getUserChosenRoom()?.let {
-            args.upcomingEvent.eventRoom = it
+        viewModel.userChosenRoom.observe(viewLifecycleOwner) {
+            args.upcomingEvent.eventRoom = it ?: ""
         }
         findNavController().navigate(
             RoomPickerDialogFragmentDirections.actionRoomPickerDialogFragmentToModifyUpcomingEventFragment2(

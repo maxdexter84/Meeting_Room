@@ -83,8 +83,8 @@ class TimeForNotificationDialog :
                 )
             )
             viewModel.saveUserTime(savedTime)
-            viewModel.getUserSelectedTime()?.let {
-                args.upcomingEvent.reminderRemainingTime = it
+            viewModel.userSelectedTime.observe(viewLifecycleOwner) {
+                args.upcomingEvent.reminderRemainingTime = it ?: ""
             }
         }
     }

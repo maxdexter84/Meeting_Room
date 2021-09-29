@@ -12,27 +12,21 @@ class RoomPickerViewModel(
 ) : ViewModel() {
 
     val gagRooms = MutableLiveData<List<GagRoomData>>()
+    val userChosenRoom = MutableLiveData<String?>()
 
     init {
         gagRooms.value = gagForRooms.generate()
+        userChosenRoom.value = saveData.getRoomOfUserSelection()
     }
-
-    fun getUserChosenRoom(): String? = saveData.getRoomOfUserSelection()
 
     fun saveUserChosenRoom(roomName: String) {
         saveData.saveRoomOfUserSelection(roomName)
+        userChosenRoom.value = saveData.getRoomOfUserSelection()
     }
 
     fun changeSelected(roomsAndTime: ArrayList<RoomAndTimePickerData>, roomName: String) {
-        roomsAndTime.filter {
-            it.roomAndTime != roomName
-        }.map {
-            it.isSelected = false
-        }
-        roomsAndTime.filter {
-            it.roomAndTime == roomName
-        }.map {
-            it.isSelected = true
+        roomsAndTime.map {
+            it.isSelected = it.roomAndTime == roomName
         }
     }
 }

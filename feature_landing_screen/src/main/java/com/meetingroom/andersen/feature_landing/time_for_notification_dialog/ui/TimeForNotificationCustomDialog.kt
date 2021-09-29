@@ -40,9 +40,7 @@ class TimeForNotificationCustomDialog :
         super.onViewCreated(view, savedInstanceState)
 
         isCancelable = false
-        with(binding) {
-            customDialogButtonDone.setOnClickListener { navigate() }
-        }
+        binding.customDialogButtonDone.setOnClickListener { navigate() }
     }
 
     private fun navigate() {
@@ -56,8 +54,8 @@ class TimeForNotificationCustomDialog :
                         else -> ""
                     }
                 viewModel.saveUserTime("In ${userCustomTimeEditText.text} $timeType")
-                viewModel.getUserSelectedTime()?.let {
-                    args.upcomingEvent.reminderRemainingTime = it
+                viewModel.userSelectedTime.observe(viewLifecycleOwner) {
+                    args.upcomingEvent.reminderRemainingTime = it ?: ""
                 }
             }
         }
