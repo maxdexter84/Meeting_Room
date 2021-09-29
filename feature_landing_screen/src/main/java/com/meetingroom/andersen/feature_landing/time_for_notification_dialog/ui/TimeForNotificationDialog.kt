@@ -82,10 +82,10 @@ class TimeForNotificationDialog :
                     args.upcomingEvent
                 )
             )
-        }
-        viewModel.saveUserTime(savedTime)
-        viewModel.getUserSelectedTime()?.let {
-            args.upcomingEvent.reminderRemainingTime = it
+            viewModel.saveUserTime(savedTime)
+            viewModel.getUserSelectedTime()?.let {
+                args.upcomingEvent.reminderRemainingTime = it
+            }
         }
     }
 }
