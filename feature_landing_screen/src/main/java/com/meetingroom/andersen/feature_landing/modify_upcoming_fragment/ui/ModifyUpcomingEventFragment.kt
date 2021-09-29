@@ -90,7 +90,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showDatePickerDialog(dateString: String) {
-        val localDate = dateString.stringToDate("d MMM yyyy")
+        val localDate = dateString.stringToDate(DATE_FORMAT)
         with(localDate) {
             DatePickerDialog(requireContext(), this@ModifyUpcomingEventFragment, year, monthValue - 1, dayOfMonth).show()
         }
@@ -98,7 +98,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showTimePickerDialog(timeString: String, listener: OnTimeSetListener) {
-        val localTime: LocalTime = timeString.stringToTime()
+        val localTime: LocalTime = timeString.stringToTime(TIME_FORMAT)
         with(localTime) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setTitle(R.string.time_picker_dialog_title)
@@ -108,7 +108,7 @@ class ModifyUpcomingEventFragment :
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        val dateString = LocalDate.of(year, month + 1, day).dateToString("d MMM yyyy")
+        val dateString = LocalDate.of(year, month + 1, day).dateToString(DATE_FORMAT)
         with(binding) {
             modifyStartDatePicker.text = dateString
             modifyEventEndDate.text = dateString
@@ -116,12 +116,15 @@ class ModifyUpcomingEventFragment :
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-            val timeString = LocalTime.of(hour, minute).timeToString()
-            binding.modifyStartTimePicker.text = timeString
+            binding.modifyStartTimePicker.text = LocalTime.of(hour, minute).timeToString(TIME_FORMAT)
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-            val timeString = LocalTime.of(hour, minute).timeToString()
-            binding.modifyEndTimePicker.text = timeString
+            binding.modifyEndTimePicker.text = LocalTime.of(hour, minute).timeToString(TIME_FORMAT)
+    }
+
+    companion object {
+        private const val DATE_FORMAT = "d MMM yyyy"
+        private const val TIME_FORMAT = "HH:mm"
     }
 }
