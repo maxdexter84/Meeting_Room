@@ -9,12 +9,14 @@ class TimeForNotificationViewModel(private val saveData: UserDataPrefHelperImpl)
 
     val userSelectedTime = MutableLiveData<String?>()
 
+    init {
+        userSelectedTime.value = saveData.getTimeOfUserSelection()
+    }
+
     fun saveUserTime(time: String) {
         saveData.saveTimeOfUserSelection(time)
         userSelectedTime.value = saveData.getTimeOfUserSelection()
     }
-
-    fun getUserSelectedTime(): String? = saveData.getTimeOfUserSelection()
 
     fun changeSelected(roomsAndTime: ArrayList<RoomAndTimePickerData>, savedTime: String) {
         roomsAndTime.map {

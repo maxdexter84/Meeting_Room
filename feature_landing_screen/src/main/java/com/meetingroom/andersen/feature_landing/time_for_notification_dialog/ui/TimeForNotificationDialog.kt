@@ -48,17 +48,19 @@ class TimeForNotificationDialog :
     }
 
     private fun initAdapter() {
-        requireActivity().resources.getStringArray(R.array.options_for_reminder_time).let {
-            val alreadySelectedTime =
-                viewModel.getUserSelectedTime()
-            it.forEach { time ->
-                timeAdapter.roomsAndTime += RoomAndTimePickerData(
-                    time,
-                    alreadySelectedTime == time,
-                    false
-                )
+        requireActivity().resources.getStringArray(R.array.options_for_reminder_time)
+            .let { options ->
+                viewModel.userSelectedTime.observe(viewLifecycleOwner) {
+                    val alreadySelectedTime = it
+                    options.forEach { time ->
+                        timeAdapter.roomsAndTime += RoomAndTimePickerData(
+                            time,
+                            alreadySelectedTime == time,
+                            false
+                        )
+                    }
+                }
             }
-        }
     }
 
     private fun initRecyclerView() {
