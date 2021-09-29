@@ -24,6 +24,10 @@ class RoomPickerViewModel(
         userChosenRoom.value = saveData.getRoomOfUserSelection()
     }
 
+    fun updateUserChosenRoom(room : String) {
+        userChosenRoom.value = room
+    }
+
     fun changeSelected(roomsAndTime: ArrayList<RoomAndTimePickerData>, roomName: String) {
         roomsAndTime.map {
             it.isSelected = it.roomAndTime == roomName

@@ -41,7 +41,7 @@ class RoomPickerDialogFragment :
                     roomAdapter.roomsAndTime += RoomAndTimePickerData(
                         room.roomName,
                         alreadySelectedRoom == room.roomName,
-                        room.roomName == "Paris" || room.roomName == "London"
+                        room.isBusy
                     )
                 }
             }
@@ -59,7 +59,8 @@ class RoomPickerDialogFragment :
 
     private fun saveRoom(roomName: String) {
         viewModel.changeSelected(roomAdapter.roomsAndTime, roomName)
-        viewModel.saveUserChosenRoom(roomName)
+//        viewModel.saveUserChosenRoom(roomName)
+        viewModel.updateUserChosenRoom(roomName)
         viewModel.userChosenRoom.observe(viewLifecycleOwner) {
             args.upcomingEvent.eventRoom = it ?: ""
         }

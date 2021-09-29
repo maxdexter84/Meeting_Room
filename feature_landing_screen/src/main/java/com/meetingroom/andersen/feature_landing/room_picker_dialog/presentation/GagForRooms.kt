@@ -15,7 +15,12 @@ class GagForRooms {
                 5 -> "Paris"
                 else -> "London"
             }
-            list += GagRoomData(data)
+
+            val isBusy = when(i) {
+                5,6 -> true
+                else -> false
+            }
+            list += GagRoomData(data, isBusy)
         }
         return list
     }

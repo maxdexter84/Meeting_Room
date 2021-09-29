@@ -36,7 +36,6 @@ class ModifyUpcomingEventFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding) {
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
                 requireActivity().onBackPressed()
@@ -56,6 +55,10 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
+
+            viewModel.userRoom.observe(viewLifecycleOwner) {
+                eventRoomName.text = it ?: return@observe
+            }
         }
     }
 
@@ -73,6 +76,7 @@ class ModifyUpcomingEventFragment :
             reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
+            viewModel.update(args.upcomingEvent.eventRoom)
         }
     }
 
