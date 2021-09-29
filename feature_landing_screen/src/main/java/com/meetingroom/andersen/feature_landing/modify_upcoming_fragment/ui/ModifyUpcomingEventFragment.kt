@@ -17,10 +17,10 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.utils.dateToString
-import com.meetingroom.andersen.feature_landing.utils.stringToDate
-import com.meetingroom.andersen.feature_landing.utils.stringToTime
-import com.meetingroom.andersen.feature_landing.utils.timeToString
+import com.example.core_module.utils.dateToString
+import com.example.core_module.utils.stringToDate
+import com.example.core_module.utils.stringToTime
+import com.example.core_module.utils.timeToString
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
@@ -60,6 +60,15 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
+            modifyStartDatePicker.setOnClickListener {
+                showDatePickerDialog(modifyStartDatePicker.text.toString())
+            }
+            modifyStartTimePicker.setOnClickListener {
+                showTimePickerDialog(modifyStartTimePicker.text.toString(), startTimePickerListener)
+            }
+            modifyEndTimePicker.setOnClickListener {
+                showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
+            }
         }
     }
 
@@ -73,16 +82,6 @@ class ModifyUpcomingEventFragment :
             reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
-
-            modifyStartDatePicker.setOnClickListener {
-                showDatePickerDialog(modifyStartDatePicker.text.toString())
-            }
-            modifyStartTimePicker.setOnClickListener {
-                showTimePickerDialog(modifyStartTimePicker.text.toString(), startTimePickerListener)
-            }
-            modifyEndTimePicker.setOnClickListener {
-                showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
-            }
         }
     }
 
@@ -92,21 +91,19 @@ class ModifyUpcomingEventFragment :
 
     private fun showDatePickerDialog(dateString: String) {
         val localDate = dateString.stringToDate("d MMM yyyy")
-        val year = localDate.year
-        val month = localDate.monthValue - 1
-        val day = localDate.dayOfMonth
+        with(localDate) {
+            DatePickerDialog(requireContext(), this@ModifyUpcomingEventFragment, year, monthValue - 1, dayOfMonth).show()
+        }
 
-        DatePickerDialog(requireContext(), this, year, month, day).show()
     }
 
     private fun showTimePickerDialog(timeString: String, listener: OnTimeSetListener) {
-        val localTime: LocalTime = timeString.stringToTime("HH.mm")
-        val hour = localTime.hour
-        val minute = localTime.minute
-
-        TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
-            setTitle(R.string.time_picker_dialog_title)
-            show()
+        val localTime: LocalTime = timeString.stringToTime()
+        with(localTime) {
+            TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
+                setTitle(R.string.time_picker_dialog_title)
+                show()
+            }
         }
     }
 
@@ -119,12 +116,12 @@ class ModifyUpcomingEventFragment :
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-            val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
+            val timeString = LocalTime.of(hour, minute).timeToString()
             binding.modifyStartTimePicker.text = timeString
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-            val timeString = LocalTime.of(hour, minute).timeToString("HH.mm")
+            val timeString = LocalTime.of(hour, minute).timeToString()
             binding.modifyEndTimePicker.text = timeString
     }
 }

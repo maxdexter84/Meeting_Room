@@ -1,6 +1,5 @@
-package com.meetingroom.andersen.feature_landing.utils
+package com.example.core_module.utils
 
-import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
