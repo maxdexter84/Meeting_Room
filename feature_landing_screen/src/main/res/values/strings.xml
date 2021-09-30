@@ -17,6 +17,12 @@
     <string name="event_description_modify_edit_text_hint">Event description</string>
     <string name="modify_event_add_title_hint">Add title</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
+    <string name="event_cant_start_before_current_time_message">The event can\'t start before current time.</string>
+    <string name="event_cant_start_between_0_and_6_hours_message">The event can\'t start between 00.00 and 06.00.</string>
+    <string name="event_cant_end_before_it_starts_message">The event can\'t end before it starts.</string>
+    <string name="event_cant_last_longer_than_4_hours_message">The event can\'t last longer than 4 hours.</string>
+    <string name="event_cant_end_between_0_and_6_hours_message">The event can\'t end between 00.00 and 06.00.</string>
+    <string name="cancel">cancel</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
