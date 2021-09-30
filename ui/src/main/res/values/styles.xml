@@ -168,16 +168,24 @@
 
     <!-- ALERT DIALOGS -->
 
-    <style name="AlertDialog.Light" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialog.Light" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/yellow</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Light.Text</item>
+        <item name="colorSurface">@color/white</item>
     </style>
 
-    <style name="AlertDialog.Dark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="AlertDialog.Dark" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/yellow</item>
-        <item name="backgroundColor">@color/android_dark_background</item>
-        <item name="colorSecondary">@color/purple_light</item>
-        <item name="colorSurface">@color/purple_dark</item>
-        <item name="colorOnSurface">@color/teal_dark</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Dark.Text</item>
+        <item name="colorSurface">@color/android_dark_background</item>
+    </style>
+
+    <style name="AlertDialog.Light.Text">
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+
+    <style name="AlertDialog.Dark.Text">
+        <item name="android:textColor">@color/text_gray</item>
     </style>
 
 </resources>

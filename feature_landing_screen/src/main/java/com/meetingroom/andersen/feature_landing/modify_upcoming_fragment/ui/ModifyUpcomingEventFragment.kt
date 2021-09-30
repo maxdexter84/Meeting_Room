@@ -118,7 +118,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showAlertDialog(messageId: Int) {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setNegativeButton(R.string.cancel, cancelClickListener)
             .show()
