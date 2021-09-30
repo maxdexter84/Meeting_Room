@@ -1,14 +1,12 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import android.widget.DatePicker
@@ -16,6 +14,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.core_module.utils.*
 import com.meeringroom.ui.view.base_fragment.BaseFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
@@ -23,13 +22,7 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.example.core_module.utils.dateToString
-import com.example.core_module.utils.stringToDate
-import com.example.core_module.utils.stringToTime
-import com.example.core_module.utils.timeToString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.datetime.Clock
-import kotlinx.datetime.toLocalDate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -139,39 +132,41 @@ class ModifyUpcomingEventFragment :
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        val localTime = LocalTime.of(hour, minute)
+        validateStartTime(LocalTime.of(hour, minute).roundUpMinute())
+    }
+
+    private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
+        validateEndTime(LocalTime.of(hour, minute).roundUpMinute())
+    }
+
+    private fun validateStartTime(startTime: LocalTime) {
         with (binding.modifyStartTimePicker) {
-            text = localTime.timeToString(TIME_FORMAT)
+            text = startTime.timeToString(TIME_FORMAT)
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (localTime.isBefore(LocalTime.now())
+            if (startTime.isBefore(LocalTime.now())
                 && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_before_current_time_message)
-            } else if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
+            } else if (startTime.isBefore(minTime) || startTime.isAfter(maxTime)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
             }
         }
     }
 
-    private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        val localTime = LocalTime.of(hour, minute)
+    private fun validateEndTime(endTime: LocalTime) {
         with (binding.modifyEndTimePicker) {
-            text = localTime.timeToString(TIME_FORMAT)
+            text = endTime.timeToString(TIME_FORMAT)
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (localTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
+            if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_end_before_it_starts_message)
-            } else if (localTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
+            } else if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-            } else if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
+            } else if (endTime.isBefore(minTime) || endTime.isAfter(maxTime)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
-            /*} else if (localTime.isBefore(LocalTime.now())
-                && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
-                setRedColor(this)
-                showAlertDialog(R.string.event_cant_start_before_current_time_message)*/
             }
         }
     }
