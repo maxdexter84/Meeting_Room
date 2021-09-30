@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate) {
 
-    private val args: ModifyUpcomingEventFragmentArgs by navArgs()
+    private val args: ModifyUpcomingEventFragmentArgs by navArgs()//? отправить в liveData сразу
 
     @Inject
     lateinit var viewModel: ModifyUpcomingEventViewModel

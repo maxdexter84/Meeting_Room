@@ -72,7 +72,7 @@ class TimeForNotificationDialog :
 
     private fun saveTime(savedTime: String) {
         viewModel.changeSelected(timeAdapter.roomsAndTime, savedTime)
-        if (savedTime == "Custom...") {
+        if (savedTime == "Custom...") {//TODO Sealed class
             findNavController().navigate(
                 TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog(
                     args.upcomingEvent
