@@ -12,6 +12,8 @@ import android.view.ContextThemeWrapper
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import android.widget.DatePicker
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
@@ -29,7 +31,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDate
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 @SuppressLint("NewApi")
@@ -102,6 +106,7 @@ class ModifyUpcomingEventFragment :
         with(localDate) {
             DatePickerDialog(requireContext(), this@ModifyUpcomingEventFragment, year, monthValue - 1, dayOfMonth).apply {
                 datePicker.minDate = System.currentTimeMillis()
+                datePicker.maxDate = LocalDateTime.now().plusMonths(3).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 show()
             }
         }
@@ -120,7 +125,8 @@ class ModifyUpcomingEventFragment :
     private fun showAlertDialog(messageId: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
-            .setNegativeButton(R.string.cancel, cancelClickListener)
+            .setCancelable(false)
+            .setNegativeButton(R.string.cancel) { _: DialogInterface, _: Int -> }
             .show()
     }
 
@@ -134,41 +140,44 @@ class ModifyUpcomingEventFragment :
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
         val localTime = LocalTime.of(hour, minute)
-        if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
-            showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+        with (binding.modifyStartTimePicker) {
+            text = localTime.timeToString(TIME_FORMAT)
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            if (localTime.isBefore(LocalTime.now())
+                && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_start_before_current_time_message)
+            } else if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+            }
         }
-        if (localTime.isBefore(LocalTime.now())
-            && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT).equals(LocalDate.now())) {
-            showAlertDialog(R.string.event_cant_start_before_current_time_message)
-        }
-        binding.modifyStartTimePicker.text = localTime.timeToString(TIME_FORMAT)
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
         val localTime = LocalTime.of(hour, minute)
-        if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
-            showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
-            //binding.modifyEndTimePicker.currentTextColor = R.id.
-            return@OnTimeSetListener
+        with (binding.modifyEndTimePicker) {
+            text = localTime.timeToString(TIME_FORMAT)
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            if (localTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_end_before_it_starts_message)
+            } else if (localTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
+            } else if (localTime.isBefore(minTime) || localTime.isAfter(maxTime)) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
+            /*} else if (localTime.isBefore(LocalTime.now())
+                && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
+                setRedColor(this)
+                showAlertDialog(R.string.event_cant_start_before_current_time_message)*/
+            }
         }
-        if (localTime.isBefore(LocalTime.now())
-            && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT).equals(LocalDate.now())) {
-            showAlertDialog(R.string.event_cant_start_before_current_time_message)
-            return@OnTimeSetListener
-        }
-        if (localTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
-            showAlertDialog(R.string.event_cant_end_before_it_starts_message)
-            return@OnTimeSetListener
-        }
-        if (binding.modifyStartDatePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4).isAfter(localTime)){
-            showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-            return@OnTimeSetListener
-        }
-        binding.modifyEndTimePicker.text = localTime.timeToString(TIME_FORMAT)
     }
 
-    private val cancelClickListener = DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
-
+    private fun setRedColor(textView: TextView) {
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
     }
 
     companion object {
