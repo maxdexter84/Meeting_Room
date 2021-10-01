@@ -1,7 +1,6 @@
 package com.meetingroom.andersen.feature_landing.di.room_picker_fragment
 
 import androidx.lifecycle.ViewModelProvider
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.meetingroom.andersen.feature_landing.di.Screen
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.presentation.GagForRooms
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.presentation.RoomPickerViewModel
@@ -21,9 +20,8 @@ class RoomPickerModule(private val roomPickerDialogFragment: RoomPickerDialogFra
     @Screen
     fun provideViewModelFactory(
         gagForRooms: GagForRooms,
-        saveData: UserDataPrefHelperImpl
     ): RoomPickerViewModelFactory =
-        RoomPickerViewModelFactory(gagForRooms, saveData)
+        RoomPickerViewModelFactory(gagForRooms)
 
     @Provides
     @Screen

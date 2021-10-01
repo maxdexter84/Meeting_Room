@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFragmentBinding
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.DaggerRoomPickerComponent
@@ -26,7 +25,6 @@ class RoomPickerDialogFragment :
     override fun onAttach(context: Context) {
         DaggerRoomPickerComponent.builder()
             .roomPickerModule(RoomPickerModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .build()
             .inject(this)
         super.onAttach(context)
