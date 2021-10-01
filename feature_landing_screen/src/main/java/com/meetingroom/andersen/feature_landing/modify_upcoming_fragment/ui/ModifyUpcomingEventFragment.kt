@@ -43,6 +43,7 @@ class ModifyUpcomingEventFragment :
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
             modifyRoomChooser.setOnClickListener {
+                checkTitleAndDescriptionSimilarity()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
                         args.upcomingEvent
@@ -50,6 +51,7 @@ class ModifyUpcomingEventFragment :
                 )
             }
             setReminder.setOnClickListener {
+                checkTitleAndDescriptionSimilarity()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
                         args.upcomingEvent
@@ -81,7 +83,19 @@ class ModifyUpcomingEventFragment :
             eventRoomName.text = args.upcomingEvent.eventRoom
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
+            userEventDescription.setText(args.upcomingEvent.eventDescription ?: "")
             viewModel.update(args.upcomingEvent.eventRoom)
+        }
+    }
+
+    private fun checkTitleAndDescriptionSimilarity() {
+        with(binding) {
+            if (eventModifyTitle.text.toString() != args.upcomingEvent.title) {
+                args.upcomingEvent.title = eventModifyTitle.text.toString()
+            }
+            if (userEventDescription.text.isNotEmpty()) {
+                args.upcomingEvent.eventDescription = userEventDescription.text.toString()
+            }
         }
     }
 

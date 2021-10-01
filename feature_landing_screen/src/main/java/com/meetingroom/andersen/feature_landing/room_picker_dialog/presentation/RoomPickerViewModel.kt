@@ -14,7 +14,6 @@ class RoomPickerViewModel(
 
     init {
         gagRooms.value = gagForRooms.generate()
-        userChosenRoom.value = ""
     }
 
     fun saveUserChosenRoom(roomName: String) {

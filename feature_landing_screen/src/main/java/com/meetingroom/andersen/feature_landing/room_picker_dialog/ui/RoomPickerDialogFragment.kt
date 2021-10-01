@@ -46,6 +46,7 @@ class RoomPickerDialogFragment :
         }
         initRecyclerView()
         isCancelable = false
+        viewModel.updateUserChosenRoom(args.upcomingEvent.eventRoom)
     }
 
     private fun initRecyclerView() {
