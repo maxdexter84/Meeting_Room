@@ -14,6 +14,10 @@ fun String.stringToTime(format: String): LocalTime {
     return LocalTime.parse(this, formatter)
 }
 
-fun LocalTime.roundUpMinute(): LocalTime {
-    return withMinute((ceil(minute / 5.0) * 5).toInt())
+fun LocalTime.roundUpMinute(min: Int): LocalTime {
+    val newMinute = (ceil(minute / min.toDouble()) * min).toInt()
+    if (newMinute == 60) {
+        return plusHours(1).withMinute(0)
+    }
+    return withMinute(newMinute)
 }

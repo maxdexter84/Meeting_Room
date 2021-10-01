@@ -29,7 +29,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate), DatePickerDialog.OnDateSetListener {
 
@@ -132,11 +131,11 @@ class ModifyUpcomingEventFragment :
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        validateStartTime(LocalTime.of(hour, minute).roundUpMinute())
+        validateStartTime(LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND))
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        validateEndTime(LocalTime.of(hour, minute).roundUpMinute())
+        validateEndTime(LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND))
     }
 
     private fun validateStartTime(startTime: LocalTime) {
@@ -147,7 +146,7 @@ class ModifyUpcomingEventFragment :
                 && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_before_current_time_message)
-            } else if (startTime.isBefore(minTime) || startTime.isAfter(maxTime)) {
+            } else if (startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
             }
@@ -164,7 +163,7 @@ class ModifyUpcomingEventFragment :
             } else if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-            } else if (endTime.isBefore(minTime) || endTime.isAfter(maxTime)) {
+            } else if (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
             }
@@ -178,7 +177,8 @@ class ModifyUpcomingEventFragment :
     companion object {
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
-        private val minTime = LocalTime.of(6,0)
-        private val maxTime = LocalTime.of(23,59)
+        private val MIN_TIME = LocalTime.of(6,0)
+        private val MAX_TIME = LocalTime.of(23,59)
+        private const val MINUTE_TO_ROUND = 5
     }
 }
