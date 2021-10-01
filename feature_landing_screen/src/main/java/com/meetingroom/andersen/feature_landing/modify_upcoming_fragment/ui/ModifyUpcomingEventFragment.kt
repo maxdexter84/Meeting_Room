@@ -1,6 +1,5 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
@@ -128,6 +127,7 @@ class ModifyUpcomingEventFragment :
             modifyStartDatePicker.text = dateString
             modifyEventEndDate.text = dateString
         }
+        validateStartTime(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
@@ -141,43 +141,53 @@ class ModifyUpcomingEventFragment :
     private fun validateStartTime(startTime: LocalTime) {
         with (binding.modifyStartTimePicker) {
             text = startTime.timeToString(TIME_FORMAT)
+            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             if (startTime.isBefore(LocalTime.now())
                 && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
-                setRedColor(this)
+                setRedColorAndDisableSaving(this)
                 showAlertDialog(R.string.event_cant_start_before_current_time_message)
                 return
             }
             if (startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME)) {
-                setRedColor(this)
+                setRedColorAndDisableSaving(this)
                 showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+                return
             }
+            validateEndTime(binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT))
         }
     }
 
     private fun validateEndTime(endTime: LocalTime) {
         with (binding.modifyEndTimePicker) {
             text = endTime.timeToString(TIME_FORMAT)
+            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
-                setRedColor(this)
+                setRedColorAndDisableSaving(this)
                 showAlertDialog(R.string.event_cant_end_before_it_starts_message)
                 return
             }
-            if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
-                setRedColor(this)
+            if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(MAX_HOURS_DIFF))) {
+                setRedColorAndDisableSaving(this)
                 showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
                 return
             }
+            if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusMinutes(MIN_MINUTES_DIFF))) {
+                setRedColorAndDisableSaving(this)
+                showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
+                return
+            }
             if (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME)) {
-                setRedColor(this)
+                setRedColorAndDisableSaving(this)
                 showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
             }
         }
     }
 
-    private fun setRedColor(textView: TextView) {
+    private fun setRedColorAndDisableSaving(textView: TextView) {
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+        binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
     }
 
     companion object {
@@ -187,5 +197,7 @@ class ModifyUpcomingEventFragment :
         private const val MAX_MONTH = 3L
         private val MIN_TIME = LocalTime.of(6,0)
         private val MAX_TIME = LocalTime.of(23,59)
+        private const val MAX_HOURS_DIFF = 4L
+        private const val MIN_MINUTES_DIFF = 15L
     }
 }
