@@ -98,7 +98,7 @@ class ModifyUpcomingEventFragment :
         with(localDate) {
             DatePickerDialog(requireContext(), this@ModifyUpcomingEventFragment, year, monthValue - 1, dayOfMonth).apply {
                 datePicker.minDate = System.currentTimeMillis()
-                datePicker.maxDate = LocalDateTime.now().plusMonths(3).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 show()
             }
         }
@@ -146,7 +146,9 @@ class ModifyUpcomingEventFragment :
                 && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_before_current_time_message)
-            } else if (startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME)) {
+                return
+            }
+            if (startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
             }
@@ -160,10 +162,14 @@ class ModifyUpcomingEventFragment :
             if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_end_before_it_starts_message)
-            } else if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
+                return
+            }
+            if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(4))) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-            } else if (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME)) {
+                return
+            }
+            if (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME)) {
                 setRedColor(this)
                 showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
             }
@@ -177,8 +183,9 @@ class ModifyUpcomingEventFragment :
     companion object {
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
+        private const val MINUTE_TO_ROUND = 5
+        private const val MAX_MONTH = 3L
         private val MIN_TIME = LocalTime.of(6,0)
         private val MAX_TIME = LocalTime.of(23,59)
-        private const val MINUTE_TO_ROUND = 5
     }
 }
