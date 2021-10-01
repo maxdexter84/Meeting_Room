@@ -27,6 +27,7 @@ class TimeForNotificationDialog :
         initAdapter()
         initRecyclerView()
         isCancelable = false
+        viewModel.saveUserTime(args.upcomingEvent.reminderRemainingTime)
     }
 
     private fun initAdapter() {
@@ -54,6 +55,7 @@ class TimeForNotificationDialog :
 
     private fun saveTime(savedTime: String) {
         viewModel.changeSelected(timeAdapter.roomsAndTime, savedTime)
+        args.upcomingEvent.reminderActive = savedTime != "Never"
         if (savedTime == "Custom...") {//TODO Sealed class
             findNavController().navigate(
                 TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog(

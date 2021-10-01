@@ -20,6 +20,7 @@
     <string name="custom_dialog_radio_button_minutes">Minutes before</string>
     <string name="custom_dialog_radio_button_hours">Hours</string>
     <string name="custom_dialog_radio_button_days">Days</string>
+    <string name="reminder_disabled_text_for_time">Never</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

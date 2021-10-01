@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
@@ -55,7 +56,6 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
-
             viewModel.userRoom.observe(viewLifecycleOwner) {
                 eventRoomName.text = it ?: return@observe
             }
@@ -69,11 +69,16 @@ class ModifyUpcomingEventFragment :
 
     private fun initViews() { // TODO: придумать вариант по короче
         with(binding) {
+            if (args.upcomingEvent.reminderActive) {
+                reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
+            } else {
+                reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
+                args.upcomingEvent.reminderRemainingTime = getString(R.string.reminder_disabled_text_for_time)
+            }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
             eventRoomName.text = args.upcomingEvent.eventRoom
-            reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
             viewModel.update(args.upcomingEvent.eventRoom)

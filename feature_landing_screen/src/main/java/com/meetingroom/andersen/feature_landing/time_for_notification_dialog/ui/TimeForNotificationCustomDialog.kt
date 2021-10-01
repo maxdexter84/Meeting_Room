@@ -40,6 +40,9 @@ class TimeForNotificationCustomDialog :
                     args.upcomingEvent.reminderRemainingTime = it ?: ""
                 }
             }
+            if (userCustomTimeEditText.text.isEmpty() && args.upcomingEvent.reminderRemainingTime == "Never") {
+                args.upcomingEvent.reminderActive = false
+            }
         }
         findNavController().navigate(
             TimeForNotificationCustomDialogDirections.actionTimeForNotificationCustomDialogToModifyUpcomingEventFragment(
