@@ -126,8 +126,8 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             modifyStartDatePicker.text = dateString
             modifyEventEndDate.text = dateString
+            validateStartTime(modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))
         }
-        validateStartTime(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
@@ -143,18 +143,20 @@ class ModifyUpcomingEventFragment :
             text = startTime.timeToString(TIME_FORMAT)
             binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (startTime.isBefore(LocalTime.now())
-                && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_start_before_current_time_message)
-                return
+            when {
+                startTime.isBefore(LocalTime.now())
+                        && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now() -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_start_before_current_time_message)
+                }
+                startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME) -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+                }
+                else -> validateEndTime(
+                    binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT)
+                )
             }
-            if (startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME)) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
-                return
-            }
-            validateEndTime(binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT))
         }
     }
 
@@ -163,24 +165,23 @@ class ModifyUpcomingEventFragment :
             text = endTime.timeToString(TIME_FORMAT)
             binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_end_before_it_starts_message)
-                return
-            }
-            if (endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(MAX_HOURS_DIFF))) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-                return
-            }
-            if (endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusMinutes(MIN_MINUTES_DIFF))) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
-                return
-            }
-            if (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME)) {
-                setRedColorAndDisableSaving(this)
-                showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
+            when {
+                endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)) -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_end_before_it_starts_message)
+                }
+                endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(MAX_HOURS_DIFF)) -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
+                }
+                endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusMinutes(MIN_MINUTES_DIFF)) -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
+                }
+                endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME) -> {
+                    setRedColorAndDisableSaving(this)
+                    showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
+                }
             }
         }
     }
