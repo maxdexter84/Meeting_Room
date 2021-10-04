@@ -6,9 +6,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UpcomingEventData(
     var title: String,
-    val startTime: String,
-    val endTime: String,
-    val eventDate: String,
+    var startTime: String,
+    var endTime: String,
+    var eventDate: String,
     var eventRoom: String,
     val eventRoomColour: Int,
     var reminderRemainingTime: String = "30 minutes before",

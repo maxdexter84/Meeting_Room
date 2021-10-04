@@ -9,6 +9,7 @@ import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFragmentBinding
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.DaggerRoomPickerComponent
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.RoomPickerModule
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.presentation.RoomPickerViewModel
 import javax.inject.Inject
@@ -46,7 +47,7 @@ class RoomPickerDialogFragment :
         }
         initRecyclerView()
         isCancelable = false
-        viewModel.updateUserChosenRoom(args.upcomingEvent.eventRoom)
+        viewModel.updateUserChosenRoom(args.userRoom)
     }
 
     private fun initRecyclerView() {
@@ -60,12 +61,12 @@ class RoomPickerDialogFragment :
         viewModel.changeSelected(roomAdapter.roomsAndTime, roomName)
         viewModel.saveUserChosenRoom(roomName)
         viewModel.userChosenRoom.observe(viewLifecycleOwner) {
-            args.upcomingEvent.eventRoom = it ?: ""
+
         }
-        findNavController().navigate(
-            RoomPickerDialogFragmentDirections.actionRoomPickerDialogFragmentToModifyUpcomingEventFragment2(
-                args.upcomingEvent
-            )
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            ModifyUpcomingEventFragment.ROOM_KEY,
+            roomName
         )
+        findNavController().popBackStack()
     }
 }

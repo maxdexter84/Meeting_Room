@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.databinding.CustomDialogTimeForNotificationBinding
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.presentation.TimeForNotificationViewModel
 
 class TimeForNotificationCustomDialog :
@@ -14,13 +14,10 @@ class TimeForNotificationCustomDialog :
         CustomDialogTimeForNotificationBinding::inflate
     ) {
 
-    private val args: TimeForNotificationCustomDialogArgs by navArgs()
-
     private val viewModel by activityViewModels<TimeForNotificationViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         isCancelable = false
         binding.customDialogButtonDone.setOnClickListener { navigate() }
     }
@@ -35,19 +32,13 @@ class TimeForNotificationCustomDialog :
                         customTimeInDays.isChecked -> "days"
                         else -> ""
                     }
-                viewModel.saveUserTime("${userCustomTimeEditText.text} $timeType before")
-                viewModel.userSelectedTime.observe(viewLifecycleOwner) {
-                    args.upcomingEvent.reminderRemainingTime = it ?: ""
-                }
+                viewModel.setUserTime("${userCustomTimeEditText.text} $timeType before")
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    ModifyUpcomingEventFragment.TIME_KEY,
+                    "${userCustomTimeEditText.text} $timeType before"
+                )
             }
-            if (userCustomTimeEditText.text.isEmpty() && args.upcomingEvent.reminderRemainingTime == "Never") {
-                args.upcomingEvent.reminderActive = false
-            }
+            dismiss()
         }
-        findNavController().navigate(
-            TimeForNotificationCustomDialogDirections.actionTimeForNotificationCustomDialogToModifyUpcomingEventFragment(
-                args.upcomingEvent
-            )
-        )
     }
 }

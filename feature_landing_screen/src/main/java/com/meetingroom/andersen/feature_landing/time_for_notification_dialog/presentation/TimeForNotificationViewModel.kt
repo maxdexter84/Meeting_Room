@@ -8,7 +8,7 @@ class TimeForNotificationViewModel : ViewModel() {
 
     val userSelectedTime = MutableLiveData<String?>()
 
-    fun saveUserTime(time: String) {
+    fun setUserTime(time: String) {
         userSelectedTime.value = time
     }
 

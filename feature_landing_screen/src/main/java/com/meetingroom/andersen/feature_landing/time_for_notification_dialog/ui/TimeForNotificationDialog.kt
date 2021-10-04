@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFragmentBinding
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomAndTimePickerAdapter
 import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.presentation.TimeForNotificationViewModel
@@ -27,7 +28,7 @@ class TimeForNotificationDialog :
         initAdapter()
         initRecyclerView()
         isCancelable = false
-        viewModel.saveUserTime(args.upcomingEvent.reminderRemainingTime)
+        viewModel.setUserTime(args.userSelectedTime)
     }
 
     private fun initAdapter() {
@@ -55,23 +56,16 @@ class TimeForNotificationDialog :
 
     private fun saveTime(savedTime: String) {
         viewModel.changeSelected(timeAdapter.roomsAndTime, savedTime)
-        args.upcomingEvent.reminderActive = savedTime != "Never"
         if (savedTime == "Custom...") {//TODO Sealed class
-            findNavController().navigate(
-                TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog(
-                    args.upcomingEvent
-                )
-            )
+            dismiss()
+            findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2())
         } else {
-            findNavController().navigate(
-                TimeForNotificationDialogDirections.actionTimeForNotificationDialogToModifyUpcomingEventFragment(
-                    args.upcomingEvent
-                )
+            viewModel.setUserTime(savedTime)
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                ModifyUpcomingEventFragment.TIME_KEY,
+                savedTime
             )
-            viewModel.saveUserTime(savedTime)
-            viewModel.userSelectedTime.observe(viewLifecycleOwner) {
-                args.upcomingEvent.reminderRemainingTime = it ?: ""
-            }
+            findNavController().popBackStack()
         }
     }
 }

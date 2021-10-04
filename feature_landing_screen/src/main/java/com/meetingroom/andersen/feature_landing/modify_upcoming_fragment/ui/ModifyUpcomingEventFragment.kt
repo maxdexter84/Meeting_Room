@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
@@ -26,6 +27,9 @@ class ModifyUpcomingEventFragment :
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
+    private lateinit var eventRoom: String
+    private lateinit var eventReminderTime: String
+
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
             .modifyUpcomingEventFragmentModule(ModifyUpcomingEventFragmentModule(this))
@@ -38,29 +42,33 @@ class ModifyUpcomingEventFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            eventRoom = args.upcomingEvent.eventRoom
+            eventReminderTime = args.upcomingEvent.reminderRemainingTime
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
+                root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
             modifyRoomChooser.setOnClickListener {
-                checkTitleAndDescriptionSimilarity()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
-                        args.upcomingEvent
+                        eventRoom
                     )
                 )
             }
             setReminder.setOnClickListener {
-                checkTitleAndDescriptionSimilarity()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
-                        args.upcomingEvent
+                        eventReminderTime
                     )
                 )
             }
+            modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
             viewModel.userRoom.observe(viewLifecycleOwner) {
                 eventRoomName.text = it ?: return@observe
             }
+            observeRoomChange()
+            observeTimeChange()
         }
     }
 
@@ -75,7 +83,9 @@ class ModifyUpcomingEventFragment :
                 reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             } else {
                 reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
-                args.upcomingEvent.reminderRemainingTime = getString(R.string.reminder_disabled_text_for_time)
+                args.upcomingEvent.reminderRemainingTime =
+                    getString(R.string.reminder_disabled_text_for_time)
+                eventReminderTime = "Never"
             }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
@@ -88,18 +98,49 @@ class ModifyUpcomingEventFragment :
         }
     }
 
-    private fun checkTitleAndDescriptionSimilarity() {
-        with(binding) {
-            if (eventModifyTitle.text.toString() != args.upcomingEvent.title) {
-                args.upcomingEvent.title = eventModifyTitle.text.toString()
+    private fun observeRoomChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
+            ?.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    binding.eventRoomName.text = it
+                    eventRoom = it
+                }
             }
-            if (userEventDescription.text.isNotEmpty()) {
-                args.upcomingEvent.eventDescription = userEventDescription.text.toString()
+    }
+
+    private fun observeTimeChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
+            ?.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    binding.reminderLeftTime.text = it
+                    eventReminderTime = it
+                }
             }
-        }
     }
 
     private fun createNotification() {
         NotificationHelper.setNotification(args.upcomingEvent, notificationHelper)
+    }
+
+    private fun saveChanges() {
+        with(binding) {
+            args.upcomingEvent.apply {
+                title = eventModifyTitle.text.toString()
+                startTime = modifyStartTimePicker.text.toString()
+                endTime = modifyEndTimePicker.text.toString()
+                eventDate = modifyStartDatePicker.text.toString()
+                eventRoom = eventRoomName.text.toString()
+                reminderActive = reminderLeftTime.text != "Never"
+                reminderRemainingTime = reminderLeftTime.text.toString()
+                eventDescription = userEventDescription.text.toString()
+            }
+            root.hideKeyboard(requireContext())
+        }
+        requireActivity().onBackPressed()
+    }
+
+    companion object {
+        const val ROOM_KEY = "ROOM_KEY"
+        const val TIME_KEY = "TIME_KEY"
     }
 }
