@@ -24,9 +24,18 @@ class TimeForNotificationCustomDialog :
             if (userCustomTimeEditText.text.isNotEmpty()) {
                 val timeType =
                     when {
-                        customTimeInMinutes.isChecked -> getString(R.string.custom_time_select_type_minutes)
-                        customTimeInHours.isChecked -> getString(R.string.custom_time_select_type_hours)
-                        customTimeInDays.isChecked -> getString(R.string.custom_time_select_type_days)
+                        customTimeInMinutes.isChecked -> resources.getQuantityString(
+                            R.plurals.amountOfMinutes,
+                            userCustomTimeEditText.text.toString().toInt()
+                        )
+                        customTimeInHours.isChecked -> resources.getQuantityString(
+                            R.plurals.amountOfHours,
+                            userCustomTimeEditText.text.toString().toInt()
+                        )
+                        customTimeInDays.isChecked -> resources.getQuantityString(
+                            R.plurals.amountOfDays,
+                            userCustomTimeEditText.text.toString().toInt()
+                        )
                         else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
                     }
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
