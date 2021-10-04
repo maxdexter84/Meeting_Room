@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFragmentBinding
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomAndTimePickerAdapter
@@ -56,7 +57,7 @@ class TimeForNotificationDialog :
 
     private fun saveTime(savedTime: String) {
         viewModel.changeSelected(timeAdapter.roomsAndTime, savedTime)
-        if (savedTime == "Custom...") {//TODO Sealed class
+        if (savedTime == UserTimeTypes.fromId(getString(R.string.reminder_custom_text_for_time)).id) {
             dismiss()
             findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2())
         } else {

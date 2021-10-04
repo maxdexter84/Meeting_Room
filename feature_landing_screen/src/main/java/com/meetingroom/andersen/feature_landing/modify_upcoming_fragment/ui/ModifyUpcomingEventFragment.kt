@@ -12,6 +12,7 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import javax.inject.Inject
@@ -77,7 +78,7 @@ class ModifyUpcomingEventFragment :
         initViews()
     }
 
-    private fun initViews() { // TODO: придумать вариант по короче
+    private fun initViews() {
         with(binding) {
             if (args.upcomingEvent.reminderActive) {
                 reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
@@ -85,7 +86,7 @@ class ModifyUpcomingEventFragment :
                 reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
                 args.upcomingEvent.reminderRemainingTime =
                     getString(R.string.reminder_disabled_text_for_time)
-                eventReminderTime = "Never"
+                eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
@@ -130,7 +131,8 @@ class ModifyUpcomingEventFragment :
                 endTime = modifyEndTimePicker.text.toString()
                 eventDate = modifyStartDatePicker.text.toString()
                 eventRoom = eventRoomName.text.toString()
-                reminderActive = reminderLeftTime.text != "Never"
+                reminderActive =
+                    reminderLeftTime.text != UserTimeTypes.fromId(getString(R.string.reminder_disabled_text_for_time)).id
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
