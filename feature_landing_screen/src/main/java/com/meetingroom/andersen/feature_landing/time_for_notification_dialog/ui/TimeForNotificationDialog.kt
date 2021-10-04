@@ -2,7 +2,6 @@ package com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
@@ -12,14 +11,11 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.U
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomAndTimePickerAdapter
-import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.presentation.TimeForNotificationViewModel
 
 class TimeForNotificationDialog :
     BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
 
-    private val viewModel by activityViewModels<TimeForNotificationViewModel>()
-
-    private val timeAdapter by lazy { RoomAndTimePickerAdapter { saveTime(it) } }
+    private val timeAdapter by lazy { RoomAndTimePickerAdapter { setTime(it) } }
 
     private val args: TimeForNotificationDialogArgs by navArgs()
 
@@ -29,21 +25,18 @@ class TimeForNotificationDialog :
         initAdapter()
         initRecyclerView()
         isCancelable = false
-        viewModel.setUserTime(args.userSelectedTime)
     }
 
     private fun initAdapter() {
         requireActivity().resources.getStringArray(R.array.options_for_reminder_time)
             .let { options ->
-                viewModel.userSelectedTime.observe(viewLifecycleOwner) {
-                    val alreadySelectedTime = it
-                    options.forEach { time ->
-                        timeAdapter.roomsAndTime += RoomAndTimePickerData(
-                            time,
-                            alreadySelectedTime == time,
-                            false
-                        )
-                    }
+                val alreadySelectedTime = args.userSelectedTime
+                options.forEach { time ->
+                    timeAdapter.roomsAndTime += RoomAndTimePickerData(
+                        time,
+                        alreadySelectedTime == time,
+                        false
+                    )
                 }
             }
     }
@@ -55,13 +48,11 @@ class TimeForNotificationDialog :
         }
     }
 
-    private fun saveTime(savedTime: String) {
-        viewModel.changeSelected(timeAdapter.roomsAndTime, savedTime)
+    private fun setTime(savedTime: String) {
         if (savedTime == UserTimeTypes.fromId(getString(R.string.reminder_custom_text_for_time)).id) {
             dismiss()
             findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2())
         } else {
-            viewModel.setUserTime(savedTime)
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 ModifyUpcomingEventFragment.TIME_KEY,
                 savedTime

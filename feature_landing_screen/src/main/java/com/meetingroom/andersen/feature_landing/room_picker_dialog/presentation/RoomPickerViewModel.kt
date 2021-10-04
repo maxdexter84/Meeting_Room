@@ -10,18 +10,9 @@ class RoomPickerViewModel(
 ) : ViewModel() {
 
     val gagRooms = MutableLiveData<List<GagRoomData>>()
-    val userChosenRoom = MutableLiveData<String?>()
 
     init {
         gagRooms.value = gagForRooms.generate()
-    }
-
-    fun saveUserChosenRoom(roomName: String) {
-        userChosenRoom.value = roomName
-    }
-
-    fun updateUserChosenRoom(room: String) {
-        userChosenRoom.value = room
     }
 
     fun changeSelected(roomsAndTime: ArrayList<RoomAndTimePickerData>, roomName: String) {

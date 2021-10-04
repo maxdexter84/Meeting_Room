@@ -12,7 +12,6 @@ import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAnd
 class RoomAndTimePickerAdapter(private val onItemSelected: (String) -> Unit) :
     RecyclerView.Adapter<RoomAndTimePickerAdapter.RoomAndTimePickerViewHolder>() {
 
-
     var roomsAndTime = arrayListOf<RoomAndTimePickerData>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {

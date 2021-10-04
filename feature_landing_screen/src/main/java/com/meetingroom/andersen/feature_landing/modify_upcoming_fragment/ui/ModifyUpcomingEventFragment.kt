@@ -1,44 +1,27 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate) {
 
-    private val args: ModifyUpcomingEventFragmentArgs by navArgs()//? отправить в liveData сразу
-
-    @Inject
-    lateinit var viewModel: ModifyUpcomingEventViewModel
+    private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
-
-    override fun onAttach(context: Context) {
-        DaggerModifyUpcomingEventFragmentComponent.builder()
-            .modifyUpcomingEventFragmentModule(ModifyUpcomingEventFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
-            .build()
-            .inject(this)
-        super.onAttach(context)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,9 +48,9 @@ class ModifyUpcomingEventFragment :
                 )
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
-            viewModel.userRoom.observe(viewLifecycleOwner) {
-                eventRoomName.text = it ?: return@observe
-            }
+
+            eventRoomName.text = args.upcomingEvent.eventRoom
+
             observeRoomChange()
             observeTimeChange()
         }
@@ -95,7 +78,6 @@ class ModifyUpcomingEventFragment :
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
             userEventDescription.setText(args.upcomingEvent.eventDescription ?: "")
-            viewModel.update(args.upcomingEvent.eventRoom)
         }
     }
 

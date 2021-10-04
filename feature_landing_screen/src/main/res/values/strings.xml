@@ -22,6 +22,11 @@
     <string name="custom_dialog_radio_button_days">Days</string>
     <string name="reminder_disabled_text_for_time">Never</string>
     <string name="reminder_custom_text_for_time">Custom...</string>
+    <string name="custom_time_select_type_minutes">minutes</string>
+    <string name="custom_time_select_type_hours">hours</string>
+    <string name="custom_time_select_type_days">days</string>
+    <string name="custom_time_select_type_no_option_error">No such option</string>
+    <string name="user_selected_custom_time_option">%1$s %2$s before</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
