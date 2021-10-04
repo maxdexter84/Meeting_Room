@@ -165,4 +165,27 @@
         <item name="strokeWidth">1dp</item>
         <item name="android:layout_marginStart">8dp</item>
     </style>
+
+    <!-- ALERT DIALOGS -->
+
+    <style name="AlertDialog.Light" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Light.Text</item>
+        <item name="colorSurface">@color/white</item>
+    </style>
+
+    <style name="AlertDialog.Dark" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertDialog.Dark.Text</item>
+        <item name="colorSurface">@color/android_dark_background</item>
+    </style>
+
+    <style name="AlertDialog.Light.Text">
+        <item name="android:textColor">@color/gray_light</item>
+    </style>
+
+    <style name="AlertDialog.Dark.Text">
+        <item name="android:textColor">@color/text_gray</item>
+    </style>
+
 </resources>

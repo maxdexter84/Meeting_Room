@@ -43,4 +43,5 @@
     <color name="android_dark_dropbox">#545454</color>
     <color name="text_gray">#BEBEBE</color>
     <color name="segm_contr_dark">#636366</color>
+    <color name="red">#EF4B41</color>
 </resources>

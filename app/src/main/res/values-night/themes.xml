@@ -15,5 +15,6 @@
 
         <item name="android:timePickerDialogTheme">@style/TimePickerDialog.Dark</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerDialog.Dark</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialog.Dark</item>
     </style>
 </resources>
