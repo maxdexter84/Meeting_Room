@@ -1,8 +1,6 @@
 package com.meetingroom.feature_login
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
@@ -54,18 +52,15 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         }
     }
 
-    private val onTextChangeListener = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-
-        override fun afterTextChanged(s: Editable) {
-            with(binding) {
-                if (editEmailLoginFragment.text!!.isNotBlank() && editPasswordLoginFragment.text!!.isNotBlank()) {
-                    logInButtonMainActivity.state = MainActionButtonState.ENABLED
-                } else {
-                    logInButtonMainActivity.state = MainActionButtonState.DISABLED
-                }
+    private val onTextChangeListener = {
+        with(binding) {
+            editEmailLoginFragment.textError = ""
+            editPasswordLoginFragment.textError = ""
+            if (editEmailLoginFragment.text!!.isNotBlank() && editPasswordLoginFragment.text!!.isNotBlank()) {
+                logInButtonMainActivity.state = MainActionButtonState.ENABLED
+            } else {
+                logInButtonMainActivity.state = MainActionButtonState.DISABLED
             }
-        }}
+        }
+    }
 }
