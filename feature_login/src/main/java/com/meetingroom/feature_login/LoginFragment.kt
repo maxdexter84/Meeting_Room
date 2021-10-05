@@ -1,8 +1,9 @@
 package com.meetingroom.feature_login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import androidx.core.view.marginEnd
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_fragment.BaseFragment
@@ -29,23 +30,42 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.requestResult.observe(viewLifecycleOwner, {
-            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
-            findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
-        })
+        with(binding) {
+            viewModel.requestResult.observe(viewLifecycleOwner, {
+                logInButtonMainActivity.state = MainActionButtonState.ENABLED
+                findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
+            })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, {
-            binding.editEmailLoginFragment.textError = requireContext().getString(it)
-            binding.logInButtonMainActivity.state = MainActionButtonState.DISABLED
-        })
+            viewModel.errorMessage.observe(viewLifecycleOwner, {
+                editEmailLoginFragment.textError = requireContext().getString(it)
+                logInButtonMainActivity.state = MainActionButtonState.DISABLED
+            })
 
-        //binding.logInButtonMainActivity.state = MainActionButtonState.DISABLED
-        binding.logInButtonMainActivity.setOnClickListener {
-            viewModel.tryToLogIn(
-                binding.editEmailLoginFragment.text!!,
-                binding.editPasswordLoginFragment.text!!
-            )
-            binding.logInButtonMainActivity.state = MainActionButtonState.LOADING
+            editEmailLoginFragment.addTextChangeListener(onTextChangeListener)
+            editPasswordLoginFragment.addTextChangeListener(onTextChangeListener)
+            logInButtonMainActivity.state = MainActionButtonState.DISABLED
+            logInButtonMainActivity.setOnClickListener {
+                viewModel.tryToLogIn(
+                    editEmailLoginFragment.text!!,
+                    editPasswordLoginFragment.text!!
+                )
+                logInButtonMainActivity.state = MainActionButtonState.LOADING
+            }
         }
     }
+
+    private val onTextChangeListener = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable) {
+            with(binding) {
+                if (editEmailLoginFragment.text!!.isNotBlank() && editPasswordLoginFragment.text!!.isNotBlank()) {
+                    logInButtonMainActivity.state = MainActionButtonState.ENABLED
+                } else {
+                    logInButtonMainActivity.state = MainActionButtonState.DISABLED
+                }
+            }
+        }}
 }

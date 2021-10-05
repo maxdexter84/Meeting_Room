@@ -3,15 +3,16 @@ package com.meeringroom.ui.view.edit_text
 
 import android.content.Context
 import android.text.InputType
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.CustomEdittextBinding
@@ -106,10 +107,10 @@ class MrEditText @JvmOverloads constructor(
                 binding.toggleButtonCustomEditText.visibilityIf(false)
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
-            else -> {
-                binding.toggleButtonCustomEditText.visibilityIf(false)
-                binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
-            }
         }
+    }
+
+    fun addTextChangeListener(watcher: TextWatcher) {
+        binding.editTextCustomEditText.addTextChangedListener(watcher)
     }
 }
