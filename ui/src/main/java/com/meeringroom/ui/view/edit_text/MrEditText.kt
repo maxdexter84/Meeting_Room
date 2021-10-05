@@ -83,7 +83,7 @@ class MrEditText @JvmOverloads constructor(
             inputTypeTypes =
                 MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
         }
-        binding.editTextCustomEditText.addTextChangedListener {
+        binding.editTextCustomEditText.afterTextChanged {
             textError = ""
         }
     }
