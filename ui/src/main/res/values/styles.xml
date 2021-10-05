@@ -15,6 +15,10 @@
         <item name="android:textColor">@color/button_text_color_selector</item>
     </style>
 
+    <style name="TextAppearance.ProgressButton.Yellow.Disabled" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textColor">@color/button_text_color_selector</item>
+    </style>
+
     <style name="Widget.ProgressButton.Yellow" parent="">
         <item name="android:theme">@style/ThemeOverlay.Widget.ProgressButton.Yellow</item>
         <item name="android:background">@drawable/progress_button</item>

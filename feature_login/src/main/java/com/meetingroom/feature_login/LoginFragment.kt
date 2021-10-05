@@ -36,9 +36,10 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
 
         viewModel.errorMessage.observe(viewLifecycleOwner, {
             binding.editEmailLoginFragment.textError = requireContext().getString(it)
-            binding.logInButtonMainActivity.state = MainActionButtonState.ENABLED
+            binding.logInButtonMainActivity.state = MainActionButtonState.DISABLED
         })
 
+        //binding.logInButtonMainActivity.state = MainActionButtonState.DISABLED
         binding.logInButtonMainActivity.setOnClickListener {
             viewModel.tryToLogIn(
                 binding.editEmailLoginFragment.text!!,
