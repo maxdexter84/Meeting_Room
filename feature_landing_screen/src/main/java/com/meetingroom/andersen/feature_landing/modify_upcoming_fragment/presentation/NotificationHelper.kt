@@ -38,7 +38,8 @@ class NotificationHelper @Inject constructor(private val context: Context) {
         @SuppressLint("UnspecifiedImmutableFlag")
         fun setNotification(
             upcomingEventData: UpcomingEventData,
-            notificationHelper: NotificationHelper
+            notificationHelper: NotificationHelper,
+            reminderStartTime: String,
         ) {
             val notificationDescription =
                 String.format(
