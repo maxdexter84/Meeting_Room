@@ -5,12 +5,13 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UpcomingEventData(
-    val title: String,
-    val startTime: String,
-    val endTime: String,
-    val eventDate: String,
+    var title: String,
+    var startTime: String,
+    var endTime: String,
+    var eventDate: String,
     var eventRoom: String,
     val eventRoomColour: Int,
-    val reminderRemainingTime: String = "30 min",
+    var reminderRemainingTime: String = "30 minutes before",
     var reminderActive: Boolean,
+    var eventDescription: String?,
 ) : Parcelable

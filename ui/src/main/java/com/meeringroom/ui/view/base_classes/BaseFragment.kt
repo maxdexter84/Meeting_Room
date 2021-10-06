@@ -1,4 +1,4 @@
-package com.meeringroom.ui.view.base_fragment
+package com.meeringroom.ui.view.base_classes
 
 import android.os.Bundle
 import android.view.LayoutInflater

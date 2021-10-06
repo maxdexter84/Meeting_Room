@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.feature_set_location.databinding.LocationFragmentBinding
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view.base_classes.BaseFragment
 
 class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentBinding::inflate) {
 

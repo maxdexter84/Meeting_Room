@@ -13,10 +13,6 @@ interface UserDataPrefHelper {
 
     fun getCountryOfUserLocation(): String?
 
-    fun saveRoomOfUserSelection(value: String)
-
-    fun getRoomOfUserSelection() : String?
-
     fun getTokenDay(): Long?
 
     fun deleteToken()

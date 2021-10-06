@@ -25,18 +25,32 @@
         <action
             android:id="@+id/action_modifyUpcomingEventFragment_to_roomPickerDialogFragment2"
             app:destination="@id/roomPickerDialogFragment" />
+        <action
+            android:id="@+id/action_modifyUpcomingEventFragment_to_timeForNotificationDialog"
+            app:destination="@id/timeForNotificationDialog" />
     </fragment>
     <dialog
         android:id="@+id/roomPickerDialogFragment"
         android:name="com.meetingroom.andersen.feature_landing.room_picker_dialog.ui.RoomPickerDialogFragment"
         android:label="RoomPickerDialogFragment" >
-        <action
-            android:id="@+id/action_roomPickerDialogFragment_to_modifyUpcomingEventFragment2"
-            app:destination="@id/modifyUpcomingEventFragment"
-            app:popUpTo="@id/modifyUpcomingEventFragment"
-            app:popUpToInclusive="true" />
         <argument
-            android:name="upcomingEvent"
-            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+            android:name="userRoom"
+            app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationDialog"
+        android:name="com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui.TimeForNotificationDialog"
+        android:label="TimeForNotificationDialog" >
+        <argument
+            android:name="userSelectedTime"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_timeForNotificationDialog_to_timeForNotificationCustomDialog2"
+            app:destination="@id/timeForNotificationCustomDialog"
+            app:popUpToInclusive="false" />
+    </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationCustomDialog"
+        android:name="com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui.TimeForNotificationCustomDialog"
+        android:label="TimeForNotificationCustomDialog" />
 </navigation>

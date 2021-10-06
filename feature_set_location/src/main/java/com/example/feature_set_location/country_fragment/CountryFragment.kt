@@ -1,16 +1,14 @@
 package com.example.feature_set_location.country_fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CountryFragmentBinding
 import com.example.feature_set_location.di.CountryFragmentModule
 import com.example.feature_set_location.di.DaggerCountryComponent
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view.base_classes.BaseFragment
 import javax.inject.Inject
 
 
