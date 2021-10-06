@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -33,6 +35,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.*
 import javax.inject.Inject
 
 @SuppressLint("NewApi")
@@ -219,7 +222,10 @@ class ModifyUpcomingEventFragment :
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
-            root.hideKeyboard(requireContext())
+            val time =
+                "${modifyStartDatePicker.text.toString()} ${modifyEndTimePicker.text.toString()}".stringToDate(
+                    DATE_AND_TIME_FORMAT
+                )
         }
         requireActivity().onBackPressed()
     }
@@ -314,6 +320,7 @@ class ModifyUpcomingEventFragment :
         const val TIME_KEY = "TIME_KEY"
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
+        private const val DATE_AND_TIME_FORMAT = "d MMM yyyy HH:mm"
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
         private const val USER_INACTIVITY_LIMIT = 30000L
