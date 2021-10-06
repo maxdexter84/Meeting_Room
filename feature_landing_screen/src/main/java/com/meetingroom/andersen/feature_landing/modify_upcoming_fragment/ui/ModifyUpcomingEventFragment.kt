@@ -3,25 +3,22 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -29,40 +26,47 @@ import java.time.ZoneId
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
-    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate), DatePickerDialog.OnDateSetListener {
+    BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
+    DatePickerDialog.OnDateSetListener {
 
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
     @Inject
-    lateinit var viewModel: ModifyUpcomingEventViewModel
-
-    @Inject
     lateinit var notificationHelper: NotificationHelper
 
-    override fun onAttach(context: Context) {
-        DaggerModifyUpcomingEventFragmentComponent.builder()
-            .modifyUpcomingEventFragmentModule(ModifyUpcomingEventFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
-            .build()
-            .inject(this)
-        super.onAttach(context)
-    }
+    private lateinit var eventRoom: String
+    private lateinit var eventReminderTime: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding) {
+            eventRoom = args.upcomingEvent.eventRoom
+            eventReminderTime = args.upcomingEvent.reminderRemainingTime
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
+                root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
             }
-            modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
             modifyRoomChooser.setOnClickListener {
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
-                        args.upcomingEvent
+                        eventRoom
                     )
                 )
             }
+            setReminder.setOnClickListener {
+                findNavController().navigate(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
+                        eventReminderTime
+                    )
+                )
+            }
+            modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
+
+            eventRoomName.text = args.upcomingEvent.eventRoom
+
+            observeRoomChange()
+            observeTimeChange()
+
             modifyStartDatePicker.setOnClickListener {
                 showDatePickerDialog(modifyStartDatePicker.text.toString())
             }
@@ -77,7 +81,19 @@ class ModifyUpcomingEventFragment :
 
     override fun onStart() {
         super.onStart()
+        initViews()
+    }
+
+    private fun initViews() {
         with(binding) {
+            if (args.upcomingEvent.reminderActive) {
+                reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
+            } else {
+                reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
+                args.upcomingEvent.reminderRemainingTime =
+                    getString(R.string.reminder_disabled_text_for_time)
+                eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
+            }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
@@ -88,16 +104,66 @@ class ModifyUpcomingEventFragment :
         }
     }
 
-    private fun createNotification() {
-        NotificationHelper.setNotification(args.upcomingEvent, notificationHelper)
+    private fun observeRoomChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
+            ?.observe(viewLifecycleOwner) {
+                it?.let {
+                    binding.eventRoomName.text = it
+                    eventRoom = it
+                }
+            }
+    }
+
+    private fun observeTimeChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
+            ?.observe(viewLifecycleOwner) {
+                it?.let {
+                    binding.reminderLeftTime.text = it
+                    eventReminderTime = it
+                }
+            }
+    }
+
+    private fun createNotification(reminderStartTime: String) {
+        NotificationHelper.setNotification(
+            args.upcomingEvent,
+            notificationHelper,
+            reminderStartTime
+        )
+    }
+
+    private fun saveChanges() {
+        with(binding) {
+            args.upcomingEvent.apply {
+                title = eventModifyTitle.text.toString()
+                startTime = modifyStartTimePicker.text.toString()
+                endTime = modifyEndTimePicker.text.toString()
+                eventDate = modifyStartDatePicker.text.toString()
+                eventRoom = eventRoomName.text.toString()
+                reminderActive =
+                    reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
+                reminderRemainingTime = reminderLeftTime.text.toString()
+                eventDescription = userEventDescription.text.toString()
+            }
+            root.hideKeyboard(requireContext())
+        }
+        requireActivity().onBackPressed()
     }
 
     private fun showDatePickerDialog(dateString: String) {
         val localDate = dateString.stringToDate(DATE_FORMAT)
         with(localDate) {
-            DatePickerDialog(requireContext(), this@ModifyUpcomingEventFragment, year, monthValue - 1, dayOfMonth).apply {
+            DatePickerDialog(
+                requireContext(),
+                this@ModifyUpcomingEventFragment,
+                year,
+                monthValue - 1,
+                dayOfMonth
+            ).apply {
                 datePicker.minDate = System.currentTimeMillis()
-                datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                datePicker.maxDate =
+                    LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault())
+                        .toInstant().toEpochMilli()
                 show()
             }
         }
@@ -139,13 +205,14 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun validateStartTime(startTime: LocalTime) {
-        with (binding.modifyStartTimePicker) {
+        with(binding.modifyStartTimePicker) {
             text = startTime.timeToString(TIME_FORMAT)
             binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             when {
                 startTime.isBefore(LocalTime.now())
-                        && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now() -> {
+                        && binding.modifyStartDatePicker.text.toString()
+                    .stringToDate(DATE_FORMAT) == LocalDate.now() -> {
                     setRedColorAndDisableSaving(this)
                     showAlertDialog(R.string.event_cant_start_before_current_time_message)
                 }
@@ -161,20 +228,28 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun validateEndTime(endTime: LocalTime) {
-        with (binding.modifyEndTimePicker) {
+        with(binding.modifyEndTimePicker) {
             text = endTime.timeToString(TIME_FORMAT)
             binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             when {
-                endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)) -> {
+                endTime.isBefore(
+                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
+                ) -> {
                     setRedColorAndDisableSaving(this)
                     showAlertDialog(R.string.event_cant_end_before_it_starts_message)
                 }
-                endTime.isAfter(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusHours(MAX_HOURS_DIFF)) -> {
+                endTime.isAfter(
+                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
+                        .plusHours(MAX_HOURS_DIFF)
+                ) -> {
                     setRedColorAndDisableSaving(this)
                     showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
                 }
-                endTime.isBefore(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT).plusMinutes(MIN_MINUTES_DIFF)) -> {
+                endTime.isBefore(
+                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
+                        .plusMinutes(MIN_MINUTES_DIFF)
+                ) -> {
                     setRedColorAndDisableSaving(this)
                     showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
                 }
@@ -192,12 +267,14 @@ class ModifyUpcomingEventFragment :
     }
 
     companion object {
+        const val ROOM_KEY = "ROOM_KEY"
+        const val TIME_KEY = "TIME_KEY"
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
-        private val MIN_TIME = LocalTime.of(6,0)
-        private val MAX_TIME = LocalTime.of(23,59)
+        private val MIN_TIME = LocalTime.of(6, 0)
+        private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4L
         private const val MIN_MINUTES_DIFF = 15L
     }

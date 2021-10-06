@@ -16,6 +16,29 @@
     <string name="delete_event_modify_fragment">DELETE EVENT</string>
     <string name="event_description_modify_edit_text_hint">Event description</string>
     <string name="modify_event_add_title_hint">Add title</string>
+    <string name="custom_notifications">Custom notifications</string>
+    <string name="custom_dialog_radio_button_minutes">Minutes before</string>
+    <string name="custom_dialog_radio_button_hours">Hours</string>
+    <string name="custom_dialog_radio_button_days">Days</string>
+    <string name="reminder_disabled_text_for_time">Never</string>
+    <string name="reminder_custom_text_for_time">Custom...</string>
+    <string name="custom_time_select_type_minutes">minutes</string>
+    <plurals name="amountOfMinutes">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+    <string name="custom_time_select_type_hours">hours</string>
+    <plurals name="amountOfHours">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <string name="custom_time_select_type_days">days</string>
+    <plurals name="amountOfDays">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <string name="custom_time_select_type_no_option_error">No such option</string>
+    <string name="user_selected_custom_time_option">In %1$s %2$s before</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
     <string name="event_cant_start_before_current_time_message">The event can\'t start before current time.</string>
     <string name="event_cant_start_between_0_and_6_hours_message">The event can\'t start between 00.00 and 06.00.</string>
@@ -35,11 +58,11 @@
     <string-array name="options_for_reminder_time">
         <item>Never</item>
         <item>At the time of event</item>
-        <item>In 5 min</item>
-        <item>In 10 min</item>
-        <item>In 15 min</item>
-        <item>In 30 min</item>
-        <item>In 1 hour</item>
+        <item>In 5 minutes before</item>
+        <item>In 10 minutes before</item>
+        <item>In 15 minutes before</item>
+        <item>In 30 minutes before</item>
+        <item>In 1 hour before</item>
         <item>Custom...</item>
     </string-array>
 </resources>

@@ -7,7 +7,7 @@ import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view.base_classes.BaseFragment
 import javax.inject.Inject
 
 class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::inflate) {

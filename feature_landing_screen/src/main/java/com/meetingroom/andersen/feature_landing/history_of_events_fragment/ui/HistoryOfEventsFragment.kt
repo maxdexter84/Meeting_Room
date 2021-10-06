@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentHistoryOfEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding

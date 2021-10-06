@@ -8,7 +8,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.google.android.material.tabs.TabLayoutMediator
-import com.meeringroom.ui.view.base_fragment.BaseFragment
+import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentLandingBinding

@@ -93,7 +93,8 @@ class GagForUpcomingEvents {
                 eventDate,
                 eventRoom,
                 eventRoomColour,
-                reminderActive = eventBellActive
+                reminderActive = eventBellActive,
+                eventDescription = null
             )
 
             list += item
