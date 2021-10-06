@@ -2,6 +2,7 @@ package com.meeringroom.ui.view.edit_text
 
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -10,7 +11,6 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
-import androidx.core.widget.addTextChangedListener
 import com.meeringroom.ui.view_utils.afterTextChanged
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
@@ -43,7 +43,9 @@ class MrEditText @JvmOverloads constructor(
     var textError: String? = ""
         set(value) {
             field = value ?: ""
-            binding.errorTextCustomEditText.text = value
+            if (inputTypeTypes is MrEditTextTypes.Password) {
+                binding.errorTextCustomEditText.text = value
+            }
 
             if (field!!.isEmpty()) {
                 binding.viewCustomEditText.setBackgroundColor(
@@ -88,6 +90,12 @@ class MrEditText @JvmOverloads constructor(
 
             inputTypeTypes =
                 MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
+
+            if (this.hasValue(R.styleable.MrEditText_maxLength)) {
+                binding.editTextCustomEditText.filters = arrayOf<InputFilter>(
+                    InputFilter.LengthFilter(getInteger(R.styleable.MrEditText_maxLength, 0))
+                )
+            }
         }
     }
 
@@ -107,6 +115,7 @@ class MrEditText @JvmOverloads constructor(
             }
             is MrEditTextTypes.Login -> {
                 binding.toggleButtonCustomEditText.visibilityIf(false)
+                binding.errorTextCustomEditText.visibility = GONE
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
         }

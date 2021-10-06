@@ -47,6 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:inputType="login"
+        app:maxLength="64"
         app:setHintText="@string/edit_email_login_fragment_hint"/>
 
     <com.meeringroom.ui.view.edit_text.MrEditText
@@ -60,6 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:inputType="password"
+        app:maxLength="64"
         app:setHintText="@string/edit_password_login_fragment_hint"/>
 
     <com.meeringroom.ui.view.login_button.MainActionButton
