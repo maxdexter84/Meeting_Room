@@ -115,7 +115,7 @@ class MrEditText @JvmOverloads constructor(
             }
             is MrEditTextTypes.Login -> {
                 binding.toggleButtonCustomEditText.visibilityIf(false)
-                binding.errorTextCustomEditText.visibility = GONE
+                binding.errorTextCustomEditText.visibilityIf(false)
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
         }
