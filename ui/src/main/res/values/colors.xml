@@ -31,4 +31,19 @@
     <color name="end_for_gradient">#aeaeae</color>
     <color name="smart_black">#2E2E2E</color>
     <color name="grey_text_color">#828282</color>
+
+    <color name="black_color">#020303</color>
+    <color name="dark_gray">#8C8C8C</color>
+    <color name="gray_60_dark">#3CEBEBF5</color>
+    <color name="text_unvisible">#828282</color>
+    <color name="cream_dark">#EBEBEB</color>
+    <color name="high_emphasis">#57000000</color>
+
+    <color name="android_dark_background">#3D3D3D</color>
+    <color name="android_dark_dropbox">#545454</color>
+    <color name="text_gray">#BEBEBE</color>
+    <color name="segm_contr_dark">#636366</color>
+    <color name="red">#EF4B41</color>
+
+    <color name="light_gray">#D2D2D2</color>
 </resources>

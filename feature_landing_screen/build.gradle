@@ -59,6 +59,4 @@ dependencies {
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
-
-
 }
