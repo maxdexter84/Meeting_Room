@@ -44,4 +44,6 @@
     <color name="text_gray">#BEBEBE</color>
     <color name="segm_contr_dark">#636366</color>
     <color name="red">#EF4B41</color>
+
+    <color name="light_gray">#D2D2D2</color>
 </resources>

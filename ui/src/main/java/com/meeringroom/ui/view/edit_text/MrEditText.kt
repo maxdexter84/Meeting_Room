@@ -7,11 +7,11 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.widget.addTextChangedListener
+import com.meeringroom.ui.view_utils.afterTextChanged
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.CustomEdittextBinding
@@ -64,6 +64,12 @@ class MrEditText @JvmOverloads constructor(
             }
         }
 
+    var afterTextChangeAction: (() -> Unit) = { textError = "" }
+        set(value){
+            field = value
+            binding.editTextCustomEditText.afterTextChanged(field)
+        }
+
     private var binding: CustomEdittextBinding =
         CustomEdittextBinding.inflate(LayoutInflater.from(context), this, true)
 
@@ -83,9 +89,6 @@ class MrEditText @JvmOverloads constructor(
             inputTypeTypes =
                 MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
         }
-        binding.editTextCustomEditText.addTextChangedListener {
-            textError = ""
-        }
     }
 
     private fun setPropertiesForToggleButtonAndEditText(value: MrEditTextTypes) {
@@ -103,10 +106,6 @@ class MrEditText @JvmOverloads constructor(
                 binding.toggleButtonCustomEditText.visibilityIf(true)
             }
             is MrEditTextTypes.Login -> {
-                binding.toggleButtonCustomEditText.visibilityIf(false)
-                binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
-            }
-            else -> {
                 binding.toggleButtonCustomEditText.visibilityIf(false)
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
