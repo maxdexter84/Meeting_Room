@@ -64,6 +64,12 @@ class MrEditText @JvmOverloads constructor(
             }
         }
 
+    var afterTextChangeAction: (() -> Unit) = { textError = "" }
+        set(value){
+            field = value
+            binding.editTextCustomEditText.afterTextChanged(field)
+        }
+
     private var binding: CustomEdittextBinding =
         CustomEdittextBinding.inflate(LayoutInflater.from(context), this, true)
 
@@ -82,9 +88,6 @@ class MrEditText @JvmOverloads constructor(
 
             inputTypeTypes =
                 MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
-        }
-        binding.editTextCustomEditText.afterTextChanged {
-            textError = ""
         }
     }
 
@@ -107,9 +110,5 @@ class MrEditText @JvmOverloads constructor(
                 binding.editTextCustomEditText.inputType = InputType.TYPE_CLASS_TEXT
             }
         }
-    }
-
-    fun addTextChangeListener(onTextChangeListener: () -> Unit) {
-        binding.editTextCustomEditText.afterTextChanged(onTextChangeListener)
     }
 }

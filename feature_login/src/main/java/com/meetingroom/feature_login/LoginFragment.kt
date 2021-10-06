@@ -39,8 +39,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                 logInButtonMainActivity.state = MainActionButtonState.DISABLED
             })
 
-            editEmailLoginFragment.addTextChangeListener(onTextChangeListener)
-            editPasswordLoginFragment.addTextChangeListener(onTextChangeListener)
+            editEmailLoginFragment.afterTextChangeAction = onTextChangeListener
+            editPasswordLoginFragment.afterTextChangeAction = onTextChangeListener
             logInButtonMainActivity.state = MainActionButtonState.DISABLED
             logInButtonMainActivity.setOnClickListener {
                 viewModel.tryToLogIn(
