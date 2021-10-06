@@ -49,7 +49,7 @@ class TimeForNotificationDialog :
     }
 
     private fun setTime(savedTime: String) {
-        if (savedTime == UserTimeTypes.fromId(getString(R.string.reminder_custom_text_for_time)).id) {
+        if (savedTime == getString(UserTimeTypes.fromId(R.string.reminder_custom_text_for_time).id)) {
             dismiss()
             findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2())
         } else {

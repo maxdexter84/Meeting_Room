@@ -1,11 +1,13 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model
 
-sealed class UserTimeTypes(val id: String) {
-    class Never : UserTimeTypes("Never")
-    class Custom : UserTimeTypes("Custom...")
+import com.meetingroom.andersen.feature_landing.R
+
+sealed class UserTimeTypes(val id: Int) {
+    class Never : UserTimeTypes(R.string.reminder_disabled_text_for_time)
+    class Custom : UserTimeTypes(R.string.reminder_custom_text_for_time)
 
     companion object {
-        fun fromId(id: String): UserTimeTypes {
+        fun fromId(id: Int): UserTimeTypes {
             for (type in values()) {
                 if (type.id == id) return type
             }

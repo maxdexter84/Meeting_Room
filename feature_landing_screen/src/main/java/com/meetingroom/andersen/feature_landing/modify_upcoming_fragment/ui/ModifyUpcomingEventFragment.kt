@@ -43,7 +43,6 @@ class ModifyUpcomingEventFragment :
                 root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
             }
-            modifyEventToolbar.buttonSaveToolbar.setOnClickListener { createNotification() }
             modifyRoomChooser.setOnClickListener {
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
@@ -105,7 +104,7 @@ class ModifyUpcomingEventFragment :
     private fun observeRoomChange() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
             ?.observe(viewLifecycleOwner) {
-                if (it != null) {
+                it?.let {
                     binding.eventRoomName.text = it
                     eventRoom = it
                 }
@@ -115,15 +114,19 @@ class ModifyUpcomingEventFragment :
     private fun observeTimeChange() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
             ?.observe(viewLifecycleOwner) {
-                if (it != null) {
+                it?.let {
                     binding.reminderLeftTime.text = it
                     eventReminderTime = it
                 }
             }
     }
 
-    private fun createNotification() {
-        NotificationHelper.setNotification(args.upcomingEvent, notificationHelper)
+    private fun createNotification(reminderStartTime: String) {
+        NotificationHelper.setNotification(
+            args.upcomingEvent,
+            notificationHelper,
+            reminderStartTime
+        )
     }
 
     private fun saveChanges() {
@@ -135,7 +138,7 @@ class ModifyUpcomingEventFragment :
                 eventDate = modifyStartDatePicker.text.toString()
                 eventRoom = eventRoomName.text.toString()
                 reminderActive =
-                    reminderLeftTime.text != UserTimeTypes.fromId(getString(R.string.reminder_disabled_text_for_time)).id
+                    reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
