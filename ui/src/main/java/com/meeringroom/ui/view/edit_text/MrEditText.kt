@@ -2,6 +2,7 @@ package com.meeringroom.ui.view.edit_text
 
 
 import android.content.Context
+import android.text.InputFilter
 import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -88,6 +89,12 @@ class MrEditText @JvmOverloads constructor(
 
             inputTypeTypes =
                 MrEditTextTypes.fromId(getInt(R.styleable.MrEditText_inputType, 2))
+
+            if (this.hasValue(R.styleable.MrEditText_maxLength)) {
+                binding.editTextCustomEditText.filters = arrayOf<InputFilter>(
+                    InputFilter.LengthFilter(getInteger(R.styleable.MrEditText_maxLength, 0))
+                )
+            }
         }
     }
 

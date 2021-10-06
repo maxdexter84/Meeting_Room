@@ -3,6 +3,7 @@
     <declare-styleable name="MrEditText">
         <attr name="setErrorText" format="string" />
         <attr name="setHintText" format="string" />
+        <attr name="maxLength" format="integer" />
         <attr name="inputType" format="enum">
             <enum name="password" value="1" />
             <enum name="login" value="2" />
