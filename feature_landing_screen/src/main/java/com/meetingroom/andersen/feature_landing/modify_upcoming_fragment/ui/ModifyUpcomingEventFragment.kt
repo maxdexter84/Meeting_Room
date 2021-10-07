@@ -5,6 +5,9 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
@@ -30,6 +33,9 @@ class ModifyUpcomingEventFragment :
     DatePickerDialog.OnDateSetListener {
 
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
+
+    private lateinit var handler: Handler
+    private lateinit var needMoreTimeRunnable: Runnable
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
@@ -77,6 +83,17 @@ class ModifyUpcomingEventFragment :
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
             }
         }
+
+        handler = Handler(Looper.getMainLooper())
+        needMoreTimeRunnable = Runnable {
+            findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
+        }
+        view.setOnTouchListener { _: View, _: MotionEvent ->
+            handler.removeCallbacks(needMoreTimeRunnable)
+            startHandler()
+            true
+        }
+        startHandler()
     }
 
     override fun onStart() {
@@ -266,6 +283,10 @@ class ModifyUpcomingEventFragment :
         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
     }
 
+    private fun startHandler() = handler.postDelayed(needMoreTimeRunnable, USER_INACTIVITY_LIMIT)
+
+    //private fun stopHandler() = handler.removeCallbacks(needMoreTimeRunnable)
+
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
@@ -277,5 +298,6 @@ class ModifyUpcomingEventFragment :
         private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4L
         private const val MIN_MINUTES_DIFF = 15L
+        private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

@@ -47,6 +47,11 @@
     <string name="event_cant_end_between_0_and_6_hours_message">The event can\'t end between 00.00 and 06.00.</string>
     <string name="event_cant_last_less_than_15_minutes_message">The event can\'t last less than 15 minutes.</string>
     <string name="cancel">cancel</string>
+    <string name="need_more_time_dialog_title">Do you need more time?</string>
+    <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
+    <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
+    <string name="need_more_time_dialog_button">I need more time</string>
+    <string name="need_more_time_dialog_seconds">\ seconds</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
