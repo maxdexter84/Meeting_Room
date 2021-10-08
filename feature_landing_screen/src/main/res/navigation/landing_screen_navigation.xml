@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/landing_screen_navigation"
     app:startDestination="@id/landingFragment">
-
+    <action
+        android:id="@+id/action_to_landingFragment"
+        app:destination="@id/landingFragment"
+        app:popUpTo="@id/landingFragment"/>
     <fragment
         android:id="@+id/landingFragment"
         android:name="com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment"
@@ -59,5 +62,6 @@
     <dialog
         android:id="@+id/needMoreTimeDialog"
         android:name="com.meetingroom.andersen.feature_landing.need_more_time_dialog.ui.NeedMoreTimeDialog"
-        android:label="NeedMoreTimeDialog" />
+        android:label="NeedMoreTimeDialog"
+        app:popUpTo="@id/modifyUpcomingEventFragment"/>
 </navigation>

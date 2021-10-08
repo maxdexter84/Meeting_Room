@@ -52,6 +52,9 @@
     <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
     <string name="need_more_time_dialog_button">I need more time</string>
     <string name="need_more_time_dialog_seconds">\ seconds</string>
+    <string name="session_expired_dialog_title">Oops!</string>
+    <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
+    <string name="session_expired_dialog_button">Got it</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

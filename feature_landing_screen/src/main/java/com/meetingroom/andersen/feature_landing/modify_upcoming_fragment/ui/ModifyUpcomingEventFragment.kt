@@ -1,5 +1,6 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
@@ -7,11 +8,14 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.utils.*
@@ -28,6 +32,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 import javax.inject.Inject
 
+@SuppressLint("NewApi")
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
     DatePickerDialog.OnDateSetListener {
@@ -43,6 +48,7 @@ class ModifyUpcomingEventFragment :
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -86,14 +92,18 @@ class ModifyUpcomingEventFragment :
 
         handler = Handler(Looper.getMainLooper())
         needMoreTimeRunnable = Runnable {
+            stopHandler()
             findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
         }
+
+        findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) { startHandler() }
+        })
         view.setOnTouchListener { _: View, _: MotionEvent ->
-            handler.removeCallbacks(needMoreTimeRunnable)
+            stopHandler()
             startHandler()
             true
         }
-        startHandler()
     }
 
     override fun onStart() {
@@ -285,7 +295,7 @@ class ModifyUpcomingEventFragment :
 
     private fun startHandler() = handler.postDelayed(needMoreTimeRunnable, USER_INACTIVITY_LIMIT)
 
-    //private fun stopHandler() = handler.removeCallbacks(needMoreTimeRunnable)
+    private fun stopHandler() = handler.removeCallbacks(needMoreTimeRunnable)
 
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
