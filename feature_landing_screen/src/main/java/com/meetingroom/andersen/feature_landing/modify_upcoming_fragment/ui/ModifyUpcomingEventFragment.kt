@@ -8,7 +8,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
@@ -178,6 +177,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showDatePickerDialog(dateString: String) {
+        stopHandler()
         val localDate = dateString.stringToDate(DATE_FORMAT)
         with(localDate) {
             DatePickerDialog(
@@ -197,6 +197,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showTimePickerDialog(timeString: String, listener: OnTimeSetListener) {
+        stopHandler()
         val localTime: LocalTime = timeString.stringToTime(TIME_FORMAT)
         with(localTime) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
@@ -207,10 +208,13 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showAlertDialog(messageId: Int) {
+        stopHandler()
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setCancelable(false)
-            .setNegativeButton(R.string.cancel) { _: DialogInterface, _: Int -> }
+            .setNegativeButton(R.string.cancel) { _: DialogInterface, _: Int ->
+                startHandler()
+            }
             .show()
     }
 
@@ -219,70 +223,97 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             modifyStartDatePicker.text = dateString
             modifyEventEndDate.text = dateString
-            validateStartTime(modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))
+            isStartTimeBeforeCurrent(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT))
         }
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        validateStartTime(LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND))
+        val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
+        binding.modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
+        if (isStartTimeBeforeCurrent(startTime)) {
+            validateStartTime(startTime, binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT))
+        }
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        validateEndTime(LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND))
+        val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
+        binding.modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
+        validateEndTime(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT), endTime)
     }
 
-    private fun validateStartTime(startTime: LocalTime) {
-        with(binding.modifyStartTimePicker) {
-            text = startTime.timeToString(TIME_FORMAT)
-            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+    private fun isStartTimeBeforeCurrent(startTime: LocalTime): Boolean {
+        if (startTime.isBefore(LocalTime.now())
+                && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
+            setRedColorAndDisableSaving(binding.modifyStartTimePicker)
+            showAlertDialog(R.string.event_cant_start_before_current_time_message)
+            return false
+        }
+        return true
+    }
+
+    private fun isOfficeHoursValid(startTime: LocalTime, endTime: LocalTime): Boolean {
+        if ((startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME))
+                && (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME))) {
+            setRedColorAndDisableSaving(binding.modifyStartTimePicker)
+            setRedColorAndDisableSaving(binding.modifyEndTimePicker)
+            showAlertDialog(R.string.event_cant_start_and_end_between_0_and_6_hours_message)
+            return false
+        }
+        return true
+    }
+
+    private fun isBothTimeValid(startTime: LocalTime, endTime: LocalTime): Boolean {
+        with (binding) {
             when {
-                startTime.isBefore(LocalTime.now())
-                        && binding.modifyStartDatePicker.text.toString()
-                    .stringToDate(DATE_FORMAT) == LocalDate.now() -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_start_before_current_time_message)
+                endTime.isBefore(startTime) -> {
+                    setRedColorAndDisableSaving(modifyEndTimePicker)
+                    showAlertDialog(R.string.event_cant_end_before_it_starts_message)
                 }
-                startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME) -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+                endTime.isAfter(startTime.plusHours(MAX_HOURS_DIFF)) -> {
+                    setRedColorAndDisableSaving(modifyStartTimePicker)
+                    setRedColorAndDisableSaving(modifyEndTimePicker)
+                    showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
                 }
-                else -> validateEndTime(
-                    binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT)
-                )
+                endTime.isBefore(startTime.plusMinutes(MIN_MINUTES_DIFF)) -> {
+                    setRedColorAndDisableSaving(modifyStartTimePicker)
+                    setRedColorAndDisableSaving(modifyEndTimePicker)
+                    showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
+                }
+                else -> return true
+            }
+            return false
+        }
+    }
+
+    private fun validateStartTime(startTime: LocalTime, endTime: LocalTime) {
+        with (binding) {
+            modifyEventToolbar.buttonSaveToolbar.isEnabled = true
+            modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            if (isOfficeHoursValid(startTime, endTime)) {
+                when {
+                    startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME) -> {
+                        setRedColorAndDisableSaving(modifyStartTimePicker)
+                        showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
+                    }
+                    isBothTimeValid(startTime, endTime) -> startHandler()
+                }
             }
         }
     }
 
-    private fun validateEndTime(endTime: LocalTime) {
-        with(binding.modifyEndTimePicker) {
-            text = endTime.timeToString(TIME_FORMAT)
-            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            when {
-                endTime.isBefore(
-                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
-                ) -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_end_before_it_starts_message)
-                }
-                endTime.isAfter(
-                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
-                        .plusHours(MAX_HOURS_DIFF)
-                ) -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
-                }
-                endTime.isBefore(
-                    binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT)
-                        .plusMinutes(MIN_MINUTES_DIFF)
-                ) -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_last_less_than_15_minutes_message)
-                }
-                endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME) -> {
-                    setRedColorAndDisableSaving(this)
-                    showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
+    private fun validateEndTime(startTime: LocalTime, endTime: LocalTime) {
+        with (binding) {
+            modifyEventToolbar.buttonSaveToolbar.isEnabled = true
+            modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            if (isOfficeHoursValid(startTime, endTime)) {
+                when {
+                    endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME) -> {
+                        setRedColorAndDisableSaving(modifyEndTimePicker)
+                        showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
+                    }
+                    isBothTimeValid(startTime, endTime) -> startHandler()
                 }
             }
         }
