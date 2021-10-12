@@ -6,8 +6,6 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
@@ -15,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.utils.*
@@ -25,6 +24,9 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -38,8 +40,7 @@ class ModifyUpcomingEventFragment :
 
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
-    private lateinit var handler: Handler
-    private lateinit var needMoreTimeRunnable: Runnable
+    private lateinit var needMoreTimeJob: Job
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
@@ -89,18 +90,12 @@ class ModifyUpcomingEventFragment :
             }
         }
 
-        handler = Handler(Looper.getMainLooper())
-        needMoreTimeRunnable = Runnable {
-            stopHandler()
-            findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
-        }
-
         findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) { startHandler() }
+            if (event == Lifecycle.Event.ON_RESUME) { setTimeOut() }
         })
         view.setOnTouchListener { _: View, _: MotionEvent ->
-            stopHandler()
-            startHandler()
+            needMoreTimeJob.cancel()
+            setTimeOut()
             true
         }
     }
@@ -177,7 +172,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showDatePickerDialog(dateString: String) {
-        stopHandler()
+        deleteTimeOut()
         val localDate = dateString.stringToDate(DATE_FORMAT)
         with(localDate) {
             DatePickerDialog(
@@ -197,7 +192,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showTimePickerDialog(timeString: String, listener: OnTimeSetListener) {
-        stopHandler()
+        deleteTimeOut()
         val localTime: LocalTime = timeString.stringToTime(TIME_FORMAT)
         with(localTime) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
@@ -208,12 +203,12 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showAlertDialog(messageId: Int) {
-        stopHandler()
+        deleteTimeOut()
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setCancelable(false)
             .setNegativeButton(R.string.cancel) { _: DialogInterface, _: Int ->
-                startHandler()
+                setTimeOut()
             }
             .show()
     }
@@ -298,7 +293,7 @@ class ModifyUpcomingEventFragment :
                     setRedColorAndDisableSaving(modifyStartTimePicker)
                     showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
                 }
-                isBothTimeValid(startTime, endTime) -> startHandler()
+                isBothTimeValid(startTime, endTime) -> setTimeOut()
                 else -> {}
             }
         }
@@ -316,7 +311,7 @@ class ModifyUpcomingEventFragment :
                     setRedColorAndDisableSaving(modifyEndTimePicker)
                     showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
                 }
-                isBothTimeValid(startTime, endTime) -> startHandler()
+                isBothTimeValid(startTime, endTime) -> setTimeOut()
                 else -> {}
             }
         }
@@ -327,9 +322,14 @@ class ModifyUpcomingEventFragment :
         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
     }
 
-    private fun startHandler() = handler.postDelayed(needMoreTimeRunnable, USER_INACTIVITY_LIMIT)
+    private fun setTimeOut() {
+        needMoreTimeJob = lifecycleScope.launch {
+            delay(USER_INACTIVITY_LIMIT)
+            findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
+        }
+    }
 
-    private fun stopHandler() = handler.removeCallbacks(needMoreTimeRunnable)
+    private fun deleteTimeOut() = needMoreTimeJob.cancel()
 
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
