@@ -22,7 +22,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         CityAdapter(onItemClick = {
             saveCity(it)
             lifecycleScope.launch {
-                delay(3)
+                delay(DELAY_AFTER_CLICK_CITY)
                 findNavController().navigate(R.id.locationFragment,  bundleOf(LocationFragment.CITY_KEY to it))
             }
         })
@@ -67,5 +67,9 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
             it.isSelected = true
         }
         viewModel.saveCityOfUserLocation(city)
+    }
+
+    companion object{
+        const val DELAY_AFTER_CLICK_CITY = 3L
     }
 }
