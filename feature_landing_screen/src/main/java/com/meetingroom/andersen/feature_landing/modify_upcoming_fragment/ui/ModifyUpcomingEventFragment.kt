@@ -228,17 +228,17 @@ class ModifyUpcomingEventFragment :
     }
 
     private var startTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
-        binding.modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
-        if (isStartTimeBeforeCurrent(startTime)) {
-            validateStartTime(startTime, binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT))
-        }
+        validateStartTime(
+            LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND),
+            binding.modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT)
+        )
     }
 
     private var endTimePickerListener = OnTimeSetListener { _, hour, minute ->
-        val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
-        binding.modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
-        validateEndTime(binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT), endTime)
+        validateEndTime(
+            binding.modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),
+            LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
+        )
     }
 
     private fun isStartTimeBeforeCurrent(startTime: LocalTime): Boolean {
@@ -246,20 +246,20 @@ class ModifyUpcomingEventFragment :
                 && binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT) == LocalDate.now()) {
             setRedColorAndDisableSaving(binding.modifyStartTimePicker)
             showAlertDialog(R.string.event_cant_start_before_current_time_message)
-            return false
+            return true
         }
-        return true
+        return false
     }
 
-    private fun isOfficeHoursValid(startTime: LocalTime, endTime: LocalTime): Boolean {
+    private fun isTimeNotInOfficeHours(startTime: LocalTime, endTime: LocalTime): Boolean {
         if ((startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME))
                 && (endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME))) {
             setRedColorAndDisableSaving(binding.modifyStartTimePicker)
             setRedColorAndDisableSaving(binding.modifyEndTimePicker)
             showAlertDialog(R.string.event_cant_start_and_end_between_0_and_6_hours_message)
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     private fun isBothTimeValid(startTime: LocalTime, endTime: LocalTime): Boolean {
@@ -269,7 +269,7 @@ class ModifyUpcomingEventFragment :
                     setRedColorAndDisableSaving(modifyEndTimePicker)
                     showAlertDialog(R.string.event_cant_end_before_it_starts_message)
                 }
-                endTime.isAfter(startTime.plusHours(MAX_HOURS_DIFF)) -> {
+                endTime.minusHours(startTime.hour.toLong()).minusMinutes(startTime.minute.toLong()).isAfter(LocalTime.of(MAX_HOURS_DIFF, 0)) -> {
                     setRedColorAndDisableSaving(modifyStartTimePicker)
                     setRedColorAndDisableSaving(modifyEndTimePicker)
                     showAlertDialog(R.string.event_cant_last_longer_than_4_hours_message)
@@ -287,34 +287,37 @@ class ModifyUpcomingEventFragment :
 
     private fun validateStartTime(startTime: LocalTime, endTime: LocalTime) {
         with (binding) {
+            modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
             modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (isOfficeHoursValid(startTime, endTime)) {
-                when {
-                    startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME) -> {
-                        setRedColorAndDisableSaving(modifyStartTimePicker)
-                        showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
-                    }
-                    isBothTimeValid(startTime, endTime) -> startHandler()
+            when {
+                isStartTimeBeforeCurrent(startTime) -> {}
+                isTimeNotInOfficeHours(startTime, endTime) -> {}
+                startTime.isBefore(MIN_TIME) || startTime.isAfter(MAX_TIME) -> {
+                    setRedColorAndDisableSaving(modifyStartTimePicker)
+                    showAlertDialog(R.string.event_cant_start_between_0_and_6_hours_message)
                 }
+                isBothTimeValid(startTime, endTime) -> startHandler()
+                else -> {}
             }
         }
     }
 
     private fun validateEndTime(startTime: LocalTime, endTime: LocalTime) {
         with (binding) {
+            modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
             modifyEventToolbar.buttonSaveToolbar.isEnabled = true
             modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            if (isOfficeHoursValid(startTime, endTime)) {
-                when {
-                    endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME) -> {
-                        setRedColorAndDisableSaving(modifyEndTimePicker)
-                        showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
-                    }
-                    isBothTimeValid(startTime, endTime) -> startHandler()
+            when {
+                isTimeNotInOfficeHours(startTime, endTime) -> {}
+                endTime.isBefore(MIN_TIME) || endTime.isAfter(MAX_TIME) -> {
+                    setRedColorAndDisableSaving(modifyEndTimePicker)
+                    showAlertDialog(R.string.event_cant_end_between_0_and_6_hours_message)
                 }
+                isBothTimeValid(startTime, endTime) -> startHandler()
+                else -> {}
             }
         }
     }
@@ -337,7 +340,7 @@ class ModifyUpcomingEventFragment :
         private const val MAX_MONTH = 3L
         private val MIN_TIME = LocalTime.of(6, 0)
         private val MAX_TIME = LocalTime.of(23, 59)
-        private const val MAX_HOURS_DIFF = 4L
+        private const val MAX_HOURS_DIFF = 4
         private const val MIN_MINUTES_DIFF = 15L
         private const val USER_INACTIVITY_LIMIT = 30000L
     }
