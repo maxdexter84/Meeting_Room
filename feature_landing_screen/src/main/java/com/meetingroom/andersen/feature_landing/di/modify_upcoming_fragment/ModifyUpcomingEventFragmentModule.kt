@@ -3,8 +3,9 @@ package com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment
 import androidx.lifecycle.ViewModelProvider
 import com.meetingroom.andersen.feature_landing.di.Screen
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
-import com.meetingroom.andersen.feature_landing.time_validation_dialog_manager.TimeValidationViewModel
-import com.meetingroom.andersen.feature_landing.time_validation_dialog_manager.TimeValidationViewModelFactory
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -13,15 +14,19 @@ class ModifyUpcomingEventFragmentModule(private val modifyUpcomingEventFragment:
 
     @Provides
     @Screen
-    fun provideViewModelFactory(): TimeValidationViewModelFactory =
-        TimeValidationViewModelFactory()
+    fun provideViewModelFactory(dialogManager: TimeValidationDialogManager): ModifyUpcomingEventViewModelFactory =
+        ModifyUpcomingEventViewModelFactory(dialogManager)
 
     @Provides
     @Screen
-    fun provideViewModel(timeValidationViewModelFactory: TimeValidationViewModelFactory): TimeValidationViewModel {
+    fun provideViewModel(modifyUpcomingEventViewModelFactory: ModifyUpcomingEventViewModelFactory): ModifyUpcomingEventViewModel {
         return ViewModelProvider(
             modifyUpcomingEventFragment,
-            timeValidationViewModelFactory
-        ).get(TimeValidationViewModel::class.java)
+            modifyUpcomingEventViewModelFactory
+        ).get(ModifyUpcomingEventViewModel::class.java)
     }
+
+    @Provides
+    @Screen
+    fun provideTimeValidationDialogManager(): TimeValidationDialogManager = TimeValidationDialogManager()
 }

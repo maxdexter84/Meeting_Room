@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -26,9 +25,8 @@ import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomi
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.time_validation_dialog_manager.TimeValidationDialogManager
-import com.meetingroom.andersen.feature_landing.time_validation_dialog_manager.TimeValidationViewModel
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +44,7 @@ class ModifyUpcomingEventFragment :
     private val args: ModifyUpcomingEventFragmentArgs by navArgs()
 
     @Inject
-    lateinit var viewModel: TimeValidationViewModel
+    lateinit var viewModel: ModifyUpcomingEventViewModel
 
     private lateinit var needMoreTimeJob: Job
 
@@ -94,6 +92,7 @@ class ModifyUpcomingEventFragment :
 
             observeRoomChange()
             observeTimeChange()
+            observeTimeValidation()
 
             modifyStartDatePicker.setOnClickListener {
                 showDatePickerDialog(modifyStartDatePicker.text.toString())
@@ -114,7 +113,6 @@ class ModifyUpcomingEventFragment :
             setTimeOut()
             true
         }
-        setDataCollecting()
     }
 
     override fun onStart() {
@@ -162,38 +160,38 @@ class ModifyUpcomingEventFragment :
             }
     }
 
-    private fun setDataCollecting() {
+    private fun observeTimeValidation() {
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
             with (binding) {
-                    when (it.validationState) {
-                        is TimeValidationDialogManager.ValidationState.InvalidStartTime -> {
-                            modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
-                        }
-                        is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {
-                            modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
-                        }
-                        is TimeValidationDialogManager.ValidationState.InvalidBothTime -> {
-                            modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                            modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
-                        }
-                        is TimeValidationDialogManager.ValidationState.TimeIsValid -> {
-                            modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                            modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                            binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
-                        }
-                    }
-                }
+                when (it) {
+                   is TimeValidationDialogManager.ValidationState.InvalidStartTime -> {
+                       modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                       binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
+                   }
+                   is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {
+                       modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                       binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
+                   }
+                   is TimeValidationDialogManager.ValidationState.InvalidBothTime -> {
+                       modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                       modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                       binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
+                   }
+                   is TimeValidationDialogManager.ValidationState.TimeIsValid -> {
+                       modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                       modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                       binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
+                   }
+               }
+            }
         }
 
         viewModel.effectLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is TimeValidationDialogManager.Effect.ShowInvalidTimeDialog -> {
+                is TimeValidationDialogManager.ValidationEffect.ShowInvalidTimeDialog -> {
                     showAlertDialog(it.messageId)
                 }
-                is TimeValidationDialogManager.Effect.NoEffect -> {
+                is TimeValidationDialogManager.ValidationEffect.NoEffect -> {
                     setTimeOut()
                 }
             }
@@ -269,7 +267,8 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             modifyStartDatePicker.text = dateString
             modifyEventEndDate.text = dateString
-            viewModel.setEvent(TimeValidationDialogManager.Event.OnDateChanged(
+            viewModel.setEvent(
+                TimeValidationDialogManager.ValidationEvent.OnDateChanged(
                 modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),
                 dateString.stringToDate(DATE_FORMAT))
             )
@@ -280,7 +279,8 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
-            viewModel.setEvent(TimeValidationDialogManager.Event.OnStartTimeChanged(
+            viewModel.setEvent(
+                TimeValidationDialogManager.ValidationEvent.OnStartTimeChanged(
                 startTime,
                 modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT),
                 modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
@@ -292,7 +292,8 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
-            viewModel.setEvent(TimeValidationDialogManager.Event.OnEndTimeChanged(
+            viewModel.setEvent(
+                TimeValidationDialogManager.ValidationEvent.OnEndTimeChanged(
                 modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),
                 endTime
             ))
