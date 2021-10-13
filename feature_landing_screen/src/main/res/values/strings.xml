@@ -57,7 +57,7 @@
     </string-array>
     <string-array name="options_for_reminder_time">
         <item>Never</item>
-        <item>At the time of event</item>
+        <item>In 1 minute before</item>
         <item>In 5 minutes before</item>
         <item>In 10 minutes before</item>
         <item>In 15 minutes before</item>
