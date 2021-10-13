@@ -48,5 +48,4 @@ class CityAdapter(private val onItemClick: (String) -> Unit) :
         onItemClick.invoke(cities[position].cityName)
         notifyDataSetChanged()
     }
-
 }
