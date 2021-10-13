@@ -5,9 +5,10 @@ import com.meetingroom.andersen.feature_landing.R
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.time.LocalTime
+import javax.inject.Inject
 
 @SuppressLint("NewApi")
-class TimeValidationDialogManager {
+class TimeValidationDialogManager @Inject constructor() {
 
     private val _state : MutableStateFlow<ValidationState> = MutableStateFlow(ValidationState.TimeIsValid)
     val state = _state.asStateFlow()

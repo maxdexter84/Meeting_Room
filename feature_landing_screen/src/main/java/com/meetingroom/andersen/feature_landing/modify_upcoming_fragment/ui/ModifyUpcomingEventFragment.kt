@@ -27,9 +27,8 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Modi
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -46,13 +45,13 @@ class ModifyUpcomingEventFragment :
     @Inject
     lateinit var viewModel: ModifyUpcomingEventViewModel
 
-    private lateinit var needMoreTimeJob: Job
-
-    /*@Inject
-    lateinit var notificationHelper: NotificationHelper*/
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
 
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
+
+    private lateinit var needMoreTimeJob: Job
 
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
@@ -109,7 +108,6 @@ class ModifyUpcomingEventFragment :
             if (event == Lifecycle.Event.ON_RESUME) { setTimeOut() }
         })
         view.setOnTouchListener { _: View, _: MotionEvent ->
-            needMoreTimeJob.cancel()
             setTimeOut()
             true
         }
@@ -191,20 +189,18 @@ class ModifyUpcomingEventFragment :
                 is TimeValidationDialogManager.ValidationEffect.ShowInvalidTimeDialog -> {
                     showAlertDialog(it.messageId)
                 }
-                is TimeValidationDialogManager.ValidationEffect.NoEffect -> {
-                    setTimeOut()
-                }
+                is TimeValidationDialogManager.ValidationEffect.NoEffect -> {}
             }
         }
     }
 
-    /*private fun createNotification(reminderStartTime: String) {
+    private fun createNotification(reminderStartTime: String) {
         NotificationHelper.setNotification(
             args.upcomingEvent,
             notificationHelper,
             reminderStartTime
         )
-    }*/
+    }
 
     private fun saveChanges() {
         with(binding) {
@@ -235,9 +231,8 @@ class ModifyUpcomingEventFragment :
                 dayOfMonth
             ).apply {
                 datePicker.minDate = System.currentTimeMillis()
-                datePicker.maxDate =
-                    LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault())
-                        .toInstant().toEpochMilli()
+                datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
@@ -248,6 +243,7 @@ class ModifyUpcomingEventFragment :
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setTitle(R.string.time_picker_dialog_title)
+                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
@@ -279,6 +275,7 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
+            //deleteTimeOut()
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnStartTimeChanged(
                 startTime,
@@ -292,6 +289,7 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
+            //deleteTimeOut()
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnEndTimeChanged(
                 modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),
@@ -303,7 +301,7 @@ class ModifyUpcomingEventFragment :
     private fun setTimeOut() {
         needMoreTimeJob = lifecycleScope.launch {
             delay(USER_INACTIVITY_LIMIT)
-            findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
+            findNavController().navigate(R.id.action_modifyUpcomingEventFragment_to_needMoreTimeDialog)
         }
     }
 
