@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -30,12 +29,14 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.U
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import kotlinx.datetime.Clock
 import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.*
+import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("NewApi")
@@ -165,6 +166,14 @@ class ModifyUpcomingEventFragment :
             }
     }
 
+    private fun createNotification(reminderStartTime: Long) {
+        NotificationHelper.setNotification(
+            args.upcomingEvent,
+            notificationHelper,
+            reminderStartTime
+        )
+    }
+
     private fun observeTimeValidation() {
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
             with (binding) {
@@ -201,14 +210,6 @@ class ModifyUpcomingEventFragment :
         }
     }
 
-    private fun createNotification(reminderStartTime: String) {
-        NotificationHelper.setNotification(
-            args.upcomingEvent,
-            notificationHelper,
-            reminderStartTime
-        )
-    }
-
     private fun saveChanges() {
         with(binding) {
             args.upcomingEvent.apply {
@@ -226,6 +227,7 @@ class ModifyUpcomingEventFragment :
                 "${modifyStartDatePicker.text.toString()} ${modifyEndTimePicker.text.toString()}".stringToDate(
                     DATE_AND_TIME_FORMAT
                 )
+            getReminderSetOffTimeInMillis()
         }
         requireActivity().onBackPressed()
     }
@@ -315,6 +317,33 @@ class ModifyUpcomingEventFragment :
 
     private fun deleteTimeOut() = needMoreTimeJob.cancel()
 
+    private fun getEventStartDateInMillis(): Long {
+        val dateInMillis = binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
+        return dateInMillis.toString()
+            .stringDateAndTimeToMillis(binding.modifyStartTimePicker.text.toString())
+    }
+
+    private fun getReminderSetOffTimeInMillis() {
+        val text = binding.reminderLeftTime.text.toString()
+        val digitsText = text.filter { stringDigit ->
+            stringDigit.isDigit()
+        }
+        if (digitsText.isNotEmpty()) {
+            val digits = digitsText.toInt()
+            val multiplier = when {
+                text.contains("minut") -> MILLIS_IN_MINUTE
+                text.contains("hour") -> MILLIS_IN_HOUR
+                text.contains("day") -> MILLIS_IN_DAY
+                else -> 0
+            }
+            val userSelectedTimeInMillis = digits * multiplier
+            val reminderSetOffTime = getEventStartDateInMillis() - userSelectedTimeInMillis
+            val currentTime = Clock.System.now().toEpochMilliseconds()
+            val finalReminderTime = reminderSetOffTime - currentTime
+            createNotification(finalReminderTime)
+        }
+    }
+
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
@@ -323,6 +352,13 @@ class ModifyUpcomingEventFragment :
         private const val DATE_AND_TIME_FORMAT = "d MMM yyyy HH:mm"
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
+        private val MIN_TIME = LocalTime.of(6, 0)
+        private val MAX_TIME = LocalTime.of(23, 59)
+        private const val MAX_HOURS_DIFF = 4L
+        private const val MIN_MINUTES_DIFF = 15L
+        private const val MILLIS_IN_MINUTE = 60000
+        private const val MILLIS_IN_HOUR = 3600000
+        private const val MILLIS_IN_DAY = 86400000
         private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

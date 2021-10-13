@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
-import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 class NotificationHelper @Inject constructor(private val context: Context) {
@@ -39,7 +38,7 @@ class NotificationHelper @Inject constructor(private val context: Context) {
         fun setNotification(
             upcomingEventData: UpcomingEventData,
             notificationHelper: NotificationHelper,
-            reminderStartTime: String,
+            reminderStartTime: Long,
         ) {
             val notificationDescription =
                 String.format(
@@ -48,8 +47,6 @@ class NotificationHelper @Inject constructor(private val context: Context) {
                     upcomingEventData.startTime,
                     upcomingEventData.reminderRemainingTime,
                 )
-            val currentTime = Clock.System.now().toEpochMilliseconds()
-            val notificationScheduledTime = 200 * 10
             val intent =
                 Intent(notificationHelper.context, ReceiverForUpcomingEvent::class.java).apply {
                     putExtra(REMINDER_NOTIFICATION_TITLE, upcomingEventData.title)
@@ -62,7 +59,7 @@ class NotificationHelper @Inject constructor(private val context: Context) {
                 notificationHelper.context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
             alarmManager?.set(
                 AlarmManager.RTC_WAKEUP,
-                currentTime + notificationScheduledTime,
+                reminderStartTime,
                 pendingIntent
             )
         }
