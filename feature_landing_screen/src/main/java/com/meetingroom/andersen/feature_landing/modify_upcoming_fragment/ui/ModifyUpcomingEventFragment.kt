@@ -105,7 +105,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun pruningTextReminderLeftTime(reminderStartTime: String) =
-        reminderStartTime.replace(Regex("utes|ute"), "").removePrefix("In")
+        reminderStartTime.removePrefix("In")
 
 
     private fun observeRoomChange() {
