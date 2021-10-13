@@ -331,7 +331,7 @@ class ModifyUpcomingEventFragment :
         if (digitsText.isNotEmpty()) {
             val digits = digitsText.toInt()
             val multiplier = when {
-                text.contains("minut") -> MILLIS_IN_MINUTE
+                text.contains("minute") -> MILLIS_IN_MINUTE
                 text.contains("hour") -> MILLIS_IN_HOUR
                 text.contains("day") -> MILLIS_IN_DAY
                 else -> 0
