@@ -9,7 +9,7 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 import javax.inject.Inject
 
-class NotificationHelper @Inject constructor(private val context: Context) {
+class NotificationHelper(private val context: Context) {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

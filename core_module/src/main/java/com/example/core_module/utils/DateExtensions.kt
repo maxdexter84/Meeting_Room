@@ -1,5 +1,6 @@
 package com.example.core_module.utils
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import kotlinx.datetime.LocalDateTime
@@ -8,19 +9,19 @@ import kotlinx.datetime.toInstant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NewApi")
 fun LocalDate.dateToString(format: String): String {
     val formatter = DateTimeFormatter.ofPattern(format)
     return this.format(formatter)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NewApi")
 fun String.stringToDate(format: String): LocalDate {
     val formatter = DateTimeFormatter.ofPattern(format)
     return LocalDate.parse(this, formatter)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("NewApi")
 fun String.stringDateAndTimeToMillis(time: String): Long {
     val dateSegment = this.split("-")
     val timeSegment = time.split(":")
