@@ -57,7 +57,7 @@ class TimeForNotificationCustomDialog :
         with(binding) {
             timeFormatCustomDialog.setOnCheckedChangeListener { _, _ -> userCustomTimeEditText.setText("") }
             userCustomTimeEditText.doAfterTextChanged { text ->
-                if (!text.isNullOrEmpty()){
+                if (text.isNullOrEmpty().not()){
                     val valueTime = text.toString().toInt()
                     when {
                         customTimeInMinutes.isChecked -> if (valueTime > MAX_MINUTES_VALUE) userCustomTimeEditText.setText("$MAX_MINUTES_VALUE")

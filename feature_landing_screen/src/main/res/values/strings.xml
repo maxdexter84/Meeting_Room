@@ -38,7 +38,7 @@
         <item quantity="other">days</item>
     </plurals>
     <string name="custom_time_select_type_no_option_error">No such option</string>
-    <string name="user_selected_custom_time_option">In %1$s %2$s before</string>
+    <string name="user_selected_custom_time_option">%1$s %2$s before</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
     <string name="event_cant_start_before_current_time_message">The event can\'t start before current time.</string>
     <string name="event_cant_start_between_0_and_6_hours_message">The event can\'t start between 00.00 and 06.00.</string>

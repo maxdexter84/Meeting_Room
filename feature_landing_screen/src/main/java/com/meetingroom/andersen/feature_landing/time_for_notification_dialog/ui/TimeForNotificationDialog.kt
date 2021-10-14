@@ -55,7 +55,7 @@ class TimeForNotificationDialog :
         } else {
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 ModifyUpcomingEventFragment.TIME_KEY,
-                savedTime
+                savedTime.removePrefix("In")
             )
             findNavController().popBackStack()
         }
