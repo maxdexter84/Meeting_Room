@@ -33,6 +33,8 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.present
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -135,6 +137,9 @@ class ModifyUpcomingEventFragment :
                     getString(R.string.reminder_disabled_text_for_time)
                 eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             }
+            if (args.upcomingEvent.eventDescription != null) {
+                userEventDescription.setText(args.upcomingEvent.eventDescription)
+            }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
@@ -226,6 +231,7 @@ class ModifyUpcomingEventFragment :
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
+            startNotification()
             val time =
                 "${modifyStartDatePicker.text.toString()} ${modifyEndTimePicker.text.toString()}".stringToDate(
                     DATE_AND_TIME_FORMAT
@@ -322,29 +328,17 @@ class ModifyUpcomingEventFragment :
 
     private fun getEventStartDateInMillis(): Long {
         val dateInMillis = binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
-        return dateInMillis.toString()
-            .stringDateAndTimeToMillis(binding.modifyStartTimePicker.text.toString())
+        return stringDateAndTimeToMillis(
+            dateInMillis.toString(),
+            binding.modifyStartTimePicker.text.toString()
+        )
     }
 
-    private fun getReminderSetOffTimeInMillis() {
-        val text = binding.reminderLeftTime.text.toString()
-        val digitsText = text.filter { stringDigit ->
-            stringDigit.isDigit()
-        }
-        if (digitsText.isNotEmpty()) {
-            val digits = digitsText.toInt()
-            val multiplier = when {
-                text.contains("minute") -> MILLIS_IN_MINUTE
-                text.contains("hour") -> MILLIS_IN_HOUR
-                text.contains("day") -> MILLIS_IN_DAY
-                else -> 0
-            }
-            val userSelectedTimeInMillis = digits * multiplier
-            val reminderSetOffTime = getEventStartDateInMillis() - userSelectedTimeInMillis
-            val currentTime = Clock.System.now().toEpochMilliseconds()
-            val finalReminderTime = reminderSetOffTime - currentTime
-            createNotification(finalReminderTime)
-        }
+    private fun startNotification() {
+        getReminderSetOffTimeInMillis(
+            binding.reminderLeftTime.text.toString(),
+            getEventStartDateInMillis()
+        )
     }
 
     companion object {
@@ -362,6 +356,43 @@ class ModifyUpcomingEventFragment :
         private const val MILLIS_IN_MINUTE = 60000
         private const val MILLIS_IN_HOUR = 3600000
         private const val MILLIS_IN_DAY = 86400000
+
+        @SuppressLint("NewApi")
+        fun stringDateAndTimeToMillis(date: String, time: String): Long {
+            val dateSegment = date.split("-")
+            val timeSegment = time.split(":")
+            val dateConstruct = kotlinx.datetime.LocalDateTime(
+                dateSegment[0].toInt(),
+                dateSegment[1].toInt(),
+                dateSegment[2].toInt(),
+                timeSegment[0].toInt(),
+                timeSegment[1].toInt(),
+            )
+            return dateConstruct.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+        }
+
+        private fun getReminderSetOffTimeInMillis(
+            reminderLeftTime: String,
+            eventStartTime: Long
+        ): Long? {
+            val digitsText = reminderLeftTime.filter { stringDigit ->
+                stringDigit.isDigit()
+            }
+            if (digitsText.isNotEmpty()) {
+                val digits = digitsText.toInt()
+                val multiplier = when {
+                    reminderLeftTime.contains("minute") -> MILLIS_IN_MINUTE
+                    reminderLeftTime.contains("hour") -> MILLIS_IN_HOUR
+                    reminderLeftTime.contains("day") -> MILLIS_IN_DAY
+                    else -> 0
+                }
+                val userSelectedTimeInMillis = digits * multiplier
+                val reminderSetOffTime = eventStartTime - userSelectedTimeInMillis
+                val currentTime = Clock.System.now().toEpochMilliseconds()
+                return reminderSetOffTime - currentTime
+            }
+            return null
+        }
         private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

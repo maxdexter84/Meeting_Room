@@ -21,16 +21,3 @@ fun String.stringToDate(format: String): LocalDate {
     return LocalDate.parse(this, formatter)
 }
 
-@SuppressLint("NewApi")
-fun String.stringDateAndTimeToMillis(time: String): Long {
-    val dateSegment = this.split("-")
-    val timeSegment = time.split(":")
-    val dateConstruct = LocalDateTime(
-        dateSegment[0].toInt(),
-        dateSegment[1].toInt(),
-        dateSegment[2].toInt(),
-        timeSegment[0].toInt(),
-        timeSegment[1].toInt(),
-    )
-    return dateConstruct.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-}
