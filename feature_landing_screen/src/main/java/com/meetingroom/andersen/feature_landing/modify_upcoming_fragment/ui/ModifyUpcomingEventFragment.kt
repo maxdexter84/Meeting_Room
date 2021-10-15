@@ -335,10 +335,10 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun startNotification() {
-        getReminderSetOffTimeInMillis(
+        createNotification(getReminderSetOffTimeInMillis(
             binding.reminderLeftTime.text.toString(),
             getEventStartDateInMillis()
-        )
+        ) ?: 0)
     }
 
     companion object {
