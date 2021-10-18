@@ -275,7 +275,6 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyStartTimePicker.text = startTime.timeToString(TIME_FORMAT)
-            //deleteTimeOut()
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnStartTimeChanged(
                 startTime,
@@ -289,7 +288,6 @@ class ModifyUpcomingEventFragment :
         with(binding) {
             val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             modifyEndTimePicker.text = endTime.timeToString(TIME_FORMAT)
-            //deleteTimeOut()
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnEndTimeChanged(
                 modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),

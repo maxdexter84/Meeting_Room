@@ -16,24 +16,6 @@ class TimeValidationDialogManager @Inject constructor() {
     private val _effect : MutableStateFlow<ValidationEffect> = MutableStateFlow(ValidationEffect.NoEffect)
     val effect = _effect.asStateFlow()
 
-    sealed class ValidationEvent {
-        data class OnStartTimeChanged(val startTime: LocalTime, val endTime: LocalTime, val date: LocalDate) : ValidationEvent()
-        data class OnEndTimeChanged(val startTime: LocalTime, val endTime: LocalTime): ValidationEvent()
-        data class OnDateChanged(val startTime: LocalTime, val date: LocalDate) : ValidationEvent()
-    }
-
-    sealed class ValidationState {
-        object TimeIsValid: ValidationState()
-        object InvalidStartTime : ValidationState()
-        object InvalidEndTime : ValidationState()
-        object InvalidBothTime : ValidationState()
-    }
-
-    sealed class ValidationEffect {
-        data class ShowInvalidTimeDialog(val messageId: Int) : ValidationEffect()
-        object NoEffect : ValidationEffect()
-    }
-
     suspend fun handleEvent(event: ValidationEvent) {
         _effect.emit(when (event) {
             is ValidationEvent.OnStartTimeChanged -> validateStartTime(event.startTime, event.endTime, event.date)
@@ -115,5 +97,23 @@ class TimeValidationDialogManager @Inject constructor() {
         private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4
         private const val MIN_MINUTES_DIFF = 15L
+    }
+
+    sealed class ValidationEvent {
+        data class OnStartTimeChanged(val startTime: LocalTime, val endTime: LocalTime, val date: LocalDate) : ValidationEvent()
+        data class OnEndTimeChanged(val startTime: LocalTime, val endTime: LocalTime): ValidationEvent()
+        data class OnDateChanged(val startTime: LocalTime, val date: LocalDate) : ValidationEvent()
+    }
+
+    sealed class ValidationState {
+        object TimeIsValid: ValidationState()
+        object InvalidStartTime : ValidationState()
+        object InvalidEndTime : ValidationState()
+        object InvalidBothTime : ValidationState()
+    }
+
+    sealed class ValidationEffect {
+        data class ShowInvalidTimeDialog(val messageId: Int) : ValidationEffect()
+        object NoEffect : ValidationEffect()
     }
 }
