@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/landing_screen_navigation"
     app:startDestination="@id/landingFragment">
-
+    <action
+        android:id="@+id/action_to_landingFragment"
+        app:destination="@id/landingFragment"
+        app:popUpTo="@id/landingFragment"/>
     <fragment
         android:id="@+id/landingFragment"
         android:name="com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment"
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_modifyUpcomingEventFragment_to_timeForNotificationDialog"
             app:destination="@id/timeForNotificationDialog" />
+        <action
+            android:id="@+id/action_modifyUpcomingEventFragment_to_needMoreTimeDialog"
+            app:destination="@id/needMoreTimeDialog" />
     </fragment>
     <dialog
         android:id="@+id/roomPickerDialogFragment"
@@ -53,4 +59,9 @@
         android:id="@+id/timeForNotificationCustomDialog"
         android:name="com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui.TimeForNotificationCustomDialog"
         android:label="TimeForNotificationCustomDialog" />
+    <dialog
+        android:id="@+id/needMoreTimeDialog"
+        android:name="com.meetingroom.andersen.feature_landing.need_more_time_dialog.ui.NeedMoreTimeDialog"
+        android:label="NeedMoreTimeDialog"
+        app:popUpTo="@id/modifyUpcomingEventFragment"/>
 </navigation>
