@@ -15,7 +15,7 @@
     <item
         android:id="@+id/workplace_bottom_nav_icon"
         android:icon="@drawable/ic_workplaces_icon"
-        android:title="@string/text_for_workplace_icon" />
+        android:title="@string/text_for_workplaces_icon" />
     <item
         android:id="@+id/map_bottom_nav_icon"
         android:icon="@drawable/ic_map_icon"
