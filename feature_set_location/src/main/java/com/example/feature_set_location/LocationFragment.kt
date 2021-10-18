@@ -11,6 +11,8 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.citySelectText.text = arguments?.getString(CITY_KEY) ?: ""
+
         binding.selectLayoutLocationFragment.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
@@ -18,5 +20,9 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         binding.confirmLocationFragment.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_landing_screen_navigation)
         }
+    }
+
+    companion object {
+        const val CITY_KEY = "CITY_KEY"
     }
 }

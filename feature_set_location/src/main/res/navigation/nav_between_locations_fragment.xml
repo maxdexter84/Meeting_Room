@@ -30,5 +30,9 @@
         android:id="@+id/cityFragment"
         android:name="com.example.feature_set_location.city_fragment.CityFragment"
         android:label="CityFragment"
-        tools:layout="@layout/city_fragment" />
+        tools:layout="@layout/city_fragment" >
+        <action
+            android:id="@+id/action_cityFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
 </navigation>

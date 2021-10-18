@@ -121,7 +121,7 @@ class ModifyUpcomingEventFragment :
     private fun initViews() {
         with(binding) {
             if (args.upcomingEvent.reminderActive) {
-                reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
+                reminderLeftTime.text = pruningTextReminderLeftTime(args.upcomingEvent.reminderRemainingTime)
             } else {
                 reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
                 args.upcomingEvent.reminderRemainingTime =
@@ -132,11 +132,15 @@ class ModifyUpcomingEventFragment :
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
             eventRoomName.text = args.upcomingEvent.eventRoom
-            reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
+            reminderLeftTime.text = pruningTextReminderLeftTime(args.upcomingEvent.reminderRemainingTime)
             modifyStartDatePicker.text = args.upcomingEvent.eventDate
             modifyEventEndDate.text = args.upcomingEvent.eventDate
         }
     }
+
+    private fun pruningTextReminderLeftTime(reminderStartTime: String) =
+        reminderStartTime.replace(Regex("utes|ute"), "").removePrefix("In")
+
 
     private fun observeRoomChange() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
@@ -152,7 +156,7 @@ class ModifyUpcomingEventFragment :
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
             ?.observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.reminderLeftTime.text = it
+                    binding.reminderLeftTime.text = pruningTextReminderLeftTime(it)
                     eventReminderTime = it
                 }
             }

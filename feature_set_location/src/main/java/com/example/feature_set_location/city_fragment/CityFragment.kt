@@ -2,12 +2,18 @@ package com.example.feature_set_location.city_fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.feature_set_location.LocationFragment
+import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.CityFragmentModule
 import com.example.feature_set_location.di.DaggerCityComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::inflate) {
@@ -15,6 +21,10 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
     private val cityAdapter =
         CityAdapter(onItemClick = {
             saveCity(it)
+            lifecycleScope.launch {
+                delay(DELAY_AFTER_CLICK_CITY)
+                findNavController().navigate(R.id.locationFragment,  bundleOf(LocationFragment.CITY_KEY to it))
+            }
         })
 
     @Inject
@@ -59,4 +69,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         viewModel.saveCityOfUserLocation(city)
     }
 
+    companion object{
+        const val DELAY_AFTER_CLICK_CITY = 3L
+    }
 }
