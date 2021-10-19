@@ -32,6 +32,7 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.U
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationTimeModifier
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -353,9 +354,7 @@ class ModifyUpcomingEventFragment :
         private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4L
         private const val MIN_MINUTES_DIFF = 15L
-        private const val MILLIS_IN_MINUTE = 60000
-        private const val MILLIS_IN_HOUR = 3600000
-        private const val MILLIS_IN_DAY = 86400000
+
 
         @SuppressLint("NewApi")
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
@@ -381,9 +380,9 @@ class ModifyUpcomingEventFragment :
             if (digitsText.isNotEmpty()) {
                 val digits = digitsText.toInt()
                 val multiplier = when {
-                    reminderLeftTime.contains("minute") -> MILLIS_IN_MINUTE
-                    reminderLeftTime.contains("hour") -> MILLIS_IN_HOUR
-                    reminderLeftTime.contains("day") -> MILLIS_IN_DAY
+                    reminderLeftTime.contains("minute") -> NotificationTimeModifier.MILLIS_IN_MINUTE
+                    reminderLeftTime.contains("hour") -> NotificationTimeModifier.MILLIS_IN_HOUR
+                    reminderLeftTime.contains("day") -> NotificationTimeModifier.MILLIS_IN_DAY
                     else -> 0
                 }
                 val userSelectedTimeInMillis = digits * multiplier
