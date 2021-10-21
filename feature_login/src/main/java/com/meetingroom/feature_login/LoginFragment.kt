@@ -1,5 +1,6 @@
 package com.meetingroom.feature_login
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -31,7 +32,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         with(binding) {
             viewModel.requestResult.observe(viewLifecycleOwner, {
                 logInButtonMainActivity.state = MainActionButtonState.ENABLED
-                findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
+                val uri = Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
+                findNavController().navigate(uri)
             })
 
             viewModel.errorMessage.observe(viewLifecycleOwner, {

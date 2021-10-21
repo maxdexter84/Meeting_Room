@@ -13,4 +13,10 @@
     <string name="text_for_my_space_icon">My space</string>
     <string name="modify_event_toolbar">Modify event</string>
     <string name="button_toolbar_save">SAVE</string>
+
+    <string name="deeplink_uri_landing_screen">"ui://landingScreenFragment"</string>
+    <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>
+    <string name="deeplink_uri_my_space_fragment">"feature_landing_screen://landingFragment"</string>
+    <string name="deeplink_uri_rooms_fragment">"feature_rooms_screen://roomsEventGridFragment"</string>
+    <string name="deeplink_uri_set_locations_screen">"feature_set_location://locationFragment"</string>
 </resources>

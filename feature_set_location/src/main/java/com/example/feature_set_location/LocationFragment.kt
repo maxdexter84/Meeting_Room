@@ -1,5 +1,6 @@
 package com.example.feature_set_location
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -18,7 +19,8 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         }
 
         binding.confirmLocationFragment.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_landing_screen_navigation)
+            val uri = Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_landing_screen))
+            findNavController().navigate(uri)
         }
     }
 
