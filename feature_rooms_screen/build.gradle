@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -29,7 +31,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -40,18 +41,13 @@ dependencies {
     implementation libraries.kotlin
     implementation libraries.coreUi
     implementation libraries.viewModel
-    implementation libraries.navigation
-    implementation libraries.retrofit
-    implementation libraries.networking
-    implementation libraries.koinAndroid
-    implementation libraries.timber
-    implementation libraries.room
     implementation libraries.dagger
+    implementation libraries.navigation
 
     kapt libraries.daggerCompiler
 
     implementation project(":ui")
-    implementation project(":core_network")
+    implementation project(path: ':core_network')
     implementation project(path: ':core_module')
 
     testImplementation libraries.unitTests

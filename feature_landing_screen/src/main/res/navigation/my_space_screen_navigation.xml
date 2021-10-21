@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/landing_screen_navigation"
+    android:id="@+id/my_space_screen_navigation"
     app:startDestination="@id/landingFragment">
     <action
         android:id="@+id/action_to_landingFragment"
@@ -12,7 +12,7 @@
         android:id="@+id/landingFragment"
         android:name="com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment"
         android:label="fragment_landing"
-        tools:layout="@layout/fragment_landing" >
+        tools:layout="@layout/fragment_my_space" >
         <action
             android:id="@+id/action_landingFragment_to_modifyUpcomingEventFragment"
             app:destination="@id/modifyUpcomingEventFragment" />

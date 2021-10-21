@@ -11,14 +11,14 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
-import com.meetingroom.andersen.feature_landing.databinding.FragmentLandingBinding
+import com.meetingroom.andersen.feature_landing.databinding.FragmentMySpaceBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopupWindowBinding
 import com.meetingroom.andersen.feature_landing.di.landing_fragment.DaggerLandingFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.landing_fragment.LandingFragmentModule
 import com.meetingroom.andersen.feature_landing.landing_fragment.presentation.LandingFragmentViewModel
 import javax.inject.Inject
 
-class LandingFragment : BaseFragment<FragmentLandingBinding>(FragmentLandingBinding::inflate) {
+class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBinding::inflate) {
 
     @Inject
     lateinit var viewModel: LandingFragmentViewModel

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_between_locations_fragment"
     app:startDestination="@id/locationFragment">
-    <include app:graph="@navigation/landing_screen_navigation" />
     <fragment
         android:id="@+id/locationFragment"
         android:name="com.example.feature_set_location.LocationFragment"
@@ -13,9 +12,7 @@
         <action
             android:id="@+id/action_locationFragment_to_countryFragment"
             app:destination="@id/countryFragment" />
-        <action
-            android:id="@+id/action_locationFragment_to_landing_screen_navigation"
-            app:destination="@id/landing_screen_navigation" />
+        <deepLink app:uri="@string/deeplink_uri_set_locations_screen" />
     </fragment>
     <fragment
         android:id="@+id/countryFragment"

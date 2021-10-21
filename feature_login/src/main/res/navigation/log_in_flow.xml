@@ -4,15 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/log_in_flow"
     app:startDestination="@id/login_fragment">
-    <include app:graph="@navigation/nav_between_locations_fragment" />
     <fragment
         android:id="@+id/login_fragment"
         android:name="com.meetingroom.feature_login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/login_fragment">
-        <action
-            android:id="@+id/action_login_fragment_to_nav_between_locations_fragment"
-            app:destination="@id/nav_between_locations_fragment" />
-
+        <deepLink app:uri="@string/deeplink_uri_login_screen" />
     </fragment>
 </navigation>
