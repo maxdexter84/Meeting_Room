@@ -1,4 +1,4 @@
-package ru.tregubowww.myapplication
+package com.meeringroom.ui.view.event_view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -39,9 +39,9 @@ class EventRectangleView @JvmOverloads constructor(
             field = value
             invalidate()
         }
+
     private var startTime = 0
     private var finishTime = 0
-    private val minutes  = 60
 
     private lateinit var painterEvent: Paint
     private lateinit var painterDiagonalLineEvent: Paint
@@ -96,7 +96,7 @@ class EventRectangleView @JvmOverloads constructor(
 
     private fun initPainters() {
         painterEvent = Paint().apply {
-            color = Color.GREEN
+            color = Color.WHITE
             isAntiAlias = true
             style = Paint.Style.FILL
         }
@@ -134,14 +134,18 @@ class EventRectangleView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setTime(startTime: Int, finishTime: Int) {
-        if (startTime >= minutes || startTime < 0) this.startTime = 0
-        else this.startTime = startTime
+    fun setMinuteInterval(startMinute: Int, finishMinute: Int) {
+        if (startMinute >= minutes || startMinute < 0) this.startTime = 0
+        else this.startTime = startMinute
         when {
-            finishTime < startTime -> this.finishTime = startTime
-            finishTime > minutes -> this.finishTime = minutes
-            else -> this.finishTime = finishTime
+            finishMinute < startMinute -> this.finishTime = startMinute
+            finishMinute > minutes -> this.finishTime = minutes
+            else -> this.finishTime = finishMinute
         }
         invalidate()
+    }
+
+    companion object {
+        private const val minutes  = 60
     }
 }
