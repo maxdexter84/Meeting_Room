@@ -3,12 +3,12 @@ package com.meeringroom.ui.view.time_line
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.withStyledAttributes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core_module.utils.stringToTime
 import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.ViewTimeLineBinding
@@ -22,6 +22,7 @@ class TimeLineView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private val binding = ViewTimeLineBinding.inflate(LayoutInflater.from(context), this, true)
+    private lateinit var timeItems: MutableList<String?>
 
     var onScroll: (dy: Int) -> Unit = {}
         set(onScroll) {
@@ -36,38 +37,51 @@ class TimeLineView @JvmOverloads constructor(
             field = onScroll
         }
 
-    var startTime: LocalTime = LocalTime.of(6, 0, 0)
-    var endTime: LocalTime = LocalTime.of(23, 0, 0)
+    private var startTime: LocalTime = LocalTime.of(DEFAULT_START_TIME, 0, 0)
+    private var endTime: LocalTime = LocalTime.of(DEFAULT_END_TIME, 0, 0)
+    private var startTimeToShow: LocalTime = LocalTime.of(DEFAULT_START_TIME_TO_SHOW, 0, 0)
 
     init {
+        loadAttr(attrs, defStyleAttr)
+        getItemsOfTime()
         binding.rvTime.apply {
-            val items = listOf("09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00")
-            adapter = TimeLineAdapter(items)
-            //adapter = TimeLineAdapter(getItemsOfTime())
+            adapter = TimeLineAdapter(timeItems)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+        scrollToTime(startTimeToShow)
+    }
+
+    private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
+        context.withStyledAttributes(attrs, R.styleable.TimeLineView, defStyleAttr, 0) {
+            if (this.hasValue(R.styleable.TimeLineView_startHour)) startTime = LocalTime.of(getInteger(R.styleable.TimeLineView_startHour, DEFAULT_START_TIME), 0, 0)
+            if (this.hasValue(R.styleable.TimeLineView_endHour)) endTime = LocalTime.of(getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_TIME), 0, 0)
+            if (this.hasValue(R.styleable.TimeLineView_startHourToShow)) startTimeToShow = LocalTime.of(getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_TIME_TO_SHOW), 0, 0)
         }
     }
 
-    /*@SuppressLint("NewApi")
-    fun getItemsOfTime(): List<String> {
+    @SuppressLint("NewApi")
+    fun getItemsOfTime() {
         var time = startTime
-        val items = mutableListOf<String>()
+        timeItems = mutableListOf()
         while (!time.isAfter(endTime)) {
-            items.add(time.timeToString(TIME_FORMAT))
+            timeItems.add(time.timeToString(TIME_FORMAT))
             time = time.plusHours(1)
+            timeItems.addAll(listOf(null, null, null, null, null))
         }
-        return items
-    }*/
+    }
 
     fun scrollOnDy(dy: Int) {
         binding.rvTime.scrollBy(0, dy)
     }
     
-    fun scrollOnPosition(position: Int) {
-        binding.rvTime.scrollToPosition(position)
+    fun scrollToTime(time: LocalTime) {
+        binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == time.hour })
     }
     
     companion object {
         private const val TIME_FORMAT = "HH:00"
+        private const val DEFAULT_START_TIME = 6
+        private const val DEFAULT_END_TIME = 18
+        private const val DEFAULT_START_TIME_TO_SHOW = 8
     }
 }
