@@ -9,10 +9,10 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.android.minSdkVersion
+        targetSdkVersion versions.android.targetSdkVersion
+        versionCode versions.app.versionCode
+        versionName versions.app.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -25,6 +25,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -41,6 +42,7 @@ dependencies {
     implementation libraries.legacy
     implementation libraries.datetime
     kapt libraries.daggerCompiler
+    coreLibraryDesugaring libraries.desugaring
 
     testImplementation libraries.unitTests
     androidTestImplementation libraries.unitTests
