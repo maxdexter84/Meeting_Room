@@ -7,10 +7,12 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -32,7 +34,7 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.U
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationTimeModifier
+import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -60,6 +62,7 @@ class ModifyUpcomingEventFragment :
 
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
+    private var eventReminderStartTime: Int? = null
 
     private lateinit var needMoreTimeJob: Job
 
@@ -166,11 +169,14 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun observeTimeChange() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<TimePickerData>(
+            TIME_KEY
+        )
             ?.observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.reminderLeftTime.text = pruningTextReminderLeftTime(it)
-                    eventReminderTime = it
+                    binding.reminderLeftTime.text = it.title
+                    eventReminderTime = it.title
+                    eventReminderStartTime = it.time
                 }
             }
     }
@@ -232,13 +238,14 @@ class ModifyUpcomingEventFragment :
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
-            startNotification()
-            val time =
-                "${modifyStartDatePicker.text.toString()} ${modifyEndTimePicker.text.toString()}".stringToDate(
-                    DATE_AND_TIME_FORMAT
+            eventReminderStartTime?.let {
+                createNotification(
+                    getReminderSetOffTimeInMillis(
+                        it.toLong(),
+                        getEventStartDateInMillis()
+                    )
                 )
-            getReminderSetOffTimeInMillis()
-        }
+            }
         requireActivity().onBackPressed()
     }
 
@@ -335,13 +342,6 @@ class ModifyUpcomingEventFragment :
         )
     }
 
-    private fun startNotification() {
-        createNotification(getReminderSetOffTimeInMillis(
-            binding.reminderLeftTime.text.toString(),
-            getEventStartDateInMillis()
-        ) ?: 0)
-    }
-
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
@@ -371,26 +371,12 @@ class ModifyUpcomingEventFragment :
         }
 
         private fun getReminderSetOffTimeInMillis(
-            reminderLeftTime: String,
+            reminderTime: Long,
             eventStartTime: Long
-        ): Long? {
-            val digitsText = reminderLeftTime.filter { stringDigit ->
-                stringDigit.isDigit()
-            }
-            if (digitsText.isNotEmpty()) {
-                val digits = digitsText.toInt()
-                val multiplier = when {
-                    reminderLeftTime.contains("minute") -> NotificationTimeModifier.MILLIS_IN_MINUTE
-                    reminderLeftTime.contains("hour") -> NotificationTimeModifier.MILLIS_IN_HOUR
-                    reminderLeftTime.contains("day") -> NotificationTimeModifier.MILLIS_IN_DAY
-                    else -> 0
-                }
-                val userSelectedTimeInMillis = digits * multiplier
-                val reminderSetOffTime = eventStartTime - userSelectedTimeInMillis
-                val currentTime = Clock.System.now().toEpochMilliseconds()
-                return reminderSetOffTime - currentTime
-            }
-            return null
+        ): Long {
+            val reminderSetOffTime = eventStartTime - reminderTime
+            val currentTime = Clock.System.now().toEpochMilliseconds()
+            return reminderSetOffTime - currentTime
         }
         private const val USER_INACTIVITY_LIMIT = 30000L
     }

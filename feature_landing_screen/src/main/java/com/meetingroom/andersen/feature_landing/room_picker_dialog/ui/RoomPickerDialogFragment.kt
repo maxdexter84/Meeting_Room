@@ -10,14 +10,14 @@ import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimePickerFra
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.DaggerRoomPickerComponent
 import com.meetingroom.andersen.feature_landing.di.room_picker_fragment.RoomPickerModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
-import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomAndTimePickerData
+import com.meetingroom.andersen.feature_landing.room_picker_dialog.model.RoomPickerData
 import com.meetingroom.andersen.feature_landing.room_picker_dialog.presentation.RoomPickerViewModel
 import javax.inject.Inject
 
 class RoomPickerDialogFragment :
     BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
 
-    private val roomAdapter by lazy { RoomAndTimePickerAdapter { saveRoom(it) } }
+    private val roomAdapter by lazy { RoomPickerAdapter { saveRoom(it) } }
     private val args: RoomPickerDialogFragmentArgs by navArgs()
 
     @Inject
@@ -36,7 +36,7 @@ class RoomPickerDialogFragment :
         viewModel.gagRooms.observe(viewLifecycleOwner) { gagRoomData ->
             val alreadySelectedRoom = args.userRoom
             gagRoomData.forEach { room ->
-                roomAdapter.roomsAndTime += RoomAndTimePickerData(
+                roomAdapter.rooms += RoomPickerData(
                     room.roomName,
                     alreadySelectedRoom == room.roomName,
                     room.isBusy
@@ -54,11 +54,11 @@ class RoomPickerDialogFragment :
         }
     }
 
-    private fun saveRoom(roomName: String) {
-        viewModel.changeSelected(roomAdapter.roomsAndTime, roomName)
+    private fun saveRoom(roomPickerData: RoomPickerData) {
+        viewModel.changeSelected(roomAdapter.rooms, roomPickerData.room)
         findNavController().previousBackStackEntry?.savedStateHandle?.set(
             ModifyUpcomingEventFragment.ROOM_KEY,
-            roomName
+            roomPickerData.room
         )
         findNavController().popBackStack()
     }
