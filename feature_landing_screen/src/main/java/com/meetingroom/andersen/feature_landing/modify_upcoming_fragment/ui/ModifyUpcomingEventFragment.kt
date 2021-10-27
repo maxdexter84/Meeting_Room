@@ -141,7 +141,7 @@ class ModifyUpcomingEventFragment :
                     getString(R.string.reminder_disabled_text_for_time)
                 eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             }
-            if (args.upcomingEvent.eventDescription != null) {
+            args.upcomingEvent.eventDescription?.let {
                 userEventDescription.setText(args.upcomingEvent.eventDescription)
             }
             eventModifyTitle.setText(args.upcomingEvent.title)
@@ -377,7 +377,8 @@ class ModifyUpcomingEventFragment :
         ): Long {
             val reminderSetOffTime = eventStartTime - reminderTime
             val currentTime = Clock.System.now().toEpochMilliseconds()
-            return reminderSetOffTime - currentTime
+            val finalTime = reminderSetOffTime - currentTime
+            return currentTime + finalTime
         }
         private const val USER_INACTIVITY_LIMIT = 30000L
     }
