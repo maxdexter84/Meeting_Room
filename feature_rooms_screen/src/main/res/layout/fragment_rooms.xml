@@ -14,4 +14,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:setTitle="@string/toolbar_rooms_title" />
 
+    <com.meeringroom.ui.view.time_line.TimeLineView
+        android:id="@+id/time_line_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rooms_toolbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
