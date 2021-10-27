@@ -246,6 +246,7 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
+        }
         requireActivity().onBackPressed()
     }
 
