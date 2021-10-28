@@ -5,5 +5,6 @@ data class Room (
     val floor: Int,
     val id: Long,
     val office: String,
-    val title: String
+    val title: String,
+    val color: Int
 )

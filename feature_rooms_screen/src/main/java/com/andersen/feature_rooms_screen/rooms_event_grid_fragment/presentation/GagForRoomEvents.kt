@@ -36,6 +36,7 @@ class GagForRoomEvents {
                 else -> "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             }
 
+
             val title = when (i % 9) {
                 0 -> "Retrospective - AlphaBank Home Insurance App"
                 1 -> "Poker planing - AlphaBank app"
@@ -95,18 +96,6 @@ class GagForRoomEvents {
                 7 -> "status7"
                 else -> "status8"
             }
-
-            /*val eventRoomColor = when (i % 9) {
-                0 -> R.color.design_default_color_primary
-                1 -> R.color.purple_light
-                2 -> R.color.purple_dark
-                3 -> R.color.purple
-                4 -> R.color.teal_dark
-                5 -> R.color.yellow_for_selected_item
-                6 -> R.color.error_color_for_line_under_edittext
-                7 -> R.color.buttons_text_disabled
-                else -> R.color.teal_light
-            }*/
 
             val userFullName = when (i % 9) {
                 0 -> "Alexandrov Alexandr"
@@ -172,9 +161,9 @@ class GagForRoomEvents {
                 RoomEvent(
                     date,
                     description,
-                    i,
+                    i.toLong(),
                     room,
-                    i,
+                    i.toLong(),
                     startDateTime,
                     endDateTime,
                     status,
