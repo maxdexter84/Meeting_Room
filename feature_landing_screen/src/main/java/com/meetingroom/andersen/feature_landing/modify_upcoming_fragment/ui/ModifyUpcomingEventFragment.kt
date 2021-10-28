@@ -7,12 +7,9 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -26,23 +23,17 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_events.DaggerModifyUpcomingComponent
-import com.meetingroom.andersen.feature_landing.di.modify_upcoming_events.ModifyUpcomingModule
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
+import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.coroutines.*
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
 import java.time.*
 import java.util.*
 import javax.inject.Inject
@@ -68,6 +59,7 @@ class ModifyUpcomingEventFragment :
 
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .modifyUpcomingEventFragmentModule(ModifyUpcomingEventFragmentModule(this))
             .build()
             .inject(this)
@@ -348,13 +340,8 @@ class ModifyUpcomingEventFragment :
         const val TIME_KEY = "TIME_KEY"
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
-        private const val DATE_AND_TIME_FORMAT = "d MMM yyyy HH:mm"
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
-        private val MIN_TIME = LocalTime.of(6, 0)
-        private val MAX_TIME = LocalTime.of(23, 59)
-        private const val MAX_HOURS_DIFF = 4L
-        private const val MIN_MINUTES_DIFF = 15L
 
 
         @SuppressLint("NewApi")
