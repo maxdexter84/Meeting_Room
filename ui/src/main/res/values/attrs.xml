@@ -28,5 +28,7 @@
         <attr name="startHour" format="integer" />
         <attr name="endHour" format="integer"/>
         <attr name="startHourToShow" format="integer"/>
+        <attr name="hourHeight" format="dimension"/>
+        <attr name="topMargin" format="dimension"/>
     </declare-styleable>
 </resources>

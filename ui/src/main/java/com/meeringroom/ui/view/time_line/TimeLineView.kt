@@ -37,36 +37,47 @@ class TimeLineView @JvmOverloads constructor(
             field = onScroll
         }
 
-    private var startTime: LocalTime = LocalTime.of(DEFAULT_START_TIME, 0, 0)
-    private var endTime: LocalTime = LocalTime.of(DEFAULT_END_TIME, 0, 0)
-    private var startTimeToShow: LocalTime = LocalTime.of(DEFAULT_START_TIME_TO_SHOW, 0, 0)
+    private var startHour = DEFAULT_START_HOUR
+    private var endHour = DEFAULT_END_HOUR
+    private var startHourToShow = DEFAULT_START_HOUR_TO_SHOW
+    private var hourHeight = 0
+    private var topMargin = 0
 
     init {
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
         binding.rvTime.apply {
-            adapter = TimeLineAdapter(timeItems)
+            adapter = TimeLineAdapter(timeItems, hourHeight)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            setPadding(0, topMargin, 0, 0)
         }
-        scrollToTime(startTimeToShow)
+
     }
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
         context.withStyledAttributes(attrs, R.styleable.TimeLineView, defStyleAttr, 0) {
-            if (this.hasValue(R.styleable.TimeLineView_startHour)) startTime = LocalTime.of(getInteger(R.styleable.TimeLineView_startHour, DEFAULT_START_TIME), 0, 0)
-            if (this.hasValue(R.styleable.TimeLineView_endHour)) endTime = LocalTime.of(getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_TIME), 0, 0)
-            if (this.hasValue(R.styleable.TimeLineView_startHourToShow)) startTimeToShow = LocalTime.of(getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_TIME_TO_SHOW), 0, 0)
+            startHour = getInteger(R.styleable.TimeLineView_startHour, DEFAULT_START_HOUR)
+            endHour = getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_HOUR)
+            startHourToShow = getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_HOUR_TO_SHOW)
+            hourHeight = getDimensionPixelSize(R.styleable.TimeLineView_hourHeight, 0)
+            topMargin = getDimensionPixelSize(R.styleable.TimeLineView_topMargin, hourHeight / 2)
         }
     }
 
     @SuppressLint("NewApi")
-    fun getItemsOfTime() {
-        var time = startTime
+    private fun getItemsOfTime() {
+        if (startHour >= endHour) {
+            startHour = DEFAULT_START_HOUR
+            endHour = DEFAULT_END_HOUR
+            startHourToShow = DEFAULT_START_HOUR_TO_SHOW
+        }
+        var time = LocalTime.of(startHour, 0 , 0)
         timeItems = mutableListOf()
-        while (!time.isAfter(endTime)) {
+        while (time.hour < endHour) {
             timeItems.add(time.timeToString(TIME_FORMAT))
+            timeItems.addAll(arrayOfNulls(PARTS_OF_5_MINUTES))
             time = time.plusHours(1)
-            timeItems.addAll(listOf(null, null, null, null, null))
+            if (time.hour == 0) return
         }
     }
 
@@ -74,14 +85,15 @@ class TimeLineView @JvmOverloads constructor(
         binding.rvTime.scrollBy(0, dy)
     }
     
-    fun scrollToTime(time: LocalTime) {
-        binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == time.hour })
+    private fun scrollToHour(hour: Int) {
+        binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == hour })
     }
     
     companion object {
         private const val TIME_FORMAT = "HH:00"
-        private const val DEFAULT_START_TIME = 6
-        private const val DEFAULT_END_TIME = 18
-        private const val DEFAULT_START_TIME_TO_SHOW = 8
+        private const val DEFAULT_START_HOUR = 6
+        private const val DEFAULT_END_HOUR = 24
+        private const val DEFAULT_START_HOUR_TO_SHOW = 8
+        private const val PARTS_OF_5_MINUTES = 12
     }
 }

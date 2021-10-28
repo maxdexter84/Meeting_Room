@@ -7,20 +7,26 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.meetingroom.ui.R
 
-class TimeLineAdapter(private val items: List<String?>): RecyclerView.Adapter<TimeLineAdapter.TimeViewHolder>() {
+class TimeLineAdapter(private val items: List<String?>, val hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.time_line_item, parent, false)
-        return TimeViewHolder(adapterLayout)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            EMPTY_VIEW_HOLDER_TYPE -> {
+                val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.empty_time_line_item, parent, false)
+                EmptyViewHolder(adapterLayout)
+            }
+            else -> {
+                val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.time_line_item, parent, false)
+                TimeViewHolder(adapterLayout)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             EMPTY_VIEW_HOLDER_TYPE -> {}
-            TIME_VIEW_HOLDER_TYPE -> holder.textView.text = items[position]
+            TIME_VIEW_HOLDER_TYPE -> (holder as TimeViewHolder).textView.text = items[position]
         }
-
     }
 
     override fun getItemCount() = items.size
@@ -33,16 +39,20 @@ class TimeLineAdapter(private val items: List<String?>): RecyclerView.Adapter<Ti
 
     }
 
-    class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+   inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.time_text_view)
     }
 
-    class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.time_text_view)
+    inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val view: View = itemView.findViewById(R.id.empty_view)
+        init {
+            itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight / PARTS_OF_5_MINUTES)
+        }
     }
 
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
+        private const val PARTS_OF_5_MINUTES = 12
     }
 }
