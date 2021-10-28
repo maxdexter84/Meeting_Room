@@ -6,8 +6,19 @@
     app:startDestination="@id/roomsFragment">
     <fragment
         android:id="@+id/roomsFragment"
-        android:name="com.andersen.feature_rooms_screen.rooms_event_grid_fragment.RoomsEventGridFragment"
+        android:name="com.andersen.feature_rooms_screen.rooms_event_grid_fragment.ui.RoomsEventGridFragment"
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms">
+        <action
+            android:id="@+id/action_roomsFragment_to_eventDetailDialog"
+            app:destination="@id/eventDetailDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/eventDetailDialog"
+        android:name="com.andersen.feature_rooms_screen.rooms_event_grid_fragment.ui.EventDetailDialog"
+        android:label="EventDetailDialog" >
+        <argument
+            android:name="roomEvent"
+            app:argType="com.andersen.feature_rooms_screen.rooms_event_grid_fragment.model.RoomEvent" />
+    </dialog>
 </navigation>
