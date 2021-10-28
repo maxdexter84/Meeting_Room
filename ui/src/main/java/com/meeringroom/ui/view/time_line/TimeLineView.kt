@@ -75,7 +75,7 @@ class TimeLineView @JvmOverloads constructor(
         timeItems = mutableListOf()
         while (time.hour < endHour) {
             timeItems.add(time.timeToString(TIME_FORMAT))
-            timeItems.addAll(arrayOfNulls(PARTS_OF_5_MINUTES))
+            timeItems.add(null)
             time = time.plusHours(1)
             if (time.hour == 0) return
         }
@@ -88,12 +88,12 @@ class TimeLineView @JvmOverloads constructor(
     private fun scrollToHour(hour: Int) {
         binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == hour })
     }
-    
+
     companion object {
         private const val TIME_FORMAT = "HH:00"
         private const val DEFAULT_START_HOUR = 6
         private const val DEFAULT_END_HOUR = 24
         private const val DEFAULT_START_HOUR_TO_SHOW = 8
-        private const val PARTS_OF_5_MINUTES = 12
     }
 }
+

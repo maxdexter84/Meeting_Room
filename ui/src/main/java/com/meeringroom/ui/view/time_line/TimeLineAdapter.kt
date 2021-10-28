@@ -7,7 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.meetingroom.ui.R
 
-class TimeLineAdapter(private val items: List<String?>, val hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    init {
+        hourHeight -= TEXT_HEIGHT
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -46,13 +50,13 @@ class TimeLineAdapter(private val items: List<String?>, val hourHeight: Int): Re
     inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val view: View = itemView.findViewById(R.id.empty_view)
         init {
-            itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight / PARTS_OF_5_MINUTES)
+            itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight)
         }
     }
 
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
-        private const val PARTS_OF_5_MINUTES = 12
+        private const val TEXT_HEIGHT = 16
     }
 }
