@@ -2,4 +2,5 @@
 <resources>
     <string name="toolbar_rooms_title">Rooms</string>
     <string name="event_time">%1$s-%2$s</string>
+    <string name="copy">Copy</string>
 </resources>
