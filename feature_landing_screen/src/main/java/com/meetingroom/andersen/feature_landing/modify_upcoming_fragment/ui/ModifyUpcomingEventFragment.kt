@@ -77,6 +77,7 @@ class ModifyUpcomingEventFragment :
                 requireActivity().onBackPressed()
             }
             modifyRoomChooser.setOnClickListener {
+                deleteTimeOut()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
                         eventRoom
@@ -84,6 +85,7 @@ class ModifyUpcomingEventFragment :
                 )
             }
             setReminder.setOnClickListener {
+                deleteTimeOut()
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
                         eventReminderTime
@@ -218,6 +220,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun saveChanges() {
+        deleteTimeOut()
         with(binding) {
             args.upcomingEvent.apply {
                 title = eventModifyTitle.text.toString()
