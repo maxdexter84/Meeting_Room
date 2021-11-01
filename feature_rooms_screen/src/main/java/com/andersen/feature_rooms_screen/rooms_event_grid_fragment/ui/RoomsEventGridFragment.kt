@@ -30,8 +30,6 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
     }
 
     private fun initCalendar() {
-        with(binding) {
-            oneWeekCalendar.setDateSelected(CalendarDay.today(), true)
-        }
+        binding.oneWeekCalendar.setDateSelected(CalendarDay.today(), true)
     }
 }
