@@ -1,8 +1,7 @@
-package com.andersen.feature_rooms_screen.rooms_event_grid_fragment.presentation
+package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
-import com.andersen.feature_rooms_screen.rooms_event_grid_fragment.model.RoomEvent
-import com.meetingroom.andersen.feature_rooms_screen.R
-
+import android.graphics.Color
+import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 
 class GagForRoomEvents {
 
@@ -10,17 +9,7 @@ class GagForRoomEvents {
         val list = ArrayList<RoomEvent>()
         for (i in 0 until size) {
 
-            val date = when (i % 9) {
-                0 -> "8 Sep 2021"
-                1 -> "8 Sep 2021"
-                2 -> "7 Sep 2021"
-                3 -> "6 Sep 2021"
-                4 -> "5 Sep 2021"
-                5 -> "5 Sep 2021"
-                6 -> "4 Sep 2021"
-                7 -> "4 Sep 2021"
-                else -> "2 Sep 2021"
-            }
+            val date = "8 Sep 2021"
 
             val description = when (i % 9) {
                 0 -> "I miss. This is the only explanation for my attraction to the past. " +
@@ -70,7 +59,7 @@ class GagForRoomEvents {
                 5 -> "14:00"
                 6 -> "09:00"
                 7 -> "11:30"
-                else -> "15:30"
+                else -> "09:30"
             }
 
             val endDateTime = when (i % 9) {
@@ -82,7 +71,7 @@ class GagForRoomEvents {
                 5 -> "16:00"
                 6 -> "11:00"
                 7 -> "12:40"
-                else -> "16:30"
+                else -> "11:30"
             }
 
             val status = when (i % 9) {
@@ -157,12 +146,37 @@ class GagForRoomEvents {
                 else -> "8"
             }
 
+            val color = when (i % 9) {
+                0 -> Color.GRAY
+                1 -> Color.BLUE
+                2 -> Color.GREEN
+                3 -> Color.BLACK
+                4 -> Color.DKGRAY
+                5 -> Color.MAGENTA
+                6 -> Color.RED
+                7 -> Color.YELLOW
+                else -> Color.GREEN
+            }
+
+            val userEvent = when (i % 9) {
+                0 -> true
+                1 -> false
+                2 -> true
+                3 -> false
+                4 -> false
+                5 -> true
+                6 -> false
+                7 -> true
+                else -> false
+            }
+
             list.add(
                 RoomEvent(
                     date,
                     description,
                     i.toLong(),
                     room,
+                    color,
                     i.toLong(),
                     startDateTime,
                     endDateTime,
@@ -172,7 +186,8 @@ class GagForRoomEvents {
                     userFullName,
                     userId,
                     userPosition,
-                    userSkype
+                    userSkype,
+                    userEvent
                 )
             )
         }

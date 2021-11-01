@@ -64,20 +64,20 @@ class EventRectangleView @JvmOverloads constructor(
     }
 
     private fun drawBorders(width: Float, height: Float, canvas: Canvas) {
+
+        if (startBordersIsVisible) canvas.drawLine(0f, 0f, 0f, height, painterDelimiterLine)
         if (topBordersIsVisible) canvas.drawLine(0f, 0f, width, 0f, painterDelimiterLine)
-        if (bottomBordersIsVisible) canvas.drawLine(0f, 0f, 0f, height, painterDelimiterLine)
-        if (startBordersIsVisible) canvas.drawLine(0f, height, width, height, painterDelimiterLine)
+        if (bottomBordersIsVisible) canvas.drawLine(0f, height, width, height, painterDelimiterLine)
         if (endBordersIsVisible) canvas.drawLine(width, 0f, width, height, painterDelimiterLine)
 
+        if (startBordersIsVisible) canvas.drawLine(0f, 0f, 0f, height, painterBorderLine)
         if (topBordersIsVisible) canvas.drawLine(0f, 0f, width, 0f, painterBorderLine)
-        if (bottomBordersIsVisible) canvas.drawLine(0f, 0f, 0f, height, painterBorderLine)
-        if (startBordersIsVisible) canvas.drawLine(0f, height, width, height, painterBorderLine)
+        if (bottomBordersIsVisible) canvas.drawLine(0f, height, width, height, painterBorderLine)
         if (endBordersIsVisible) canvas.drawLine(width, 0f, width, height, painterBorderLine)
-
     }
 
     private fun drawTimePeriod(width: Float, height: Float, canvas: Canvas) {
-        canvas.drawRect(0f, height - finishTime / minutes.toFloat() * height, width.toFloat(), height.toFloat(), painterDelimiterTime)
+        canvas.drawRect(0f,  finishTime / minutes.toFloat() * height, width.toFloat(), height.toFloat(), painterDelimiterTime)
         canvas.drawRect(0f, 0f, width.toFloat(), startTime / minutes.toFloat() * height, painterDelimiterTime)
 
     }
@@ -85,11 +85,11 @@ class EventRectangleView @JvmOverloads constructor(
     private fun drawEventBackground(width: Float, height: Float, canvas: Canvas) {
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), painterEvent)
         painterDiagonalLineEvent.strokeWidth = width/15f
-        val dividingPartScreen = height/5f
+        val dividingPartScreen = height/3f
 
         if (isUserOwnEvent) {
-            for (i in 1..10) {
-                canvas.drawLine(dividingPartScreen * i.toFloat(), -10f, -10f, dividingPartScreen * 2 * i.toFloat(), painterDiagonalLineEvent)
+            for (i in 1..20) {
+                canvas.drawLine(dividingPartScreen * i.toFloat(), -height, -width, dividingPartScreen  * i.toFloat(), painterDiagonalLineEvent)
             }
         }
     }
