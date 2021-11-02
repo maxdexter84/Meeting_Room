@@ -8,16 +8,17 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @SuppressLint("NewApi")
 fun LocalDate.dateToString(format: String): String {
-    val formatter = DateTimeFormatter.ofPattern(format)
+    val formatter = DateTimeFormatter.ofPattern(format, Locale.US)
     return this.format(formatter)
 }
 
 @SuppressLint("NewApi")
 fun String.stringToDate(format: String): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern(format)
+    val formatter = DateTimeFormatter.ofPattern(format, Locale.US)
     return LocalDate.parse(this, formatter)
 }
 
