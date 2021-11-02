@@ -17,6 +17,7 @@ class TimeValidationDialogManager @Inject constructor() {
     val effect = _effect.asStateFlow()
 
     suspend fun handleEvent(event: ValidationEvent) {
+        _effect.emit(ValidationEffect.NoEffect)
         _effect.emit(when (event) {
             is ValidationEvent.OnStartTimeChanged -> validateStartTime(event.startTime, event.endTime, event.date)
             is ValidationEvent.OnEndTimeChanged -> validateEndTime(event.startTime, event.endTime)
@@ -24,7 +25,10 @@ class TimeValidationDialogManager @Inject constructor() {
                 if (isStartTimeBeforeCurrent(event.startTime, event.date)) {
                     _state.value = ValidationState.InvalidStartTime
                     ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_start_before_current_time_message)
-                } else ValidationEffect.NoEffect
+                } else {
+                    _state.value = ValidationState.TimeIsValid
+                    ValidationEffect.TimeIsValidEffect
+                }
             }
         })
     }
@@ -55,7 +59,7 @@ class TimeValidationDialogManager @Inject constructor() {
             }
             else -> {
                 _state.value = ValidationState.TimeIsValid
-                ValidationEffect.NoEffect
+                ValidationEffect.TimeIsValidEffect
             }
         }
     }
@@ -114,6 +118,7 @@ class TimeValidationDialogManager @Inject constructor() {
 
     sealed class ValidationEffect {
         data class ShowInvalidTimeDialog(val messageId: Int) : ValidationEffect()
+        object TimeIsValidEffect: ValidationEffect()
         object NoEffect : ValidationEffect()
     }
 }
