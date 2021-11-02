@@ -26,7 +26,6 @@ class TimeValidationDialogManager @Inject constructor() {
                     _state.value = ValidationState.InvalidStartTime
                     ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_start_before_current_time_message)
                 } else {
-                    _state.value = ValidationState.TimeIsValid
                     ValidationEffect.TimeIsValidEffect
                 }
             }
