@@ -14,6 +14,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:setTitle="@string/toolbar_rooms_title" />
 
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/one_week_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_line_view"
+        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar"
+        app:mcv_calendarMode="week"
+        app:mcv_selectionColor="@color/yellow"
+        app:mcv_firstDayOfWeek="sunday"
+        app:mcv_leftArrow="@drawable/ic_baseline_arrow_left_calendar"
+        app:mcv_rightArrow="@drawable/ic_baseline_arrow_right_calendar"
+        app:mcv_showOtherDates="defaults" />
+
     <com.meeringroom.ui.view.time_line.TimeLineView
         android:id="@+id/time_line_view"
         android:layout_width="wrap_content"
@@ -21,6 +35,6 @@
         app:hourHeight="@dimen/dimens_66_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rooms_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/one_week_calendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
