@@ -40,10 +40,12 @@ allprojects {
                         espresso          : '3.3.0',
                         legacy_support    : '1.0.0',
                         datetime          : '0.2.1',
-                        desugaring        : '1.1.5'
+                        desugaring        : '1.1.5',
+                        calendar          : '2.0.1'
                 ]
         ]
         libraries = [
+
                 viewModel        : [
                         "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.libraries.lifecycle}",
                         "androidx.lifecycle:lifecycle-livedata-ktx:${versions.libraries.lifecycle}",
@@ -100,7 +102,8 @@ allprojects {
                 coreKtx          : "androidx.core:core-ktx:${versions.libraries.coreKtx}",
                 lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${versions.libraries.lifecycle}",
                 legacy           : "androidx.legacy:legacy-support-v4:${versions.libraries.legacy_support}",
-                desugaring       : "com.android.tools:desugar_jdk_libs:${versions.libraries.desugaring}"
+                desugaring       : "com.android.tools:desugar_jdk_libs:${versions.libraries.desugaring}",
+                calendar         : "com.github.prolificinteractive:material-calendarview:${versions.libraries.calendar}"
         ]
     }
 }
