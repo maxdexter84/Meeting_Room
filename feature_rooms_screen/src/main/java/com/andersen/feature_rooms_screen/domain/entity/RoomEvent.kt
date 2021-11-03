@@ -1,5 +1,9 @@
 package com.andersen.feature_rooms_screen.domain.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class RoomEvent(
     val date: String,
     val description: String,
@@ -17,4 +21,4 @@ data class RoomEvent(
     val userPosition: String,
     val userSkype: String,
     val isUserOwnEvent: Boolean,
-)
+): Parcelable

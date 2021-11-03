@@ -9,5 +9,16 @@
         android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment"
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms">
+        <action
+            android:id="@+id/action_roomsFragment_to_eventDetailDialog"
+            app:destination="@id/eventDetailDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/eventDetailDialog"
+        android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.EventDetailDialog"
+        android:label="EventDetailDialog" >
+        <argument
+            android:name="roomEvent"
+            app:argType="com.andersen.feature_rooms_screen.domain.entity.RoomEvent" />
+    </dialog>
 </navigation>

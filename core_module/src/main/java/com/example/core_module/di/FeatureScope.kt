@@ -1,7 +1,8 @@
-package com.meetingroom.andersen.feature_landing.di
+package com.example.core_module.di
 
 import javax.inject.Scope
 
 @Scope
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-annotation class Screen
+annotation class FeatureScope {
+}

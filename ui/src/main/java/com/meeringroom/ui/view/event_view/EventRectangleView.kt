@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorLong
+import androidx.core.content.withStyledAttributes
+import com.meetingroom.ui.R
 
 class EventRectangleView @JvmOverloads constructor(
     context: Context,
@@ -52,6 +54,14 @@ class EventRectangleView @JvmOverloads constructor(
     private lateinit var painterDelimiterTime: Paint
 
     init {
+        context.withStyledAttributes(attrs, R.styleable.EventRectangleView) {
+            isUserOwnEvent = getBoolean(R.styleable.EventRectangleView_isUserOwnEvent, false)
+            topBordersIsVisible = getBoolean(R.styleable.EventRectangleView_topBordersIsVisible, true)
+            bottomBordersIsVisible = getBoolean(R.styleable.EventRectangleView_bottomBordersIsVisible, true)
+            startBordersIsVisible = getBoolean(R.styleable.EventRectangleView_startBordersIsVisible, true)
+            endBordersIsVisible = getBoolean(R.styleable.EventRectangleView_endBordersIsVisible, true)
+        }
+
         initPainters()
     }
 

@@ -44,8 +44,11 @@ dependencies {
     implementation libraries.viewModel
     implementation libraries.dagger
     implementation libraries.navigation
+    implementation libraries.calendar
 
     kapt libraries.daggerCompiler
+    implementation libraries.dagger
+    implementation libraries.componentsManager
 
     implementation project(":ui")
     implementation project(path: ':core_network')

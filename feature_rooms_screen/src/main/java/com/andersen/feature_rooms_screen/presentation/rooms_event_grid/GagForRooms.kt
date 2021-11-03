@@ -5,7 +5,7 @@ import com.andersen.feature_rooms_screen.domain.entity.Room
 
 class GagForRooms {
 
-    val rooms = generateRooms(8)
+    val rooms = generateRooms(SIZE_ROOM)
 
     private fun generateRooms(size: Int): List<Room> {
         val list = ArrayList<Room>()
@@ -26,5 +26,7 @@ class GagForRooms {
         return list
     }
 
-    fun getRoomsAmount() = rooms.size
+    companion object{
+       const val SIZE_ROOM = 8
+    }
 }

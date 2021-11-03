@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemRoomBinding
+import javax.inject.Inject
 
-class RoomsAdapter :
+class RoomsAdapter @Inject constructor() :
     RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>() {
 
     var roomList = emptyList<Room>()
@@ -27,7 +28,6 @@ class RoomsAdapter :
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
 
-
         if (roomList.isNotEmpty()) holder.bind(roomList[position], position, eventList)
 
     }
@@ -38,9 +38,7 @@ class RoomsAdapter :
         return RoomViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return roomList.size
-    }
+    override fun getItemCount() = roomList.size
 
     class RoomViewHolder(
         private val binding: ItemRoomBinding,
@@ -54,9 +52,6 @@ class RoomsAdapter :
                 roomTextView.text = room.title
                 lineUnderRoomView.setBackgroundColor(room.color)
             }
-            eventList.filter {
-                it.colorRoom == room.color
-            }.toString()
 
             with(binding.eventRecyclerView) {
                 layoutManager =

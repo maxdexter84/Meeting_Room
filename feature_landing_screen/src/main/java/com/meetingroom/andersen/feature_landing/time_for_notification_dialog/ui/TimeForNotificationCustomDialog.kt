@@ -7,6 +7,7 @@ import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.CustomDialogTimeForNotificationBinding
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
+import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
 
 class TimeForNotificationCustomDialog :
     BaseDialogFragment<CustomDialogTimeForNotificationBinding>(
@@ -22,28 +23,42 @@ class TimeForNotificationCustomDialog :
     private fun navigate() {
         with(binding) {
             if (userCustomTimeEditText.text.isNotEmpty()) {
-                val timeType =
-                    when {
-                        customTimeInMinutes.isChecked -> resources.getQuantityString(
+                val multiplier: Int
+                val timeType: String
+                when {
+                    customTimeInMinutes.isChecked -> {
+                        timeType = resources.getQuantityString(
                             R.plurals.amountOfMinutes,
                             userCustomTimeEditText.text.toString().toInt()
                         )
-                        customTimeInHours.isChecked -> resources.getQuantityString(
+                        multiplier = TimeForNotificationDialog.MILLIS_IN_MINUTE
+                    }
+                    customTimeInHours.isChecked -> {
+                        timeType = resources.getQuantityString(
                             R.plurals.amountOfHours,
                             userCustomTimeEditText.text.toString().toInt()
                         )
-                        customTimeInDays.isChecked -> resources.getQuantityString(
+                        multiplier = TimeForNotificationDialog.MILLIS_IN_HOUR
+                    }
+                    customTimeInDays.isChecked -> {
+                        timeType = resources.getQuantityString(
                             R.plurals.amountOfDays,
                             userCustomTimeEditText.text.toString().toInt()
                         )
-                        else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
+                        multiplier = TimeForNotificationDialog.MILLIS_IN_DAY
                     }
+                    else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
+                }
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     ModifyUpcomingEventFragment.TIME_KEY,
-                    String.format(
-                        getString(R.string.user_selected_custom_time_option),
-                        binding.userCustomTimeEditText.text.toString(),
-                        timeType
+                    TimePickerData(
+                        String.format(
+                            getString(R.string.user_selected_custom_time_option),
+                            binding.userCustomTimeEditText.text.toString(),
+                            timeType
+                        ),
+                        binding.userCustomTimeEditText.text.toString().toInt() * multiplier,
+                        true
                     )
                 )
             }
