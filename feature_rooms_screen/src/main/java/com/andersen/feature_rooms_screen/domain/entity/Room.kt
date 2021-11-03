@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.rooms_event_grid_fragment.model
+package com.andersen.feature_rooms_screen.domain.entity
 
 data class Room (
     val capacity: Int,
