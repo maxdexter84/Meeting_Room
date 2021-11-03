@@ -38,7 +38,6 @@ import java.time.*
 import java.util.*
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
     DatePickerDialog.OnDateSetListener {
@@ -346,7 +345,6 @@ class ModifyUpcomingEventFragment :
         private const val MAX_MONTH = 3L
 
 
-        @SuppressLint("NewApi")
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
             val timeSegment = time.split(":")
