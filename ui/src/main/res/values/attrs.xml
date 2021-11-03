@@ -38,11 +38,4 @@
         <attr name="startBordersIsVisible" format="boolean" />
         <attr name="endBordersIsVisible" format="boolean" />
     </declare-styleable>
-    <declare-styleable name="TimeLineView">
-        <attr name="startHour" format="integer" />
-        <attr name="endHour" format="integer"/>
-        <attr name="startHourToShow" format="integer"/>
-        <attr name="hourHeight" format="dimension"/>
-        <attr name="topMargin" format="dimension"/>
-    </declare-styleable>
 </resources>

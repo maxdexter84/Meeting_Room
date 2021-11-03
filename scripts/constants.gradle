@@ -41,7 +41,7 @@ allprojects {
                         legacy_support    : '1.0.0',
                         datetime          : '0.2.1',
                         desugaring        : '1.1.5',
-                        calendar          : '2.0.1'
+                        calendar          : '2.0.1',
                         componentsManager : '2.1.3'
                 ]
         ]
