@@ -38,6 +38,7 @@ class MainActionButton @JvmOverloads constructor(
                 }
                 MainActionButtonState.LOADING -> {
                     isClickable = false
+                    isEnabled = true
                     binding.logInTextMainActivity.isVisible = false
                     binding.logInProgressIndicatorMainActivity.visibilityIf(true)
                     setBackgroundResource(R.drawable.button_enabled_shape)
