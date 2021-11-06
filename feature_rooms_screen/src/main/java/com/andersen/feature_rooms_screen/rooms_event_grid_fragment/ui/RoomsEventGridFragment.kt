@@ -1,6 +1,5 @@
 package com.andersen.feature_rooms_screen.rooms_event_grid_fragment.ui
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
@@ -39,7 +38,6 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
         findNavController().navigate(action)
     }
 
-    @SuppressLint("NewApi")
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {
             setDateSelected(CalendarDay.today(), true)
@@ -54,7 +52,6 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
         }
     }
 
-    @SuppressLint("NewApi")
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
