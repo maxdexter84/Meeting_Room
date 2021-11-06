@@ -1,24 +1,25 @@
 package com.andersen.feature_rooms_screen.rooms_event_grid_fragment.ui
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.andersen.feature_rooms_screen.rooms_event_grid_fragment.model.RoomEvent
+import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
+import java.time.LocalDate
 import java.util.*
-
 
 class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate) {
 
-    private var selectedDateForGrid: String? = null
+    private var selectedDateForGrid: LocalDate? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,21 +39,22 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
         findNavController().navigate(action)
     }
 
+    @SuppressLint("NewApi")
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {
             setDateSelected(CalendarDay.today(), true)
             setCurrentDateColor()
             setOnDateChangedListener { widget, date, selected ->
-                selectedDateForGrid = "${date.year}-${date.month}-${date.day}"
-                Toast.makeText(requireContext(), "selected $selectedDateForGrid", Toast.LENGTH_SHORT).show()
+                selectedDateForGrid =
+                    "${date.day}/${date.month}/${date.year}".stringToDate(DATE_FORMAT1)
             }
             setOnTitleClickListener {
                 showDatePickerDialog()
             }
-
         }
     }
 
+    @SuppressLint("NewApi")
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -62,12 +64,11 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
         DatePickerDialog(
             requireContext(),
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                selectedDateForGrid = "$year-${monthOfYear + 1}-$dayOfMonth"
-                Toast.makeText(requireContext(), "selected $selectedDateForGrid", Toast.LENGTH_SHORT).show()
-                val selDate = binding.oneWeekCalendar.selectedDate
+                selectedDateForGrid =
+                    "$dayOfMonth/${monthOfYear + 1}/$year".stringToDate(DATE_FORMAT1)
                 val selectedDayForCalendar = CalendarDay.from(year, monthOfYear + 1, dayOfMonth)
                 with(binding.oneWeekCalendar) {
-                    setDateSelected(selDate, false)
+                    setDateSelected(selectedDate, false)
                     setCurrentDate(selectedDayForCalendar, true)
                     setDateSelected(selectedDayForCalendar, true)
                 }
@@ -91,5 +92,9 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
                 )?.let { view.setBackgroundDrawable(it) }
             }
         })
+    }
+
+    companion object {
+        private const val DATE_FORMAT1 = "d/M/yyyy"
     }
 }
