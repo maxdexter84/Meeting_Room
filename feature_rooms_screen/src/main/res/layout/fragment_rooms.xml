@@ -43,8 +43,7 @@
         android:layout_margin="@dimen/dimens_10_dp"
         app:layout_constraintStart_toEndOf="@+id/time_line_view"
         app:layout_constraintTop_toBottomOf="@+id/one_week_calendar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grid_recycler_view"
@@ -56,8 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar"/>
     </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
@@ -70,9 +68,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
