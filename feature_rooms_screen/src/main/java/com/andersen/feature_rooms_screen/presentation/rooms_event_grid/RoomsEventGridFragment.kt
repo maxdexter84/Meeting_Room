@@ -103,7 +103,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             setCurrentDateColor()
             setOnDateChangedListener { widget, date, selected ->
                 selectedDateForGrid =
-                    "${date.day}/${date.month}/${date.year}".stringToDate(DATE_FORMAT1)
+                    "${date.day}/${date.month}/${date.year}".stringToDate(DATE_FORMAT)
             }
             setOnTitleClickListener {
                 showDatePickerDialog()
@@ -121,7 +121,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             requireContext(),
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 selectedDateForGrid =
-                    "$dayOfMonth/${monthOfYear + 1}/$year".stringToDate(DATE_FORMAT1)
+                    "$dayOfMonth/${monthOfYear + 1}/$year".stringToDate(DATE_FORMAT)
                 val selectedDayForCalendar = CalendarDay.from(year, monthOfYear + 1, dayOfMonth)
                 with(binding.oneWeekCalendar) {
                     setDateSelected(selectedDate, false)
@@ -151,6 +151,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     companion object {
-        private const val DATE_FORMAT1 = "d/M/yyyy"
+        private const val DATE_FORMAT = "d/M/yyyy"
     }
 }
