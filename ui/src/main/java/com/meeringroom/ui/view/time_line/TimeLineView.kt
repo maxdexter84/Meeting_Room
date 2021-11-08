@@ -1,6 +1,5 @@
 package com.meeringroom.ui.view.time_line
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.ViewTimeLineBinding
 import java.time.LocalTime
 
-@SuppressLint("NewApi")
 class TimeLineView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -64,7 +62,6 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("NewApi")
     private fun getItemsOfTime() {
         if (startHour >= endHour) {
             startHour = DEFAULT_START_HOUR

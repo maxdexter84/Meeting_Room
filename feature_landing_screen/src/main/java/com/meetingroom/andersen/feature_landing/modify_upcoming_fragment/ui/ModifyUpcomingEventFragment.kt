@@ -38,7 +38,6 @@ import java.time.*
 import java.util.*
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
     DatePickerDialog.OnDateSetListener {
@@ -108,9 +107,12 @@ class ModifyUpcomingEventFragment :
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
             }
         }
-
         findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) { setTimeOut() }
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> setTimeOut()
+                Lifecycle.Event.ON_PAUSE -> deleteTimeOut()
+                else -> {}
+            }
         })
         view.setOnTouchListener { _: View, _: MotionEvent ->
             setTimeOut()
@@ -212,6 +214,7 @@ class ModifyUpcomingEventFragment :
                 is TimeValidationDialogManager.ValidationEffect.ShowInvalidTimeDialog -> {
                     showAlertDialog(it.messageId)
                 }
+                is TimeValidationDialogManager.ValidationEffect.TimeIsValidEffect -> setTimeOut()
                 is TimeValidationDialogManager.ValidationEffect.NoEffect -> {}
             }
         }
@@ -254,7 +257,6 @@ class ModifyUpcomingEventFragment :
             ).apply {
                 datePicker.minDate = System.currentTimeMillis()
                 datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
@@ -265,14 +267,12 @@ class ModifyUpcomingEventFragment :
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setTitle(R.string.time_picker_dialog_title)
-                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
     }
 
     private fun showAlertDialog(messageId: Int) {
-        deleteTimeOut()
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setCancelable(false)
@@ -319,6 +319,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun setTimeOut() {
+        if (::needMoreTimeJob.isInitialized) deleteTimeOut()
         needMoreTimeJob = lifecycleScope.launch {
             delay(USER_INACTIVITY_LIMIT)
             findNavController().navigate(R.id.action_modifyUpcomingEventFragment_to_needMoreTimeDialog)
@@ -344,7 +345,6 @@ class ModifyUpcomingEventFragment :
         private const val MAX_MONTH = 3L
 
 
-        @SuppressLint("NewApi")
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
             val timeSegment = time.split(":")
