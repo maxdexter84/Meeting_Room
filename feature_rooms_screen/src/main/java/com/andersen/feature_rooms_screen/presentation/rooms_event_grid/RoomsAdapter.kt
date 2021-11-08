@@ -19,16 +19,10 @@ class RoomsAdapter @Inject constructor() :
             field = value
             notifyDataSetChanged()
         }
-    var eventList = emptyList<RoomEvent>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
 
-        if (roomList.isNotEmpty()) holder.bind(roomList[position], position, eventList)
+        if (roomList.isNotEmpty()) holder.bind(roomList[position])
 
     }
 
@@ -45,18 +39,12 @@ class RoomsAdapter @Inject constructor() :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            room: Room, position: Int, eventList: List<RoomEvent>,
+            room: Room
         ) {
 
             with(binding) {
                 roomTextView.text = room.title
                 lineUnderRoomView.setBackgroundColor(room.color)
-            }
-
-            with(binding.eventRecyclerView) {
-                layoutManager =
-                    LinearLayoutManager(binding.eventRecyclerView.context, LinearLayoutManager.VERTICAL, false)
-                adapter = EventAdapter(eventList = eventList.filter { it.colorRoom == room.color }, isStartMainListPosition = position == 0)
             }
         }
     }

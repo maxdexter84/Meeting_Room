@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dimens_66_dp"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/dimens_40_dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,7 +13,7 @@
             android:textSize="@dimen/dimens_12_sp"
             app:layout_constraintStart_toStartOf="@+id/lineUnderRoomView"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Paris" />
+            tools:text="Paris" />
 
         <View
             android:id="@+id/lineUnderRoomView"
@@ -24,17 +24,5 @@
             app:layout_constraintTop_toBottomOf="@id/roomTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/eventRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimens_0_dp"
-            android:layout_marginTop="@dimen/dimens_15_dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lineUnderRoomView"
-            app:layout_constraintVertical_bias="1.0"
-            tools:listitem="@layout/item_event" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
