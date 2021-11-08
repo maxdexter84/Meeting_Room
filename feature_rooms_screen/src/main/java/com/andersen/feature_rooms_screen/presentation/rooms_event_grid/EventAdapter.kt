@@ -36,11 +36,11 @@ class EventAdapter(val isStartMainListPosition: Boolean, val eventList: List<Roo
                     val startTime = it.startDateTime.stringToTime(TIME_FORMAT)
                     val endTime = it.endDateTime.stringToTime(TIME_FORMAT)
                     val startTimeRange =
-                        if (position > 3) "${position + START_WORK_HOUR}:00".
-                        stringToTime(TIME_FORMAT) else "0${position + START_WORK_HOUR}:00".stringToTime(TIME_FORMAT)
+                        if (position > 3) "${position + START_WORK_HOUR}:00".stringToTime(TIME_FORMAT) else "0${position + START_WORK_HOUR}:00".stringToTime(
+                            TIME_FORMAT)
                     val endTimeRange =
-                        if (position > 2) "${position + START_WORK_HOUR + 1}:00".
-                        stringToTime(TIME_FORMAT) else "0${position + START_WORK_HOUR + 1}:00".stringToTime(TIME_FORMAT)
+                        if (position > 2) "${position + START_WORK_HOUR + 1}:00".stringToTime(TIME_FORMAT) else "0${position + START_WORK_HOUR + 1}:00".stringToTime(
+                            TIME_FORMAT)
 
                     var startMinutes = NULL_MINUTE_IN_EVENT
                     var endMinutes = NULL_MINUTE_IN_EVENT
@@ -67,13 +67,9 @@ class EventAdapter(val isStartMainListPosition: Boolean, val eventList: List<Roo
                     if (startMinutes > NULL_MINUTE_IN_EVENT || endMinutes > NULL_MINUTE_IN_EVENT) {
                         setMinuteInterval(startMinutes, endMinutes)
                         setColorEvent(it.colorRoom)
-
                     }
                     isUserOwnEvent = it.isUserOwnEvent
-
                 }
-
-
             }
         }
     }
