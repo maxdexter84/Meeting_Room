@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.rooms_event_grid_fragment.ui
+package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.content.*
 import android.os.Bundle
