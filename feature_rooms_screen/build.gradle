@@ -27,6 +27,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -46,6 +47,8 @@ dependencies {
     implementation libraries.calendar
 
     kapt libraries.daggerCompiler
+    implementation libraries.dagger
+    implementation libraries.componentsManager
 
     implementation project(":ui")
     implementation project(path: ':core_network')

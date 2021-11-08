@@ -26,6 +26,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:indicatorColor="@color/black"
-        app:indicatorSize="@dimen/dimens_30_dp"
-        android:visibility="gone" />
+        app:indicatorSize="@dimen/dimens_30_dp" />
 </merge>

@@ -31,4 +31,11 @@
         <attr name="hourHeight" format="dimension"/>
         <attr name="topMargin" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="EventRectangleView">
+        <attr name="isUserOwnEvent" format="boolean" />
+        <attr name="topBordersIsVisible" format="boolean" />
+        <attr name="bottomBordersIsVisible" format="boolean" />
+        <attr name="startBordersIsVisible" format="boolean" />
+        <attr name="endBordersIsVisible" format="boolean" />
+    </declare-styleable>
 </resources>
