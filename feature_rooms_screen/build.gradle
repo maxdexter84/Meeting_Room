@@ -45,6 +45,7 @@ dependencies {
     implementation libraries.dagger
     implementation libraries.navigation
     implementation libraries.calendar
+    implementation libraries.datetime
 
     kapt libraries.daggerCompiler
     implementation libraries.dagger
