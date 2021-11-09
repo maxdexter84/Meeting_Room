@@ -21,8 +21,9 @@ class TimeLineView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val binding = ViewTimeLineBinding.inflate(LayoutInflater.from(context), this, true)
+    val binding = ViewTimeLineBinding.inflate(LayoutInflater.from(context), this, true)
     private lateinit var timeItems: MutableList<String?>
+    private val textHeight = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
 
     var onScroll: (dy: Int) -> Unit = {}
         set(onScroll) {
@@ -47,9 +48,8 @@ class TimeLineView @JvmOverloads constructor(
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
         binding.rvTime.apply {
-            adapter = TimeLineAdapter(timeItems, hourHeight)
+            adapter = TimeLineAdapter(timeItems, hourHeight, textHeight)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            setPadding(0, topMargin, 0, 0)
         }
 
     }
@@ -60,7 +60,6 @@ class TimeLineView @JvmOverloads constructor(
             endHour = getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_HOUR)
             startHourToShow = getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_HOUR_TO_SHOW)
             hourHeight = getDimensionPixelSize(R.styleable.TimeLineView_hourHeight, 0)
-            topMargin = getDimensionPixelSize(R.styleable.TimeLineView_topMargin, hourHeight / 2)
         }
     }
 
@@ -84,7 +83,7 @@ class TimeLineView @JvmOverloads constructor(
     fun scrollOnDy(dy: Int) {
         binding.rvTime.scrollBy(0, dy)
     }
-    
+
     private fun scrollToHour(hour: Int) {
         binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == hour })
     }

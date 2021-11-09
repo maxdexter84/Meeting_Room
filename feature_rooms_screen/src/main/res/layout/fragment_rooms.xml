@@ -19,8 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:hourHeight="@dimen/dimens_66_dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="38dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rooms_toolbar" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
