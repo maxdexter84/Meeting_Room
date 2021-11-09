@@ -66,6 +66,7 @@ class EventRectangleView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
+
         canvas?.apply {
             drawEventBackground(width.toFloat(), height.toFloat(), canvas)
             drawTimePeriod(width.toFloat(), height.toFloat(), canvas)

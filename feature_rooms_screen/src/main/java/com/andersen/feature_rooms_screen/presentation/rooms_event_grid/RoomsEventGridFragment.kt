@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.example.core_module.state.State
@@ -50,6 +52,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
+        synchronizationScrolling()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -62,15 +65,18 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     private fun initRecyclerView() {
-        val recyclerView = binding.gridRecyclerView
-        recyclerView.adapter = viewModel.roomsAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val roomRecyclerView = binding.roomRecyclerView
+        val gridRecyclerView = binding.gridRecyclerView
+        roomRecyclerView.adapter = viewModel.roomsAdapter
+        gridRecyclerView.adapter = viewModel.mainEventAdapter
+        roomRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        gridRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun eventListObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomEventList.collectLatest {
-                viewModel.roomsAdapter.eventList = it
+                viewModel.mainEventAdapter.eventList = it
             }
         }
     }
@@ -79,21 +85,51 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomList.collectLatest {
                 viewModel.roomsAdapter.roomList = it
+                viewModel.mainEventAdapter.roomList = it
             }
         }
     }
 
     private fun loadingStateObserver() {
         lifecycleScope.launch {
-            viewModel.mutableState.collectLatest{
+            viewModel.mutableState.collectLatest {
                 when (it) {
-                    is State.Error -> {
-                        binding.progressBar.isVisible = false
-                    }
                     is State.Loading -> binding.progressBar.isVisible = true
-                    is State.NotLoading -> binding.progressBar.isVisible = false
+                    else -> binding.progressBar.isVisible = false
                 }
             }
+        }
+    }
+
+    private fun synchronizationScrolling() {
+        with(binding) {
+            gridNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+                timeLineView.scrollOnDy(
+                    scrollY - oldScrollY
+                )
+            })
+
+            timeLineView.onScroll = {
+                gridNestedScrollView.scrollBy(0, it)
+            }
+
+            roomRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (gridRecyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        gridRecyclerView.scrollBy(dx, 0)
+                    }
+                }
+            })
+
+            gridRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (roomRecyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        roomRecyclerView.scrollBy(dx, 0)
+                    }
+                }
+            })
         }
     }
 

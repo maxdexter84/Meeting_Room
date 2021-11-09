@@ -7,11 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.meetingroom.ui.R
 
-class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    init {
-        hourHeight -= TEXT_HEIGHT
-    }
+class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int, var textHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -28,8 +24,8 @@ class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int): Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
-            EMPTY_VIEW_HOLDER_TYPE -> {}
-            TIME_VIEW_HOLDER_TYPE -> (holder as TimeViewHolder).textView.text = items[position]
+            EMPTY_VIEW_HOLDER_TYPE -> (holder as EmptyViewHolder).bind(position)
+            TIME_VIEW_HOLDER_TYPE -> (holder as TimeViewHolder).bind(position)
         }
     }
 
@@ -45,18 +41,26 @@ class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int): Re
 
    inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.time_text_view)
+
+        fun bind(position: Int) {
+            textView.text = items[position]
+        }
     }
 
     inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val view: View = itemView.findViewById(R.id.empty_view)
-        init {
-            itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight)
+
+        fun bind(position: Int) {
+            if (position == items.size - 1) {
+                itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight)
+            } else {
+                itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight - textHeight)
+            }
         }
     }
 
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
-        private const val TEXT_HEIGHT = 16
     }
 }
