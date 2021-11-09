@@ -3,4 +3,13 @@
     <string name="toolbar_rooms_title">Rooms</string>
     <string name="event_time">%1$s-%2$s</string>
     <string name="copy">Copy</string>
+    <string name="all_rooms_in_office">All rooms in office</string>
+    <string name="all_rooms_on_1st_floor">All rooms on 1st floor</string>
+    <string name="amsterdam">Amsterdam</string>
+    <string name="valencia">Valencia</string>
+    <string name="berlin">Berlin</string>
+    <string name="london">London</string>
+    <string name="paris">Paris</string>
+    <string name="all_rooms_on_2nd_floor">All rooms on 2nd floor</string>
+    <string name="rome">Rome</string>
 </resources>

@@ -3,6 +3,7 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -50,6 +51,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
+        binding.buttonDropDown.setOnClickListener {
+            openDialogWithRooms()
+            Toast.makeText(requireContext(), "button click", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -148,6 +153,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 )?.let { view.setBackgroundDrawable(it) }
             }
         })
+    }
+
+    private fun openDialogWithRooms(){
+//TODO DialogFragment
     }
 
     companion object {
