@@ -1,10 +1,8 @@
 package com.example.core_module.user_logout
 
-import android.annotation.SuppressLint
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import kotlinx.datetime.Clock
 
-@SuppressLint("NewApi")
 class LogOutHelper(
     private val saveData: UserDataPrefHelperImpl
 ) {

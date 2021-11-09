@@ -1,13 +1,11 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation
 
-import android.annotation.SuppressLint
 import com.meetingroom.andersen.feature_landing.R
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 class TimeValidationDialogManager @Inject constructor() {
 
     private val _state : MutableStateFlow<ValidationState> = MutableStateFlow(ValidationState.TimeIsValid)
@@ -17,6 +15,7 @@ class TimeValidationDialogManager @Inject constructor() {
     val effect = _effect.asStateFlow()
 
     suspend fun handleEvent(event: ValidationEvent) {
+        _effect.emit(ValidationEffect.NoEffect)
         _effect.emit(when (event) {
             is ValidationEvent.OnStartTimeChanged -> validateStartTime(event.startTime, event.endTime, event.date)
             is ValidationEvent.OnEndTimeChanged -> validateEndTime(event.startTime, event.endTime)
@@ -24,7 +23,9 @@ class TimeValidationDialogManager @Inject constructor() {
                 if (isStartTimeBeforeCurrent(event.startTime, event.date)) {
                     _state.value = ValidationState.InvalidStartTime
                     ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_start_before_current_time_message)
-                } else ValidationEffect.NoEffect
+                } else {
+                    ValidationEffect.TimeIsValidEffect
+                }
             }
         })
     }
@@ -55,7 +56,7 @@ class TimeValidationDialogManager @Inject constructor() {
             }
             else -> {
                 _state.value = ValidationState.TimeIsValid
-                ValidationEffect.NoEffect
+                ValidationEffect.TimeIsValidEffect
             }
         }
     }
@@ -114,6 +115,7 @@ class TimeValidationDialogManager @Inject constructor() {
 
     sealed class ValidationEffect {
         data class ShowInvalidTimeDialog(val messageId: Int) : ValidationEffect()
+        object TimeIsValidEffect: ValidationEffect()
         object NoEffect : ValidationEffect()
     }
 }
