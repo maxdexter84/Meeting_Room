@@ -48,7 +48,7 @@ class InnerEventAdapter(val isStartMainListPosition: Boolean, val eventList: Lis
 
                     when {
                         compareTime == 0 -> startMinutes = NULL_MINUTE_IN_EVENT
-                        compareTime == 1 -> if (startTime.isBefore(endTimeRange)) startMinutes = startTime.minute
+                        compareTime == 1 && startTime.isBefore(endTimeRange) -> startMinutes = startTime.minute
                         compareTime == -1 && endTime.isAfter(startTimeRange) -> {
                             startMinutes = NULL_MINUTE_IN_EVENT
                             topBordersIsVisible = false
@@ -75,7 +75,7 @@ class InnerEventAdapter(val isStartMainListPosition: Boolean, val eventList: Lis
     }
 
     companion object {
-        const val ITEM_COUNT = 17
+        const val ITEM_COUNT = 18
         const val LAST_MINUTE_IN_EVENT = 60
         const val NULL_MINUTE_IN_EVENT = 0
         const val START_WORK_HOUR = 6

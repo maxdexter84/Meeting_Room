@@ -29,7 +29,7 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
 
     override fun getRoomEvents(): List<RoomEvent> {
         val list = ArrayList<RoomEvent>()
-        for (i in 0 until sizeEvents) {
+        for (i in 0 until SIZE_EVENTS) {
             list.add(
                 RoomEvent(
                     date = getDate(),
@@ -228,7 +228,7 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
     private fun getDate() = "8 Sep 2021"
 
     companion object {
-        const val sizeEvents = 20
+        const val SIZE_EVENTS = 20
         const val SIZE_ROOM = 8
     }
 }

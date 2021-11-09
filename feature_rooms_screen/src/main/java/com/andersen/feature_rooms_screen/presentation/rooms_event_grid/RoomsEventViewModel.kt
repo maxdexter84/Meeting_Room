@@ -32,7 +32,7 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(1000)
+                delay(DELAY_DOWNLOAD)
                 _mutableRoomEventList.emit(roomsApi.getRoomEvents())
                 _mutableRoomList.emit(roomsApi.getRooms())
                 _mutableLoadingState.emit(State.NotLoading)
@@ -44,5 +44,9 @@ class RoomsEventViewModel @Inject constructor(
 
     init {
         getRoomsAndEventsList()
+    }
+
+    companion object{
+        const val DELAY_DOWNLOAD = 1000L
     }
 }

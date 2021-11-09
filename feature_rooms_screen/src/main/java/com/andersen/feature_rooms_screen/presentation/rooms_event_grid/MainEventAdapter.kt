@@ -33,9 +33,7 @@ class MainEventAdapter @Inject constructor() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRoomViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemEventsRoomBinding.inflate(layoutInflater, parent, false)
-        return EventsRoomViewHolder(binding)
+        return EventsRoomViewHolder(ItemEventsRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount() = roomList.size
