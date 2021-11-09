@@ -8,8 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_module.utils.stringToTime
-import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.ViewTimeLineBinding
 import java.time.LocalTime
@@ -22,8 +20,7 @@ class TimeLineView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     val binding = ViewTimeLineBinding.inflate(LayoutInflater.from(context), this, true)
-    private lateinit var timeItems: MutableList<String?>
-    private val textHeight = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
+    private lateinit var timeItems: MutableList<TimeLineItem>
 
     var onScroll: (dy: Int) -> Unit = {}
         set(onScroll) {
@@ -38,20 +35,54 @@ class TimeLineView @JvmOverloads constructor(
             field = onScroll
         }
 
+    var dynamicStartTime: LocalTime? = null
+        set(value) {
+            val newItems = timeItems
+            when {
+                value != null && value.minute == 0 && value.second == 0 -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == value }
+                    (newItems[index] as TimeItem).isSelected = true
+                }
+                value != null -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
+                    (newItems[index + 1] as EmptyTimeItem).startTime = value
+                }
+            }
+            timeLineAdapter.updateData(newItems)
+            field = value
+        }
+
+    var dynamicEndTime: LocalTime? = null
+        set(value) {
+            val newItems = timeItems
+            when {
+                value != null && value.minute == 0 && value.second == 0 -> {
+                    val index = newItems.indexOfFirst { it is TimeItem && it.time == value }
+                    (timeLineAdapter.items[index] as TimeItem).isSelected = true
+                }
+                value != null -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
+                    (newItems[index + 1] as EmptyTimeItem).endTime = value
+                }
+            }
+            timeLineAdapter.updateData(newItems)
+            field = value
+        }
+
     private var startHour = DEFAULT_START_HOUR
     private var endHour = DEFAULT_END_HOUR
     private var startHourToShow = DEFAULT_START_HOUR_TO_SHOW
-    private var hourHeight = 0
-    private var topMargin = 0
+    private var timeLineAdapter: TimeLineAdapter
 
     init {
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
+        timeLineAdapter = TimeLineAdapter(timeItems)
         binding.rvTime.apply {
-            adapter = TimeLineAdapter(timeItems, hourHeight, textHeight)
+            adapter = timeLineAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-
+        scrollToHour(startHourToShow)
     }
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
@@ -59,7 +90,6 @@ class TimeLineView @JvmOverloads constructor(
             startHour = getInteger(R.styleable.TimeLineView_startHour, DEFAULT_START_HOUR)
             endHour = getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_HOUR)
             startHourToShow = getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_HOUR_TO_SHOW)
-            hourHeight = getDimensionPixelSize(R.styleable.TimeLineView_hourHeight, 0)
         }
     }
 
@@ -73,10 +103,13 @@ class TimeLineView @JvmOverloads constructor(
         var time = LocalTime.of(startHour, 0 , 0)
         timeItems = mutableListOf()
         while (time.hour < endHour) {
-            timeItems.add(time.timeToString(TIME_FORMAT))
-            timeItems.add(null)
+            timeItems.add(TimeItem(time, false))
+            timeItems.add(EmptyTimeItem(null, null))
             time = time.plusHours(1)
-            if (time.hour == 0) return
+            if (time.hour == 0) {
+                timeItems.add(TimeItem(time, false))
+                return
+            }
         }
     }
 
@@ -85,11 +118,10 @@ class TimeLineView @JvmOverloads constructor(
     }
 
     private fun scrollToHour(hour: Int) {
-        binding.rvTime.scrollToPosition(timeItems.indexOfLast { it?.stringToTime(TIME_FORMAT)?.hour == hour })
+        binding.rvTime.scrollToPosition(timeItems.indexOfLast { it is TimeItem && it.time.hour == hour })
     }
 
     companion object {
-        private const val TIME_FORMAT = "HH:00"
         private const val DEFAULT_START_HOUR = 6
         private const val DEFAULT_END_HOUR = 24
         private const val DEFAULT_START_HOUR_TO_SHOW = 8

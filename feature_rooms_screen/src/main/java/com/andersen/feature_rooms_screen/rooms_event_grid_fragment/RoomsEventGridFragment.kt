@@ -5,6 +5,7 @@ import android.view.View
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
+import java.time.LocalTime
 
 class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate) {
 
@@ -16,6 +17,8 @@ class RoomsEventGridFragment: BaseFragment<FragmentRoomsBinding>(FragmentRoomsBi
     private fun initToolbar() {
         with(binding) {
             roomsToolbar.setToolBarTitle(getString(R.string.toolbar_rooms_title))
+            binding.timeLineView.dynamicStartTime = LocalTime.of(9, 20, 0)
+            binding.timeLineView.dynamicEndTime = LocalTime.of(11, 35, 0)
         }
     }
 }

@@ -18,8 +18,8 @@
         android:id="@+id/time_line_view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:hourHeight="@dimen/dimens_66_dp"
         android:layout_marginTop="38dp"
+        android:layout_marginBottom="@dimen/dimens_10_dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar" />

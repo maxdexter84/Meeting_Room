@@ -1,13 +1,19 @@
 package com.meeringroom.ui.view.time_line
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
+import androidx.recyclerview.widget.DiffUtil
 
-class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int, var textHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+@SuppressLint("NewApi")
+class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -33,28 +39,45 @@ class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int, var
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            null -> EMPTY_VIEW_HOLDER_TYPE
-            else -> TIME_VIEW_HOLDER_TYPE
+            is EmptyTimeItem -> EMPTY_VIEW_HOLDER_TYPE
+            is TimeItem -> TIME_VIEW_HOLDER_TYPE
         }
-
     }
 
-   inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.time_text_view)
+    fun updateData(newItems: List<TimeLineItem>) {
+        val productDiffResult = DiffUtil.calculateDiff(TimeDiffUtilCallback(items, newItems))
+        items = newItems
+        productDiffResult.dispatchUpdatesTo(this)
+    }
 
-        fun bind(position: Int) {
-            textView.text = items[position]
-        }
+    inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+         val textView: TextView = itemView.findViewById(R.id.time_text_view)
+
+         fun bind(position: Int) {
+             with (items[position] as TimeItem) {
+                 textView.text = time.timeToString(TIME_FORMAT)
+                 if (isSelected) {
+                     textView.setTextColor(Color.parseColor(SELECTED_COLOR))
+                 } else {
+                     textView.setTextColor(Color.parseColor(UNSELECTED_COLOR))
+                 }
+             }
+         }
     }
 
     inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val view: View = itemView.findViewById(R.id.empty_view)
+        private val dynamicTimeView: DynamicTimeView = itemView.findViewById(R.id.dynamic_time_view)
 
         fun bind(position: Int) {
-            if (position == items.size - 1) {
-                itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight)
+            if ((items[position] as EmptyTimeItem).startTime != null) {
+                dynamicTimeView.startTime = (items[position] as EmptyTimeItem).startTime
             } else {
-                itemView.layoutParams = ViewGroup.LayoutParams(0, hourHeight - textHeight)
+                dynamicTimeView.startTime = null
+            }
+            if ((items[position] as EmptyTimeItem).endTime != null) {
+                dynamicTimeView.endTime = (items[position] as EmptyTimeItem).endTime
+            } else {
+                dynamicTimeView.endTime = null
             }
         }
     }
@@ -62,5 +85,8 @@ class TimeLineAdapter(private val items: List<String?>, var hourHeight: Int, var
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
+        private const val SELECTED_COLOR = "#F4D733"
+        private const val UNSELECTED_COLOR = "#828282"
+        private const val TIME_FORMAT = "HH:mm"
     }
 }
