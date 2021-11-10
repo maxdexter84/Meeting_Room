@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -25,17 +26,18 @@ import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomi
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
+import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
 import kotlinx.coroutines.*
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import java.time.*
+import java.util.*
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
     DatePickerDialog.OnDateSetListener {
@@ -50,11 +52,13 @@ class ModifyUpcomingEventFragment :
 
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
+    private var eventReminderStartTime: Int? = null
 
     private lateinit var needMoreTimeJob: Job
 
     override fun onAttach(context: Context) {
         DaggerModifyUpcomingEventFragmentComponent.builder()
+            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
             .modifyUpcomingEventFragmentModule(ModifyUpcomingEventFragmentModule(this))
             .build()
             .inject(this)
@@ -103,9 +107,12 @@ class ModifyUpcomingEventFragment :
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
             }
         }
-
         findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) { setTimeOut() }
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> setTimeOut()
+                Lifecycle.Event.ON_PAUSE -> deleteTimeOut()
+                else -> {}
+            }
         })
         view.setOnTouchListener { _: View, _: MotionEvent ->
             setTimeOut()
@@ -127,6 +134,9 @@ class ModifyUpcomingEventFragment :
                 args.upcomingEvent.reminderRemainingTime =
                     getString(R.string.reminder_disabled_text_for_time)
                 eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
+            }
+            args.upcomingEvent.eventDescription?.let {
+                userEventDescription.setText(args.upcomingEvent.eventDescription)
             }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
@@ -153,13 +163,24 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun observeTimeChange() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(TIME_KEY)
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<TimePickerData>(
+            TIME_KEY
+        )
             ?.observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.reminderLeftTime.text = pruningTextReminderLeftTime(it)
-                    eventReminderTime = it
+                    binding.reminderLeftTime.text = it.title
+                    eventReminderTime = it.title
+                    eventReminderStartTime = it.time
                 }
             }
+    }
+
+    private fun createNotification(reminderStartTime: Long) {
+        NotificationHelper.setNotification(
+            args.upcomingEvent,
+            notificationHelper,
+            reminderStartTime
+        )
     }
 
     private fun observeTimeValidation() {
@@ -193,17 +214,10 @@ class ModifyUpcomingEventFragment :
                 is TimeValidationDialogManager.ValidationEffect.ShowInvalidTimeDialog -> {
                     showAlertDialog(it.messageId)
                 }
+                is TimeValidationDialogManager.ValidationEffect.TimeIsValidEffect -> setTimeOut()
                 is TimeValidationDialogManager.ValidationEffect.NoEffect -> {}
             }
         }
-    }
-
-    private fun createNotification(reminderStartTime: String) {
-        NotificationHelper.setNotification(
-            args.upcomingEvent,
-            notificationHelper,
-            reminderStartTime
-        )
     }
 
     private fun saveChanges() {
@@ -219,7 +233,14 @@ class ModifyUpcomingEventFragment :
                 reminderRemainingTime = reminderLeftTime.text.toString()
                 eventDescription = userEventDescription.text.toString()
             }
-            root.hideKeyboard(requireContext())
+            eventReminderStartTime?.let {
+                createNotification(
+                    getReminderSetOffTimeInMillis(
+                        it.toLong(),
+                        getEventStartDateInMillis()
+                    )
+                )
+            }
         }
         requireActivity().onBackPressed()
     }
@@ -236,7 +257,6 @@ class ModifyUpcomingEventFragment :
             ).apply {
                 datePicker.minDate = System.currentTimeMillis()
                 datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
@@ -247,14 +267,12 @@ class ModifyUpcomingEventFragment :
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setTitle(R.string.time_picker_dialog_title)
-                setOnDismissListener { setTimeOut() }
                 show()
             }
         }
     }
 
     private fun showAlertDialog(messageId: Int) {
-        deleteTimeOut()
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setCancelable(false)
@@ -301,6 +319,7 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun setTimeOut() {
+        if (::needMoreTimeJob.isInitialized) deleteTimeOut()
         needMoreTimeJob = lifecycleScope.launch {
             delay(USER_INACTIVITY_LIMIT)
             findNavController().navigate(R.id.action_modifyUpcomingEventFragment_to_needMoreTimeDialog)
@@ -309,6 +328,14 @@ class ModifyUpcomingEventFragment :
 
     private fun deleteTimeOut() = needMoreTimeJob.cancel()
 
+    private fun getEventStartDateInMillis(): Long {
+        val dateInMillis = binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
+        return stringDateAndTimeToMillis(
+            dateInMillis.toString(),
+            binding.modifyStartTimePicker.text.toString()
+        )
+    }
+
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
@@ -316,6 +343,30 @@ class ModifyUpcomingEventFragment :
         private const val TIME_FORMAT = "HH:mm"
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
+
+
+        fun stringDateAndTimeToMillis(date: String, time: String): Long {
+            val dateSegment = date.split("-")
+            val timeSegment = time.split(":")
+            val dateConstruct = kotlinx.datetime.LocalDateTime(
+                dateSegment[0].toInt(),
+                dateSegment[1].toInt(),
+                dateSegment[2].toInt(),
+                timeSegment[0].toInt(),
+                timeSegment[1].toInt(),
+            )
+            return dateConstruct.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+        }
+
+        private fun getReminderSetOffTimeInMillis(
+            reminderTime: Long,
+            eventStartTime: Long
+        ): Long {
+            val reminderSetOffTime = eventStartTime - reminderTime
+            val currentTime = Clock.System.now().toEpochMilliseconds()
+            val finalTime = reminderSetOffTime - currentTime
+            return currentTime + finalTime
+        }
         private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
-import androidx.recyclerview.widget.DiffUtil
 
 
 @SuppressLint("NewApi")
@@ -85,7 +85,7 @@ class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<Recyc
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
-        private const val SELECTED_COLOR = "#F4D733"
+        private const val SELECTED_COLOR = "#F3BE00"
         private const val UNSELECTED_COLOR = "#828282"
         private const val TIME_FORMAT = "HH:mm"
     }

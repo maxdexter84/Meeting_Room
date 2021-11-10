@@ -14,14 +14,76 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:setTitle="@string/toolbar_rooms_title" />
 
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/one_week_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_line_view"
+        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar"
+        app:mcv_calendarMode="week"
+        app:mcv_weekDayLabels="@array/weekdays_cust"
+        app:mcv_headerTextAppearance="@style/TextHeaderCalendar"
+        app:mcv_selectionColor="@color/yellow"
+        app:mcv_firstDayOfWeek="sunday"
+        app:mcv_leftArrow="@drawable/ic_baseline_arrow_left_calendar"
+        app:mcv_rightArrow="@drawable/ic_baseline_arrow_right_calendar"
+        app:mcv_showOtherDates="out_of_range" />
+
     <com.meeringroom.ui.view.time_line.TimeLineView
         android:id="@+id/time_line_view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="38dp"
-        android:layout_marginBottom="@dimen/dimens_10_dp"
+        android:layout_marginTop="@dimen/dimens_5_dp"
+        android:layout_marginBottom="@dimen/dimens_20_dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/room_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/room_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        app:layout_constraintTop_toBottomOf="@+id/one_week_calendar"
+        app:layout_constraintStart_toEndOf="@+id/time_line_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/grid_nested_scroll_view"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_0_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:layout_marginBottom="@dimen/dimens_24_dp"
+        app:layout_constraintStart_toEndOf="@+id/time_line_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/room_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/grid_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/rooms_toolbar"/>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/yellow_for_selected_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

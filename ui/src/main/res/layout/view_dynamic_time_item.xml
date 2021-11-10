@@ -2,13 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:minHeight="@dimen/dimens_66_dp">
+    android:layout_height="@dimen/dimens_50_dp"
+    xmlns:tools="http://schemas.android.com/tools">
     <TextView
         android:id="@+id/start_time_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:paddingStart="@dimen/dimens_11_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
@@ -20,12 +19,12 @@
     <TextView
         android:id="@+id/end_time_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimens_16_dp"
+        android:layout_height="wrap_content"
         android:paddingStart="@dimen/dimens_11_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/start_time_text_view"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Time" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@ class TimeLineView @JvmOverloads constructor(
         set(onScroll) {
             binding.rvTime.addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    if (recyclerView.hasFocus()) {
+                    if (recyclerView.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
                         super.onScrolled(recyclerView, dx, dy)
                         onScroll(dy)
                     }
@@ -37,7 +37,13 @@ class TimeLineView @JvmOverloads constructor(
 
     var dynamicStartTime: LocalTime? = null
         set(value) {
-            val newItems = timeItems
+            val newItems = timeItems.map {
+                when (it) {
+                    is TimeItem -> it.copy()
+                    is EmptyTimeItem -> it.copy()
+                }
+            }
+
             when {
                 value != null && value.minute == 0 && value.second == 0 -> {
                     val index = newItems.indexOfFirst {  it is TimeItem && it.time == value }
@@ -45,7 +51,17 @@ class TimeLineView @JvmOverloads constructor(
                 }
                 value != null -> {
                     val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
-                    (newItems[index + 1] as EmptyTimeItem).startTime = value
+                    (newItems[index + 1]  as EmptyTimeItem).startTime = value
+                }
+            }
+            when {
+                dynamicEndTime != null && dynamicEndTime!!.minute == 0 && dynamicEndTime!!.second == 0 -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == dynamicEndTime }
+                    (newItems[index] as TimeItem).isSelected = true
+                }
+                dynamicEndTime != null -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == dynamicEndTime!!.hour }
+                    (newItems[index + 1]  as EmptyTimeItem).endTime = dynamicEndTime
                 }
             }
             timeLineAdapter.updateData(newItems)
@@ -54,15 +70,31 @@ class TimeLineView @JvmOverloads constructor(
 
     var dynamicEndTime: LocalTime? = null
         set(value) {
-            val newItems = timeItems
+            val newItems = timeItems.map {
+                when (it) {
+                    is TimeItem -> it.copy()
+                    is EmptyTimeItem -> it.copy()
+                }
+            }
+
             when {
                 value != null && value.minute == 0 && value.second == 0 -> {
-                    val index = newItems.indexOfFirst { it is TimeItem && it.time == value }
-                    (timeLineAdapter.items[index] as TimeItem).isSelected = true
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == value }
+                    (newItems[index] as TimeItem).isSelected = true
                 }
                 value != null -> {
                     val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
-                    (newItems[index + 1] as EmptyTimeItem).endTime = value
+                    (newItems[index + 1]  as EmptyTimeItem).startTime = value
+                }
+            }
+            when {
+                dynamicStartTime != null && dynamicStartTime!!.minute == 0 && dynamicStartTime!!.second == 0 -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == dynamicStartTime }
+                    (newItems[index] as TimeItem).isSelected = true
+                }
+                dynamicStartTime != null -> {
+                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == dynamicStartTime!!.hour }
+                    (newItems[index + 1]  as EmptyTimeItem).startTime = dynamicStartTime
                 }
             }
             timeLineAdapter.updateData(newItems)
@@ -82,7 +114,7 @@ class TimeLineView @JvmOverloads constructor(
             adapter = timeLineAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-        scrollToHour(startHourToShow)
+        //scrollToHour(startHourToShow)
     }
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
@@ -114,11 +146,13 @@ class TimeLineView @JvmOverloads constructor(
     }
 
     fun scrollOnDy(dy: Int) {
+        if (binding.rvTime.scrollState == RecyclerView.SCROLL_STATE_IDLE)
         binding.rvTime.scrollBy(0, dy)
     }
 
     private fun scrollToHour(hour: Int) {
         binding.rvTime.scrollToPosition(timeItems.indexOfLast { it is TimeItem && it.time.hour == hour })
+
     }
 
     companion object {
