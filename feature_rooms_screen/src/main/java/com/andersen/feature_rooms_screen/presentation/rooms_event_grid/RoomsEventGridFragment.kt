@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
@@ -31,6 +32,7 @@ import javax.inject.Inject
 class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
 
     private var selectedDateForGrid: LocalDate? = null
+    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -51,9 +53,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
-        binding.buttonDropDown.setOnClickListener {
-            openDialogWithRooms()
-            Toast.makeText(requireContext(), "button click", Toast.LENGTH_SHORT).show()
+        with(binding) {
+            observeRoomChange()
+            buttonDropDown.setOnClickListener {
+                openDialogWithRooms()
+            }
         }
     }
 
@@ -90,7 +94,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun loadingStateObserver() {
         lifecycleScope.launch {
-            viewModel.mutableState.collectLatest{
+            viewModel.mutableState.collectLatest {
                 when (it) {
                     is State.Error -> {
                         binding.progressBar.isVisible = false
@@ -155,11 +159,28 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         })
     }
 
-    private fun openDialogWithRooms(){
-//TODO DialogFragment
+    private fun openDialogWithRooms() {
+        findNavController().navigate(
+            RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
+                eventRoom
+            )
+        )
+    }
+
+    private fun observeRoomChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            ROOM_KEY
+        )
+            ?.observe(viewLifecycleOwner) {
+                it?.let {
+                    binding.buttonDropDown.text = it
+                    eventRoom = it
+                }
+            }
     }
 
     companion object {
         private const val DATE_FORMAT = "d/M/yyyy"
+        const val ROOM_KEY = "ROOM_KEY"
     }
 }

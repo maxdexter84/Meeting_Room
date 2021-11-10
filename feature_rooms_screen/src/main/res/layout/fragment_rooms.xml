@@ -32,17 +32,6 @@
         app:mcv_rightArrow="@drawable/ic_baseline_arrow_right_calendar"
         app:mcv_showOtherDates="out_of_range" />
 
-    <!--    <TextView
-            android:id="@+id/tv_all_rooms_i"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black_020303"
-            android:layout_marginTop="@dimen/dimens_16_dp"
-            android:layout_marginStart="@dimen/dimens_16_dp"
-            android:text="All rooms in office"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/one_week_calendar" />-->
-
     <Button
         android:id="@+id/button_drop_down"
         android:layout_width="wrap_content"
@@ -56,16 +45,6 @@
         android:textSize="@dimen/dimens_16_sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/one_week_calendar" />
-
-    <!--    <ImageButton
-            android:id="@+id/image_button_drop_down"
-            android:layout_width="@dimen/dimens_24_dp"
-            android:layout_height="@dimen/dimens_24_dp"
-            android:background="@color/none"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_all_rooms_i"
-            app:layout_constraintStart_toEndOf="@+id/tv_all_rooms_i"
-            app:layout_constraintTop_toTopOf="@+id/tv_all_rooms_i"
-            app:srcCompat="@drawable/arrow_drop_down_calendar" />-->
 
     <com.meeringroom.ui.view.time_line.TimeLineView
         android:id="@+id/time_line_view"
