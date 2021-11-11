@@ -54,10 +54,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         roomListObserver()
         loadingStateObserver()
         synchronizationScrolling()
-        binding.timeLineView.dynamicStartTime = LocalTime.of(9,35, 0)
-        binding.timeLineView.dynamicEndTime = LocalTime.of(11, 55, 0)
-        binding.timeLineView.dynamicStartTime = LocalTime.of(12, 34, 0)
-        binding.timeLineView.dynamicEndTime = LocalTime.of(8, 0, 0)
     }
 
     override fun getComponent(): RoomsEventComponent =

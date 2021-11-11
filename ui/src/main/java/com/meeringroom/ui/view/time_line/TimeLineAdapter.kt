@@ -1,18 +1,15 @@
 package com.meeringroom.ui.view.time_line
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 
 
-@SuppressLint("NewApi")
 class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -42,12 +39,6 @@ class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<Recyc
             is EmptyTimeItem -> EMPTY_VIEW_HOLDER_TYPE
             is TimeItem -> TIME_VIEW_HOLDER_TYPE
         }
-    }
-
-    fun updateData(newItems: List<TimeLineItem>) {
-        val productDiffResult = DiffUtil.calculateDiff(TimeDiffUtilCallback(items, newItems))
-        items = newItems
-        productDiffResult.dispatchUpdatesTo(this)
     }
 
     inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

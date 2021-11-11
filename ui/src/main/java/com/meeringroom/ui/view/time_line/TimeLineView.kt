@@ -12,7 +12,7 @@ import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.ViewTimeLineBinding
 import java.time.LocalTime
 
-@SuppressLint("NewApi")
+
 class TimeLineView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -37,67 +37,39 @@ class TimeLineView @JvmOverloads constructor(
 
     var dynamicStartTime: LocalTime? = null
         set(value) {
-            val newItems = timeItems.map {
-                when (it) {
-                    is TimeItem -> it.copy()
-                    is EmptyTimeItem -> it.copy()
+            field?.let {
+                when (val oldItem = getItem(it)) {
+                    is TimeItem -> oldItem.isSelected = false
+                    is EmptyTimeItem -> oldItem.startTime = null
                 }
+                timeLineAdapter.notifyItemChanged(getItemPosition(field!!))
             }
-
-            when {
-                value != null && value.minute == 0 && value.second == 0 -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == value }
-                    (newItems[index] as TimeItem).isSelected = true
+            value?.let {
+                when (val newItem = getItem(value)) {
+                    is TimeItem -> newItem.isSelected = true
+                    is EmptyTimeItem -> newItem.startTime = value
                 }
-                value != null -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
-                    (newItems[index + 1]  as EmptyTimeItem).startTime = value
-                }
+                timeLineAdapter.notifyItemChanged(getItemPosition(value))
             }
-            when {
-                dynamicEndTime != null && dynamicEndTime!!.minute == 0 && dynamicEndTime!!.second == 0 -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == dynamicEndTime }
-                    (newItems[index] as TimeItem).isSelected = true
-                }
-                dynamicEndTime != null -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == dynamicEndTime!!.hour }
-                    (newItems[index + 1]  as EmptyTimeItem).endTime = dynamicEndTime
-                }
-            }
-            timeLineAdapter.updateData(newItems)
             field = value
         }
 
     var dynamicEndTime: LocalTime? = null
         set(value) {
-            val newItems = timeItems.map {
-                when (it) {
-                    is TimeItem -> it.copy()
-                    is EmptyTimeItem -> it.copy()
+            field?.let {
+                when (val oldItem = getItem(it)) {
+                    is TimeItem -> oldItem.isSelected = false
+                    is EmptyTimeItem -> oldItem.endTime = null
                 }
+                timeLineAdapter.notifyItemChanged(getItemPosition(field!!))
             }
-
-            when {
-                value != null && value.minute == 0 && value.second == 0 -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == value }
-                    (newItems[index] as TimeItem).isSelected = true
+            value?.let {
+                when (val newItem = getItem(value)) {
+                    is TimeItem -> newItem.isSelected = true
+                    is EmptyTimeItem -> newItem.endTime = value
                 }
-                value != null -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == value.hour }
-                    (newItems[index + 1]  as EmptyTimeItem).startTime = value
-                }
+                timeLineAdapter.notifyItemChanged(getItemPosition(value))
             }
-            when {
-                dynamicStartTime != null && dynamicStartTime!!.minute == 0 && dynamicStartTime!!.second == 0 -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time == dynamicStartTime }
-                    (newItems[index] as TimeItem).isSelected = true
-                }
-                dynamicStartTime != null -> {
-                    val index = newItems.indexOfFirst {  it is TimeItem && it.time.hour == dynamicStartTime!!.hour }
-                    (newItems[index + 1]  as EmptyTimeItem).startTime = dynamicStartTime
-                }
-            }
-            timeLineAdapter.updateData(newItems)
             field = value
         }
 
@@ -114,7 +86,6 @@ class TimeLineView @JvmOverloads constructor(
             adapter = timeLineAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
-        //scrollToHour(startHourToShow)
     }
 
     private fun loadAttr(attrs: AttributeSet?, defStyleAttr: Int) {
@@ -145,14 +116,23 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
-    fun scrollOnDy(dy: Int) {
-        if (binding.rvTime.scrollState == RecyclerView.SCROLL_STATE_IDLE)
-        binding.rvTime.scrollBy(0, dy)
+    private fun getItemPosition(time: LocalTime): Int {
+        val index = timeItems.indexOfFirst{  it is TimeItem && it.time.hour == time.hour }
+        return if (time.minute == 0) { index } else { index + 1 }
+    }
+
+    private fun getItem(time: LocalTime): TimeLineItem {
+        return timeItems[getItemPosition(time)]
     }
 
     private fun scrollToHour(hour: Int) {
         binding.rvTime.scrollToPosition(timeItems.indexOfLast { it is TimeItem && it.time.hour == hour })
+    }
 
+    fun scrollOnDy(dy: Int) {
+        if (binding.rvTime.scrollState == RecyclerView.SCROLL_STATE_IDLE) {
+            binding.rvTime.scrollBy(0, dy)
+        }
     }
 
     companion object {
@@ -161,4 +141,3 @@ class TimeLineView @JvmOverloads constructor(
         private const val DEFAULT_START_HOUR_TO_SHOW = 8
     }
 }
-
