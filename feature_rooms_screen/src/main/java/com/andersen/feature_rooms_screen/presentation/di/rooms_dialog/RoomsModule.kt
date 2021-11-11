@@ -1,7 +1,7 @@
 package com.andersen.feature_rooms_screen.presentation.di.rooms_dialog
 
 import androidx.lifecycle.ViewModelProvider
-import com.andersen.feature_rooms_screen.presentation.dialog_rooms.DialogRoomsFragment
+import com.andersen.feature_rooms_screen.presentation.dialog_rooms.ui.DialogRoomsFragment
 import com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation.GagForRooms
 import com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation.RoomsViewModel
 import com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation.RoomsViewModelFactory

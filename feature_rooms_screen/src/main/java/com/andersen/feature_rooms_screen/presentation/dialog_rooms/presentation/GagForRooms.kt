@@ -5,17 +5,21 @@ import com.andersen.feature_rooms_screen.presentation.dialog_rooms.model.GagRoom
 class GagForRooms {
     fun generate(): List<GagRoomData> {
         val list = arrayListOf<GagRoomData>()
-        for (i in 0..6) {
+        for (i in 0..5) {
             val data = when (i) {
                 0 -> "Amsterdam"
                 1 -> "Valencia"
                 2 -> "Berlin"
                 3 -> "London"
                 4 -> "Paris"
-                5 -> "All rooms on 2nd floor"
                 else -> "Rome"
             }
-            list += GagRoomData(data)
+
+            val isFloor = when(i) {
+                0,1,2,3,4 -> 1
+                else -> 2
+            }
+            list += GagRoomData(data, isFloor)
         }
         return list
     }

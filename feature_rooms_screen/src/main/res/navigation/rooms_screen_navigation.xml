@@ -23,7 +23,7 @@
     </dialog>
     <dialog
         android:id="@+id/dialogRoomsFragment"
-        android:name="com.andersen.feature_rooms_screen.presentation.dialog_rooms.DialogRoomsFragment"
+        android:name="com.andersen.feature_rooms_screen.presentation.dialog_rooms.ui.DialogRoomsFragment"
         android:label="DialogRoomsFragment"
         tools:layout="@layout/dialog_fragment_rooms">
         <argument

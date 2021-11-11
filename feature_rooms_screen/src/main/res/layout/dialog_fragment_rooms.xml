@@ -14,21 +14,61 @@
         android:layout_marginStart="@dimen/dimens_24_dp"
         android:layout_marginTop="@dimen/dimens_12_dp"
         android:paddingLeft="@dimen/dimens_20_dp"
+        app:buttonTint="@drawable/radio_button_colour_selector"
         android:text="@string/all_rooms_in_office" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginTop="@dimen/dimens_11_dp"
         android:background="@color/color_for_popup_window_divider" />
 
+    <RadioButton
+        android:id="@+id/radio_button_all_rooms_on_1st_floor"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_30_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_11_dp"
+        android:paddingLeft="@dimen/dimens_20_dp"
+        android:text="@string/all_rooms_on_1st_floor"
+        app:buttonTint="@drawable/radio_button_colour_selector" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_rooms"
+        android:id="@+id/recycler_view_rooms_1st_floor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingTop="@dimen/dimens_8_dp"
+        android:paddingBottom="@dimen/dimens_8_dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/dialog_rooms_adapter_item" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginTop="@dimen/dimens_11_dp"
+        android:background="@color/color_for_popup_window_divider" />
+
+    <RadioButton
+        android:id="@+id/radio_button_all_rooms_on_2nd_floor"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_30_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_11_dp"
+        android:paddingLeft="@dimen/dimens_20_dp"
+        android:text="@string/all_rooms_on_2nd_floor"
+        app:buttonTint="@drawable/radio_button_colour_selector" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_rooms_2nd_floor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
         android:paddingBottom="@dimen/dimens_8_dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/dialog_rooms_adapter_item" />

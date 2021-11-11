@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.presentation.dialog_rooms
+package com.andersen.feature_rooms_screen.presentation.dialog_rooms.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -40,11 +40,11 @@ class RoomsAdapter(private val onItemSelected: (RoomPickerData) -> Unit) :
 
         fun bind(roomPickerData: RoomPickerData) {
             with(binding) {
-                roomAndTimeName.text = roomPickerData.room
+                roomName.text = roomPickerData.room
                 root.setOnClickListener { userChoseRoom(roomPickerData) }
-                roomAndTimeRadioButton.setOnClickListener { userChoseRoom(roomPickerData) }
-                roomAndTimeRadioButton.isChecked = roomPickerData.isSelected
-                roomAndTimeName.setTextColor(
+                roomRadioButton.setOnClickListener { userChoseRoom(roomPickerData) }
+                roomRadioButton.isChecked = roomPickerData.isSelected
+                roomName.setTextColor(
                     androidx.core.content.ContextCompat.getColor(
                         root.context,
                         R.color.event_title_text_colour
