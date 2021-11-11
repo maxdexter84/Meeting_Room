@@ -42,18 +42,18 @@ class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<Recyc
     }
 
     inner class TimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-         val textView: TextView = itemView.findViewById(R.id.time_text_view)
+        val textView: TextView = itemView.findViewById(R.id.time_text_view)
 
-         fun bind(position: Int) {
-             with (items[position] as TimeItem) {
-                 textView.text = time.timeToString(TIME_FORMAT)
-                 if (isSelected) {
-                     textView.setTextColor(Color.parseColor(SELECTED_COLOR))
-                 } else {
-                     textView.setTextColor(Color.parseColor(UNSELECTED_COLOR))
-                 }
-             }
-         }
+        fun bind(position: Int) {
+            with (items[position] as TimeItem) {
+                textView.text = time.timeToString(TIME_FORMAT)
+                if (isSelected) {
+                    textView.setTextColor(Color.parseColor(SELECTED_COLOR))
+                } else {
+                    textView.setTextColor(Color.parseColor(UNSELECTED_COLOR))
+                }
+            }
+        }
     }
 
     inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
