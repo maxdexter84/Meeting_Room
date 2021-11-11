@@ -23,6 +23,8 @@
     <dimen name="dimens_29_dp">29dp</dimen>
     <dimen name="dimens_30_dp">30dp</dimen>
     <dimen name="dimens_32_dp">32dp</dimen>
+    <dimen name="dimens_34_dp">34dp</dimen>
+    <dimen name="dimens_38_dp">38dp</dimen>
     <dimen name="dimens_40_dp">40dp</dimen>
     <dimen name="dimens_44_dp">44dp</dimen>
     <dimen name="dimens_48_dp">48dp</dimen>
