@@ -17,8 +17,8 @@ import javax.inject.Inject
 class DialogRoomsFragment :
     BaseDialogFragment<DialogFragmentRoomsBinding>(DialogFragmentRoomsBinding::inflate) {
 
-    private val roomAdapter1 by lazy { RoomsAdapter { saveRoom(it, 1) } }
-    private val roomAdapter2 by lazy { RoomsAdapter { saveRoom(it, 2) } }
+    private val roomAdapterFirstFloor by lazy { RoomsAdapter { saveRoom(it, FIRST_FLOOR) } }
+    private val roomAdapterSecondFloor by lazy { RoomsAdapter { saveRoom(it, SECOND_FLOOR) } }
     private val args: DialogRoomsFragmentArgs by navArgs()
     private var eventRoom = "All rooms"
 
@@ -37,37 +37,37 @@ class DialogRoomsFragment :
         super.onViewCreated(view, savedInstanceState)
         roomsViewModel.gagRooms.observe(viewLifecycleOwner) { gagRoomData ->
             val alreadySelectedRoom = args.userRoom
-            val gagRooms1 = gagRoomData.filter { it.floor == 1 }
-            val gagRooms2 = gagRoomData.filter { it.floor == 2 }
-            gagRooms1.forEach { room ->
-                roomAdapter1.rooms += RoomPickerData(
+            val gagRoomsFirstFloor = gagRoomData.filter { it.floor == FIRST_FLOOR }
+            val gagRoomsSecondFloor = gagRoomData.filter { it.floor == SECOND_FLOOR }
+            gagRoomsFirstFloor.forEach { room ->
+                roomAdapterFirstFloor.rooms += RoomPickerData(
                     room.roomName,
                     alreadySelectedRoom == room.roomName
                 )
             }
-            gagRooms2.forEach { room ->
-                roomAdapter2.rooms += RoomPickerData(
+            gagRoomsSecondFloor.forEach { room ->
+                roomAdapterSecondFloor.rooms += RoomPickerData(
                     room.roomName,
                     alreadySelectedRoom == room.roomName
                 )
             }
         }
-        initRecyclerView1()
-        initRecyclerView2()
+        initRecyclerViewFirstFloor()
+        initRecyclerViewSecondFloor()
         isCancelable = false
         isCheckedRadioButton()
 
         with(binding){
             radioButtonAllRooms.setOnClickListener {
-                eventRoom = "All rooms in office"
+                eventRoom = ALL_ROOMS_IN_OFFICE
                 saveRoom(eventRoom)
             }
             radioButtonAllRoomsOn1stFloor.setOnClickListener {
-                eventRoom = "All rooms on 1st floor"
+                eventRoom = ALL_ROOMS_ON_FIRST_FLOOR
                 saveRoom(eventRoom)
             }
             radioButtonAllRoomsOn2ndFloor.setOnClickListener {
-                eventRoom = "All rooms on 2nd floor"
+                eventRoom = ALL_ROOMS_ON_SECOND_FLOOR
                 saveRoom(eventRoom)
             }
         }
@@ -75,31 +75,31 @@ class DialogRoomsFragment :
 
     private fun isCheckedRadioButton(){
         when(args.userRoom){
-            "All rooms in office" -> binding.radioButtonAllRooms.isChecked = true
-            "All rooms on 1st floor" -> binding.radioButtonAllRoomsOn1stFloor.isChecked = true
-            "All rooms on 2nd floor" -> binding.radioButtonAllRoomsOn2ndFloor.isChecked = true
+            ALL_ROOMS_IN_OFFICE -> binding.radioButtonAllRooms.isChecked = IS_CHECKED
+            ALL_ROOMS_ON_FIRST_FLOOR -> binding.radioButtonAllRoomsOn1stFloor.isChecked = IS_CHECKED
+            ALL_ROOMS_ON_SECOND_FLOOR -> binding.radioButtonAllRoomsOn2ndFloor.isChecked = IS_CHECKED
         }
     }
 
-    private fun initRecyclerView1() {
+    private fun initRecyclerViewFirstFloor() {
         with(binding.recyclerViewRooms1stFloor) {
             setHasFixedSize(true)
-            adapter = roomAdapter1
+            adapter = roomAdapterFirstFloor
         }
     }
 
-    private fun initRecyclerView2() {
+    private fun initRecyclerViewSecondFloor() {
         with(binding.recyclerViewRooms2ndFloor) {
             setHasFixedSize(true)
-            adapter = roomAdapter2
+            adapter = roomAdapterSecondFloor
         }
     }
 
     private fun saveRoom(roomPickerData: RoomPickerData, floor: Int) {
-        if (floor == 1) {
-            roomsViewModel.changeSelected(roomAdapter1.rooms, roomPickerData.room)
+        if (floor == FIRST_FLOOR) {
+            roomsViewModel.changeSelected(roomAdapterFirstFloor.rooms, roomPickerData.room)
         } else {
-            roomsViewModel.changeSelected(roomAdapter2.rooms, roomPickerData.room)
+            roomsViewModel.changeSelected(roomAdapterSecondFloor.rooms, roomPickerData.room)
         }
         findNavController().previousBackStackEntry?.savedStateHandle?.set(
             RoomsEventGridFragment.ROOM_KEY,
@@ -114,5 +114,14 @@ class DialogRoomsFragment :
             room
         )
         findNavController().popBackStack()
+    }
+
+    companion object {
+        const val IS_CHECKED = true
+        const val FIRST_FLOOR = 1
+        const val SECOND_FLOOR = 2
+        const val ALL_ROOMS_IN_OFFICE = "All rooms in office"
+        const val ALL_ROOMS_ON_FIRST_FLOOR = "All rooms on 1st floor"
+        const val ALL_ROOMS_ON_SECOND_FLOOR = "All rooms on 2nd floor"
     }
 }
