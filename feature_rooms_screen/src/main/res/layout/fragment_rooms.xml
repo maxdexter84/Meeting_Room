@@ -35,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimens_5_dp"
-        app:hourHeight="@dimen/dimens_66_dp"
         android:layout_marginBottom="@dimen/dimens_20_dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/room_recycler_view"
