@@ -6,6 +6,7 @@ import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.example.core_module.state.State
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,12 +29,11 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
-    private fun getRoomsAndEventsList() {
+    private fun getRoomList() {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
                 delay(DELAY_DOWNLOAD)
-                _mutableRoomEventList.emit(roomsApi.getRoomEvents())
                 _mutableRoomList.emit(roomsApi.getRooms())
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
@@ -42,11 +42,24 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
+    fun getEventList(date: CalendarDay?) {
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                _mutableRoomEventList.emit(roomsApi.getRoomEvents())
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
     init {
-        getRoomsAndEventsList()
+        getRoomList()
     }
 
     companion object{
-        const val DELAY_DOWNLOAD = 1000L
+        const val DELAY_DOWNLOAD = 500L
     }
 }

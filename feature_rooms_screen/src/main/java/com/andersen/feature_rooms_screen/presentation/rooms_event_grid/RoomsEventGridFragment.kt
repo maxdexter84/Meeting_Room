@@ -53,6 +53,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         roomListObserver()
         loadingStateObserver()
         synchronizationScrolling()
+        getEventsByDate()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -184,6 +185,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 )?.let { view.setBackgroundDrawable(it) }
             }
         })
+    }
+
+    private fun getEventsByDate() {
+        viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
+        binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
     }
 
     companion object {

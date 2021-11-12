@@ -2,9 +2,11 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.example.core_module.utils.stringToTime
+import com.meeringroom.ui.view.event_view.EventRectangleView
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
 
 class InnerEventAdapter(val isStartMainListPosition: Boolean, val eventList: List<RoomEvent>) :
@@ -44,23 +46,33 @@ class InnerEventAdapter(val isStartMainListPosition: Boolean, val eventList: Lis
 
                     var startMinutes = NULL_MINUTE_IN_EVENT
                     var endMinutes = NULL_MINUTE_IN_EVENT
-                    val compareTime = startTime.compareTo(startTimeRange)
+                    val compareStartTime = startTime.compareTo(startTimeRange)
+                    val compareEndTime = endTime.compareTo(endTimeRange)
+
 
                     when {
-                        compareTime == 0 -> startMinutes = NULL_MINUTE_IN_EVENT
-                        compareTime == 1 && startTime.isBefore(endTimeRange) -> startMinutes = startTime.minute
-                        compareTime == -1 && endTime.isAfter(startTimeRange) -> {
+                        compareStartTime == 0 -> {
+                            startMinutes = NULL_MINUTE_IN_EVENT
+                            activeEventSetOnClickListener(this, it)
+                        }
+                        compareStartTime == 1 && startTime.isBefore(endTimeRange) -> startMinutes = startTime.minute
+                        compareStartTime == -1 && endTime.isAfter(startTimeRange) -> {
                             startMinutes = NULL_MINUTE_IN_EVENT
                             topBordersIsVisible = false
+                            activeEventSetOnClickListener(this, it)
                         }
                     }
 
                     when {
-                        compareTime == 0 -> endMinutes = LAST_MINUTE_IN_EVENT
-                        compareTime == -1 && endTime.isAfter(startTimeRange) -> endMinutes = endTime.minute
-                        compareTime == 1 && startTime.isBefore(endTimeRange) -> {
+                        compareEndTime == 0 -> {
+                            endMinutes = LAST_MINUTE_IN_EVENT
+                            activeEventSetOnClickListener(this, it)
+                        }
+                        compareEndTime == -1 && endTime.isAfter(startTimeRange) -> endMinutes = endTime.minute
+                        compareEndTime == 1 && startTime.isBefore(endTimeRange) -> {
                             endMinutes = LAST_MINUTE_IN_EVENT
                             bottomBordersIsVisible = false
+                            activeEventSetOnClickListener(this, it)
                         }
                     }
 
@@ -70,6 +82,12 @@ class InnerEventAdapter(val isStartMainListPosition: Boolean, val eventList: Lis
                     }
                     isUserOwnEvent = it.isUserOwnEvent
                 }
+            }
+        }
+
+        private fun activeEventSetOnClickListener(eventRectangleView: EventRectangleView, roomEvent: RoomEvent) {
+            eventRectangleView.setOnClickListener {
+                eventRectangleView.findNavController().navigate(RoomsEventGridFragmentDirections.actionRoomsFragmentToEventDetailDialog(roomEvent))
             }
         }
     }
