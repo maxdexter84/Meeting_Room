@@ -1,6 +1,5 @@
 package com.meeringroom.ui.view.time_line
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 
 
-class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, val timeColor: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -48,9 +47,9 @@ class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<Recyc
             with (items[position] as TimeItem) {
                 textView.text = time.timeToString(TIME_FORMAT)
                 if (isSelected) {
-                    textView.setTextColor(Color.parseColor(SELECTED_COLOR))
+                    textView.setTextColor(dynamicTimeColor)
                 } else {
-                    textView.setTextColor(Color.parseColor(UNSELECTED_COLOR))
+                    textView.setTextColor(timeColor)
                 }
             }
         }
@@ -76,8 +75,6 @@ class TimeLineAdapter(var items: List<TimeLineItem>): RecyclerView.Adapter<Recyc
     companion object {
         private const val EMPTY_VIEW_HOLDER_TYPE = 1
         private const val TIME_VIEW_HOLDER_TYPE = 2
-        private const val SELECTED_COLOR = "#F3BE00"
-        private const val UNSELECTED_COLOR = "#828282"
         private const val TIME_FORMAT = "HH:mm"
     }
 }

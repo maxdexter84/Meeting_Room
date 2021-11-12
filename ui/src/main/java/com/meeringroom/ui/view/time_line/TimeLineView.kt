@@ -1,10 +1,10 @@
 package com.meeringroom.ui.view.time_line
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,7 +81,9 @@ class TimeLineView @JvmOverloads constructor(
     init {
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
-        timeLineAdapter = TimeLineAdapter(timeItems)
+        timeLineAdapter = TimeLineAdapter(timeItems,
+            ContextCompat.getColor(context, R.color.yellow),
+            ContextCompat.getColor(context, R.color.text_unvisible))
         binding.rvTime.apply {
             adapter = timeLineAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -96,7 +98,6 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("NewApi")
     private fun getItemsOfTime() {
         if (startHour >= endHour) {
             startHour = DEFAULT_START_HOUR
