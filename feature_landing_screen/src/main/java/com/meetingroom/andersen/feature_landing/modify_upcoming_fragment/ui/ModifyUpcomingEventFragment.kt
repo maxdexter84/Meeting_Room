@@ -267,6 +267,7 @@ class ModifyUpcomingEventFragment :
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setTitle(R.string.time_picker_dialog_title)
+                setCancelable(false)
                 show()
             }
         }
