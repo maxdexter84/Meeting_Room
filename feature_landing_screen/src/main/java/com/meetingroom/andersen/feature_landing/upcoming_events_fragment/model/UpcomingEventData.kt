@@ -11,7 +11,7 @@ data class UpcomingEventData(
     var eventDate: String,
     var eventRoom: String,
     val eventRoomColour: Int,
-    var reminderRemainingTime: String = "30 min",
+    var reminderRemainingTime: String = "30 minutes before",
     var reminderActive: Boolean,
     var eventDescription: String?,
 ) : Parcelable
