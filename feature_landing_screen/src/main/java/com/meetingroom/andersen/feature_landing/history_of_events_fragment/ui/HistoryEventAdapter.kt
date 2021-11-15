@@ -61,14 +61,14 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
                 eventPlannedDateUpcoming.text = historyEventData.eventDate
                 eventRoomUpcoming.text = historyEventData.eventRoom
                 eventCityColourLineUpcoming.setBackgroundResource(historyEventData.eventRoomColour)
-                eventCardUpcomingRoot.setOnLongClickListener {
+                eventCardUpcomingRoot.setOnClickListener {
                     flexiblePartOfCardView.visibilityIf(!flexiblePartOfCardView.isVisible)
                     nameOfBooker.text = historyEventData.bookerName
                     roleOfBooker.text = historyEventData.bookerPosition
                     bookerEmail.text = historyEventData.bookerEmail
                     bookerSkype.text = historyEventData.bookerSkype
                     descriptonOfEvent.text = historyEventData.description
-                    return@setOnLongClickListener true
+                    return@setOnClickListener
                 }
                 bookerEmail.setOnClickListener {
                     onBookersFieldsClick(it, bookerEmail.text.toString())

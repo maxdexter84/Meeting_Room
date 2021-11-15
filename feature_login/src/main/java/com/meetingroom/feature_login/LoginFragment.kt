@@ -1,7 +1,9 @@
 package com.meetingroom.feature_login
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -9,6 +11,8 @@ import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
 import com.meetingroom.feature_login.di.LoginFragmentModule
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
@@ -30,8 +34,13 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewModel.requestResult.observe(viewLifecycleOwner, {
-                logInButtonMainActivity.state = MainActionButtonState.ENABLED
-                findNavController().navigate(R.id.action_login_fragment_to_nav_between_locations_fragment)
+                logInButtonMainActivity.state = MainActionButtonState.LOADING
+                lifecycleScope.launch {
+                    delay(1000)
+                    val uri = Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
+                    findNavController().navigate(uri)
+                }
+
             })
 
             viewModel.errorMessage.observe(viewLifecycleOwner, {
@@ -47,10 +56,10 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             logInButtonMainActivity.state = MainActionButtonState.DISABLED
             logInButtonMainActivity.setOnClickListener {
                 viewModel.tryToLogIn(
-                    editEmailLoginFragment.text!!,
-                    editPasswordLoginFragment.text!!
+                    editEmailLoginFragment.text ?: "",
+                    editPasswordLoginFragment.text ?: ""
                 )
-                logInButtonMainActivity.state = MainActionButtonState.LOADING
+                logInButtonMainActivity.state = MainActionButtonState.ENABLED
             }
         }
     }
@@ -59,7 +68,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
         with(binding) {
             editEmailLoginFragment.textError = ""
             editPasswordLoginFragment.textError = ""
-            if (editEmailLoginFragment.text!!.isNotBlank() && editPasswordLoginFragment.text!!.isNotBlank()) {
+            if (!editEmailLoginFragment.text.isNullOrBlank() && !editPasswordLoginFragment.text.isNullOrBlank()) {
                 logInButtonMainActivity.state = MainActionButtonState.ENABLED
             } else {
                 logInButtonMainActivity.state = MainActionButtonState.DISABLED

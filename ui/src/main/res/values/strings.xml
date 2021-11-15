@@ -7,10 +7,16 @@
     <string name="text_for_log_out">Log out</string>
     <string name="text_for_add_event">Add Event</string>
     <string name="text_for_map_icon">Map</string>
-    <string name="text_for_workplace_icon">Workplace</string>
+    <string name="text_for_workplaces_icon">Workplaces</string>
     <string name="text_for_meet_now_icon">Meet now</string>
     <string name="text_for_rooms_icon">Rooms</string>
     <string name="text_for_my_space_icon">My space</string>
     <string name="modify_event_toolbar">Modify event</string>
     <string name="button_toolbar_save">SAVE</string>
+
+    <string name="deeplink_uri_landing_screen">"ui://landingScreenFragment"</string>
+    <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>
+    <string name="deeplink_uri_my_space_fragment">"feature_landing_screen://landingFragment"</string>
+    <string name="deeplink_uri_rooms_fragment">"feature_rooms_screen://roomsEventGridFragment"</string>
+    <string name="deeplink_uri_set_locations_screen">"feature_set_location://locationFragment"</string>
 </resources>

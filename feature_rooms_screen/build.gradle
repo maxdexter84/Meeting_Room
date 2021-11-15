@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion versions.android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion versions.android.minSdkVersion
+        targetSdkVersion versions.android.targetSdkVersion
+        versionCode versions.app.versionCode
+        versionName versions.app.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+
+    implementation libraries.kotlin
+    implementation libraries.coreUi
+    implementation libraries.viewModel
+    implementation libraries.dagger
+    implementation libraries.navigation
+    implementation libraries.calendar
+    implementation libraries.datetime
+
+    kapt libraries.daggerCompiler
+    implementation libraries.dagger
+    implementation libraries.componentsManager
+
+    implementation project(":ui")
+    implementation project(path: ':core_network')
+    implementation project(path: ':core_module')
+
+    testImplementation libraries.unitTests
+    androidTestImplementation libraries.unitTests
+}

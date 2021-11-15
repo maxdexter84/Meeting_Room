@@ -78,9 +78,10 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
             GetAllAvailableCountriesResponse("Belarus"),
         )
         private val citiesOfUkraine = arrayListOf(
-            GetAllAvailableCitiesResponse("Dnipro"),
+            GetAllAvailableCitiesResponse("Kyiv"),
             GetAllAvailableCitiesResponse("Odessa"),
-            GetAllAvailableCitiesResponse("Kyiv")
+            GetAllAvailableCitiesResponse("Dnipro"),
+            GetAllAvailableCitiesResponse("Kharkiv")
         )
         private val citiesOfRussia = arrayListOf(
             GetAllAvailableCitiesResponse("Moscow"),
@@ -91,6 +92,8 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         private val citiesOfBelarus = arrayListOf(
             GetAllAvailableCitiesResponse("Minsk"),
             GetAllAvailableCitiesResponse("Gomel"),
+            GetAllAvailableCitiesResponse("Polotsk"),
+            GetAllAvailableCitiesResponse("Vitebsk"),
         )
 
     }

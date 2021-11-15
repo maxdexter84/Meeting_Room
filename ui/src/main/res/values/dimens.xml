@@ -16,12 +16,15 @@
     <dimen name="dimens_17_dp">17dp</dimen>
     <dimen name="dimens_18_dp">18dp</dimen>
     <dimen name="dimens_20_dp">20dp</dimen>
+    <dimen name="dimens_22_dp">22dp</dimen>
     <dimen name="dimens_24_dp">24dp</dimen>
     <dimen name="dimens_25_dp">25dp</dimen>
     <dimen name="dimens_28_dp">28dp</dimen>
     <dimen name="dimens_29_dp">29dp</dimen>
     <dimen name="dimens_30_dp">30dp</dimen>
     <dimen name="dimens_32_dp">32dp</dimen>
+    <dimen name="dimens_34_dp">34dp</dimen>
+    <dimen name="dimens_38_dp">38dp</dimen>
     <dimen name="dimens_40_dp">40dp</dimen>
     <dimen name="dimens_44_dp">44dp</dimen>
     <dimen name="dimens_48_dp">48dp</dimen>
@@ -30,6 +33,7 @@
     <dimen name="dimens_56_dp">56dp</dimen>
     <dimen name="dimens_60_dp">60dp</dimen>
     <dimen name="dimens_64_dp">64dp</dimen>
+    <dimen name="dimens_66_dp">66dp</dimen>
     <dimen name="dimens_70_dp">70dp</dimen>
     <dimen name="dimens_72_dp">72dp</dimen>
     <dimen name="dimens_80_dp">80dp</dimen>
@@ -46,4 +50,5 @@
     <dimen name="dimens_30_sp">30sp</dimen>
     <dimen name="dimens_34_sp">34sp</dimen>
     <dimen name="dimens_40_sp">40sp</dimen>
+    <dimen name="dimens_11_dp">11dp</dimen>
 </resources>

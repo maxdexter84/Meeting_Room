@@ -24,4 +24,16 @@
             <enum name="add" value="1" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="TimeLineView">
+        <attr name="startHour" format="integer" />
+        <attr name="endHour" format="integer"/>
+        <attr name="startHourToShow" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="EventRectangleView">
+        <attr name="isUserOwnEvent" format="boolean" />
+        <attr name="topBordersIsVisible" format="boolean" />
+        <attr name="bottomBordersIsVisible" format="boolean" />
+        <attr name="startBordersIsVisible" format="boolean" />
+        <attr name="endBordersIsVisible" format="boolean" />
+    </declare-styleable>
 </resources>

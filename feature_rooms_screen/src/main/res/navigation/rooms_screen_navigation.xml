@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rooms_screen_navigation"
+    app:startDestination="@id/roomsFragment">
+    <fragment
+        android:id="@+id/roomsFragment"
+        android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment"
+        android:label="fragment_rooms"
+        tools:layout="@layout/fragment_rooms">
+    </fragment>
+    <dialog
+        android:id="@+id/eventDetailDialog"
+        android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.EventDetailDialog"
+        android:label="EventDetailDialog" >
+        <argument
+            android:name="roomEvent"
+            app:argType="com.andersen.feature_rooms_screen.domain.entity.RoomEvent" />
+    </dialog>
+</navigation>
