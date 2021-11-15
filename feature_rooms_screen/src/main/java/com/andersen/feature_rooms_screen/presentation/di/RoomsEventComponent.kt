@@ -1,6 +1,7 @@
 package com.andersen.feature_rooms_screen.presentation.di
 
 import com.andersen.feature_rooms_screen.presentation.di.view_model.ViewModelModule
+import com.andersen.feature_rooms_screen.presentation.dialog_rooms.ui.DialogRoomsFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
 import com.example.core_module.di.FeatureScope
 import dagger.Component
@@ -13,4 +14,6 @@ import dagger.Component
 
 interface RoomsEventComponent {
     fun inject(roomsEventGridFragment: RoomsEventGridFragment)
+
+    fun inject(roomsDialogFragment: DialogRoomsFragment)
 }

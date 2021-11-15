@@ -3,7 +3,6 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -55,13 +54,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
-        with(binding) {
-            observeRoomChange()
-            buttonDropDown.setOnClickListener {
-                openDialogWithRooms()
-            }
-        }
         synchronizationScrolling()
+        openDialogWithRooms()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -196,11 +190,16 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     private fun openDialogWithRooms() {
-        findNavController().navigate(
-            RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
-                eventRoom
-            )
-        )
+        with(binding) {
+            observeRoomChange()
+            buttonDropDown.setOnClickListener {
+                findNavController().navigate(
+                    RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
+                        eventRoom
+                    )
+                )
+            }
+        }
     }
 
     private fun observeRoomChange() {

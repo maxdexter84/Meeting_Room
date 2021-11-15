@@ -2,6 +2,7 @@ package com.andersen.feature_rooms_screen.presentation.di.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation.RoomsViewModel
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventViewModel
 import dagger.Binds
 import dagger.Module
@@ -17,4 +18,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(RoomsEventViewModel::class)
     fun bindRoomsEventViewModel(roomsEventViewModel: RoomsEventViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RoomsViewModel::class)
+    fun bindRoomsViewModel(roomsViewModel: RoomsViewModel): ViewModel
 }

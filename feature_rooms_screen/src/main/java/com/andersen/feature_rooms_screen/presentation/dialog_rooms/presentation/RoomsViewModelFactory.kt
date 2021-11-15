@@ -1,5 +1,6 @@
 package com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation
 
+/*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 @Suppress("UNCHECKED_CAST")
@@ -16,3 +17,4 @@ class RoomsViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+*/
