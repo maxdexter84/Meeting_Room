@@ -17,13 +17,6 @@
         app:buttonTint="@drawable/radio_button_colour_selector"
         android:text="@string/all_rooms_in_office" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_1_dp"
-        android:layout_marginTop="@dimen/dimens_11_dp"
-        android:background="@color/color_for_popup_window_divider" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_rooms_1st_floor"
         android:layout_width="match_parent"

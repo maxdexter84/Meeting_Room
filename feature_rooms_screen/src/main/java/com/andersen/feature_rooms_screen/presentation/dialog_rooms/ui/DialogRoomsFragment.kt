@@ -128,16 +128,17 @@ class DialogRoomsFragment :
     }
 
     private fun addToRecycler(listRoom: List<Room>, floor: Int) {
-        //TODO добавить полоску в recyclerView
         val alreadySelectedRoom = args.userRoom
         roomsAdapter.rooms += RoomPickerData(
             "All rooms on $floor floor",
-            alreadySelectedRoom == "All rooms on $floor floor"
+            alreadySelectedRoom == "All rooms on $floor floor",
+            true
         )
         listRoom.forEach { room ->
             roomsAdapter.rooms += RoomPickerData(
                 room.title,
-                alreadySelectedRoom == room.title
+                alreadySelectedRoom == room.title,
+                false
             )
         }
     }

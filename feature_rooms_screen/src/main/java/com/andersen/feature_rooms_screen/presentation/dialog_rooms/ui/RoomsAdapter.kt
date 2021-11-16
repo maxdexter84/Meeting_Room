@@ -1,8 +1,10 @@
 package com.andersen.feature_rooms_screen.presentation.dialog_rooms.ui
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.dialog_rooms.model.RoomPickerData
 import com.meetingroom.andersen.feature_rooms_screen.R
@@ -50,6 +52,7 @@ class RoomsAdapter(private val onItemSelected: (RoomPickerData) -> Unit) :
                         R.color.event_title_text_colour
                     )
                 )
+                view.isVisible = roomPickerData.isAllRooms
             }
         }
 
