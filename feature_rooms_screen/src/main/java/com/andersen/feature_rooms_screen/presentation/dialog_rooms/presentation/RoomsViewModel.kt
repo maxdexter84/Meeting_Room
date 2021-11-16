@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
-import com.andersen.feature_rooms_screen.presentation.dialog_rooms.model.RoomPickerData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,12 +28,6 @@ class RoomsViewModel @Inject constructor(
             } catch (exception: Exception) {
 
             }
-        }
-    }
-
-    fun changeSelected(rooms: ArrayList<RoomPickerData>, title: String) {
-        rooms.map {
-            it.isSelected = it.room == title
         }
     }
 }

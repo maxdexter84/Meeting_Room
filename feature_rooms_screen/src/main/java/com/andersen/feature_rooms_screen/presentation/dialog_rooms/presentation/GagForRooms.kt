@@ -16,8 +16,10 @@ class GagForRooms {
             }
 
             val floor = when(i) {
-                0,1,2,3,4 -> 1
-                else -> 2
+                0,1 -> 1
+                2,3 -> 2
+                4 -> 3
+                else -> 4
             }
             list += Room(20, floor, 1234, "office", title, 1234)
         }
