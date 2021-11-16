@@ -2,7 +2,7 @@ package com.andersen.feature_rooms_screen.presentation.dialog_rooms.presentation
 
 import com.andersen.feature_rooms_screen.domain.entity.Room
 
-abstract class GagForRooms {
+class GagForRooms {
     fun generate(): List<Room> {
         val list = arrayListOf<Room>()
         for (i in 0..5) {

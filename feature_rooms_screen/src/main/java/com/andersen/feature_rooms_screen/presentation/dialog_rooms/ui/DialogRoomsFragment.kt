@@ -40,7 +40,7 @@ class DialogRoomsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindViewModel()
+        roomsListObserver()
         initRecyclerViewFirstFloor()
         initRecyclerViewSecondFloor()
         isCancelable = false
@@ -62,22 +62,24 @@ class DialogRoomsFragment :
         }
     }
 
-    private fun bindViewModel(){
-        roomsViewModel.gagRooms.observe(viewLifecycleOwner) { room ->
-            val alreadySelectedRoom = args.userRoom
-            val roomsFirstFloor = room.filter { it.floor == FIRST_FLOOR }
-            val roomsSecondFloor = room.filter { it.floor == SECOND_FLOOR }
-            roomsFirstFloor.forEach { room ->
-                roomAdapterFirstFloor.rooms += RoomPickerData(
-                    room.title,
-                    alreadySelectedRoom == room.title
-                )
-            }
-            roomsSecondFloor.forEach { room ->
-                roomAdapterSecondFloor.rooms += RoomPickerData(
-                    room.title,
-                    alreadySelectedRoom == room.title
-                )
+    private fun roomsListObserver() {
+        lifecycleScope.launch {
+            roomsViewModel.mutableRoomList.collectLatest { rooms ->
+                val alreadySelectedRoom = args.userRoom
+                val roomsFirstFloor = rooms.filter { it.floor == FIRST_FLOOR }
+                val roomsSecondFloor = rooms.filter { it.floor == SECOND_FLOOR }
+                roomsFirstFloor.forEach { room ->
+                    roomAdapterFirstFloor.rooms += RoomPickerData(
+                        room.title,
+                        alreadySelectedRoom == room.title
+                    )
+                }
+                roomsSecondFloor.forEach { room ->
+                    roomAdapterSecondFloor.rooms += RoomPickerData(
+                        room.title,
+                        alreadySelectedRoom == room.title
+                    )
+                }
             }
         }
     }
