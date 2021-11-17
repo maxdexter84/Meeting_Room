@@ -15,7 +15,7 @@
     <string name="notification_channel_reminder_description">This is the channel for upcoming events reminders</string>
     <string name="delete_event_modify_fragment">DELETE EVENT</string>
     <string name="event_description_modify_edit_text_hint">Event description</string>
-    <string name="modify_event_add_title_hint">Add title</string>
+    <string name="modify_event_add_title_hint">Event title</string>
     <string name="custom_notifications">Custom notifications</string>
     <string name="custom_dialog_radio_button_minutes">Minutes before</string>
     <string name="custom_dialog_radio_button_hours">Hours</string>
