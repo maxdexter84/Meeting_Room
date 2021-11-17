@@ -265,6 +265,7 @@ class ModifyUpcomingEventFragment :
                 datePicker.minDate = System.currentTimeMillis()
                 datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
                 setCancelable(false)
+                datePicker.firstDayOfWeek = Calendar.MONDAY
                 show()
             }
         }
