@@ -133,6 +133,7 @@ class ModifyUpcomingEventFragment :
 
     private fun initViews() {
         with(binding) {
+            Locale.setDefault(Locale.UK)
             if (args.upcomingEvent.reminderActive) {
                 reminderLeftTime.text = pruningTextReminderLeftTime(args.upcomingEvent.reminderRemainingTime)
             } else {
