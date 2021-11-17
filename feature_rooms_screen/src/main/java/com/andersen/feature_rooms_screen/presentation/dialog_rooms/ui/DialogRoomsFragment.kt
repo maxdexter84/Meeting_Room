@@ -62,76 +62,35 @@ class DialogRoomsFragment :
     }
 
     private fun filterRoomsByFloor(rooms: List<Room>) {
-        val roomsFirstFloor: MutableList<Room> = mutableListOf()
-        val roomsSecondFloor: MutableList<Room> = mutableListOf()
-        val roomsThirdFloor: MutableList<Room> = mutableListOf()
-        val roomsFourthFloor: MutableList<Room> = mutableListOf()
-        val roomsFifthFloor: MutableList<Room> = mutableListOf()
-        val roomsWithoutFloor: MutableList<Room> = mutableListOf()
-        var floors = 0
-        rooms.forEach {
-            when (it.floor) {
-                1 -> {
-                    roomsFirstFloor.add(it)
-                    if (floors < 1) {
-                        floors = 1
-                    }
-                }
-                2 -> {
-                    roomsSecondFloor.add(it)
-                    if (floors < 2) {
-                        floors = 2
-                    }
-                }
-                3 -> {
-                    roomsThirdFloor.add(it)
-                    if (floors < 3) {
-                        floors = 3
-                    }
-                }
-                4 -> {
-                    roomsFourthFloor.add(it)
-                    if (floors < 4) {
-                        floors = 4
-                    }
-                }
-                5 -> {
-                    roomsFifthFloor.add(it)
-                    if (floors < 5) {
-                        floors = 5
-                    }
-                }
-                else -> roomsWithoutFloor.add(it)
+        val roomsNow = rooms as MutableList
+        var floor = 1
+        while (roomsNow.isNotEmpty()) {
+            val roomsForEachFloor = roomsNow.filter { it.floor == floor }
+            if (roomsForEachFloor.isNotEmpty()) {
+                addToRecycler(roomsForEachFloor, floor)
             }
+            roomsNow.removeIf { it.floor == floor }
+            floor++
         }
-
-        if (roomsFirstFloor.isNotEmpty()) {
-            addToRecycler(roomsFirstFloor, 1)
-        }
-
-        if (roomsSecondFloor.isNotEmpty()) {
-            addToRecycler(roomsSecondFloor, 2)
-        }
-
-        if (roomsThirdFloor.isNotEmpty()) {
-            addToRecycler(roomsThirdFloor, 3)
-        }
-
-        if (roomsFourthFloor.isNotEmpty()) {
-            addToRecycler(roomsFourthFloor, 4)
-        }
-
-        if (roomsFifthFloor.isNotEmpty()) {
-            addToRecycler(roomsFifthFloor, 5)
-        }
-
     }
 
     private fun addToRecycler(listRoom: List<Room>, floor: Int) {
+        val floorName = when (floor % 100) {
+            11, 12, 13 -> "${floor}th"
+            else -> {
+                when (floor % 10) {
+                    1 -> "${floor}st"
+                    2 -> "${floor}nd"
+                    3 -> "${floor}d"
+                    else -> "${floor}th"
+                }
+            }
+        }
+
         val alreadySelectedRoom = args.userRoom
         roomsAdapter.rooms += RoomPickerData(
-            "All rooms on $floor floor",
-            alreadySelectedRoom == "All rooms on $floor floor",
+            "All rooms on the $floorName floor",
+            alreadySelectedRoom == "All rooms on the $floorName floor",
             true
         )
         listRoom.forEach { room ->

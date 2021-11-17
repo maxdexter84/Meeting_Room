@@ -23,11 +23,7 @@ class RoomsViewModel @Inject constructor(
 
     private fun getRoomsList() {
         viewModelScope.launch {
-            try {
-                _mutableRoomList.emit(roomsApi.getGagRoomsForDialog())
-            } catch (exception: Exception) {
-
-            }
+            _mutableRoomList.emit(roomsApi.getGagRoomsForDialog())
         }
     }
 }
