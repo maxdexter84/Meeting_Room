@@ -7,6 +7,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
@@ -18,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
+import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
@@ -37,6 +39,8 @@ import kotlinx.datetime.toInstant
 import java.time.*
 import java.util.*
 import javax.inject.Inject
+import java.util.regex.Pattern
+
 
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
@@ -92,6 +96,8 @@ class ModifyUpcomingEventFragment :
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
             eventRoomName.text = args.upcomingEvent.eventRoom
+            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
+            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
 
             observeRoomChange()
             observeTimeChange()
@@ -343,6 +349,9 @@ class ModifyUpcomingEventFragment :
         const val TIME_KEY = "TIME_KEY"
         private const val DATE_FORMAT = "d MMM yyyy"
         private const val TIME_FORMAT = "HH:mm"
+        private const val ASCII_PATTERN = "\\p{ASCII}"
+        private const val TITLE_MAX_LENGTH = 50
+        private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
 
