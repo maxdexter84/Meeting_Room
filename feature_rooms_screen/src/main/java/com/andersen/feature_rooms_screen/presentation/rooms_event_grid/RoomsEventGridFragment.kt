@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
@@ -56,6 +57,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         loadingStateObserver()
         synchronizationScrolling()
         openDialogWithRooms()
+        getEventsByDate()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -95,7 +97,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun loadingStateObserver() {
         lifecycleScope.launch {
-            viewModel.mutableState.collectLatest{
+            viewModel.mutableState.collectLatest {
                 when (it) {
                     is State.Loading -> binding.progressBar.isVisible = true
                     else -> binding.progressBar.isVisible = false
@@ -212,6 +214,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                     eventRoom = it
                 }
             }
+    }
+
+    private fun getEventsByDate() {
+        viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
+        binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
     }
 
     companion object {

@@ -44,12 +44,9 @@ class DialogRoomsFragment :
         initRecyclerView()
         isCancelable = false
         isCheckedRadioButton()
-
-        with(binding){
-            radioButtonAllRooms.setOnClickListener {
-                eventRoom = ALL_ROOMS_IN_OFFICE
-                saveRoom(eventRoom)
-            }
+        binding.radioButtonAllRooms.setOnClickListener {
+            eventRoom = ALL_ROOMS_IN_OFFICE
+            saveRoom(eventRoom)
         }
     }
 

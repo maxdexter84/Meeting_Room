@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_roomsFragment_to_dialogRoomsFragment"
             app:destination="@id/dialogRoomsFragment" />
+        <action
+            android:id="@+id/action_roomsFragment_to_eventDetailDialog"
+            app:destination="@id/eventDetailDialog" />
     </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
