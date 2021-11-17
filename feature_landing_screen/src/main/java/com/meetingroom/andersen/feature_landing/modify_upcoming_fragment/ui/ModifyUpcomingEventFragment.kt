@@ -57,6 +57,7 @@ class ModifyUpcomingEventFragment :
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
     private var eventReminderStartTime: Int? = null
+    private lateinit var dateOfEvent: LocalDate
 
     private lateinit var needMoreTimeJob: Job
 
@@ -104,7 +105,7 @@ class ModifyUpcomingEventFragment :
             observeTimeValidation()
 
             modifyStartDatePicker.setOnClickListener {
-                showDatePickerDialog(modifyStartDatePicker.text.toString())
+                showDatePickerDialog(dateOfEvent)
             }
             modifyStartTimePicker.setOnClickListener {
                 showTimePickerDialog(modifyStartTimePicker.text.toString(), startTimePickerListener)
@@ -150,8 +151,9 @@ class ModifyUpcomingEventFragment :
             modifyEndTimePicker.text = args.upcomingEvent.endTime
             eventRoomName.text = args.upcomingEvent.eventRoom
             reminderLeftTime.text = pruningTextReminderLeftTime(args.upcomingEvent.reminderRemainingTime)
-            modifyStartDatePicker.text = args.upcomingEvent.eventDate
-            modifyEventEndDate.text = args.upcomingEvent.eventDate
+            dateOfEvent = args.upcomingEvent.eventDate.stringToDate(INPUT_DATE_FORMAT)
+            modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
+            modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
         }
     }
 
@@ -233,7 +235,7 @@ class ModifyUpcomingEventFragment :
                 title = eventModifyTitle.text.toString()
                 startTime = modifyStartTimePicker.text.toString()
                 endTime = modifyEndTimePicker.text.toString()
-                eventDate = modifyStartDatePicker.text.toString()
+                eventDate = dateOfEvent.dateToString(INPUT_DATE_FORMAT)
                 eventRoom = eventRoomName.text.toString()
                 reminderActive =
                     reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
@@ -252,22 +254,20 @@ class ModifyUpcomingEventFragment :
         requireActivity().onBackPressed()
     }
 
-    private fun showDatePickerDialog(dateString: String) {
+    private fun showDatePickerDialog(date: LocalDate) {
         deleteTimeOut()
-        with(dateString.stringToDate(DATE_FORMAT)) {
-            DatePickerDialog(
-                requireContext(),
-                this@ModifyUpcomingEventFragment,
-                year,
-                monthValue - 1,
-                dayOfMonth
-            ).apply {
-                datePicker.minDate = System.currentTimeMillis()
-                datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-                setCancelable(false)
-                datePicker.firstDayOfWeek = Calendar.MONDAY
-                show()
-            }
+        DatePickerDialog(
+            requireContext(),
+            this@ModifyUpcomingEventFragment,
+            date.year,
+            date.monthValue - 1,
+            date.dayOfMonth
+        ).apply {
+            datePicker.minDate = System.currentTimeMillis()
+            datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            setCancelable(false)
+            datePicker.firstDayOfWeek = Calendar.MONDAY
+            show()
         }
     }
 
@@ -291,14 +291,14 @@ class ModifyUpcomingEventFragment :
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        val dateString = LocalDate.of(year, month + 1, day).dateToString(DATE_FORMAT)
+        dateOfEvent = LocalDate.of(year, month + 1, day)
         with(binding) {
-            modifyStartDatePicker.text = dateString
-            modifyEventEndDate.text = dateString
+            modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
+            modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnDateChanged(
                 modifyStartTimePicker.text.toString().stringToTime(TIME_FORMAT),
-                dateString.stringToDate(DATE_FORMAT))
+                dateOfEvent)
             )
         }
     }
@@ -311,7 +311,7 @@ class ModifyUpcomingEventFragment :
                 TimeValidationDialogManager.ValidationEvent.OnStartTimeChanged(
                 startTime,
                 modifyEndTimePicker.text.toString().stringToTime(TIME_FORMAT),
-                modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
+                dateOfEvent
             ))
         }
     }
@@ -339,7 +339,7 @@ class ModifyUpcomingEventFragment :
     private fun deleteTimeOut() = needMoreTimeJob.cancel()
 
     private fun getEventStartDateInMillis(): Long {
-        val dateInMillis = binding.modifyStartDatePicker.text.toString().stringToDate(DATE_FORMAT)
+        val dateInMillis = dateOfEvent
         return stringDateAndTimeToMillis(
             dateInMillis.toString(),
             binding.modifyStartTimePicker.text.toString()
@@ -349,7 +349,8 @@ class ModifyUpcomingEventFragment :
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
-        private const val DATE_FORMAT = "d MMM yyyy"
+        private const val INPUT_DATE_FORMAT = "d MMM yyyy"
+        private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val TIME_FORMAT = "HH:mm"
         private const val ASCII_PATTERN = "\\p{ASCII}"
         private const val TITLE_MAX_LENGTH = 50
