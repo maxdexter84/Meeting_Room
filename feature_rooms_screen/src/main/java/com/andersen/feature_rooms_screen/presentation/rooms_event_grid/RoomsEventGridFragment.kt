@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
@@ -55,6 +54,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         loadingStateObserver()
         synchronizationScrolling()
         getEventsByDate()
+        eventListByRoomObserver()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -67,11 +67,16 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     private fun initRecyclerView() {
+        val singleRoomEventRecyclerView = binding.singleRoomGridRecyclerView
+        singleRoomEventRecyclerView.adapter = viewModel.singleRoomEventAdapter
+        singleRoomEventRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
         val roomRecyclerView = binding.roomRecyclerView
-        val gridRecyclerView = binding.gridRecyclerView
         roomRecyclerView.adapter = viewModel.roomsAdapter
-        gridRecyclerView.adapter = viewModel.mainEventAdapter
         roomRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val gridRecyclerView = binding.gridRecyclerView
+        gridRecyclerView.adapter = viewModel.mainEventAdapter
         gridRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
@@ -79,6 +84,16 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomEventList.collectLatest {
                 viewModel.mainEventAdapter.eventList = it
+            }
+        }
+    }
+
+    private fun eventListByRoomObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableRoomEventListByRoom.collectLatest {
+// TODO               hardcode "3500" will change when in timeLineView add method for take height timeLineView
+                viewModel.singleRoomEventAdapter.heightSingleRoomGrid = 3500
+                viewModel.singleRoomEventAdapter.eventList = it
             }
         }
     }

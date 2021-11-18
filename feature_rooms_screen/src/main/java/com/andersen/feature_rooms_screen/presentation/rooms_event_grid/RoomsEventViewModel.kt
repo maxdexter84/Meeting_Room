@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.coroutines.delay
@@ -18,10 +19,14 @@ class RoomsEventViewModel @Inject constructor(
     private val roomsApi: RoomsApi,
     val roomsAdapter: RoomsAdapter,
     val mainEventAdapter: MainEventAdapter,
+    val singleRoomEventAdapter: SingleRoomEventAdapter
 ) : ViewModel() {
 
     private val _mutableRoomEventList = MutableStateFlow<List<RoomEvent>>(emptyList())
     val mutableRoomEventList: StateFlow<List<RoomEvent>> get() = _mutableRoomEventList.asStateFlow()
+
+    private val _mutableRoomEventListByRoom = MutableStateFlow<List<RoomEvent>>(emptyList())
+    val mutableRoomEventListByRoom: StateFlow<List<RoomEvent>> get() = _mutableRoomEventListByRoom.asStateFlow()
 
     private val _mutableRoomList = MutableStateFlow<List<Room>>(emptyList())
     val mutableRoomList: StateFlow<List<Room>> get() = _mutableRoomList.asStateFlow()
@@ -55,8 +60,22 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
+    private fun getEventsByRoom(){
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                _mutableRoomEventListByRoom.emit(roomsApi.getRoomEventsByRoom())
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
     init {
         getRoomList()
+        getEventsByRoom()
     }
 
     companion object{
