@@ -70,6 +70,16 @@ class ModifyUpcomingEventFragment :
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Locale.setDefault(DEFAULT_LOCALE)
+        resources.configuration.apply {
+            setLocale(DEFAULT_LOCALE)
+            setLayoutDirection(DEFAULT_LOCALE)
+            requireContext().createConfigurationContext(this)
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -263,10 +273,12 @@ class ModifyUpcomingEventFragment :
             date.monthValue - 1,
             date.dayOfMonth
         ).apply {
+            setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
+            setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel), this)
             datePicker.minDate = System.currentTimeMillis()
             datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-            setCancelable(false)
             datePicker.firstDayOfWeek = Calendar.MONDAY
+            setCancelable(false)
             show()
         }
     }
@@ -275,6 +287,8 @@ class ModifyUpcomingEventFragment :
         deleteTimeOut()
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
+                setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
+                setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel), this)
                 setTitle(R.string.time_picker_dialog_title)
                 setCancelable(false)
                 show()
@@ -353,6 +367,7 @@ class ModifyUpcomingEventFragment :
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val TIME_FORMAT = "HH:mm"
         private const val ASCII_PATTERN = "\\p{ASCII}"
+        private val DEFAULT_LOCALE = Locale.UK
         private const val TITLE_MAX_LENGTH = 50
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
