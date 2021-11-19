@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
+import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -92,8 +94,9 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
 // TODO               hardcode "3500" will change when in timeLineView add method for take height timeLineView
-                viewModel.singleRoomEventAdapter.heightSingleRoomGrid = 3500
-                viewModel.singleRoomEventAdapter.eventList = it
+                 val heightSingleRoomGrid = 3500
+                viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid)
+                viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
     }
