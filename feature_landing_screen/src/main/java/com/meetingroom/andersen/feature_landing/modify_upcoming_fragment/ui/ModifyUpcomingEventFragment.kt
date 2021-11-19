@@ -144,7 +144,6 @@ class ModifyUpcomingEventFragment :
 
     private fun initViews() {
         with(binding) {
-            Locale.setDefault(Locale.UK)
             if (args.upcomingEvent.reminderActive) {
                 reminderLeftTime.text = pruningTextReminderLeftTime(args.upcomingEvent.reminderRemainingTime)
             } else {
@@ -273,12 +272,21 @@ class ModifyUpcomingEventFragment :
             date.monthValue - 1,
             date.dayOfMonth
         ).apply {
+            val minDate = LocalDate.now()
+            val maxDate = LocalDate.now().plusMonths(MAX_MONTH)
             setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
             setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel), this)
-            datePicker.minDate = System.currentTimeMillis()
-            datePicker.maxDate = LocalDateTime.now().plusMonths(MAX_MONTH).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            datePicker.minDate = LocalDateTime.of(minDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            datePicker.maxDate = LocalDateTime.of(maxDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             datePicker.firstDayOfWeek = Calendar.MONDAY
             setCancelable(false)
+            datePicker.setOnDateChangedListener { datePicker, year, month, day ->
+                val localDate = LocalDate.of(year, month + 1, day)
+                when {
+                    localDate.isBefore(minDate) -> datePicker.updateDate(minDate.year, minDate.monthValue - 1, minDate.dayOfMonth)
+                    localDate.isAfter(maxDate) ->datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
+                }
+            }
             show()
         }
     }
@@ -372,6 +380,7 @@ class ModifyUpcomingEventFragment :
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
+        private const val LAST_HOUR = 23
 
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
