@@ -140,10 +140,22 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
+    fun getViewHeight(): Int {
+        var height = 0
+        for (item in timeItems) {
+            height += when(item) {
+                is TimeItem -> resources.getDimensionPixelSize(DEFAULT_TIME_HEIGHT_ID)
+                is EmptyTimeItem -> hourHeight
+            }
+        }
+        return height
+    }
+
     companion object {
         private const val DEFAULT_START_HOUR = 6
         private const val DEFAULT_END_HOUR = 24
         private const val DEFAULT_START_HOUR_TO_SHOW = 8
         private val DEFAULT_HOUR_HEIGHT_ID = R.dimen.dimens_66_dp
+        private val DEFAULT_TIME_HEIGHT_ID = R.dimen.dimens_16_dp
     }
 }
