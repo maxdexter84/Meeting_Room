@@ -49,11 +49,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initCalendar()
-        initRecyclerView()
+        //initRecyclerView()
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
-        synchronizationScrolling()
+        //synchronizationScrolling()
         getEventsByDate()
     }
 
@@ -66,14 +66,14 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun initRecyclerView() {
+    /*private fun initRecyclerView() {
         val roomRecyclerView = binding.roomRecyclerView
         val gridRecyclerView = binding.gridRecyclerView
         roomRecyclerView.adapter = viewModel.roomsAdapter
         gridRecyclerView.adapter = viewModel.mainEventAdapter
         roomRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         gridRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    }
+    }*/
 
     private fun eventListObserver() {
         lifecycleScope.launch {
@@ -103,7 +103,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun synchronizationScrolling() {
+    /*private fun synchronizationScrolling() {
         with(binding) {
             gridNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 timeLineView.scrollOnDy(
@@ -133,7 +133,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 }
             })
         }
-    }
+    }*/
 
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {
