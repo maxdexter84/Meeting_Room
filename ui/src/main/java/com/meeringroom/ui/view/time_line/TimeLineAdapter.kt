@@ -9,13 +9,15 @@ import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 
 
-class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, val timeColor: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, val timeColor: Int, private val hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             EMPTY_VIEW_HOLDER_TYPE -> {
                 val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.empty_time_line_item, parent, false)
-                EmptyViewHolder(adapterLayout)
+                EmptyViewHolder(adapterLayout).apply {
+                    dynamicTimeView.viewHeight = hourHeight
+                }
             }
             else -> {
                 val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.time_line_item, parent, false)
@@ -56,7 +58,7 @@ class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, 
     }
 
     inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dynamicTimeView: DynamicTimeView = itemView.findViewById(R.id.dynamic_time_view)
+        val dynamicTimeView: DynamicTimeView = itemView.findViewById(R.id.dynamic_time_view)
 
         fun bind(position: Int) {
             if ((items[position] as EmptyTimeItem).startTime != null) {
