@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.presentation.dialog_rooms.model
+package com.andersen.feature_rooms_screen.domain.entity
 
 data class RoomPickerData(
     val room: String,
