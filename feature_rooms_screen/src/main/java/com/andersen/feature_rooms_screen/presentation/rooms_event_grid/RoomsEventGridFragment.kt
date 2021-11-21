@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
+import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -26,7 +28,6 @@ import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
-import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
@@ -49,12 +50,13 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initCalendar()
-        //initRecyclerView()
+        initRecyclerView()
         eventListObserver()
         roomListObserver()
         loadingStateObserver()
-        //synchronizationScrolling()
+        synchronizationScrolling()
         getEventsByDate()
+        eventListByRoomObserver()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -66,19 +68,34 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    /*private fun initRecyclerView() {
+    private fun initRecyclerView() {
+        val singleRoomEventRecyclerView = binding.singleRoomGridRecyclerView
+        singleRoomEventRecyclerView.adapter = viewModel.singleRoomEventAdapter
+        singleRoomEventRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
         val roomRecyclerView = binding.roomRecyclerView
-        val gridRecyclerView = binding.gridRecyclerView
         roomRecyclerView.adapter = viewModel.roomsAdapter
-        gridRecyclerView.adapter = viewModel.mainEventAdapter
         roomRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        val gridRecyclerView = binding.gridRecyclerView
+        gridRecyclerView.adapter = viewModel.mainEventAdapter
         gridRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    }*/
+    }
 
     private fun eventListObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomEventList.collectLatest {
                 viewModel.mainEventAdapter.eventList = it
+            }
+        }
+    }
+
+    private fun eventListByRoomObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableRoomEventListByRoom.collectLatest {
+                val heightSingleRoomGrid = binding.timeLineView.getViewHeight()
+                viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid)
+                viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
     }
@@ -103,7 +120,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    /*private fun synchronizationScrolling() {
+    private fun synchronizationScrolling() {
         with(binding) {
             gridNestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
                 timeLineView.scrollOnDy(
@@ -133,7 +150,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 }
             })
         }
-    }*/
+    }
 
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {

@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/time_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dimens_58_dp"
         android:layout_height="@dimen/dimens_16_dp"
         android:paddingStart="@dimen/dimens_11_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
