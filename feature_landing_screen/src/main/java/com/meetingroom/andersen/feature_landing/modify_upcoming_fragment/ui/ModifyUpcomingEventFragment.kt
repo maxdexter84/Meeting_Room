@@ -233,7 +233,6 @@ class ModifyUpcomingEventFragment :
                     showAlertDialog(it.messageId)
                 }
                 is TimeValidationDialogManager.ValidationEffect.TimeIsValidEffect -> setTimeOut()
-                is TimeValidationDialogManager.ValidationEffect.NoEffect -> {}
             }
         }
     }

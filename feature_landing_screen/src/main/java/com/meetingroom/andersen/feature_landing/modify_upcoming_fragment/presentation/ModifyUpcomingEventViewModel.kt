@@ -7,8 +7,8 @@ import kotlinx.coroutines.launch
 
 class ModifyUpcomingEventViewModel(private val dialogManager: TimeValidationDialogManager): ViewModel() {
 
-    val effectLiveData = dialogManager.effect.asLiveData()
-    val stateLiveData = dialogManager.state.asLiveData()
+    val effectLiveData = dialogManager.effect
+    val stateLiveData = dialogManager.state
 
     fun setEvent(event : TimeValidationDialogManager.ValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
