@@ -83,16 +83,16 @@
         <item name="strokeWidth">@dimen/dimens_1_dp</item>
         <item name="android:insetLeft">@dimen/dimens_8_dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textColor">@color/black_020303</item>
     </style>
 
     <!-- DATEPICKER. LIGHT -->
 
     <style name="DatePickerDialog.Light" parent="Dialog.Light">
-        <item name="android:textColorPrimaryInverse">@color/black_color</item> <!-- header text color -->
+        <item name="android:textColorPrimaryInverse">@color/black_020303</item> <!-- header text color -->
         <item name="android:textColorSecondary">@color/dark_gray</item> <!-- week text color -->
         <item name="android:textColorSecondaryInverse">@color/gray_light</item> <!-- year text color -->
-        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textColor">@color/black_020303</item>
         <item name="android:datePickerStyle">@style/DatePickerStyle.Light</item>
         <item name="android:colorControlActivated">@color/yellow</item>
     </style>
@@ -114,7 +114,7 @@
         <item name="android:headerBackground">@color/white</item>
         <item name="android:timePickerMode">clock</item>
         <item name="android:headerTimeTextAppearance">@style/TimePicker.TextAppearance.Light</item>
-        <item name="android:numbersTextColor">@color/black_color</item>
+        <item name="android:numbersTextColor">@color/black_020303</item>
         <item name="android:numbersSelectorColor">@color/yellow</item>
         <item name="android:numbersBackgroundColor">@color/gray_60_dark</item>
         <item name="android:numbersInnerTextColor">@color/gray_light</item>

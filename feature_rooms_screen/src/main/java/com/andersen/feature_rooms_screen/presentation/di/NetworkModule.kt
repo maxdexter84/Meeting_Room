@@ -5,7 +5,6 @@ import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.GagForRoo
 import com.example.core_module.di.FeatureScope
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
 interface NetworkModule {

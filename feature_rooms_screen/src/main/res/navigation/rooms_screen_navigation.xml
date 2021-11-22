@@ -10,6 +10,9 @@
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms">
         <action
+            android:id="@+id/action_roomsFragment_to_dialogRoomsFragment"
+            app:destination="@id/dialogRoomsFragment" />
+        <action
             android:id="@+id/action_roomsFragment_to_eventDetailDialog"
             app:destination="@id/eventDetailDialog" />
     </fragment>
@@ -20,5 +23,14 @@
         <argument
             android:name="roomEvent"
             app:argType="com.andersen.feature_rooms_screen.domain.entity.RoomEvent" />
+    </dialog>
+    <dialog
+        android:id="@+id/dialogRoomsFragment"
+        android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.dialog_rooms.DialogRoomsFragment"
+        android:label="DialogRoomsFragment"
+        tools:layout="@layout/dialog_fragment_rooms">
+        <argument
+            android:name="userRoom"
+            app:argType="string" />
     </dialog>
 </navigation>

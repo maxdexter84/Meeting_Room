@@ -17,7 +17,6 @@
     <color name="error_color_for_line_under_edittext">#EF4B41</color>
     <color name="tool_bar_color"> #F9F9F9</color>
     <color name="background_set_location_fragment">#F8F8F8</color>
-    <color name="black_for_toolbar_title">#020303</color>
     <color name="white_for_toolbar_background">#F9F9F9</color>
     <color name="red_for_logout_text">#EF4B41</color>
     <color name="yellow_for_selected_item">#F3AF00</color>
@@ -32,7 +31,7 @@
     <color name="smart_black">#2E2E2E</color>
     <color name="grey_text_color">#828282</color>
 
-    <color name="black_color">#020303</color>
+    <color name="black_020303">#020303</color>
     <color name="dark_gray">#8C8C8C</color>
     <color name="gray_60_dark">#3CEBEBF5</color>
     <color name="text_unvisible">#828282</color>

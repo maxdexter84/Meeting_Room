@@ -3,4 +3,10 @@
     <string name="toolbar_rooms_title">Rooms</string>
     <string name="event_time">%1$s-%2$s</string>
     <string name="copy">Copy</string>
+    <string name="all_rooms_in_office">All rooms in office</string>
+    <string name="all_rooms_on_the">All rooms on the %1$s floor</string>
+    <string name="end_for_first_floor">%1$dst</string>
+    <string name="end_for_second_floor">%1$dnd</string>
+    <string name="end_for_third_floor">%1$dd</string>
+    <string name="end_for_other_floors">%1$dth</string>
 </resources>
