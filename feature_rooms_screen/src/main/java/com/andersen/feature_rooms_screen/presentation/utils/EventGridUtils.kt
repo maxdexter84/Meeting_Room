@@ -39,7 +39,7 @@ private fun calculateHeightEmptyEventItem(index: Int, list: List<RoomEvent>, hei
             calculateHeightEventItem(
                 Duration.between(
                     TimeUtilsConstants.START_WORK_TIME_IN_OFFICE.stringToTime(TimeUtilsConstants.TIME_FORMAT),
-                    list[0].endDateTime.stringToTime(TIME_DATE_FORMAT)
+                    list[0].startDateTime.stringToTime(TIME_DATE_FORMAT)
                 ).toMinutes(),
                 heightSingleRoomGrid
             )
@@ -69,7 +69,7 @@ private fun checkTitleVisibility(minuteInterval: Long) = if (minuteInterval < 30
 private fun checkTitleLength(minuteInterval: Long, title: String) = if (minuteInterval in 30..59) "${title.substring(0, 30)}..." else title
 
 private fun calculateHeightEventItem(minuteInterval: Long, heightSingleRoomGrid: Int) =
-    (heightSingleRoomGrid * minuteInterval.toDouble() / OFFICE_WORKING_TIME_IN_MINUTES).toInt()
+    (heightSingleRoomGrid * (minuteInterval.toDouble() / OFFICE_WORKING_TIME_IN_MINUTES)).toInt()
 
 private fun calculateMinuteInterval(roomEvent: RoomEvent) = Duration.between(
     roomEvent.startDateTime.stringToTime(TimeUtilsConstants.TIME_DATE_FORMAT),
