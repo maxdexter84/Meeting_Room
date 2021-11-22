@@ -61,6 +61,8 @@
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
         android:layout_marginStart="@dimen/dimens_58_dp"
+        android:layout_marginTop="@dimen/dimens_8_dp"
+        android:layout_marginEnd="@dimen/dimens_8_dp"
         app:layout_constraintStart_toStartOf="@id/time_line_view"
         app:layout_constraintEnd_toEndOf="@id/time_line_view"
         app:layout_constraintTop_toTopOf="@+id/time_line_view"

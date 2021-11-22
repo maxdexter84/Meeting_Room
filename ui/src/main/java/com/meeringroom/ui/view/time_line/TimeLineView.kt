@@ -78,7 +78,6 @@ class TimeLineView @JvmOverloads constructor(
     private var startHourToShow = DEFAULT_START_HOUR_TO_SHOW
     private var timeLineAdapter: TimeLineAdapter
     var hourHeight = resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
-        private set
 
     init {
         loadAttr(attrs, defStyleAttr)
@@ -140,15 +139,8 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
-    fun getViewHeight(): Int {
-        var height = 0
-        for (item in timeItems) {
-            height += when(item) {
-                is TimeItem -> resources.getDimensionPixelSize(DEFAULT_TIME_HEIGHT_ID)
-                is EmptyTimeItem -> hourHeight
-            }
-        }
-        return height
+    fun getAllHoursHeight(): Int {
+        return hourHeight * timeItems.count { it is EmptyTimeItem }
     }
 
     companion object {

@@ -93,7 +93,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun eventListByRoomObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
-                val heightSingleRoomGrid = binding.timeLineView.getViewHeight()
+                val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
                 viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid)
                 viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
