@@ -26,6 +26,33 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
         return list
     }
 
+    override fun getRoomEventsByRoom(): List<RoomEvent> {
+        val list = ArrayList<RoomEvent>()
+        for (i in 0 until 1) {
+            list.add(
+                RoomEvent(
+                    date = getDate(),
+                    description = getDescription(i),
+                    id = i.toLong(),
+                    room = "Blue",
+                    colorRoom = Color.BLUE,
+                    roomId = 1,
+                    startDateTime = "2021-11-16T11:30:00.777Z",
+                    endDateTime = "2021-11-16T12:50:00.777Z",
+                    status = getStatus(i),
+                    title = getTitle(i),
+                    userEmail = getUserEmail(i),
+                    userFullName = getUserFullName(i),
+                    userId = getUserId(i),
+                    userPosition = getUserPosition(i),
+                    userSkype = getUserSkype(i),
+                    isUserOwnEvent = getUserEvent(i)
+                )
+            )
+        }
+        return list
+    }
+
     override fun getRoomEvents(): List<RoomEvent> {
         val list = ArrayList<RoomEvent>()
         for (i in 0 until SIZE_EVENTS) {

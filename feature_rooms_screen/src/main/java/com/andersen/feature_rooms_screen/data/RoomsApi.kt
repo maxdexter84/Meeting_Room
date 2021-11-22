@@ -8,4 +8,6 @@ interface RoomsApi {
     fun getRoomEvents(): List<RoomEvent>
 
     fun getRooms(): List<Room>
+
+    fun getRoomEventsByRoom(): List<RoomEvent>
 }
