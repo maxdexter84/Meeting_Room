@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimens_2_dp"
+    android:layout_marginBottom="@dimen/dimens_2_dp"
+    app:cardCornerRadius="@dimen/dimens_4_dp"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/event_card_upcoming_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/event_title_upcoming"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="@dimen/dimens_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimens_16_dp"
+            android:layout_marginStart="@dimen/dimens_12_dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Retrospective - AlphaBank Home Insurance App" />
+
+        <TextView
+            android:id="@+id/name_of_booker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_12_dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/event_title_text_colour"
+            android:textSize="@dimen/dimens_12_sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_title_upcoming"
+            app:layout_constraintVertical_bias="0.1"
+            tools:text="Alexandrov Alexandr" />
+
+        <TextView
+            android:id="@+id/role_of_booker"
+            style="@style/TextAppearanceSmallDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_8_dp"
+            android:textSize="@dimen/dimens_12_sp"
+            app:layout_constraintBottom_toBottomOf="@+id/name_of_booker"
+            app:layout_constraintStart_toEndOf="@+id/name_of_booker"
+            app:layout_constraintTop_toTopOf="@+id/name_of_booker"
+            tools:text="Js developer" />
+
+        <View
+            android:id="@+id/event_city_colour_line_upcoming"
+            android:layout_width="@dimen/dimens_3_dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/red_for_logout_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
