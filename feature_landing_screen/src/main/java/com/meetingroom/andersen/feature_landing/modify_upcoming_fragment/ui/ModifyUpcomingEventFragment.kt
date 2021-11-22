@@ -262,26 +262,26 @@ class ModifyUpcomingEventFragment :
         deleteTimeOut()
         DatePickerDialog(
             requireContext(),
-            this@ModifyUpcomingEventFragment,
+            this,
             date.year,
             date.monthValue - 1,
             date.dayOfMonth
         ).apply {
             val minDate = LocalDate.now()
             val maxDate = LocalDate.now().plusMonths(MAX_MONTH)
-            setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
-            setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel), this)
+            setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok_button), this)
+            setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
+            datePicker.init(date.year, date.monthValue - 1, date.dayOfMonth) { datePicker, year, month, day ->
+                val localDate = LocalDate.of(year, month + 1, day)
+                when {
+                    localDate.isBefore(minDate) -> datePicker.updateDate(minDate.year, minDate.monthValue - 1, minDate.dayOfMonth)
+                    localDate.isAfter(maxDate) -> datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
+                }
+            }
             datePicker.minDate = LocalDateTime.of(minDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             datePicker.maxDate = LocalDateTime.of(maxDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
             datePicker.firstDayOfWeek = Calendar.MONDAY
             setCancelable(false)
-            datePicker.setOnDateChangedListener { datePicker, year, month, day ->
-                val localDate = LocalDate.of(year, month + 1, day)
-                when {
-                    localDate.isBefore(minDate) -> datePicker.updateDate(minDate.year, minDate.monthValue - 1, minDate.dayOfMonth)
-                    localDate.isAfter(maxDate) ->datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
-                }
-            }
             show()
         }
     }
@@ -291,7 +291,7 @@ class ModifyUpcomingEventFragment :
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
                 setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
-                setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel), this)
+                setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
                 setTitle(R.string.time_picker_dialog_title)
                 setCancelable(false)
                 show()
@@ -303,7 +303,7 @@ class ModifyUpcomingEventFragment :
         MaterialAlertDialogBuilder(requireContext())
             .setMessage(messageId)
             .setCancelable(false)
-            .setNegativeButton(R.string.cancel) { _: DialogInterface, _: Int -> setTimeOut() }
+            .setNegativeButton(R.string.cancel_button) { _: DialogInterface, _: Int -> setTimeOut() }
             .show()
     }
 

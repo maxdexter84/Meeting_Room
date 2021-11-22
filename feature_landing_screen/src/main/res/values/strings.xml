@@ -61,7 +61,8 @@
     <string name="session_expired_dialog_button">Got it</string>
     <string name="options_for_reminder_time_one_hour">In 1 hour before</string>
     <string name="event_cant_last_less_than_15_minutes_message">Minimum event period is 15 minutes. Please set another time.</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel_button">cancel</string>
+    <string name="ok_button">ok</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
