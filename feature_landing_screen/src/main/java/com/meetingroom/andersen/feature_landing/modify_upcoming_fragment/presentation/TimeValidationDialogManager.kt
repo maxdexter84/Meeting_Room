@@ -94,7 +94,7 @@ class TimeValidationDialogManager @Inject constructor() {
     }
 
     companion object {
-        private val MIN_TIME = LocalTime.of(6, 0)
+        private val MIN_TIME = LocalTime.of(6, 0, 1)
         private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4
         private const val MIN_MINUTES_DIFF = 15L
