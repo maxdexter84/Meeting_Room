@@ -54,15 +54,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/room_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:hourHeight="@dimen/dimens_66_dp"/>
+        app:hourHeight="@dimen/dimens_90_dp"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/grid_nested_scroll_view"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="@dimen/dimens_0_dp"
         android:layout_marginStart="@dimen/dimens_58_dp"
-        android:layout_marginTop="@dimen/dimens_8_dp"
-        android:layout_marginEnd="@dimen/dimens_8_dp"
         app:layout_constraintStart_toStartOf="@id/time_line_view"
         app:layout_constraintEnd_toEndOf="@id/time_line_view"
         app:layout_constraintTop_toTopOf="@+id/time_line_view"
@@ -86,6 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
+                android:layout_marginTop="@dimen/dimens_8_dp"
+                android:layout_marginBottom="@dimen/dimens_8_dp"
                 android:layout_marginEnd="@dimen/dimens_16_dp"
                 android:layout_marginStart="@dimen/dimens_3_dp"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
