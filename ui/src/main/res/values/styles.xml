@@ -76,17 +76,17 @@
         <item name="android:colorControlActivated">@color/yellow</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="materialButtonStyle">@style/Dialog.Button.Light</item>
-        <item name="colorPrimary">@color/black_color</item>
+        <item name="colorPrimary">@color/black_020303</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
     </style>
 
     <style name="DatePickerDialog.Light" parent="Dialog.Light">
-        <item name="android:textColorPrimaryInverse">@color/black_color</item>
+        <item name="android:textColorPrimaryInverse">@color/black_020303</item>
         <item name="android:textColorSecondary">@color/dark_gray</item>
         <item name="android:textColorSecondaryInverse">@color/dark_gray</item>
-        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textColor">@color/black_020303</item>
         <item name="materialCalendarStyle">@style/DatePicker.Light</item>
     </style>
 
@@ -103,7 +103,7 @@
         <item name="android:headerBackground">@color/white</item>
         <item name="android:timePickerMode">clock</item>
         <item name="android:headerTimeTextAppearance">@style/TimePicker.TextAppearance.Light</item>
-        <item name="android:numbersTextColor">@color/black_color</item>
+        <item name="android:numbersTextColor">@color/black_020303</item>
         <item name="android:numbersSelectorColor">@color/yellow</item>
         <item name="android:numbersBackgroundColor">@color/gray_60_dark</item>
         <item name="android:numbersInnerTextColor">@color/gray_light</item>
@@ -117,7 +117,7 @@
     <style name="Dialog.Button.Light" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="backgroundTint">@color/white</item>
         <item name="strokeColor">@color/cream_dark</item>
-        <item name="android:textColor">@color/black_color</item>
+        <item name="android:textColor">@color/black_020303</item>
         <item name="strokeWidth">1dp</item>
     </style>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <RadioButton
+        android:id="@+id/radio_button_all_rooms"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_30_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_12_dp"
+        android:paddingLeft="@dimen/dimens_20_dp"
+        android:visibility="gone"
+        app:buttonTint="@drawable/radio_button_colour_selector"
+        android:text="@string/all_rooms_in_office" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_rooms_1st_floor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="@dimen/dimens_8_dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/dialog_rooms_adapter_item" />
+</LinearLayout>
