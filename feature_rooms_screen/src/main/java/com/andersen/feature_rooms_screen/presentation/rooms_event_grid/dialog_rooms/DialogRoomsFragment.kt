@@ -28,7 +28,6 @@ class DialogRoomsFragment :
     private val roomsAdapter by lazy { RoomsForDialogAdapter { saveRoom(it) } }
     private val args: DialogRoomsFragmentArgs by navArgs()
     private lateinit var eventRoom: String
-    private lateinit var allRoomsInOffice: String
     private lateinit var roomsList: List<Room>
 
     @Inject
@@ -44,14 +43,13 @@ class DialogRoomsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        allRoomsInOffice = getString(R.string.all_rooms_in_office)
         roomsListObserver()
         loadingStateObserver()
         initRecyclerView()
         isCancelable = false
         isCheckedRadioButton()
         binding.radioButtonAllRooms.setOnClickListener {
-            eventRoom = allRoomsInOffice
+            eventRoom = getString(R.string.all_rooms_in_office)
             saveRoom(eventRoom)
         }
     }
@@ -125,7 +123,7 @@ class DialogRoomsFragment :
     }
 
     private fun isCheckedRadioButton() {
-        if (args.userRoom == allRoomsInOffice) {
+        if (args.userRoom == getString(R.string.all_rooms_in_office)) {
             binding.radioButtonAllRooms.isChecked = true
         }
     }
