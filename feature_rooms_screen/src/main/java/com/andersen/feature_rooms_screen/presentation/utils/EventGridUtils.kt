@@ -9,7 +9,7 @@ import com.example.core_module.utils.stringToTime
 import java.time.Duration
 
 fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
-    map {
+    sortedBy { it.startDateTime }.map {
         val minuteInterval = calculateMinuteInterval(it)
         RoomEventForGrid(
             userFullName = it.userFullName,
@@ -24,13 +24,14 @@ fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
 fun List<RoomEvent>.toEmptyEventListForGrid(heightSingleRoomGrid: Int) =
     if (isEmpty()) listOf(heightSingleRoomGrid)
     else {
-        val list = mutableListOf<Int>()
+        val  sortedEventList = sortedBy { it.startDateTime }
+        val listEmptyEvent = mutableListOf<Int>()
         for (index in 0..size) {
-            list.add(
-                calculateHeightEmptyEventItem(index, this, heightSingleRoomGrid)
+            listEmptyEvent.add(
+                calculateHeightEmptyEventItem(index, sortedEventList, heightSingleRoomGrid)
             )
         }
-        list.toList()
+        listEmptyEvent.toList()
     }
 
 private fun calculateHeightEmptyEventItem(index: Int, list: List<RoomEvent>, heightSingleRoomGrid: Int) =
