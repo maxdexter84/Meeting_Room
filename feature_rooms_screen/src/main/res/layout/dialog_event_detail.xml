@@ -30,7 +30,7 @@
 
         <View
             android:id="@+id/event_city_colour_line_upcoming"
-            android:layout_width="@dimen/dimens_3_dp"
+            android:layout_width="@dimen/dimens_4_dp"
             android:layout_height="@dimen/dimens_0_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
                 android:layout_width="@dimen/dimens_0_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimens_12_dp"
-                android:layout_marginTop="@dimen/dimens_15_dp"
+                android:layout_marginTop="@dimen/dimens_12_dp"
                 android:textColor="@color/event_title_text_colour"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -33,7 +33,7 @@
     <View
         android:id="@+id/gradient_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_5_dp"
+        android:layout_height="@dimen/dimens_2_dp"
         android:background="@drawable/main_header_selector"
         app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 

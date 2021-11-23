@@ -76,7 +76,7 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             elevation = 20f
             setBackgroundDrawable(null)
             bindingPopup.popupLocalSettings.setOnClickListener { dismiss() }
-            bindingPopup.popupThemeColour.setOnClickListener { dismiss() }
+            bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()
                 dismiss()

@@ -4,12 +4,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-fun LocalDate.dateToString(format: String): String {
-    val formatter = DateTimeFormatter.ofPattern(format, Locale.US)
-    return this.format(formatter)
-}
+fun LocalDate.dateToString(format: String) = this.format(DateTimeFormatter.ofPattern(format, Locale.UK))
 
-fun String.stringToDate(format: String): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern(format, Locale.US)
-    return LocalDate.parse(this, formatter)
-}
+fun String.stringToDate(format: String) = LocalDate.parse(this, DateTimeFormatter.ofPattern(format, Locale.UK))
+

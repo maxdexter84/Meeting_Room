@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingTop="@dimen/dimens_8_dp"
+    android:paddingBottom="@dimen/dimens_8_dp">
 
     <TextView
         android:id="@+id/popup_local_settings"
@@ -11,9 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/popup_ripple_effect"
         android:paddingStart="@dimen/dimens_8_dp"
-        android:paddingTop="@dimen/dimens_5_dp"
+        android:paddingTop="@dimen/dimens_8_dp"
         android:paddingEnd="@dimen/dimens_8_dp"
-        android:paddingBottom="@dimen/dimens_4_dp"
+        android:paddingBottom="@dimen/dimens_8_dp"
         android:text="@string/location_settings"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_20_sp"
@@ -21,19 +23,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/popup_theme_colour"
+        android:id="@+id/popup_dark_theme"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
         android:background="@drawable/popup_ripple_effect"
         android:paddingStart="@dimen/dimens_8_dp"
-        android:paddingBottom="@dimen/dimens_4_dp"
+        android:paddingTop="@dimen/dimens_8_dp"
+        android:paddingBottom="@dimen/dimens_8_dp"
         android:text="@string/theme_colour"
         android:textColor="@color/black"
         android:textSize="@dimen/dimens_20_sp"
-        app:layout_constraintEnd_toEndOf="@+id/popup_local_settings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/popup_local_settings" />
 
+    <Switch
+        android:id="@+id/popup_switch_dark_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/popup_dark_theme"
+        app:layout_constraintEnd_toEndOf="@+id/popup_local_settings"
+        app:layout_constraintTop_toTopOf="@id/popup_dark_theme"
+        app:layout_constraintBottom_toBottomOf="@id/popup_dark_theme"
+        android:layout_marginStart="@dimen/dimens_16_dp"/>
 
     <View
         android:id="@+id/popup_view_divider"
@@ -42,7 +53,7 @@
         android:background="@color/color_for_popup_window_divider"
         app:layout_constraintEnd_toEndOf="@+id/popup_local_settings"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/popup_theme_colour" />
+        app:layout_constraintTop_toBottomOf="@id/popup_dark_theme" />
 
     <TextView
         android:id="@+id/popup_log_out"
@@ -50,12 +61,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/popup_ripple_effect"
         android:paddingStart="@dimen/dimens_8_dp"
-        android:paddingTop="@dimen/dimens_5_dp"
-        android:paddingBottom="@dimen/dimens_4_dp"
+        android:paddingTop="@dimen/dimens_8_dp"
+        android:paddingBottom="@dimen/dimens_8_dp"
         android:text="@string/log_out"
         android:textColor="@color/red_for_logout_text"
         android:textSize="@dimen/dimens_20_sp"
-        app:layout_constraintEnd_toEndOf="@+id/popup_theme_colour"
+        app:layout_constraintEnd_toEndOf="@+id/popup_dark_theme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/popup_view_divider" />
 

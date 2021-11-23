@@ -1,22 +1,22 @@
 package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.meetingroom.andersen.feature_landing.R
-import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 class TimeValidationDialogManager @Inject constructor() {
 
-    private val _state : MutableStateFlow<ValidationState> = MutableStateFlow(ValidationState.TimeIsValid)
-    val state = _state.asStateFlow()
+    private val _state = MutableLiveData<ValidationState>(ValidationState.TimeIsValid)
+    val state: LiveData<ValidationState> = _state
 
-    private val _effect : MutableStateFlow<ValidationEffect> = MutableStateFlow(ValidationEffect.NoEffect)
-    val effect = _effect.asStateFlow()
+    private val _effect = MutableLiveData<ValidationEffect>(ValidationEffect.TimeIsValidEffect)
+    val effect: LiveData<ValidationEffect> = _effect
 
-    suspend fun handleEvent(event: ValidationEvent) {
-        _effect.emit(ValidationEffect.NoEffect)
-        _effect.emit(when (event) {
+    fun handleEvent(event: ValidationEvent) {
+        _effect.value = when (event) {
             is ValidationEvent.OnStartTimeChanged -> validateStartTime(event.startTime, event.endTime, event.date)
             is ValidationEvent.OnEndTimeChanged -> validateEndTime(event.startTime, event.endTime)
             is ValidationEvent.OnDateChanged -> {
@@ -27,7 +27,7 @@ class TimeValidationDialogManager @Inject constructor() {
                     ValidationEffect.TimeIsValidEffect
                 }
             }
-        })
+        }
     }
 
     private fun isStartTimeBeforeCurrent(startTime: LocalTime, date: LocalDate): Boolean {
@@ -79,7 +79,7 @@ class TimeValidationDialogManager @Inject constructor() {
         }
     }
 
-    private fun validateEndTime(startTime: LocalTime, endTime: LocalTime): ValidationEffect {
+     private fun validateEndTime(startTime: LocalTime, endTime: LocalTime): ValidationEffect {
         return when {
             isTimeNotInOfficeHours(startTime, endTime) -> {
                 _state.value = ValidationState.InvalidBothTime
@@ -94,7 +94,7 @@ class TimeValidationDialogManager @Inject constructor() {
     }
 
     companion object {
-        private val MIN_TIME = LocalTime.of(6, 0)
+        private val MIN_TIME = LocalTime.of(6, 0, 1)
         private val MAX_TIME = LocalTime.of(23, 59)
         private const val MAX_HOURS_DIFF = 4
         private const val MIN_MINUTES_DIFF = 15L
@@ -107,7 +107,7 @@ class TimeValidationDialogManager @Inject constructor() {
     }
 
     sealed class ValidationState {
-        object TimeIsValid: ValidationState()
+        object TimeIsValid : ValidationState()
         object InvalidStartTime : ValidationState()
         object InvalidEndTime : ValidationState()
         object InvalidBothTime : ValidationState()
@@ -116,6 +116,5 @@ class TimeValidationDialogManager @Inject constructor() {
     sealed class ValidationEffect {
         data class ShowInvalidTimeDialog(val messageId: Int) : ValidationEffect()
         object TimeIsValidEffect: ValidationEffect()
-        object NoEffect : ValidationEffect()
     }
 }

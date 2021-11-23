@@ -1,7 +1,7 @@
 <resources>
     <string name="toolbar_landing_title">My space</string>
-    <string name="location_settings">Location Settings</string>
-    <string name="theme_colour">Theme colour</string>
+    <string name="location_settings">Location settings</string>
+    <string name="theme_colour">Dark theme</string>
     <string name="log_out">Log out</string>
     <string name="relieved_face_emoji">😌</string>
     <string name="feels_lonely_upcoming">It feels lonely in here.</string>
@@ -15,7 +15,7 @@
     <string name="notification_channel_reminder_description">This is the channel for upcoming events reminders</string>
     <string name="delete_event_modify_fragment">DELETE EVENT</string>
     <string name="event_description_modify_edit_text_hint">Event description</string>
-    <string name="modify_event_add_title_hint">Add title</string>
+    <string name="modify_event_add_title_hint">Event title</string>
     <string name="custom_notifications">Custom notifications</string>
     <string name="custom_dialog_radio_button_minutes">Minutes before</string>
     <string name="custom_dialog_radio_button_hours">Hours</string>
@@ -61,7 +61,8 @@
     <string name="session_expired_dialog_button">Got it</string>
     <string name="options_for_reminder_time_one_hour">In 1 hour before</string>
     <string name="event_cant_last_less_than_15_minutes_message">Minimum event period is 15 minutes. Please set another time.</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel_button">cancel</string>
+    <string name="ok_button">ok</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
