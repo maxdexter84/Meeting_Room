@@ -9,7 +9,7 @@
         android:id="@+id/time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_16_dp"
-        android:paddingStart="@dimen/dimens_11_dp"
+        android:paddingStart="@dimen/dimens_10_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/text_unvisible"
