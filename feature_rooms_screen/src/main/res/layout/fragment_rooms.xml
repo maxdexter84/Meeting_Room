@@ -84,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
-                android:layout_marginTop="@dimen/dimens_8_dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="@dimen/dimens_16_dp"
                 android:layout_marginStart="@dimen/dimens_3_dp"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
