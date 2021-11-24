@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
@@ -24,6 +25,7 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBi
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
+import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
@@ -60,6 +62,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         openDialogWithRooms()
         getEventsByDate()
         eventListByRoomObserver()
+        observeViewModelState()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -230,6 +233,12 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 it?.let {
                     binding.buttonDropDown.text = it
                     eventRoom = it
+                    if(it.contains(getString(R.string.allString), true)){
+                        //TODO request all rooms on the floor
+                        checkEventRoom(eventRoom)
+                    }else{
+                        viewModel.getRoom(eventRoom)
+                    }
                 }
             }
     }
@@ -237,6 +246,50 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun getEventsByDate() {
         viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
         binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
+    }
+
+    private fun checkEventRoom(roomTitle: String) {
+        if (roomTitle.contains(getString(R.string.allString), true)) {
+            //TODO call fun show allRoomsByTheFloor on the grid
+            with(binding) {
+                iv_icon_capacity.visibility = View.GONE
+                iv_icon_projector.visibility = View.GONE
+                iv_icon_whiteboard.visibility = View.GONE
+                tvMaxCapacity.visibility = View.GONE
+            }
+        } else {
+            val room = viewModel.room.value
+            if (room != null) {
+                //TODO call fun show one room on the grid
+                checkWhiteboard(room)
+                checkProjector(room)
+                with(binding){
+                    ivIconCapacity.visibility = View.VISIBLE
+                    tvMaxCapacity.visibility = View.VISIBLE
+                    tvMaxCapacity.text = room.capacity.toString()
+                }
+            }
+        }
+    }
+
+    private fun checkWhiteboard(room: Room){
+        if (room.board) {
+            binding.ivIconWhiteboard.visibility = View.VISIBLE
+        } else {
+            binding.ivIconWhiteboard.visibility = View.GONE
+        }
+    }
+
+    private fun checkProjector(room: Room){
+        if (room.projector) {
+            binding.ivIconProjector.visibility = View.VISIBLE
+        } else {
+            binding.ivIconProjector.visibility = View.GONE
+        }
+    }
+
+    private fun observeViewModelState() {
+        viewModel.room.observe(viewLifecycleOwner) { room -> checkEventRoom(room.title) }
     }
 
     companion object {

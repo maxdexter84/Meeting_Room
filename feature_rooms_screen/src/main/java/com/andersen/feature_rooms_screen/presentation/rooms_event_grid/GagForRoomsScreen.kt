@@ -12,18 +12,32 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
         val list = ArrayList<Room>()
         for (i in 0 until SIZE_ROOM) {
             list += when (i % 9) {
-                0 -> Room(5, 1, 0, "Dnipro", "Gray", Color.GRAY)
-                1 -> Room(6, 2, 1, "Odessa", "Blue", Color.BLUE)
-                2 -> Room(4, 3, 2, "Kyiv", "Green", Color.GREEN)
-                3 -> Room(3, 3, 3, "Moscow", "Black", Color.BLACK)
-                4 -> Room(2, 4, 4, "Piter", "Drkgray", Color.DKGRAY)
-                5 -> Room(2, 4, 5, "Kazan", "Magenta", Color.MAGENTA)
-                6 -> Room(2, 11, 6, "Vladivostok", "Red", Color.RED)
-                7 -> Room(2, 21, 7, "Minsk", "Yellow", Color.YELLOW)
-                else -> Room(2, 21, 9, "Gomel", "Green", Color.GREEN)
+                0 -> Room(5, 1, 0, "Dnipro", "Gray", Color.GRAY, true, true)
+                1 -> Room(6, 2, 1, "Odessa", "Blue", Color.BLUE, false, false)
+                2 -> Room(4, 3, 2, "Kyiv", "Green", Color.GREEN, true, false)
+                3 -> Room(3, 3, 3, "Moscow", "Black", Color.BLACK, false, true)
+                4 -> Room(2, 4, 4, "Piter", "Drkgray", Color.DKGRAY, true, true)
+                5 -> Room(2, 4, 5, "Kazan", "Magenta", Color.MAGENTA, true, true)
+                6 -> Room(2, 11, 6, "Vladivostok", "Red", Color.RED, true, true)
+                7 -> Room(2, 21, 7, "Minsk", "Yellow", Color.YELLOW, true, true)
+                else -> Room(2, 21, 9, "Gomel", "Green", Color.GREEN, true, true)
             }
         }
         return list
+    }
+
+    override fun getOneRoom(roomTitle: String): Room {
+        return when(roomTitle){
+            "Gray" -> Room(5, 1, 0, "Dnipro", "Gray", Color.GRAY, true, true)
+            "Blue" -> Room(6, 2, 1, "Odessa", "Blue", Color.BLUE, false, false)
+            "Green" -> Room(4, 3, 2, "Kyiv", "Green", Color.GREEN, true, false)
+            "Black" -> Room(3, 3, 3, "Moscow", "Black", Color.BLACK, false, true)
+            else -> Room(2, 21, 9, "Gomel", "Green", Color.GREEN, true, true)
+        }
+    }
+
+    override fun getAllRoomsOnTheFloor(floor: Int): List<Room> {
+        TODO("Not yet implemented")
     }
 
     override fun getRoomEventsByRoom(): List<RoomEvent> {

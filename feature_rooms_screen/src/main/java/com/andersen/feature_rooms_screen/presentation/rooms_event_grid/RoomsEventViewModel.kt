@@ -1,5 +1,7 @@
 package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
@@ -9,9 +11,7 @@ import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_ro
 import com.example.core_module.state.State
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,6 +34,9 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
+    private val roomLiveData = MutableLiveData<Room>()
+    val room: LiveData<Room> get() = roomLiveData
+
     private fun getRoomList() {
         viewModelScope.launch {
             try {
@@ -53,6 +56,19 @@ class RoomsEventViewModel @Inject constructor(
                 _mutableLoadingState.emit(State.Loading)
                 delay(DELAY_DOWNLOAD)
                 _mutableRoomEventList.emit(roomsApi.getRoomEvents())
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun getRoom(roomTitle: String) {
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                roomLiveData.postValue(roomsApi.getOneRoom(roomTitle))
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)
