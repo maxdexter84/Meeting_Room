@@ -19,6 +19,7 @@ import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -68,6 +69,15 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun initToolbar() {
         with(binding) {
             roomsToolbar.setToolBarTitle(getString(R.string.toolbar_rooms_title))
+            roomsToolbar.changeToolBarConfiguration(
+                ToolbarHandlerOptions.AddEvent(
+                    onIconClick = {
+                        findNavController().navigate(
+                            RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment()
+                        )
+                    }
+                )
+            )
         }
     }
 
