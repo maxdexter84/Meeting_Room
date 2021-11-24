@@ -36,8 +36,13 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
         }
     }
 
-    override fun getAllRoomsOnTheFloor(floor: Int): List<Room> {
-        TODO("Not yet implemented")
+    override fun getAllRoomsOnTheFloor(floor: Int?): List<Room> {
+        val listRoom = getRooms()
+        return if (floor == null){
+            getRooms()
+        } else{
+            listRoom.filter { it.floor == floor }
+        }
     }
 
     override fun getRoomEventsByRoom(): List<RoomEvent> {

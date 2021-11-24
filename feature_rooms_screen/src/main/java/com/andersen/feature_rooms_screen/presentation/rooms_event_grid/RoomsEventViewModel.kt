@@ -1,7 +1,5 @@
 package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
@@ -34,8 +32,11 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
-    private val roomLiveData = MutableLiveData<Room>()
-    val room: LiveData<Room> get() = roomLiveData
+    private val _mutableRoom = MutableStateFlow<Room>(Room(0,8,8,"fg", "all frog", 12,false,false))
+    val room: StateFlow<Room> get() = _mutableRoom.asStateFlow()
+
+    private val _mutableRoomListByFloor = MutableStateFlow<List<Room>>(emptyList())
+    val mutableRoomListByFloor: StateFlow<List<Room>> get() = _mutableRoomListByFloor.asStateFlow()
 
     private fun getRoomList() {
         viewModelScope.launch {
@@ -68,7 +69,20 @@ class RoomsEventViewModel @Inject constructor(
             try {
                 _mutableLoadingState.emit(State.Loading)
                 delay(DELAY_DOWNLOAD)
-                roomLiveData.postValue(roomsApi.getOneRoom(roomTitle))
+                _mutableRoom.emit(roomsApi.getOneRoom(roomTitle))
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun getRoomsOnTheFloor(floor: Int?){
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                _mutableRoomListByFloor.emit(roomsApi.getAllRoomsOnTheFloor(floor))
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)
