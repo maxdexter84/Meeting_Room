@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.MeetingRoom" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black_color</item>
+        <item name="colorPrimary">@color/black_020303</item>
         <item name="colorPrimaryVariant">@color/purple_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

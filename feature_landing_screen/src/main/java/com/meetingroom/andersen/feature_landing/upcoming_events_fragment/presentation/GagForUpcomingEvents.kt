@@ -58,15 +58,13 @@ class GagForUpcomingEvents {
             }
 
             val eventRoom = when (i % 9) {
-                0 -> "Dnipro"
-                1 -> "Odessa"
-                2 -> "Kyiv"
-                3 -> "Moscow"
-                4 -> "Piter"
-                5 -> "Kazan"
-                6 -> "Vladivostok"
-                7 -> "Minsk"
-                else -> "Gomel"
+                0 -> "Red"
+                1 -> "Orange"
+                2 -> "Yellow"
+                3 -> "Green"
+                4 -> "Blue"
+                5 -> "Gray"
+                else -> "Purple"
             }
 
             val eventRoomColour = when (i % 9) {
@@ -81,6 +79,18 @@ class GagForUpcomingEvents {
                 else -> R.color.teal_light
             }
 
+            var reminderRemainingTime = when (i % 9) {
+                0 -> "3d"
+                1 -> "1m"
+                2 -> "3m"
+                3 -> "40m"
+                4 -> "1h"
+                5 -> "5h"
+                6 -> "180m"
+                7 -> "30d"
+                else -> "Never"
+            }
+
             val eventBellActive = when (i % 2) {
                 0 -> false
                 else -> true
@@ -93,8 +103,9 @@ class GagForUpcomingEvents {
                 eventDate,
                 eventRoom,
                 eventRoomColour,
-                reminderActive = eventBellActive,
-                eventDescription = null
+                reminderRemainingTime,
+                eventBellActive,
+                null
             )
 
             list += item

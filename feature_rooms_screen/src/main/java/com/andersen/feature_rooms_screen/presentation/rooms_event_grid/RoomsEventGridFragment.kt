@@ -9,6 +9,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
@@ -34,6 +35,7 @@ import javax.inject.Inject
 class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
 
     private var selectedDateForGrid: LocalDate? = null
+    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -55,6 +57,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         roomListObserver()
         loadingStateObserver()
         synchronizationScrolling()
+        openDialogWithRooms()
         getEventsByDate()
         eventListByRoomObserver()
     }
@@ -205,6 +208,31 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         })
     }
 
+    private fun openDialogWithRooms() {
+        with(binding) {
+            observeRoomChange()
+            buttonDropDown.setOnClickListener {
+                findNavController().navigate(
+                    RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
+                        eventRoom
+                    )
+                )
+            }
+        }
+    }
+
+    private fun observeRoomChange() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            ROOM_KEY
+        )
+            ?.observe(viewLifecycleOwner) {
+                it?.let {
+                    binding.buttonDropDown.text = it
+                    eventRoom = it
+                }
+            }
+    }
+
     private fun getEventsByDate() {
         viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
         binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
@@ -212,5 +240,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     companion object {
         private const val DATE_FORMAT = "d/M/yyyy"
+        const val ROOM_KEY = "ROOM_KEY"
     }
 }

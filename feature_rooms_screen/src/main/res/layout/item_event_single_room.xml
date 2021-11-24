@@ -55,7 +55,7 @@
 
         <View
             android:id="@+id/event_city_colour_line_upcoming"
-            android:layout_width="@dimen/dimens_3_dp"
+            android:layout_width="@dimen/dimens_4_dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
