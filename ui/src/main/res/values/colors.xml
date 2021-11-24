@@ -45,4 +45,5 @@
     <color name="red">#EF4B41</color>
 
     <color name="light_gray">#D2D2D2</color>
+    <color name="indicatorColor">#F3AF00</color>
 </resources>

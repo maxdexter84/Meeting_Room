@@ -37,4 +37,12 @@
         <attr name="startBordersIsVisible" format="boolean" />
         <attr name="endBordersIsVisible" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="IndicatorView">
+        <attr name="indicatorColor" format="color"/>
+        <attr name="thumbColor" format="color"/>
+        <attr name="indicatorStrokeWidth" format="integer"/>
+        <attr name="startPeriod" format="string"/>
+        <attr name="endPeriod" format="string"/>
+    </declare-styleable>
 </resources>

@@ -48,6 +48,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/one_week_calendar" />
 
+    <TextView
+        android:id="@+id/tv_max_capacity"
+        style="@style/RoomMaxCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_8_dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/button_drop_down"
+        app:layout_constraintEnd_toStartOf="@+id/iv_icon_capacity"
+        app:layout_constraintTop_toTopOf="@+id/button_drop_down" />
+
+    <ImageView
+        android:id="@+id/iv_icon_capacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_24_dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/button_drop_down"
+        app:layout_constraintEnd_toStartOf="@+id/iv_icon_whiteboard"
+        app:layout_constraintTop_toTopOf="@+id/button_drop_down"
+        app:srcCompat="@drawable/ic_room_capacity" />
+
+    <ImageView
+        android:id="@+id/iv_icon_whiteboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_24_dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/button_drop_down"
+        app:layout_constraintEnd_toStartOf="@+id/iv_icon_projector"
+        app:layout_constraintTop_toTopOf="@+id/button_drop_down"
+        app:srcCompat="@drawable/ic_room_whiteboard" />
+
+    <ImageView
+        android:id="@+id/iv_icon_projector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/button_drop_down"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_drop_down"
+        app:srcCompat="@drawable/ic_room_projector" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/room_recycler_view"
         android:layout_width="0dp"

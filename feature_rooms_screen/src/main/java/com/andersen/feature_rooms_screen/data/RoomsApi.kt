@@ -9,5 +9,9 @@ interface RoomsApi {
 
     fun getRooms(): List<Room>
 
+    fun getOneRoom(roomTitle: String): Room
+
+    fun getAllRoomsOnTheFloor(floor: Int): List<Room>
+
     fun getRoomEventsByRoom(): List<RoomEvent>
 }
