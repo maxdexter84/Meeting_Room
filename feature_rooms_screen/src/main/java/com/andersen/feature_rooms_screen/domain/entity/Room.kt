@@ -6,5 +6,7 @@ data class Room (
     val id: Long,
     val office: String,
     val title: String,
-    val color: Int
+    val color: Int,
+    val board: Boolean,
+    val projector: Boolean
 )
