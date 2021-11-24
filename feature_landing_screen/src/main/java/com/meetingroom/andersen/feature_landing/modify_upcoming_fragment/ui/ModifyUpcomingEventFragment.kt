@@ -31,6 +31,8 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.U
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
 import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
 import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
@@ -85,7 +87,6 @@ class ModifyUpcomingEventFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             eventRoom = args.upcomingEvent.eventRoom
-            eventReminderTime = args.upcomingEvent.reminderRemainingTime
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
                 root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
@@ -145,7 +146,8 @@ class ModifyUpcomingEventFragment :
     private fun initViews() {
         with(binding) {
             if (args.upcomingEvent.reminderActive) {
-                reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime.removePrefix("In")
+                reminderLeftTime.text = getLongReminderLabel(requireContext(), args.upcomingEvent.reminderRemainingTime)
+                eventReminderTime = reminderLeftTime.text.toString()
             } else {
                 reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
                 args.upcomingEvent.reminderRemainingTime =
@@ -159,7 +161,6 @@ class ModifyUpcomingEventFragment :
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
             eventRoomName.text = args.upcomingEvent.eventRoom
-            reminderLeftTime.text = args.upcomingEvent.reminderRemainingTime
             dateOfEvent = args.upcomingEvent.eventDate.stringToDate(INPUT_DATE_FORMAT)
             modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
@@ -182,8 +183,8 @@ class ModifyUpcomingEventFragment :
         )
             ?.observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.reminderLeftTime.text = it.title.removePrefix("In")
-                    eventReminderTime = it.title.removePrefix("In")
+                    binding.reminderLeftTime.text = it.title
+                    eventReminderTime = it.title
                     eventReminderStartTime = it.time
                 }
             }
@@ -243,7 +244,7 @@ class ModifyUpcomingEventFragment :
                 eventRoom = eventRoomName.text.toString()
                 reminderActive =
                     reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
-                reminderRemainingTime = reminderLeftTime.text.toString()
+                reminderRemainingTime = getShortReminderLabel(requireContext(), reminderLeftTime.text.toString())
                 eventDescription = userEventDescription.text.toString()
             }
             eventReminderStartTime?.let {
