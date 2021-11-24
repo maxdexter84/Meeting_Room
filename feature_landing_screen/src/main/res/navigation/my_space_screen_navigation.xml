@@ -59,7 +59,11 @@
     <dialog
         android:id="@+id/timeForNotificationCustomDialog"
         android:name="com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui.TimeForNotificationCustomDialog"
-        android:label="TimeForNotificationCustomDialog" />
+        android:label="TimeForNotificationCustomDialog">
+        <argument
+            android:name="userSelectedTime"
+            app:argType="string" />
+    </dialog>
     <dialog
         android:id="@+id/needMoreTimeDialog"
         android:name="com.meetingroom.andersen.feature_landing.need_more_time_dialog.ui.NeedMoreTimeDialog"

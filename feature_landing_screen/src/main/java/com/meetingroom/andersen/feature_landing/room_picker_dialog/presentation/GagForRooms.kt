@@ -7,13 +7,13 @@ class GagForRooms {
         val list = arrayListOf<GagRoomData>()
         for (i in 0..6) {
             val data = when (i) {
-                0 -> "Amsterdam"
-                1 -> "Berlin"
-                2 -> "Valencia"
-                3 -> "Rome"
-                4 -> "Moscow"
-                5 -> "Paris"
-                else -> "London"
+                0 -> "Red"
+                1 -> "Orange"
+                2 -> "Yellow"
+                3 -> "Green"
+                4 -> "Blue"
+                5 -> "Gray"
+                else -> "Purple"
             }
 
             val isBusy = when(i) {
