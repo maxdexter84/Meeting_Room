@@ -14,6 +14,7 @@ class TimeForNotificationDialog :
     BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
 
     private val timeAdapter by lazy { TimePickerAdapter { setTime(it) } } // todo divide for room and time
+    private val adapterModels = mutableListOf<TimePickerAdapterModel>()
 
     private val args: TimeForNotificationDialogArgs by navArgs()
 
@@ -26,8 +27,6 @@ class TimeForNotificationDialog :
     }
 
     private fun initAdapter() {
-
-        val adapterModels = mutableListOf<TimePickerAdapterModel>()
         adapterModels.apply {
             add(Never(getString(R.string.reminder_disabled_text_for_time)))
             add(Specified(getString(R.string.options_for_reminder_time_one_minute), 1 * MILLIS_IN_MINUTE))
@@ -42,6 +41,7 @@ class TimeForNotificationDialog :
         adapterModels.map {
             it.isSelected = it.title == args.userSelectedTime
         }
+        if (adapterModels.count { it.isSelected } == 0) adapterModels.find { it is Custom }?.isSelected = true
 
         timeAdapter.time = adapterModels as ArrayList<TimePickerAdapterModel>
     }
@@ -57,7 +57,9 @@ class TimeForNotificationDialog :
         when (savedTime) {
             is Custom -> {
                 dismiss()
-                findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2())
+                findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog2(
+                    if (adapterModels.find { it is Custom }?.isSelected == true) args.userSelectedTime else ""
+                ))
             }
             is Specified -> {
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(

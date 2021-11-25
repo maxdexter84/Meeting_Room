@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="toolbar_landing_title">My space</string>
     <string name="location_settings">Location settings</string>
     <string name="theme_colour">Dark theme</string>
@@ -22,21 +22,40 @@
     <string name="custom_dialog_radio_button_days">Days</string>
     <string name="reminder_disabled_text_for_time">Never</string>
     <string name="reminder_custom_text_for_time">Custom...</string>
-    <string name="custom_time_select_type_minutes">minutes</string>
+    <string name="before">before</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="shortMinute">m</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="shortHour">h</string>
+    <string name="day">day</string>
+    <string name="days">days</string>
+    <string name="shortDay">d</string>
     <plurals name="amountOfMinutes">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">@string/minute</item>
+        <item quantity="other">@string/minutes</item>
     </plurals>
-    <string name="custom_time_select_type_hours">hours</string>
     <plurals name="amountOfHours">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">@string/hour</item>
+        <item quantity="other">@string/hours</item>
     </plurals>
-    <string name="custom_time_select_type_days">days</string>
     <plurals name="amountOfDays">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">@string/day</item>
+        <item quantity="other">@string/days</item>
     </plurals>
+    <string-array name="arrayMinutes">
+        <item>@string/minute</item>
+        <item>@string/minutes</item>
+    </string-array>
+    <string-array name="arrayHours">
+        <item>@string/hour</item>
+        <item>@string/hours</item>
+    </string-array>
+    <string-array name="arrayDays">
+        <item>@string/day</item>
+        <item>@string/days</item>
+    </string-array>
     <string name="custom_time_select_type_no_option_error">No such option</string>
     <string name="user_selected_custom_time_option">%1$s %2$s before</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
@@ -45,13 +64,13 @@
     <string name="event_cant_end_before_it_starts_message">The event can\'t end before it starts.</string>
     <string name="event_cant_last_longer_than_4_hours_message">The event can\'t last longer than 4 hours.</string>
     <string name="event_cant_end_between_0_and_6_hours_message">The event can\'t end between 00.00 and 06.00.</string>
-    <string name="options_for_reminder_time_one_minute">In 1 minute before</string>
-    <string name="options_for_reminder_time_five_minutes">In 5 minutes before</string>
-    <string name="options_for_reminder_time_ten_minutes">In 10 minutes before</string>
-    <string name="options_for_reminder_time_fifteen_minutes">In 15 minutes before</string>
+    <string name="options_for_reminder_time_one_minute">1 minute before</string>
+    <string name="options_for_reminder_time_five_minutes">5 minutes before</string>
+    <string name="options_for_reminder_time_ten_minutes">10 minutes before</string>
+    <string name="options_for_reminder_time_fifteen_minutes">15 minutes before</string>
     <string name="need_more_time_dialog_seconds">\ seconds</string>
     <string name="event_cant_start_and_end_between_0_and_6_hours_message">The event can\'t start and end between 00.00 and 06.00.</string>
-    <string name="options_for_reminder_time_thirty_minutes">In 30 minutes before</string>
+    <string name="options_for_reminder_time_thirty_minutes">30 minutes before</string>
     <string name="session_expired_dialog_title">Oops!</string>
     <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
     <string name="need_more_time_dialog_button">I need more time</string>
@@ -59,7 +78,7 @@
     <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
     <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
     <string name="session_expired_dialog_button">Got it</string>
-    <string name="options_for_reminder_time_one_hour">In 1 hour before</string>
+    <string name="options_for_reminder_time_one_hour">1 hour before</string>
     <string name="event_cant_last_less_than_15_minutes_message">Minimum event period is 15 minutes. Please set another time.</string>
     <string name="cancel_button">cancel</string>
     <string name="ok_button">ok</string>
