@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
+import com.andersen.feature_rooms_screen.presentation.new_event.TimeValidationDialogManager
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -19,7 +20,8 @@ class RoomsEventViewModel @Inject constructor(
     private val roomsApi: RoomsApi,
     val roomsAdapter: RoomsAdapter,
     val mainEventAdapter: MainEventAdapter,
-    val singleRoomEventAdapter: SingleRoomEventAdapter
+    val singleRoomEventAdapter: SingleRoomEventAdapter,
+    val dialogManager: TimeValidationDialogManager
 ) : ViewModel() {
 
     private val _mutableRoomEventList = MutableStateFlow<List<RoomEvent>>(emptyList())
@@ -37,6 +39,13 @@ class RoomsEventViewModel @Inject constructor(
     private val roomLiveData = MutableLiveData<Room>()
     val room: LiveData<Room> get() = roomLiveData
 
+    val effectLiveData = dialogManager.effect
+    val stateLiveData = dialogManager.state
+
+    fun setEvent(event : TimeValidationDialogManager.ValidationEvent) {
+        viewModelScope.launch { dialogManager.handleEvent(event) }
+    }
+
     private fun getRoomList() {
         viewModelScope.launch {
             try {
@@ -49,6 +58,8 @@ class RoomsEventViewModel @Inject constructor(
             }
         }
     }
+
+    fun getFreeRoomsList() = roomsApi.getFreeRooms()
 
     fun getEventList(date: CalendarDay?) {
         viewModelScope.launch {

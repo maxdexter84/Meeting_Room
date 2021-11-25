@@ -14,4 +14,6 @@ interface RoomsApi {
     fun getAllRoomsOnTheFloor(floor: Int): List<Room>
 
     fun getRoomEventsByRoom(): List<RoomEvent>
+
+    fun getFreeRooms(): List<Room>
 }

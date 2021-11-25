@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.navigation.Navigation
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -75,7 +76,8 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             overlapAnchor = true
             elevation = 20f
             setBackgroundDrawable(null)
-            bindingPopup.popupLocalSettings.setOnClickListener { dismiss() }
+            bindingPopup.popupLocalSettings.setOnClickListener {
+                dismiss() }
             bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()

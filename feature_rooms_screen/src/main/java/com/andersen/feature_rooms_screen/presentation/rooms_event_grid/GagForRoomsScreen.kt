@@ -4,7 +4,9 @@ import android.graphics.Color
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class GagForRoomsScreen @Inject constructor() : RoomsApi {
 
@@ -23,6 +25,19 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
                 else -> Room(2, 21, 9, "Gomel", "Green", Color.GREEN, true, true)
             }
         }
+        return list
+    }
+
+    override fun getFreeRooms(): List<Room> {
+        val list = ArrayList<Room>()
+            list.addAll(listOf(
+                Room(6, 2, 1, "Odessa", "Blue", Color.BLUE, board = false, projector = false),
+                Room(4, 3, 2, "Kyiv", "Green", Color.GREEN, board = true, projector = true),
+                Room(2, 4, 5, "Kazan", "Magenta", Color.MAGENTA, board = false, projector = false),
+                Room(2, 11, 6, "Vladivostok", "Red", Color.RED, board = true, projector = true),
+                Room(2, 21, 7, "Minsk", "Yellow", Color.YELLOW, board = false, projector = true),
+                Room(2, 21, 9, "Gomel", "Green", Color.GREEN, board = true, projector = false))
+            )
         return list
     }
 

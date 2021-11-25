@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rooms_screen_navigation"
     app:startDestination="@id/roomsFragment">
+    <action
+        android:id="@+id/action_to_roomsFragment"
+        app:destination="@id/roomsFragment"
+        app:popUpTo="@id/roomsFragment"/>
     <fragment
         android:id="@+id/roomsFragment"
         android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment"
@@ -23,10 +27,23 @@
         android:id="@+id/newEventFragment"
         android:name="com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment"
         android:label="fragment_new_event"
-        tools:layout="@layout/fragment_new_event"/>
-        <!--<argument
-            android:name="new_event"
-            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />-->
+        tools:layout="@layout/fragment_new_event">
+        <argument
+            android:name="eventDate"
+            app:argType="java.time.LocalDate" />
+        <argument
+            android:name="roomTitle"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_newEventFragment_to_roomPickerDialogFragment"
+            app:destination="@id/roomPickerDialogFragment" />
+        <action
+            android:id="@+id/action_newEventFragment_to_timeForNotificationDialog"
+            app:destination="@id/timeForNotificationDialog" />
+        <action
+            android:id="@+id/action_newEventFragment_to_needMoreTimeDialog"
+            app:destination="@id/needMoreTimeDialog" />
+    </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
         android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.EventDetailDialog"
@@ -42,6 +59,39 @@
         tools:layout="@layout/dialog_fragment_rooms">
         <argument
             android:name="userRoom"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/needMoreTimeDialog"
+        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_need_more_time.NeedMoreTimeDialog"
+        android:label="NeedMoreTimeDialog"
+        app:popUpTo="@id/roomsFragment"/>
+    <dialog
+        android:id="@+id/roomPickerDialogFragment"
+        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_room_picker.RoomPickerDialogFragment"
+        android:label="RoomPickerDialogFragment" >
+        <argument
+            android:name="userRoom"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationDialog"
+        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.TimeForNotificationDialog"
+        android:label="TimeForNotificationDialog" >
+        <argument
+            android:name="userSelectedTime"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_timeForNotificationDialog_to_timeForNotificationCustomDialog2"
+            app:destination="@id/timeForNotificationCustomDialog"
+            app:popUpToInclusive="false" />
+    </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationCustomDialog"
+        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.TimeForNotificationCustomDialog"
+        android:label="TimeForNotificationCustomDialog">
+        <argument
+            android:name="userSelectedTime"
             app:argType="string" />
     </dialog>
 </navigation>

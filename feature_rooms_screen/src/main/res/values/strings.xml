@@ -12,4 +12,68 @@
     <string name="allString">all</string>
     <string name="new_event_title_hint">Add title</string>
     <string name="new_event_comment_hint">Add comment</string>
+    <string name="session_expired_dialog_title">Oops!</string>
+    <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
+    <string name="need_more_time_dialog_button">I need more time</string>
+    <string name="need_more_time_dialog_title">Do you need more time?</string>
+    <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
+    <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
+    <string name="session_expired_dialog_button">Got it</string>
+    <string name="event_upcoming_notification_description">%1$s room, %2$s.\nYour event starts in %3$s.</string>
+    <string name="notification_channel_reminder_name">MEETING ROOMS</string>
+    <string name="notification_channel_reminder_description">This is the channel for upcoming events reminders</string>
+    <string name="reminder_disabled_text_for_time">Never</string>
+    <string name="reminder_custom_text_for_time">Custom...</string>
+    <string name="custom_time_select_type_no_option_error">No such option</string>
+    <string name="before">before</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="shortMinute">m</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="shortHour">h</string>
+    <string name="day">day</string>
+    <string name="days">days</string>
+    <string name="shortDay">d</string>
+    <plurals name="amountOfMinutes">
+        <item quantity="one">@string/minute</item>
+        <item quantity="other">@string/minutes</item>
+    </plurals>
+    <plurals name="amountOfHours">
+        <item quantity="one">@string/hour</item>
+        <item quantity="other">@string/hours</item>
+    </plurals>
+    <plurals name="amountOfDays">
+        <item quantity="one">@string/day</item>
+        <item quantity="other">@string/days</item>
+    </plurals>
+    <string-array name="arrayMinutes">
+        <item>@string/minute</item>
+        <item>@string/minutes</item>
+    </string-array>
+    <string-array name="arrayHours">
+        <item>@string/hour</item>
+        <item>@string/hours</item>
+    </string-array>
+    <string-array name="arrayDays">
+        <item>@string/day</item>
+        <item>@string/days</item>
+    </string-array>
+    <string name="options_for_reminder_time_one_minute">1 minute before</string>
+    <string name="options_for_reminder_time_five_minutes">5 minutes before</string>
+    <string name="options_for_reminder_time_ten_minutes">10 minutes before</string>
+    <string name="options_for_reminder_time_fifteen_minutes">15 minutes before</string>
+    <string name="need_more_time_dialog_seconds">\ seconds</string>
+    <string name="event_cant_start_and_end_between_0_and_6_hours_message">The event can\'t start and end between 00.00 and 06.00.</string>
+    <string name="options_for_reminder_time_thirty_minutes">30 minutes before</string>
+    <string name="options_for_reminder_time_one_hour">1 hour before</string>
+    <string name="event_cant_last_less_than_15_minutes_message">Minimum event period is 15 minutes. Please set another time.</string>
+    <string name="cancel_button">cancel</string>
+    <string name="ok_button">ok</string>
+    <string name="time_picker_dialog_title">SELECT TIME</string>
+    <string name="event_cant_start_before_current_time_message">The event can\'t start before current time.</string>
+    <string name="event_cant_start_between_0_and_6_hours_message">The event can\'t start between 00.00 and 06.00.</string>
+    <string name="event_cant_end_before_it_starts_message">The event can\'t end before it starts.</string>
+    <string name="event_cant_last_longer_than_4_hours_message">The event can\'t last longer than 4 hours.</string>
+    <string name="event_cant_end_between_0_and_6_hours_message">The event can\'t end between 00.00 and 06.00.</string>
 </resources>
