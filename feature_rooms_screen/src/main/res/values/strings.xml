@@ -70,4 +70,8 @@
     <string name="cancel_button">cancel</string>
     <string name="ok_button">ok</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
+    <string name="custom_notifications">Custom notifications</string>
+    <string name="custom_dialog_radio_button_minutes">Minutes before</string>
+    <string name="custom_dialog_radio_button_hours">Hours</string>
+    <string name="custom_dialog_radio_button_days">Days</string>
 </resources>
