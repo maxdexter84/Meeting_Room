@@ -23,7 +23,7 @@ class RoomsEventViewModel @Inject constructor(
     val roomsAdapter: RoomsAdapter,
     val mainEventAdapter: MainEventAdapter,
     val singleRoomEventAdapter: SingleRoomEventAdapter,
-    val dialogManager: TimeValidationDialogManager
+    private val dialogManager: TimeValidationDialogManager
 ) : ViewModel() {
 
     private val _mutableRoomEventList = MutableStateFlow<List<RoomEvent>>(emptyList())

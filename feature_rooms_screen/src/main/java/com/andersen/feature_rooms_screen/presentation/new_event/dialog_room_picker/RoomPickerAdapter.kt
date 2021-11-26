@@ -41,7 +41,7 @@ class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> 
         fun bind(roomPickerData: RoomPickerNewEventData) {
             with(binding) {
                 roomAndTimeName.text = roomPickerData.room
-                if (roomPickerData.isEnabled) {
+                if (roomPickerData.isEnabled.not()) {
                     roomAndTimeName.setTextColor(
                         ContextCompat.getColor(
                             root.context,
@@ -59,8 +59,8 @@ class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> 
                         )
                     )
                 }
-                roomAndTimeRadioButton.isEnabled = !roomPickerData.isEnabled
-                roomAndTimeRadioButton.isClickable = !roomPickerData.isEnabled
+                roomAndTimeRadioButton.isEnabled = roomPickerData.isEnabled
+                roomAndTimeRadioButton.isClickable = roomPickerData.isEnabled
             }
         }
 

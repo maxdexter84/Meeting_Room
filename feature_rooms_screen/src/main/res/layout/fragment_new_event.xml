@@ -182,7 +182,6 @@
         android:inputType="textMultiLine"
         android:maxLength="150"
         style="@style/TextAppearanceDescriptionDisabled"
-        app:layout_constraintBottom_toBottomOf="@+id/description_of_event_icon"
         app:layout_constraintStart_toEndOf="@+id/description_of_event_icon"
         app:layout_constraintTop_toTopOf="@+id/description_of_event_icon"
         app:layout_constraintEnd_toEndOf="parent"/>

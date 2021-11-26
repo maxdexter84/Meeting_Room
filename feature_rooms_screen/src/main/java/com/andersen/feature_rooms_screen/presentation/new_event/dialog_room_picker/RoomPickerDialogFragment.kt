@@ -41,8 +41,6 @@ class RoomPickerDialogFragment :
         lifecycleScope.launch {
             roomsViewModel.mutableRoomList.collectLatest { it ->
                 val freeRooms = roomsViewModel.getFreeRoomsList()
-                Log.d("rooms", "freeRooms - $freeRooms")
-                Log.d("rooms", "allRooms - $it")
                 val roomsList = arrayListOf<RoomPickerNewEventData>()
                 if (it.isNotEmpty()) {
                     it.forEach { room ->
@@ -55,7 +53,7 @@ class RoomPickerDialogFragment :
                         )
                     }
                     roomAdapter.rooms =
-                        roomsList.sortedBy { room -> room.isEnabled }
+                        roomsList.sortedByDescending { room -> room.isEnabled }
                 }
             }
         }

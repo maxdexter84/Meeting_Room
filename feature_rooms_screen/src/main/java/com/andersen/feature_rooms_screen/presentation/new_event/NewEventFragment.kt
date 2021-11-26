@@ -156,7 +156,7 @@ class NewEventFragment :
                 TIME_FORMAT)
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
-            eventRoomName.text = "Yellow"
+            eventRoomName.text = viewModel.getFreeRoomsList().first().title
         }
     }
 
@@ -233,17 +233,6 @@ class NewEventFragment :
 
     private fun saveChanges() {
         with(binding) {
-            /*args.upcomingEvent.apply {
-                title = eventModifyTitle.text.toString()
-                startTime = modifyStartTimePicker.text.toString()
-                endTime = modifyEndTimePicker.text.toString()
-                eventDate = dateOfEvent.dateToString(INPUT_DATE_FORMAT)
-                eventRoom = eventRoomName.text.toString()
-                reminderActive =
-                    reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
-                reminderRemainingTime = getShortReminderLabel(requireContext(), reminderLeftTime.text.toString())
-                eventDescription = userEventDescription.text.toString()
-            }*/
             eventReminderStartTime?.let {
                 createNotification(
                     getReminderSetOffTimeInMillis(
@@ -366,7 +355,6 @@ class NewEventFragment :
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
-        private const val INPUT_DATE_FORMAT = "d MMM yyyy"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val ASCII_PATTERN = "\\p{ASCII}"
         private val DEFAULT_LOCALE = Locale.UK
@@ -374,7 +362,6 @@ class NewEventFragment :
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
-        private const val LAST_HOUR = 23
 
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
