@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
 
-
-class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, val timeColor: Int, private val hourHeight: Int): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TimeLineAdapter(
+    var items: List<TimeLineItem>,
+    var dynamicTimeColor: Int,
+    val timeColor: Int,
+    private val hourHeight: Int
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -46,7 +50,7 @@ class TimeLineAdapter(var items: List<TimeLineItem>, var dynamicTimeColor: Int, 
         val textView: TextView = itemView.findViewById(R.id.time_text_view)
 
         fun bind(position: Int) {
-            with (items[position] as TimeItem) {
+            with(items[position] as TimeItem) {
                 textView.text = time.timeToString(TIME_FORMAT)
                 if (isSelected) {
                     textView.setTextColor(dynamicTimeColor)

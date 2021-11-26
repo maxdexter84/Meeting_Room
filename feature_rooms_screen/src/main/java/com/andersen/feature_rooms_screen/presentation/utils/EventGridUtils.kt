@@ -29,13 +29,18 @@ fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
     }
 
 fun List<RoomEvent>.toEmptyEventListForGrid(heightSingleRoomGrid: Int,  currentDate: CalendarDay): List<EmptyRoomEventForGrid> =
-    if (isEmpty())
+    if (isEmpty()) {
+        val date = currentDate.toString().substring(12, 22)
+        val second = ":00"
+        val zone = ZonedDateTime.now().format(DateTimeFormatter.ofPattern("SSSXXX"))
         listOf(
-        EmptyRoomEventForGrid(
-        startTime = "${currentDate.toString().substring(12,22)}T$START_WORK_TIME_IN_OFFICE:00.${ZonedDateTime.now().format(DateTimeFormatter.ofPattern("SSSXXX"))}",
-        endTime = "${currentDate.toString().substring(12,22)}T$END_WORK_TIME_IN_OFFICE:00.${ZonedDateTime.now().format(DateTimeFormatter.ofPattern("SSSXXX"))}",
-        heightEventItem = heightSingleRoomGrid
-        ))
+            EmptyRoomEventForGrid(
+                startTime = "${date}T$START_WORK_TIME_IN_OFFICE$second.$zone",
+                endTime = "${date}T$END_WORK_TIME_IN_OFFICE$second.$zone",
+                heightEventItem = heightSingleRoomGrid
+            )
+        )
+    }
     else {
         val sortedEventList = sortedBy { it.startDateTime }
         val listEmptyEvent = mutableListOf<EmptyRoomEventForGrid>()

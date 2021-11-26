@@ -20,7 +20,7 @@ class DynamicTimeView @JvmOverloads constructor(
     private val timeHeight = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
     var viewHeight = resources.getDimensionPixelSize(R.dimen.dimens_66_dp)
         set(value) {
-            field = value - 2 * timeHeight
+            field = value - TEXT_HEIGHT_RATIO_TO_MATCH_HOUR_HEIGHT * timeHeight
             layoutParams.height = value - timeHeight
         }
 
@@ -88,5 +88,6 @@ class DynamicTimeView @JvmOverloads constructor(
         private const val MINUTES_IN_HOUR = 60
         private const val MIN_MINUTE_WITH_MARGIN = 15
         private const val MAX_MINUTE_WITH_MARGIN = 45
+        private const val TEXT_HEIGHT_RATIO_TO_MATCH_HOUR_HEIGHT = 2
     }
 }
