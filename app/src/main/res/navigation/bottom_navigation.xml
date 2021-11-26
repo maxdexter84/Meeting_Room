@@ -2,7 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_navigation"
-    app:startDestination="@id/rooms_screen_navigation">
-    <include app:graph = "@navigation/my_space_screen_navigation"/>
-    <include app:graph = "@navigation/rooms_screen_navigation"/>
+    app:startDestination="@id/my_space_screen_navigation">
+    <include app:graph="@navigation/my_space_screen_navigation" />
+    <include app:graph="@navigation/rooms_screen_navigation" />
+    <deepLink
+        app:uri="@string/bottom_navigation_deep_link" />
 </navigation>

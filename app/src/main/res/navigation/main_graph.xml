@@ -6,5 +6,5 @@
     app:startDestination="@id/log_in_flow">
     <include app:graph="@navigation/nav_between_locations_fragment" />
     <include app:graph="@navigation/log_in_flow" />
-    <include app:graph = "@navigation/landing_screen_navigation"/>
+    <include app:graph="@navigation/bottom_navigation" />
 </navigation>
