@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
+package com.andersen.feature_rooms_screen.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
-import com.andersen.feature_rooms_screen.presentation.new_event.TimeValidationDialogManager
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.MainEventAdapter
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsAdapter
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
 import com.prolificinteractive.materialcalendarview.CalendarDay

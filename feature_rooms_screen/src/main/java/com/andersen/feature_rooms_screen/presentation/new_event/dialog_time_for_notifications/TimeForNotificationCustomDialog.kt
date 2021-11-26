@@ -3,9 +3,11 @@ package com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.navigation.fragment.findNavController
+import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
-import com.meetingroom.andersen.feature_rooms_screen.databinding.CustomDialogTimeForNotificationBinding
 import com.meetingroom.andersen.feature_rooms_screen.R
+import com.meetingroom.andersen.feature_rooms_screen.databinding.CustomDialogTimeForNotificationBinding
 
 
 class TimeForNotificationCustomDialog :
@@ -49,18 +51,18 @@ class TimeForNotificationCustomDialog :
                     }
                     else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
                 }
-                /*findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment.TIME_KEY,
                     TimePickerData(
                         String.format(
-                            getString(R.string.user_selected_custom_time_option),
+                            resources.getString(R.string.user_selected_custom_time_option),
                             binding.userCustomTimeEditText.text.toString(),
                             timeType
                         ),
                         binding.userCustomTimeEditText.text.toString().toInt() * multiplier,
                         true
                     )
-                )*/
+                )
             }
             dismiss()
         }

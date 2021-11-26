@@ -2,6 +2,7 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import kotlinx.coroutines.launch
 
 class ModifyUpcomingEventViewModel(private val dialogManager: TimeValidationDialogManager): ViewModel() {

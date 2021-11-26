@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.domain.entity.TimePickerData
+import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
 import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
@@ -13,13 +13,12 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimePick
 class TimeForNotificationDialog :
     BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
 
-    private val timeAdapter by lazy { TimePickerAdapter { setTime(it) } } // todo divide for room and time
+    private val timeAdapter by lazy { TimePickerAdapter { setTime(it) } }
 
     private val args: TimeForNotificationDialogArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initAdapter()
         initRecyclerView()
         isCancelable = false

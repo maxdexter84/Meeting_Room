@@ -1,18 +1,18 @@
-package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation
+package com.example.core_module.event_time_validation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.meetingroom.andersen.feature_landing.R
+import com.example.core_module.R
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
 class TimeValidationDialogManager @Inject constructor() {
 
-    private val _state = MutableLiveData<ValidationState>(ValidationState.TimeIsValid)
+    private val _state = MutableLiveData<ValidationState>()
     val state: LiveData<ValidationState> = _state
 
-    private val _effect = MutableLiveData<ValidationEffect>(ValidationEffect.TimeIsValidEffect)
+    private val _effect = MutableLiveData<ValidationEffect>()
     val effect: LiveData<ValidationEffect> = _effect
 
     fun handleEvent(event: ValidationEvent) {

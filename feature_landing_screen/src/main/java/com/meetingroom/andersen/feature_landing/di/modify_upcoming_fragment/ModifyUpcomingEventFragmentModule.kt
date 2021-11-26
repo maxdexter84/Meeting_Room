@@ -2,11 +2,11 @@ package com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.di.Screen
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModelFactory
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import dagger.Module
 import dagger.Provides

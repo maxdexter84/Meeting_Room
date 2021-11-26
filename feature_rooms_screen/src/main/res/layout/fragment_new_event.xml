@@ -17,18 +17,16 @@
         style="@style/TextAppearanceTitle"
         android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimens_16_dp"
         android:layout_marginTop="@dimen/dimens_28_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
         android:background="@null"
-        android:gravity="center"
         android:hint="@string/new_event_title_hint"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_event_toolbar"/>
+        app:layout_constraintStart_toStartOf="@+id/start_date_picker"
+        app:layout_constraintTop_toBottomOf="@+id/new_event_toolbar" />
 
     <View
         android:id="@+id/divider_line_1"

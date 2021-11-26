@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.domain.entity
+package com.andersen.feature_rooms_screen.domain.entity.new_event
 
 import com.meetingroom.andersen.feature_rooms_screen.R
 

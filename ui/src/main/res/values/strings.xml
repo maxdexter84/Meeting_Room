@@ -12,7 +12,9 @@
     <string name="text_for_rooms_icon">Rooms</string>
     <string name="text_for_my_space_icon">My space</string>
     <string name="modify_event_toolbar">Modify event</string>
+    <string name="new_event_toolbar">New event</string>
     <string name="button_toolbar_save">SAVE</string>
+    <string name="user_selected_custom_time_option">%1$s %2$s before</string>
 
     <string name="deeplink_uri_landing_screen">"ui://landingScreenFragment"</string>
     <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>

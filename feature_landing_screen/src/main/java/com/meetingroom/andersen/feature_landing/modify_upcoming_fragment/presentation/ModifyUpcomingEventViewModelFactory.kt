@@ -2,6 +2,7 @@ package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 
 @Suppress("UNCHECKED_CAST")
 class ModifyUpcomingEventViewModelFactory(

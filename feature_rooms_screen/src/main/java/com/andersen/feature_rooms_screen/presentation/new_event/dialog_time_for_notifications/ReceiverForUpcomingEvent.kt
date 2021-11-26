@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+
 import com.meetingroom.andersen.feature_rooms_screen.R
 
 class ReceiverForUpcomingEvent : BroadcastReceiver() {

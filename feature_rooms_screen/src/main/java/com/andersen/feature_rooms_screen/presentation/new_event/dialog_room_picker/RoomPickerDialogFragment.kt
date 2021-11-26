@@ -1,6 +1,5 @@
 package com.andersen.feature_rooms_screen.presentation.new_event.dialog_room_picker
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,9 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.domain.entity.RoomPickerNewEventData
+import com.andersen.feature_rooms_screen.domain.entity.new_event.RoomPickerNewEventData
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventViewModel
+import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimePickerFragmentBinding
 import kotlinx.coroutines.flow.collectLatest

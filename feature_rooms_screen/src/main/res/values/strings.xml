@@ -64,16 +64,10 @@
     <string name="options_for_reminder_time_ten_minutes">10 minutes before</string>
     <string name="options_for_reminder_time_fifteen_minutes">15 minutes before</string>
     <string name="need_more_time_dialog_seconds">\ seconds</string>
-    <string name="event_cant_start_and_end_between_0_and_6_hours_message">The event can\'t start and end between 00.00 and 06.00.</string>
     <string name="options_for_reminder_time_thirty_minutes">30 minutes before</string>
     <string name="options_for_reminder_time_one_hour">1 hour before</string>
     <string name="event_cant_last_less_than_15_minutes_message">Minimum event period is 15 minutes. Please set another time.</string>
     <string name="cancel_button">cancel</string>
     <string name="ok_button">ok</string>
     <string name="time_picker_dialog_title">SELECT TIME</string>
-    <string name="event_cant_start_before_current_time_message">The event can\'t start before current time.</string>
-    <string name="event_cant_start_between_0_and_6_hours_message">The event can\'t start between 00.00 and 06.00.</string>
-    <string name="event_cant_end_before_it_starts_message">The event can\'t end before it starts.</string>
-    <string name="event_cant_last_longer_than_4_hours_message">The event can\'t last longer than 4 hours.</string>
-    <string name="event_cant_end_between_0_and_6_hours_message">The event can\'t end between 00.00 and 06.00.</string>
 </resources>

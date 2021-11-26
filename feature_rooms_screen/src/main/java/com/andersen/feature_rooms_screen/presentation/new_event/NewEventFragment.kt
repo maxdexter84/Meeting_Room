@@ -17,16 +17,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.domain.entity.NotificationData
-import com.andersen.feature_rooms_screen.domain.entity.TimePickerData
-import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
+import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
 import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
+import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.NotificationData
 import com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.NotificationHelper
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventViewModel
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
-import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
@@ -57,9 +57,6 @@ class NewEventFragment :
     private val viewModel: RoomsEventViewModel by viewModels {
         viewModelFactory
     }
-
-    /*@Inject
-    lateinit var viewModel: NewEventViewModel*/
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
@@ -92,6 +89,7 @@ class NewEventFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             chosenRoomTitle = args.roomTitle
+            newEventToolbar.toolbarSaveTitle.text = getString(R.string.new_event_toolbar)
             newEventToolbar.toolbarSaveCancel.setOnClickListener {
                 root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
@@ -153,9 +151,9 @@ class NewEventFragment :
             start_date_picker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             end_date_picker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             startTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).timeToString(
-                TimeUtilsConstants.TIME_FORMAT)
+                TIME_FORMAT)
             endTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).plusHours(1).timeToString(
-                TimeUtilsConstants.TIME_FORMAT)
+                TIME_FORMAT)
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
             eventRoomName.text = "Yellow"

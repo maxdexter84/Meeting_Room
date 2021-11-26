@@ -17,6 +17,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
 import com.google.android.material.datepicker.*
@@ -30,7 +31,6 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Modi
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
 import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
@@ -87,6 +87,7 @@ class ModifyUpcomingEventFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             eventRoom = args.upcomingEvent.eventRoom
+            modifyEventToolbar.toolbarSaveTitle.text = getString(R.string.modify_event_toolbar)
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
                 root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()

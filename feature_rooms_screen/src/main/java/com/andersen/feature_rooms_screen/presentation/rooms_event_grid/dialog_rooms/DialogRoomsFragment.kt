@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.domain.entity.Room
-import com.andersen.feature_rooms_screen.domain.entity.RoomPickerData
+import com.andersen.feature_rooms_screen.domain.entity.rooms_event_grid.RoomPickerData
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventViewModel
+import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.R

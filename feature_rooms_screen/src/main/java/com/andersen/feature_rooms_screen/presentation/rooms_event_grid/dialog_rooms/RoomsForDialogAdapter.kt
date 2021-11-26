@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.andersen.feature_rooms_screen.domain.entity.RoomPickerData
+import com.andersen.feature_rooms_screen.domain.entity.rooms_event_grid.RoomPickerData
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.DialogRoomsAdapterItemBinding
 
