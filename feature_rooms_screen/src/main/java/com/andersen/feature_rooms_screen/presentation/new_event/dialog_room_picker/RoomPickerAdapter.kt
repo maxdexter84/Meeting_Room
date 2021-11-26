@@ -12,10 +12,9 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimeAdap
 class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> Unit) :
     RecyclerView.Adapter<RoomPickerAdapter.RoomViewHolder>() {
 
-    var rooms = arrayListOf<RoomPickerNewEventData>()
+    var rooms = listOf<RoomPickerNewEventData>()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
-            rooms.clear()
             field = value
             notifyDataSetChanged()
         }
