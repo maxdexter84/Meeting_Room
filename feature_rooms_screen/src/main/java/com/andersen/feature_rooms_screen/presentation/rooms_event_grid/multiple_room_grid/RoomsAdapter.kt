@@ -1,12 +1,10 @@
-package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
+package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
-import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemRoomBinding
 import javax.inject.Inject
 

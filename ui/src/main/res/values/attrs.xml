@@ -32,10 +32,7 @@
     </declare-styleable>
     <declare-styleable name="EventRectangleView">
         <attr name="isUserOwnEvent" format="boolean" />
-        <attr name="topBordersIsVisible" format="boolean" />
-        <attr name="bottomBordersIsVisible" format="boolean" />
-        <attr name="startBordersIsVisible" format="boolean" />
-        <attr name="endBordersIsVisible" format="boolean" />
+        <attr name="colorEvent" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="IndicatorView">
