@@ -32,8 +32,8 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
-    private val _mutableRoom = MutableStateFlow<Room>(Room(0,8,8,"fg", "all frog", 12,false,false))
-    val room: StateFlow<Room> get() = _mutableRoom.asStateFlow()
+    private val _mutableRoom = MutableStateFlow<Room?>(null)
+    val room: StateFlow<Room?> get() = _mutableRoom.asStateFlow()
 
     private val _mutableRoomListByFloor = MutableStateFlow<List<Room>>(emptyList())
     val mutableRoomListByFloor: StateFlow<List<Room>> get() = _mutableRoomListByFloor.asStateFlow()
@@ -77,7 +77,7 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
-    fun getRoomsOnTheFloor(floor: Int?){
+    fun getRoomsOnTheFloor(floor: Int){
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)

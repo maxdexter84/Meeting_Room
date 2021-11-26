@@ -38,7 +38,6 @@ import javax.inject.Inject
 class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
 
     private var selectedDateForGrid: LocalDate? = null
-    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -63,7 +62,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         openDialogWithRooms()
         getEventsByDate()
         eventListByRoomObserver()
-        allRoomsOnTheFloorObserver()
+        observeRoomChange()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -215,11 +214,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun openDialogWithRooms() {
         with(binding) {
-            observeRoomChange()
             buttonDropDown.setOnClickListener {
                 findNavController().navigate(
                     RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
-                        eventRoom
+                        binding.buttonDropDown.text.toString()
                     )
                 )
             }
@@ -233,17 +231,23 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             ?.observe(viewLifecycleOwner) {
                 it?.let { it ->
                     binding.buttonDropDown.text = it
-                    eventRoom = it
-                    if(it.contains(getString(R.string.allString), true)){
-                        val floor = eventRoom.filter { char -> char.isDigit() }
-                        viewModel.getRoomsOnTheFloor(floor.toIntOrNull())
-                        allRoomsOnTheFloorObserver()
-                    }else{
-                        viewModel.getRoom(eventRoom)
-                        oneRoomStateObserver()
-                    }
+                    getSelectedRoomsFromDialog(it)
                 }
             }
+    }
+
+    private fun getSelectedRoomsFromDialog(roomTitle: String){
+        if(roomTitle.contains(getString(R.string.allString), true)){
+            var floor = roomTitle.filter { char -> char.isDigit() }
+            if(floor.isEmpty()){
+                floor = "$ALL_ROOMS_IN_OFFICE"
+            }
+            viewModel.getRoomsOnTheFloor(floor.toInt())
+            allRoomsOnTheFloorObserver()
+        }else{
+            viewModel.getRoom(roomTitle)
+            oneRoomStateObserver()
+        }
     }
 
     private fun getEventsByDate() {
@@ -289,8 +293,9 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun oneRoomStateObserver() {
         lifecycleScope.launch {
             viewModel.room.collectLatest {
-               checkEventRoom(it)
-                //TODO call fun show one room on the grid
+                it?.let {
+                    checkEventRoom(it)
+                }
             }
         }
     }
@@ -299,8 +304,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomListByFloor.collectLatest {
                 hideIconsForAllRooms()
-                it.forEach { Log.d("list", "${it}") }
-                //TODO call fun show allRoomsByTheFloor on the grid, for example: showRoomsOnTheGrid(it)
             }
         }
     }
@@ -308,5 +311,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     companion object {
         private const val DATE_FORMAT = "d/M/yyyy"
         const val ROOM_KEY = "ROOM_KEY"
+        const val ALL_ROOMS_IN_OFFICE = -1
     }
 }

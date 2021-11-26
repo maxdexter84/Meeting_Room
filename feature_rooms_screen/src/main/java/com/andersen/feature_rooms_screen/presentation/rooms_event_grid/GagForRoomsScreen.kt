@@ -36,10 +36,10 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
         }
     }
 
-    override fun getAllRoomsOnTheFloor(floor: Int?): List<Room> {
+    override fun getAllRoomsOnTheFloor(floor: Int): List<Room> {
         val listRoom = getRooms()
-        return if (floor == null){
-            getRooms()
+        return if (floor == RoomsEventGridFragment.ALL_ROOMS_IN_OFFICE){
+            listRoom
         } else{
             listRoom.filter { it.floor == floor }
         }
