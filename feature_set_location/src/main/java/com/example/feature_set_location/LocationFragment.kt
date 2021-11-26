@@ -11,7 +11,6 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.citySelectText.text = arguments?.getString(CITY_KEY) ?: ""
 
         binding.selectLayoutLocationFragment.setOnClickListener {
@@ -19,12 +18,17 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         }
 
         binding.confirmLocationFragment.setOnClickListener {
-            val uri = Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_landing_screen))
-            findNavController().navigate(uri)
+            navigateToDeepLink(resources.getString(R.string.bottom_navigation_deep_link))
         }
     }
 
+
     companion object {
         const val CITY_KEY = "CITY_KEY"
+    }
+
+    private fun navigateToDeepLink(link: String) {
+        val uri = Uri.parse(link)
+        findNavController().navigate(uri)
     }
 }

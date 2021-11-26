@@ -2,6 +2,7 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -38,7 +39,6 @@ import javax.inject.Inject
 class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
 
     private var selectedDateForGrid: LocalDate? = null
-    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -63,7 +63,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         openDialogWithRooms()
         getEventsByDate()
         eventListByRoomObserver()
-        observeViewModelState()
+        observeRoomChange()
     }
 
     override fun getComponent(): RoomsEventComponent =
@@ -216,11 +216,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun openDialogWithRooms() {
         with(binding) {
-            observeRoomChange()
             buttonDropDown.setOnClickListener {
                 findNavController().navigate(
                     RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
-                        eventRoom
+                        binding.buttonDropDown.text.toString()
                     )
                 )
             }
@@ -232,17 +231,25 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             ROOM_KEY
         )
             ?.observe(viewLifecycleOwner) {
-                it?.let {
+                it?.let { it ->
                     binding.buttonDropDown.text = it
-                    eventRoom = it
-                    if(it.contains(getString(R.string.allString), true)){
-                        //TODO request all rooms on the floor
-                        checkEventRoom(eventRoom)
-                    }else{
-                        viewModel.getRoom(eventRoom)
-                    }
+                    getSelectedRoomsFromDialog(it)
                 }
             }
+    }
+
+    private fun getSelectedRoomsFromDialog(roomTitle: String){
+        if(roomTitle.contains(getString(R.string.allString), true)){
+            var floor = roomTitle.filter { char -> char.isDigit() }
+            if(floor.isEmpty()){
+                floor = "$ALL_ROOMS_IN_OFFICE"
+            }
+            viewModel.getRoomsOnTheFloor(floor.toInt())
+            allRoomsOnTheFloorObserver()
+        }else{
+            viewModel.getRoom(roomTitle)
+            oneRoomStateObserver()
+        }
     }
 
     private fun getEventsByDate() {
@@ -250,27 +257,13 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
     }
 
-    private fun checkEventRoom(roomTitle: String) {
-        if (roomTitle.contains(getString(R.string.allString), true)) {
-            //TODO call fun show allRoomsByTheFloor on the grid
-            with(binding) {
-                iv_icon_capacity.visibility = View.GONE
-                iv_icon_projector.visibility = View.GONE
-                iv_icon_whiteboard.visibility = View.GONE
-                tvMaxCapacity.visibility = View.GONE
-            }
-        } else {
-            val room = viewModel.room.value
-            if (room != null) {
-                //TODO call fun show one room on the grid
-                checkWhiteboard(room)
-                checkProjector(room)
-                with(binding){
-                    ivIconCapacity.visibility = View.VISIBLE
-                    tvMaxCapacity.visibility = View.VISIBLE
-                    tvMaxCapacity.text = room.capacity.toString()
-                }
-            }
+    private fun checkEventRoom(room: Room) {
+        checkWhiteboard(room)
+        checkProjector(room)
+        with(binding) {
+            ivIconCapacity.visibility = View.VISIBLE
+            tvMaxCapacity.visibility = View.VISIBLE
+            tvMaxCapacity.text = room.capacity.toString()
         }
     }
 
@@ -290,12 +283,36 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun observeViewModelState() {
-        viewModel.room.observe(viewLifecycleOwner) { room -> checkEventRoom(room.title) }
+    private fun hideIconsForAllRooms() {
+        with(binding) {
+            iv_icon_capacity.visibility = View.GONE
+            iv_icon_projector.visibility = View.GONE
+            iv_icon_whiteboard.visibility = View.GONE
+            tvMaxCapacity.visibility = View.GONE
+        }
+    }
+
+    private fun oneRoomStateObserver() {
+        lifecycleScope.launch {
+            viewModel.room.collectLatest {
+                it?.let {
+                    checkEventRoom(it)
+                }
+            }
+        }
+    }
+
+    private fun allRoomsOnTheFloorObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableRoomListByFloor.collectLatest {
+                hideIconsForAllRooms()
+            }
+        }
     }
 
     companion object {
         private const val DATE_FORMAT = "d/M/yyyy"
         const val ROOM_KEY = "ROOM_KEY"
+        const val ALL_ROOMS_IN_OFFICE = -1
     }
 }
