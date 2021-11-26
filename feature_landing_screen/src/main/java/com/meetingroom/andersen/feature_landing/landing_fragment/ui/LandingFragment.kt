@@ -78,9 +78,7 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             elevation = 20f
             setBackgroundDrawable(null)
             bindingPopup.popupLocalSettings.setOnClickListener {
-                val uri =
-                    Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
-                findNavController().navigate(uri)
+                navigateToDeepLink(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
                 dismiss()
             }
             bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
@@ -90,5 +88,10 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             }
             showAsDropDown(view, 215, 0)
         }
+    }
+
+    private fun navigateToDeepLink(link: String){
+        val uri = Uri.parse(link)
+        findNavController().navigate(uri)
     }
 }

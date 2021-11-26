@@ -6,5 +6,5 @@
     <include app:graph="@navigation/my_space_screen_navigation" />
     <include app:graph="@navigation/rooms_screen_navigation" />
     <deepLink
-        app:uri="app://bottom_navigation" />
+        app:uri="@string/bottom_navigation_deep_link" />
 </navigation>

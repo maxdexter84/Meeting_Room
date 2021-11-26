@@ -9,7 +9,6 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 
 class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentBinding::inflate) {
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.citySelectText.text = arguments?.getString(CITY_KEY) ?: ""
@@ -19,13 +18,17 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         }
 
         binding.confirmLocationFragment.setOnClickListener {
-            val uri = Uri.parse("app://bottom_navigation")
-            findNavController().navigate(uri)
+            navigateToDeepLink(resources.getString(R.string.bottom_navigation_deep_link))
         }
     }
 
 
     companion object {
         const val CITY_KEY = "CITY_KEY"
+    }
+
+    private fun navigateToDeepLink(link: String) {
+        val uri = Uri.parse(link)
+        findNavController().navigate(uri)
     }
 }
