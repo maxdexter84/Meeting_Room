@@ -21,6 +21,7 @@ import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view.time_line.TimeLineView
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -90,8 +91,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun eventListObserver() {
         lifecycleScope.launch {
-            viewModel.mutableRoomEventList.collectLatest {
-                viewModel.mainEventAdapter.eventList = it
+            viewModel.mutableRoomEventListByRoom.collectLatest {
+                val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
+                viewModel.mainEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid, binding.oneWeekCalendar.currentDate)
+                viewModel.mainEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
     }
@@ -100,7 +103,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
-                viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid)
+                viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid,binding.oneWeekCalendar.currentDate)
                 viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }

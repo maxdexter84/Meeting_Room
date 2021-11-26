@@ -1,24 +1,17 @@
-package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event
+package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
-import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventSingleRoomBinding
+import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
-import javax.inject.Inject
 
-class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var eventList = emptyList<RoomEventForGrid>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-    var emptyEventList = emptyList<EmptyRoomEventForGrid>()
+class InnerEventAdapter(
+    val eventList: List<RoomEventForGrid>,
+    val emptyEventList: List<EmptyRoomEventForGrid>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -27,7 +20,7 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
                     ItemGagEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 )
             else -> EventsRoomViewHolder(
-                ItemEventSingleRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
         }
     }
@@ -39,7 +32,7 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         }
     }
 
-    override fun getItemCount() =  eventList.size + emptyEventList.size
+    override fun getItemCount() = eventList.size + emptyEventList.size
 
     override fun getItemViewType(position: Int): Int {
         return when {
@@ -48,20 +41,22 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         }
     }
 
-    inner class EventsRoomViewHolder(private val binding: ItemEventSingleRoomBinding) :
+    inner class EventsRoomViewHolder(private val binding: ItemEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            with(binding.root) {
+            with(binding) {
                 when (position) {
                     1 -> {
-                        setEventDataInItem(eventList[0], binding)
-                        layoutParams.height = eventList[0].heightEventItem
+                        root.layoutParams.height = eventList[0].heightEventItem
+                        eventView.isUserOwnEvent = eventList[0].isUserOwnEvent
+                        eventView.colorEvent = eventList[0].colorRoom
                     }
                     else
                     -> {
-                        setEventDataInItem(eventList[(position - 1) / 2], binding)
-                        layoutParams.height = eventList[(position - 1) / 2].heightEventItem
+                        root.layoutParams.height = eventList[(position - 1) / 2].heightEventItem
+                        eventView.isUserOwnEvent = eventList[(position - 1) / 2].isUserOwnEvent
+                        eventView.colorEvent = eventList[(position - 1) / 2].colorRoom
                     }
                 }
             }
@@ -76,19 +71,8 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         }
     }
 
-    private fun setEventDataInItem(roomEvent: RoomEventForGrid, binding: ItemEventSingleRoomBinding) {
-        with(binding) {
-            eventCityColourLineUpcoming.setBackgroundColor(roomEvent.colorRoom)
-            nameOfBooker.text = roomEvent.userFullName
-            roleOfBooker.text = roomEvent.userPosition
-            eventTitleUpcoming.visibility = roomEvent.titleVisibility
-            eventTitleUpcoming.text = roomEvent.title
-        }
-    }
-
     companion object {
         private const val EMPTY_EVENT_VIEW_HOLDER_TYPE = 1
         private const val EVENT_VIEW_HOLDER_TYPE = 2
     }
-
 }
