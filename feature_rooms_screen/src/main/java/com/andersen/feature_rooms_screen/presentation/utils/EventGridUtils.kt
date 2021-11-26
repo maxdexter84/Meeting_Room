@@ -51,7 +51,7 @@ private fun calculateHeightEmptyEventItem(index: Int, list: List<RoomEvent>, hei
                 Duration.between(
                     list.last().endDateTime.stringToTime(TIME_DATE_FORMAT),
                     TimeUtilsConstants.END_WORK_TIME_IN_OFFICE.stringToTime(TimeUtilsConstants.TIME_FORMAT)
-                ).toMinutes() + 2,
+                ).toMinutes(),
                 heightSingleRoomGrid
             )
         }
