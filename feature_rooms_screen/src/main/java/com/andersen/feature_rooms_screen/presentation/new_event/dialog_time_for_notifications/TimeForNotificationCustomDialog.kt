@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
+import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.CustomDialogTimeForNotificationBinding
@@ -15,12 +17,25 @@ class TimeForNotificationCustomDialog :
         CustomDialogTimeForNotificationBinding::inflate
     ) {
 
+    private val args: TimeForNotificationCustomDialogArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isCancelable = false
-        binding.customDialogButtonDone.setOnClickListener { navigate() }
+        with (binding) {
+            if (args.userSelectedTime.isNotBlank()) {
+                userCustomTimeEditText.setText(args.userSelectedTime.filter { it.isDigit() })
+                when (args.userSelectedTime.split(" ")[1]) {
+                    in resources.getStringArray(R.array.arrayMinutes) -> customTimeInMinutes.isChecked = true
+                    in resources.getStringArray(R.array.arrayHours) -> customTimeInHours.isChecked = true
+                    in resources.getStringArray(R.array.arrayDays) -> customTimeInDays.isChecked = true
+                }
+            }
+            customDialogButtonDone.setOnClickListener { navigate() }
+        }
         editTextChangeListener()
     }
+
 
     private fun navigate() {
         with(binding) {
@@ -52,7 +67,7 @@ class TimeForNotificationCustomDialog :
                     else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
                 }
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment.TIME_KEY,
+                    NewEventFragment.TIME_KEY,
                     TimePickerData(
                         String.format(
                             resources.getString(R.string.user_selected_custom_time_option),
