@@ -114,8 +114,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun eventListByRoomObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
-// TODO               hardcode "3500" will change when in timeLineView add method for take height timeLineView
-                 val heightSingleRoomGrid = 3500
+                val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
                 viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid)
                 viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }

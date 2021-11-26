@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/time_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dimens_58_dp"
         android:layout_height="@dimen/dimens_16_dp"
         android:paddingStart="@dimen/dimens_10_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
@@ -15,6 +15,17 @@
         android:textColor="@color/text_unvisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Time"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:background="@color/cream_dark"
+        app:layout_constraintStart_toEndOf="@id/time_text_view"
+        app:layout_constraintTop_toTopOf="@id/time_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/time_text_view"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
