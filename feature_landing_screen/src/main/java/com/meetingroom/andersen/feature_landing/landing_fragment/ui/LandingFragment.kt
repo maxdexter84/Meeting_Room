@@ -1,11 +1,13 @@
 package com.meetingroom.andersen.feature_landing.landing_fragment.ui
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.navigation.fragment.findNavController
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -75,7 +77,10 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             overlapAnchor = true
             elevation = 20f
             setBackgroundDrawable(null)
-            bindingPopup.popupLocalSettings.setOnClickListener { dismiss() }
+            bindingPopup.popupLocalSettings.setOnClickListener {
+                navigateToDeepLink(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
+                dismiss()
+            }
             bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()
@@ -83,5 +88,10 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             }
             showAsDropDown(view, 215, 0)
         }
+    }
+
+    private fun navigateToDeepLink(link: String){
+        val uri = Uri.parse(link)
+        findNavController().navigate(uri)
     }
 }
