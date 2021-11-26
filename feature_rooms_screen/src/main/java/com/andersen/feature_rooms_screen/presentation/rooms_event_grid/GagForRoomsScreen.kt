@@ -51,8 +51,8 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
                     room = "Blue",
                     colorRoom = Color.BLUE,
                     roomId = 1,
-                    startDateTime = "2021-11-16T11:30:00.777Z",
-                    endDateTime = "2021-11-16T12:50:00.777Z",
+                    startDateTime = "2021-11-16T08:00:00.777Z",
+                    endDateTime = "2021-11-16T09:00:00.777Z",
                     status = getStatus(i),
                     title = getTitle(i),
                     userEmail = getUserEmail(i),
@@ -63,7 +63,70 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
                     isUserOwnEvent = getUserEvent(i)
                 )
             )
-        }
+
+            list.add(
+                RoomEvent(
+                    date = getDate(),
+                    description = getDescription(i),
+                    id = i.toLong(),
+                    room = "Blue",
+                    colorRoom = Color.BLUE,
+                    roomId = 1,
+                    startDateTime = "2021-11-16T22:00:00.777Z",
+                    endDateTime = "2021-11-16T23:00:00.777Z",
+                    status = getStatus(i),
+                    title = getTitle(i),
+                    userEmail = getUserEmail(i),
+                    userFullName = getUserFullName(i),
+                    userId = getUserId(i),
+                    userPosition = getUserPosition(i),
+                    userSkype = getUserSkype(i),
+                    isUserOwnEvent = getUserEvent(i)
+                )
+            )
+
+            list.add(
+                RoomEvent(
+                    date = getDate(),
+                    description = getDescription(i),
+                    id = i.toLong(),
+                    room = "Blue",
+                    colorRoom = Color.BLUE,
+                    roomId = 1,
+                    startDateTime = "2021-11-16T15:00:00.777Z",
+                    endDateTime = "2021-11-16T16:00:00.777Z",
+                    status = getStatus(i),
+                    title = getTitle(i),
+                    userEmail = getUserEmail(i),
+                    userFullName = getUserFullName(i),
+                    userId = getUserId(i),
+                    userPosition = getUserPosition(i),
+                    userSkype = getUserSkype(i),
+                    isUserOwnEvent = getUserEvent(i)
+                )
+            )
+        list.add(
+            RoomEvent(
+                date = getDate(),
+                description = getDescription(i),
+                id = i.toLong(),
+                room = "Blue",
+                colorRoom = Color.BLUE,
+                roomId = 1,
+                startDateTime = "2021-11-16T13:00:00.777Z",
+                endDateTime = "2021-11-16T14:00:00.777Z",
+                status = getStatus(i),
+                title = getTitle(i),
+                userEmail = getUserEmail(i),
+                userFullName = getUserFullName(i),
+                userId = getUserId(i),
+                userPosition = getUserPosition(i),
+                userSkype = getUserSkype(i),
+                isUserOwnEvent = getUserEvent(i)
+            )
+        )
+    }
+
         return list
     }
 

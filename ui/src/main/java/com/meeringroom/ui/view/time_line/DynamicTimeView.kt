@@ -17,18 +17,24 @@ class DynamicTimeView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     val binding = ViewDynamicTimeItemBinding.inflate(LayoutInflater.from(context), this, true)
-    private val viewHeight = resources.getDimensionPixelSize(R.dimen.dimens_34_dp)
+    private val timeHeight = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
+    var viewHeight = resources.getDimensionPixelSize(R.dimen.dimens_66_dp)
+        set(value) {
+            field = value - 2 * timeHeight
+            layoutParams.height = value - timeHeight
+        }
+
     private val minSpace = resources.getDimensionPixelSize(R.dimen.dimens_4_dp)
-    private var startTimePadding = 0
-    private var endTimePadding = 0
+    private var startTimeMargin = 0
+    private var endTimeMargin = 0
 
     var startTime: LocalTime? = null
         set(value) {
             field = value
             if (value != null) {
                 binding.startTimeTextView.text = value.timeToString(TIME_FORMAT)
-                startTimePadding = getPaddingByMinute(value.minute)
-                setPaddings()
+                startTimeMargin = getMarginByMinute(value.minute)
+                setMargins()
             } else {
                 binding.startTimeTextView.text = ""
             }
@@ -39,39 +45,39 @@ class DynamicTimeView @JvmOverloads constructor(
             field = value
             if (value != null) {
                 binding.endTimeTextView.text = value.timeToString(TIME_FORMAT)
-                endTimePadding = getPaddingByMinute(value.minute)
-                setPaddings()
+                endTimeMargin = getMarginByMinute(value.minute)
+                setMargins()
             } else {
                 binding.endTimeTextView.text = ""
             }
         }
 
-    private fun setPaddings() {
+    private fun setMargins() {
         checkSpace()
         with(binding.startTimeTextView) {
-            setPadding(paddingStart, startTimePadding, paddingEnd, paddingBottom)
+            (layoutParams as MarginLayoutParams).topMargin = startTimeMargin
         }
         with(binding.endTimeTextView) {
-            setPadding(paddingStart, endTimePadding, paddingEnd, paddingBottom)
+            (layoutParams as MarginLayoutParams).topMargin = endTimeMargin
         }
     }
 
-    private fun getPaddingByMinute(minute: Int): Int {
+    private fun getMarginByMinute(minute: Int): Int {
         return when (minute) {
-            in 0..MIN_MINUTE_WITH_PADDING -> 0
-            in MIN_MINUTE_WITH_PADDING..MAX_MINUTE_WITH_PADDING -> viewHeight * minute / MINUTES_IN_HOUR
+            in 0..MIN_MINUTE_WITH_MARGIN -> 0
+            in MIN_MINUTE_WITH_MARGIN..MAX_MINUTE_WITH_MARGIN -> viewHeight * minute / MINUTES_IN_HOUR
             else -> viewHeight - minSpace
         }
     }
 
     private fun checkSpace() {
-        if (kotlin.math.abs(startTimePadding - endTimePadding) > minSpace) {
+        if (kotlin.math.abs(startTimeMargin - endTimeMargin) > minSpace) {
             when {
-                startTimePadding < minSpace -> endTimePadding += minSpace
-                endTimePadding > viewHeight - minSpace -> startTimePadding -= minSpace
+                startTimeMargin < minSpace -> endTimeMargin += minSpace
+                endTimeMargin > viewHeight - minSpace -> startTimeMargin -= minSpace
                 else -> {
-                    endTimePadding += minSpace / 2
-                    startTimePadding -= minSpace / 2
+                    endTimeMargin += minSpace / 2
+                    startTimeMargin -= minSpace / 2
                 }
             }
         }
@@ -80,7 +86,7 @@ class DynamicTimeView @JvmOverloads constructor(
     companion object {
         private const val TIME_FORMAT = "HH:mm"
         private const val MINUTES_IN_HOUR = 60
-        private const val MIN_MINUTE_WITH_PADDING = 15
-        private const val MAX_MINUTE_WITH_PADDING = 45
+        private const val MIN_MINUTE_WITH_MARGIN = 15
+        private const val MAX_MINUTE_WITH_MARGIN = 45
     }
 }

@@ -77,13 +77,15 @@ class TimeLineView @JvmOverloads constructor(
     private var endHour = DEFAULT_END_HOUR
     private var startHourToShow = DEFAULT_START_HOUR_TO_SHOW
     private var timeLineAdapter: TimeLineAdapter
+    var hourHeight = resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
 
     init {
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
         timeLineAdapter = TimeLineAdapter(timeItems,
             ContextCompat.getColor(context, R.color.yellow),
-            ContextCompat.getColor(context, R.color.text_unvisible))
+            ContextCompat.getColor(context, R.color.text_unvisible),
+            hourHeight)
         binding.rvTime.apply {
             adapter = timeLineAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -95,6 +97,7 @@ class TimeLineView @JvmOverloads constructor(
             startHour = getInteger(R.styleable.TimeLineView_startHour, DEFAULT_START_HOUR)
             endHour = getInteger(R.styleable.TimeLineView_endHour, DEFAULT_END_HOUR)
             startHourToShow = getInteger(R.styleable.TimeLineView_startHourToShow, DEFAULT_START_HOUR_TO_SHOW)
+            hourHeight = getDimensionPixelSize(R.styleable.TimeLineView_hourHeight, resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID))
         }
     }
 
@@ -136,9 +139,15 @@ class TimeLineView @JvmOverloads constructor(
         }
     }
 
+    fun getAllHoursHeight(): Int {
+        return hourHeight * timeItems.count { it is EmptyTimeItem }
+    }
+
     companion object {
         private const val DEFAULT_START_HOUR = 6
         private const val DEFAULT_END_HOUR = 24
         private const val DEFAULT_START_HOUR_TO_SHOW = 8
+        private val DEFAULT_HOUR_HEIGHT_ID = R.dimen.dimens_66_dp
+        private val DEFAULT_TIME_HEIGHT_ID = R.dimen.dimens_16_dp
     }
 }

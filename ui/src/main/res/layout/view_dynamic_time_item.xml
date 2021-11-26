@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/dimens_50_dp"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
+
     <TextView
         android:id="@+id/start_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="@dimen/dimens_16_dp"
         android:paddingStart="@dimen/dimens_10_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
@@ -20,6 +22,7 @@
         android:id="@+id/end_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="@dimen/dimens_16_dp"
         android:paddingStart="@dimen/dimens_10_dp"
         android:paddingEnd="@dimen/dimens_10_dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"

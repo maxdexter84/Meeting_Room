@@ -7,9 +7,10 @@ import com.example.core_module.utils.TimeUtilsConstants.OFFICE_WORKING_TIME_IN_M
 import com.example.core_module.utils.TimeUtilsConstants.TIME_DATE_FORMAT
 import com.example.core_module.utils.stringToTime
 import java.time.Duration
+import kotlin.math.roundToInt
 
 fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
-    map {
+    sortedBy { it.startDateTime }.map {
         val minuteInterval = calculateMinuteInterval(it)
         RoomEventForGrid(
             userFullName = it.userFullName,
@@ -24,13 +25,14 @@ fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
 fun List<RoomEvent>.toEmptyEventListForGrid(heightSingleRoomGrid: Int) =
     if (isEmpty()) listOf(heightSingleRoomGrid)
     else {
-        val list = mutableListOf<Int>()
+        val sortedEventList = sortedBy { it.startDateTime }
+        val listEmptyEvent = mutableListOf<Int>()
         for (index in 0..size) {
-            list.add(
-                calculateHeightEmptyEventItem(index, this, heightSingleRoomGrid)
+            listEmptyEvent.add(
+                calculateHeightEmptyEventItem(index, sortedEventList, heightSingleRoomGrid)
             )
         }
-        list.toList()
+        listEmptyEvent.toList()
     }
 
 private fun calculateHeightEmptyEventItem(index: Int, list: List<RoomEvent>, heightSingleRoomGrid: Int) =
@@ -58,7 +60,7 @@ private fun calculateHeightEmptyEventItem(index: Int, list: List<RoomEvent>, hei
                 Duration.between(
                     list[(index - 1)].endDateTime.stringToTime(TIME_DATE_FORMAT),
                     list[(index)].startDateTime.stringToTime(TIME_DATE_FORMAT)
-                ).toMinutes(),
+                ).toMinutes() ,
                 heightSingleRoomGrid
             )
         }
@@ -69,11 +71,11 @@ private fun checkTitleVisibility(minuteInterval: Long) = if (minuteInterval < 30
 private fun checkTitleLength(minuteInterval: Long, title: String) = if (minuteInterval in 30..59) "${title.substring(0, 30)}..." else title
 
 private fun calculateHeightEventItem(minuteInterval: Long, heightSingleRoomGrid: Int) =
-    (heightSingleRoomGrid * (minuteInterval.toDouble() / OFFICE_WORKING_TIME_IN_MINUTES)).toInt()
+    (heightSingleRoomGrid * (minuteInterval.toDouble() / OFFICE_WORKING_TIME_IN_MINUTES)).roundToInt()
 
 private fun calculateMinuteInterval(roomEvent: RoomEvent) = Duration.between(
-    roomEvent.startDateTime.stringToTime(TimeUtilsConstants.TIME_DATE_FORMAT),
-    roomEvent.endDateTime.stringToTime(TimeUtilsConstants.TIME_DATE_FORMAT)
+    roomEvent.startDateTime.stringToTime(TIME_DATE_FORMAT),
+    roomEvent.endDateTime.stringToTime(TIME_DATE_FORMAT)
 ).toMinutes()
 
 data class RoomEventForGrid(
