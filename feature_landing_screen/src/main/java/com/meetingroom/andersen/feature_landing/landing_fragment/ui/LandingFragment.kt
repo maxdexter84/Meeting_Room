@@ -84,6 +84,7 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()
+                navigateToDeepLink(resources.getString(R.string.deeplink_uri_login_screen))
                 dismiss()
             }
             showAsDropDown(view, 215, 0)

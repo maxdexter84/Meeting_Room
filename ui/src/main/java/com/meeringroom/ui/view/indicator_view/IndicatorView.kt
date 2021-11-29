@@ -116,7 +116,7 @@ class IndicatorView @JvmOverloads constructor(
             if (it != this) it.clearFigure()
         }
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
+            MotionEvent.ACTION_UP -> {
                 this.parent.requestDisallowInterceptTouchEvent(true)
                 touchStart()
             }
@@ -125,7 +125,6 @@ class IndicatorView @JvmOverloads constructor(
                 touchMove()
             }
             else -> {
-                this.parent.requestDisallowInterceptTouchEvent(true)
             }
         }
         return true
@@ -192,7 +191,8 @@ class IndicatorView @JvmOverloads constructor(
         currentYTop = 0f
         currentYBottom = 0f
         rectangleCreated = false
-        invalidate()
+
+        postInvalidate()
     }
 
     private fun createSquare(height: Float) {
