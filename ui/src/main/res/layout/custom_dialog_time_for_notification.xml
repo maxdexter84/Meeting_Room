@@ -27,9 +27,9 @@
         android:background="@android:color/transparent"
         android:inputType="number"
         android:maxLength="3"
-        app:layout_constraintBottom_toTopOf="@+id/view_custom_dialog_edit_text_line"
-        app:layout_constraintEnd_toEndOf="@+id/view_custom_dialog_edit_text_line"
-        app:layout_constraintStart_toStartOf="@+id/view_custom_dialog_edit_text_line"
+        app:layout_constraintBottom_toTopOf="@id/view_custom_dialog_edit_text_line"
+        app:layout_constraintEnd_toEndOf="@id/view_custom_dialog_edit_text_line"
+        app:layout_constraintStart_toStartOf="@id/view_custom_dialog_edit_text_line"
         tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <View
@@ -42,7 +42,7 @@
         android:background="@color/enabled_bell_colour"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_custom_dialog_title" />
+        app:layout_constraintTop_toBottomOf="@id/textView_custom_dialog_title" />
 
     <RadioGroup
         android:id="@+id/time_format_custom_dialog"
@@ -56,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_edit_text_line">
+        app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_edit_text_line">
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/custom_time_in_minutes"
@@ -94,7 +94,7 @@
         android:background="@color/color_for_popup_window_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_format_custom_dialog" />
+        app:layout_constraintTop_toBottomOf="@id/time_format_custom_dialog" />
 
     <TextView
         android:id="@+id/custom_dialog_button_done"
@@ -106,6 +106,6 @@
         android:background="@drawable/ic_button_custom_dialog_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_divider" />
+        app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

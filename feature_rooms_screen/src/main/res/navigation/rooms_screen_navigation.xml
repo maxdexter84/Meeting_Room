@@ -39,10 +39,17 @@
             app:destination="@id/roomPickerDialogFragment" />
         <action
             android:id="@+id/action_newEventFragment_to_timeForNotificationDialog"
-            app:destination="@id/timeForNotificationDialog" />
+            app:destination="@id/timeForNotificationDialogNavigation">
+            <argument
+                android:name="key"
+                app:argType="string"/>
+            <argument
+                android:name="userSelectedTime"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_newEventFragment_to_needMoreTimeDialog"
-            app:destination="@id/need_more_time_dialog_navigation" />
+            app:destination="@id/needMoreTimeDialogNavigation" />
     </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
@@ -69,25 +76,6 @@
             android:name="userRoom"
             app:argType="string" />
     </dialog>
-    <dialog
-        android:id="@+id/timeForNotificationDialog"
-        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.TimeForNotificationDialog"
-        android:label="TimeForNotificationDialog" >
-        <argument
-            android:name="userSelectedTime"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_timeForNotificationDialog_to_timeForNotificationCustomDialog"
-            app:destination="@id/timeForNotificationCustomDialog"
-            app:popUpToInclusive="false" />
-    </dialog>
-    <dialog
-        android:id="@+id/timeForNotificationCustomDialog"
-        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.TimeForNotificationCustomDialog"
-        android:label="TimeForNotificationCustomDialog">
-        <argument
-            android:name="userSelectedTime"
-            app:argType="string" />
-    </dialog>
+    <include app:graph="@navigation/time_for_notification_dialog_navigation"/>
     <include app:graph="@navigation/need_more_time_dialog_navigation"/>
 </navigation>

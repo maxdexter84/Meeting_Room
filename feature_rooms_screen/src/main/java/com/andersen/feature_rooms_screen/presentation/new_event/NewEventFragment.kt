@@ -17,13 +17,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
 import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
-import com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.NotificationData
-import com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.NotificationHelper
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
@@ -111,6 +111,7 @@ class NewEventFragment :
             reminderLeftTime.setOnClickListener {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToTimeForNotificationDialog(
+                        TIME_KEY,
                         eventReminderTime
                     )
                 )
@@ -137,7 +138,7 @@ class NewEventFragment :
         addLifecycleObserver()
         view.setOnTouchListener { _: View, _: MotionEvent ->
             setTimeOut()
-            true
+            EVENT_IS_HANDLED
         }
     }
 
@@ -375,6 +376,7 @@ class NewEventFragment :
         private const val USER_INACTIVITY_LIMIT = 30000L
         private const val DEFAULT_HOURS_EVENT_LENGTH = 1L
         private const val MONTH_VALUE_OFFSET = 1
+        private const val EVENT_IS_HANDLED = true
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")

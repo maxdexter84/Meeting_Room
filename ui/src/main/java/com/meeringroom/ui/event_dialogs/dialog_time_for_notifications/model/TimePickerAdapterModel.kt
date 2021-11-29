@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model
 
 sealed class TimePickerAdapterModel(val title : String, var isSelected: Boolean = false)
 class Never(title: String, isSelected: Boolean = false) : TimePickerAdapterModel(title, isSelected)

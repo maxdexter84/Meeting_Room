@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.domain.entity.new_event
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

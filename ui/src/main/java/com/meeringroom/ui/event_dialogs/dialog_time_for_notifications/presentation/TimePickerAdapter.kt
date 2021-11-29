@@ -1,11 +1,11 @@
-package com.meetingroom.andersen.feature_landing.time_for_notification_dialog.ui
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.meetingroom.andersen.feature_landing.databinding.RoomAndTimeAdapterItemBinding
-import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerAdapterModel
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerAdapterModel
+import com.meetingroom.ui.databinding.RoomAndTimeAdapterItemBinding
 
 class TimePickerAdapter(private val onItemSelected: (TimePickerAdapterModel) -> Unit) :
     RecyclerView.Adapter<TimePickerAdapter.TimePickerViewHolder>() {

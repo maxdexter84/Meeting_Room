@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -10,7 +10,8 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.meetingroom.andersen.feature_rooms_screen.R
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
+import com.meetingroom.ui.R
 
 class NotificationHelper(private val context: Context) {
 
@@ -51,7 +52,7 @@ class NotificationHelper(private val context: Context) {
                     notificationData.remainingTime,
                 )
             val intent =
-                Intent(notificationHelper.context, com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.ReceiverForUpcomingEvent::class.java).apply {
+                Intent(notificationHelper.context, ReceiverForUpcomingEvent::class.java).apply {
                     putExtra(REMINDER_NOTIFICATION_TITLE, notificationData.title)
                     putExtra(REMINDER_NOTIFICATION_DESCRIPTION, notificationDescription)
                 }

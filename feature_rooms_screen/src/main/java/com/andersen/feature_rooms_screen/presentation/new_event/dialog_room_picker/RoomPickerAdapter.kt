@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.new_event.RoomPickerNewEventData
 import com.meetingroom.andersen.feature_rooms_screen.R
-import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimeAdapterItemBinding
+import com.meetingroom.ui.databinding.RoomAndTimeAdapterItemBinding
 
 class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> Unit) :
     RecyclerView.Adapter<RoomPickerAdapter.RoomViewHolder>() {

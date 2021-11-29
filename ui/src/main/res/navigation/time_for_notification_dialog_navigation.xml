@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/timeForNotificationDialogNavigation"
+    app:startDestination="@id/timeForNotificationDialog">
+    <dialog
+        android:id="@+id/timeForNotificationDialog"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.TimeForNotificationDialog"
+        android:label="TimeForNotificationDialog" >
+        <argument
+            android:name="key"
+            app:argType="string"/>
+        <argument
+            android:name="userSelectedTime"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_timeForNotificationDialog_to_timeForNotificationCustomDialog"
+            app:destination="@id/timeForNotificationCustomDialog"
+            app:popUpToInclusive="false" />
+    </dialog>
+    <dialog
+        android:id="@+id/timeForNotificationCustomDialog"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.TimeForNotificationCustomDialog"
+        android:label="TimeForNotificationCustomDialog">
+        <argument
+            android:name="key"
+            app:argType="string"/>
+        <argument
+            android:name="userSelectedTime"
+            app:argType="string" />
+    </dialog>
+</navigation>

@@ -1,6 +1,7 @@
-package com.andersen.feature_rooms_screen.domain.entity.new_event
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model
 
-import com.meetingroom.andersen.feature_rooms_screen.R
+import com.meetingroom.ui.R
+
 
 sealed class UserTimeTypes(val id: Int) {
     class Never : UserTimeTypes(R.string.reminder_disabled_text_for_time)

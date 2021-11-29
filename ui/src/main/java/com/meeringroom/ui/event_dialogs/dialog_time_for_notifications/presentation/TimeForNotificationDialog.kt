@@ -1,14 +1,13 @@
-package com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation
 
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.domain.entity.new_event.TimePickerData
-import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.*
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
-import com.meetingroom.andersen.feature_rooms_screen.R
-import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimePickerFragmentBinding
+import com.meetingroom.ui.R
+import com.meetingroom.ui.databinding.RoomAndTimePickerFragmentBinding
 
 class TimeForNotificationDialog :
     BaseDialogFragment<RoomAndTimePickerFragmentBinding>(RoomAndTimePickerFragmentBinding::inflate) {
@@ -61,7 +60,7 @@ class TimeForNotificationDialog :
 
     private fun navigateBack(title: String, time: Int) {
         findNavController().previousBackStackEntry?.savedStateHandle?.set(
-            NewEventFragment.TIME_KEY,
+            args.key,
             TimePickerData(title, time, true)
         )
         findNavController().popBackStack()
@@ -70,6 +69,7 @@ class TimeForNotificationDialog :
     private fun navigateToCustomDialog() {
         dismiss()
         findNavController().navigate(TimeForNotificationDialogDirections.actionTimeForNotificationDialogToTimeForNotificationCustomDialog(
+            args.key,
             if (adapterModels.find { it is Custom }?.isSelected == true) args.userSelectedTime else ""
         ))
     }

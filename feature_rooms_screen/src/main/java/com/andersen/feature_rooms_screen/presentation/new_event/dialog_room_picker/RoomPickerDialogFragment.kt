@@ -13,7 +13,7 @@ import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventCompone
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
-import com.meetingroom.andersen.feature_rooms_screen.databinding.RoomAndTimePickerFragmentBinding
+import com.meetingroom.ui.databinding.RoomAndTimePickerFragmentBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.x.XInjectionManager

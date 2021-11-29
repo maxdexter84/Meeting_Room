@@ -1,4 +1,4 @@
-package com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model
 
 data class NotificationData (
     val title: String,

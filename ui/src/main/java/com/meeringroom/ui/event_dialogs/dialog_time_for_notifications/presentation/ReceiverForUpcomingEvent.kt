@@ -1,12 +1,11 @@
-package com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications
+package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
-import com.meetingroom.andersen.feature_rooms_screen.R
+import com.meetingroom.ui.R
 
 class ReceiverForUpcomingEvent : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {

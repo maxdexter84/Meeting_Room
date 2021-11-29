@@ -22,6 +22,7 @@ import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
 import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
@@ -33,7 +34,6 @@ import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.present
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
-import com.meetingroom.andersen.feature_landing.time_for_notification_dialog.model.TimePickerData
 import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -101,6 +101,7 @@ class ModifyUpcomingEventFragment :
             setReminder.setOnClickListener {
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
+                        TIME_KEY,
                         eventReminderTime
                     )
                 )

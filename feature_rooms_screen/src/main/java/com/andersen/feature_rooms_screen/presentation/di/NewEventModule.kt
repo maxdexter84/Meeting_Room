@@ -1,7 +1,7 @@
 package com.andersen.feature_rooms_screen.presentation.di
 
 import android.content.Context
-import com.andersen.feature_rooms_screen.presentation.new_event.dialog_time_for_notifications.NotificationHelper
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import dagger.Module
 import dagger.Provides
 

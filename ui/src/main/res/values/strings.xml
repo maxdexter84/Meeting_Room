@@ -23,6 +23,58 @@
     <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
     <string name="session_expired_dialog_button">Got it</string>
 
+    <string name="event_upcoming_notification_description">%1$s room, %2$s.\nYour event starts in %3$s.</string>
+    <string name="notification_channel_reminder_name">MEETING ROOMS</string>
+    <string name="notification_channel_reminder_description">This is the channel for upcoming events reminders</string>
+    <string name="reminder_disabled_text_for_time">Never</string>
+    <string name="reminder_custom_text_for_time">Custom...</string>
+    <string name="custom_time_select_type_no_option_error">No such option</string>
+    <string name="before">before</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="shortMinute">m</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="shortHour">h</string>
+    <string name="day">day</string>
+    <string name="days">days</string>
+    <string name="shortDay">d</string>
+    <plurals name="amountOfMinutes">
+        <item quantity="one">@string/minute</item>
+        <item quantity="other">@string/minutes</item>
+    </plurals>
+    <plurals name="amountOfHours">
+        <item quantity="one">@string/hour</item>
+        <item quantity="other">@string/hours</item>
+    </plurals>
+    <plurals name="amountOfDays">
+        <item quantity="one">@string/day</item>
+        <item quantity="other">@string/days</item>
+    </plurals>
+    <string-array name="arrayMinutes">
+        <item>@string/minute</item>
+        <item>@string/minutes</item>
+    </string-array>
+    <string-array name="arrayHours">
+        <item>@string/hour</item>
+        <item>@string/hours</item>
+    </string-array>
+    <string-array name="arrayDays">
+        <item>@string/day</item>
+        <item>@string/days</item>
+    </string-array>
+    <string name="options_for_reminder_time_one_minute">1 minute before</string>
+    <string name="options_for_reminder_time_five_minutes">5 minutes before</string>
+    <string name="options_for_reminder_time_ten_minutes">10 minutes before</string>
+    <string name="options_for_reminder_time_fifteen_minutes">15 minutes before</string>
+    <string name="need_more_time_dialog_seconds">\ seconds</string>
+    <string name="options_for_reminder_time_thirty_minutes">30 minutes before</string>
+    <string name="options_for_reminder_time_one_hour">1 hour before</string>
+    <string name="custom_notifications">Custom notifications</string>
+    <string name="custom_dialog_radio_button_minutes">Minutes before</string>
+    <string name="custom_dialog_radio_button_hours">Hours</string>
+    <string name="custom_dialog_radio_button_days">Days</string>
+
     <string name="deeplink_uri_landing_screen">"ui://landingScreenFragment"</string>
     <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>
     <string name="deeplink_uri_my_space_fragment">"feature_landing_screen://landingFragment"</string>
