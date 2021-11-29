@@ -11,11 +11,9 @@ import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.CustomDialogTimeForNotificationBinding
 
-
-class TimeForNotificationCustomDialog :
-    BaseDialogFragment<CustomDialogTimeForNotificationBinding>(
+class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNotificationBinding> (
         CustomDialogTimeForNotificationBinding::inflate
-    ) {
+) {
 
     private val args: TimeForNotificationCustomDialogArgs by navArgs()
 
@@ -35,7 +33,6 @@ class TimeForNotificationCustomDialog :
         }
         editTextChangeListener()
     }
-
 
     private fun navigate() {
         with(binding) {

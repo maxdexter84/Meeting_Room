@@ -59,21 +59,17 @@ class TimeForNotificationDialog :
                     if (adapterModels.find { it is Custom }?.isSelected == true) args.userSelectedTime else ""
                 ))
             }
-            is Specified -> {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    NewEventFragment.TIME_KEY,
-                    TimePickerData(savedTime.title, savedTime.time, true)
-                )
-                findNavController().popBackStack()
-            }
-            is Never -> {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    NewEventFragment.TIME_KEY,
-                    TimePickerData(savedTime.title, 0, true)
-                )
-                findNavController().popBackStack()
-            }
+            is Specified -> navigateToCustomDialog(savedTime.title, savedTime.time)
+            is Never -> navigateToCustomDialog(savedTime.title, 0)
         }
+    }
+
+    private fun navigateToCustomDialog(title: String, time: Int) {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            NewEventFragment.TIME_KEY,
+            TimePickerData(title, time, true)
+        )
+        findNavController().popBackStack()
     }
 
     companion object {

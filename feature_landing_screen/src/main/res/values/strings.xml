@@ -65,13 +65,6 @@
     <string name="options_for_reminder_time_fifteen_minutes">15 minutes before</string>
     <string name="need_more_time_dialog_seconds">\ seconds</string>
     <string name="options_for_reminder_time_thirty_minutes">30 minutes before</string>
-    <string name="session_expired_dialog_title">Oops!</string>
-    <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
-    <string name="need_more_time_dialog_button">I need more time</string>
-    <string name="need_more_time_dialog_title">Do you need more time?</string>
-    <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
-    <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
-    <string name="session_expired_dialog_button">Got it</string>
     <string name="options_for_reminder_time_one_hour">1 hour before</string>
     <string name="cancel_button">cancel</string>
     <string name="ok_button">ok</string>

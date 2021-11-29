@@ -15,6 +15,13 @@
     <string name="new_event_toolbar">New event</string>
     <string name="button_toolbar_save">SAVE</string>
     <string name="user_selected_custom_time_option">%1$s %2$s before</string>
+    <string name="session_expired_dialog_title">Oops!</string>
+    <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
+    <string name="need_more_time_dialog_button">I need more time</string>
+    <string name="need_more_time_dialog_title">Do you need more time?</string>
+    <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
+    <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
+    <string name="session_expired_dialog_button">Got it</string>
 
     <string name="deeplink_uri_landing_screen">"ui://landingScreenFragment"</string>
     <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>

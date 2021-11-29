@@ -43,7 +43,6 @@ import java.util.*
 import javax.inject.Inject
 import java.util.regex.Pattern
 
-
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
     DatePickerDialog.OnDateSetListener {
@@ -351,7 +350,7 @@ class ModifyUpcomingEventFragment :
         if (::needMoreTimeJob.isInitialized) deleteTimeOut()
         needMoreTimeJob = lifecycleScope.launch {
             delay(USER_INACTIVITY_LIMIT)
-            findNavController().navigate(R.id.action_modifyUpcomingEventFragment_to_needMoreTimeDialog)
+            findNavController().navigate(ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToNeedMoreTimeDialog())
         }
     }
 
@@ -368,6 +367,7 @@ class ModifyUpcomingEventFragment :
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
+        private const val USER_INACTIVITY_LIMIT = 30000L
         private const val INPUT_DATE_FORMAT = "d MMM yyyy"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val TIME_FORMAT = "HH:mm"
@@ -377,8 +377,6 @@ class ModifyUpcomingEventFragment :
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
-        private const val LAST_HOUR = 23
-
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
@@ -402,6 +400,5 @@ class ModifyUpcomingEventFragment :
             val finalTime = reminderSetOffTime - currentTime
             return currentTime + finalTime
         }
-        private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

@@ -42,7 +42,7 @@
             app:destination="@id/timeForNotificationDialog" />
         <action
             android:id="@+id/action_newEventFragment_to_needMoreTimeDialog"
-            app:destination="@id/needMoreTimeDialog" />
+            app:destination="@id/need_more_time_dialog_navigation" />
     </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
@@ -61,11 +61,6 @@
             android:name="userRoom"
             app:argType="string" />
     </dialog>
-    <dialog
-        android:id="@+id/needMoreTimeDialog"
-        android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_need_more_time.NeedMoreTimeDialog"
-        android:label="NeedMoreTimeDialog"
-        app:popUpTo="@id/roomsFragment"/>
     <dialog
         android:id="@+id/roomPickerDialogFragment"
         android:name="com.andersen.feature_rooms_screen.presentation.new_event.dialog_room_picker.RoomPickerDialogFragment"
@@ -94,4 +89,5 @@
             android:name="userSelectedTime"
             app:argType="string" />
     </dialog>
+    <include app:graph="@navigation/need_more_time_dialog_navigation"/>
 </navigation>

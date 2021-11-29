@@ -44,7 +44,6 @@ import java.util.*
 import javax.inject.Inject
 import java.util.regex.Pattern
 
-
 class NewEventFragment :
     BaseFragment<FragmentNewEventBinding>(FragmentNewEventBinding::inflate),
     IHasComponent<RoomsEventComponent>,
@@ -189,7 +188,8 @@ class NewEventFragment :
                 binding.newEventTitle.text.toString(),
                 binding.eventRoomName.text.toString(),
                 binding.startTimePicker.text.toString(),
-                binding.reminderLeftTime.text.toString()),
+                binding.reminderLeftTime.text.toString()
+            ),
             notificationHelper,
             reminderStartTime
         )
@@ -232,15 +232,13 @@ class NewEventFragment :
     }
 
     private fun saveChanges() {
-        with(binding) {
-            eventReminderStartTime?.let {
-                createNotification(
-                    getReminderSetOffTimeInMillis(
-                        it.toLong(),
-                        getEventStartDateInMillis()
-                    )
+        eventReminderStartTime?.let {
+            createNotification(
+                getReminderSetOffTimeInMillis(
+                    it.toLong(),
+                    getEventStartDateInMillis()
                 )
-            }
+            )
         }
         requireActivity().onBackPressed()
     }
@@ -338,7 +336,7 @@ class NewEventFragment :
         if (::needMoreTimeJob.isInitialized) deleteTimeOut()
         needMoreTimeJob = lifecycleScope.launch {
             delay(USER_INACTIVITY_LIMIT)
-            findNavController().navigate(R.id.action_newEventFragment_to_needMoreTimeDialog)
+            findNavController().navigate(NewEventFragmentDirections.actionNewEventFragmentToNeedMoreTimeDialog())
         }
     }
 
@@ -362,7 +360,7 @@ class NewEventFragment :
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
-
+        private const val USER_INACTIVITY_LIMIT = 30000L
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
@@ -386,6 +384,5 @@ class NewEventFragment :
             val finalTime = reminderSetOffTime - currentTime
             return currentTime + finalTime
         }
-        private const val USER_INACTIVITY_LIMIT = 30000L
     }
 }

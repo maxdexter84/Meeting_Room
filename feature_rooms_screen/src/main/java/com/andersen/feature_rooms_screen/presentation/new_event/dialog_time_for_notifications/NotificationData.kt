@@ -4,4 +4,5 @@ data class NotificationData (
     val title: String,
     val roomTitle: String,
     val startTime: String,
-    val remainingTime: String)
+    val remainingTime: String
+)
