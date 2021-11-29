@@ -5,6 +5,6 @@
     app:startDestination="@id/needMoreTimeDialog">
     <dialog
         android:id="@+id/needMoreTimeDialog"
-        android:name="com.meeringroom.ui.dialog_need_more_time.NeedMoreTimeDialog"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_need_more_time.NeedMoreTimeDialog"
         android:label="NeedMoreTimeDialog"/>
 </navigation>

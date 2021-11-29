@@ -33,14 +33,20 @@ import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEventBinding
 import kotlinx.android.synthetic.main.fragment_new_event.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import java.time.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
-import java.time.*
-import java.util.*
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.util.Locale
+import java.util.Calendar
 import javax.inject.Inject
 import java.util.regex.Pattern
 
@@ -67,6 +73,11 @@ class NewEventFragment :
 
     private lateinit var needMoreTimeJob: Job
 
+    private val onCancelClickListener: (View) -> Unit = {
+        binding.root.hideKeyboard(requireContext())
+        requireActivity().onBackPressed()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         XInjectionManager.bindComponent(this).inject(this)
@@ -89,10 +100,7 @@ class NewEventFragment :
         with(binding) {
             chosenRoomTitle = args.roomTitle
             newEventToolbar.toolbarSaveTitle.text = getString(R.string.new_event_toolbar)
-            newEventToolbar.toolbarSaveCancel.setOnClickListener {
-                root.hideKeyboard(requireContext())
-                requireActivity().onBackPressed()
-            }
+            newEventToolbar.toolbarSaveCancel.setOnClickListener(onCancelClickListener)
             eventRoomName.setOnClickListener {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToRoomPickerDialogFragment (
@@ -126,6 +134,14 @@ class NewEventFragment :
                 showTimePickerDialog(endTimePicker.text.toString(), endTimePickerListener)
             }
         }
+        addLifecycleObserver()
+        view.setOnTouchListener { _: View, _: MotionEvent ->
+            setTimeOut()
+            true
+        }
+    }
+
+    private fun addLifecycleObserver() {
         findNavController().getBackStackEntry(R.id.newEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_RESUME -> setTimeOut()
@@ -133,10 +149,6 @@ class NewEventFragment :
                 else -> {}
             }
         })
-        view.setOnTouchListener { _: View, _: MotionEvent ->
-            setTimeOut()
-            true
-        }
     }
 
     override fun onStart() {
@@ -151,8 +163,8 @@ class NewEventFragment :
             end_date_picker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             startTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).timeToString(
                 TIME_FORMAT)
-            endTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).plusHours(1).timeToString(
-                TIME_FORMAT)
+            endTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).plusHours(
+                DEFAULT_HOURS_EVENT_LENGTH).timeToString(TIME_FORMAT)
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
             eventRoomName.text = viewModel.getFreeRoomsList().first().title
@@ -249,15 +261,15 @@ class NewEventFragment :
             requireContext(),
             this,
             date.year,
-            date.monthValue - 1,
+            date.monthValue - MONTH_VALUE_OFFSET,
             date.dayOfMonth
         ).apply {
             val minDate = LocalDate.now()
             val maxDate = LocalDate.now().plusMonths(MAX_MONTH)
             setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok_button), this)
             setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
-            datePicker.init(date.year, date.monthValue - 1, date.dayOfMonth) { datePicker, year, month, day ->
-                val localDate = LocalDate.of(year, month + 1, day)
+            datePicker.init(date.year, date.monthValue - MONTH_VALUE_OFFSET, date.dayOfMonth) { datePicker, year, month, day ->
+                val localDate = LocalDate.of(year, month + MONTH_VALUE_OFFSET, day)
                 when {
                     localDate.isBefore(minDate) -> datePicker.updateDate(minDate.year, minDate.monthValue - 1, minDate.dayOfMonth)
                     localDate.isAfter(maxDate) -> datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
@@ -293,7 +305,7 @@ class NewEventFragment :
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        dateOfEvent = LocalDate.of(year, month + 1, day)
+        dateOfEvent = LocalDate.of(year, month + MONTH_VALUE_OFFSET, day)
         with(binding) {
             startDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             endDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
@@ -361,6 +373,8 @@ class NewEventFragment :
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
         private const val USER_INACTIVITY_LIMIT = 30000L
+        private const val DEFAULT_HOURS_EVENT_LENGTH = 1L
+        private const val MONTH_VALUE_OFFSET = 1
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")

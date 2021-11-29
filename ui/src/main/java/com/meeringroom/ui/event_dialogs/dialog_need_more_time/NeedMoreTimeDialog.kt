@@ -1,4 +1,4 @@
-package com.meeringroom.ui.dialog_need_more_time
+package com.meeringroom.ui.event_dialogs.dialog_need_more_time
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -66,7 +66,7 @@ class NeedMoreTimeDialog:  BaseDialogFragment<CustomDialogNeedMoreTimeBinding>(
     }
 
     companion object {
-        private const val TIME_LIMIT_MILLIS = 5000L
+        private const val TIME_LIMIT_MILLIS = 15000L
         private const val TIME_STEP_MILLIS = 1000L
     }
 }

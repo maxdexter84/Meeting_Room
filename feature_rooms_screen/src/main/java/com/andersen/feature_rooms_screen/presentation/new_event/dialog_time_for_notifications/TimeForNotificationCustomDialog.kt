@@ -23,7 +23,7 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
         with (binding) {
             if (args.userSelectedTime.isNotBlank()) {
                 userCustomTimeEditText.setText(args.userSelectedTime.filter { it.isDigit() })
-                when (args.userSelectedTime.split(" ")[1]) {
+                when (args.userSelectedTime.split(" ").first()) {
                     in resources.getStringArray(R.array.arrayMinutes) -> customTimeInMinutes.isChecked = true
                     in resources.getStringArray(R.array.arrayHours) -> customTimeInHours.isChecked = true
                     in resources.getStringArray(R.array.arrayDays) -> customTimeInDays.isChecked = true
@@ -37,47 +37,53 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
     private fun navigate() {
         with(binding) {
             if (userCustomTimeEditText.text.isNotEmpty()) {
-                val multiplier: Int
-                val timeType: String
-                when {
-                    customTimeInMinutes.isChecked -> {
-                        timeType = resources.getQuantityString(
-                            R.plurals.amountOfMinutes,
-                            userCustomTimeEditText.text.toString().toInt()
-                        )
-                        multiplier = TimeForNotificationDialog.MILLIS_IN_MINUTE
-                    }
-                    customTimeInHours.isChecked -> {
-                        timeType = resources.getQuantityString(
-                            R.plurals.amountOfHours,
-                            userCustomTimeEditText.text.toString().toInt()
-                        )
-                        multiplier = TimeForNotificationDialog.MILLIS_IN_HOUR
-                    }
-                    customTimeInDays.isChecked -> {
-                        timeType = resources.getQuantityString(
-                            R.plurals.amountOfDays,
-                            userCustomTimeEditText.text.toString().toInt()
-                        )
-                        multiplier = TimeForNotificationDialog.MILLIS_IN_DAY
-                    }
-                    else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
-                }
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     NewEventFragment.TIME_KEY,
-                    TimePickerData(
-                        String.format(
-                            resources.getString(R.string.user_selected_custom_time_option),
-                            binding.userCustomTimeEditText.text.toString(),
-                            timeType
-                        ),
-                        binding.userCustomTimeEditText.text.toString().toInt() * multiplier,
-                        true
-                    )
+                    getTimePickerData()
                 )
             }
             dismiss()
         }
+    }
+
+    private fun getTimePickerData(): TimePickerData {
+        val multiplier: Int
+        val timeType: String
+        with (binding) {
+            when {
+                customTimeInMinutes.isChecked -> {
+                    timeType = resources.getQuantityString(
+                        R.plurals.amountOfMinutes,
+                        userCustomTimeEditText.text.toString().toInt()
+                    )
+                    multiplier = TimeForNotificationDialog.MILLIS_IN_MINUTE
+                }
+                customTimeInHours.isChecked -> {
+                    timeType = resources.getQuantityString(
+                        R.plurals.amountOfHours,
+                        userCustomTimeEditText.text.toString().toInt()
+                    )
+                    multiplier = TimeForNotificationDialog.MILLIS_IN_HOUR
+                }
+                customTimeInDays.isChecked -> {
+                    timeType = resources.getQuantityString(
+                        R.plurals.amountOfDays,
+                        userCustomTimeEditText.text.toString().toInt()
+                    )
+                    multiplier = TimeForNotificationDialog.MILLIS_IN_DAY
+                }
+                else -> throw IllegalArgumentException(getString(R.string.custom_time_select_type_no_option_error))
+            }
+        }
+        return TimePickerData(
+            String.format(
+                resources.getString(R.string.user_selected_custom_time_option),
+                binding.userCustomTimeEditText.text.toString(),
+                timeType
+            ),
+            binding.userCustomTimeEditText.text.toString().toInt() * multiplier,
+            true
+        )
     }
 
     private fun editTextChangeListener() {

@@ -7,7 +7,7 @@
     tools:ignore="MissingDefaultResource">
 
     <TextView
-        android:id="@+id/textView_custom_dialog_divider"
+        android:id="@+id/textView_custom_dialog_title"
         style="@style/TextAppearanceDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,14 +28,14 @@
         android:background="@android:color/transparent"
         android:inputType="number"
         android:maxLength="3"
-        app:layout_constraintBottom_toTopOf="@+id/view_custom_dialog_divider"
-        app:layout_constraintEnd_toEndOf="@+id/view_custom_dialog_divider"
+        app:layout_constraintBottom_toTopOf="@+id/view_custom_dialog_edit_text_line"
+        app:layout_constraintEnd_toEndOf="@+id/view_custom_dialog_edit_text_line"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/view_custom_dialog_divider"
+        app:layout_constraintStart_toStartOf="@+id/view_custom_dialog_edit_text_line"
         tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <View
-        android:id="@+id/view_custom_dialog_divider"
+        android:id="@+id/view_custom_dialog_edit_text_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_1_dp"
         android:layout_marginStart="@dimen/dimens_24_dp"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_custom_dialog_divider" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_custom_dialog_title" />
 
     <RadioGroup
         android:id="@+id/time_format_custom_dialog"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_divider">
+        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_edit_text_line">
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/custom_time_in_minutes"
@@ -91,7 +91,7 @@
     </RadioGroup>
 
     <View
-        android:id="@+id/view_custom_dialog_divider2"
+        android:id="@+id/view_custom_dialog_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_1_dp"
         android:background="@color/color_for_popup_window_divider"
@@ -109,6 +109,6 @@
         android:background="@drawable/ic_button_custom_dialog_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_divider2" />
+        app:layout_constraintTop_toBottomOf="@+id/view_custom_dialog_divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

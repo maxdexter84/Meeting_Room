@@ -30,10 +30,7 @@
 
     <View
         android:id="@+id/divider_line_1"
-        android:layout_width="@dimen/dimens_0_dp"
-        android:layout_height="@dimen/dimens_1_dp"
-        android:layout_marginTop="@dimen/dimens_16_dp"
-        android:background="@color/color_for_popup_window_divider"
+        style="@style/Divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_event_title" />
@@ -94,10 +91,7 @@
 
     <View
         android:id="@+id/divider_line_2"
-        android:layout_width="@dimen/dimens_0_dp"
-        android:layout_height="@dimen/dimens_1_dp"
-        android:layout_marginTop="@dimen/dimens_16_dp"
-        android:background="@color/color_for_popup_window_divider"
+        style="@style/Divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/end_date_picker" />
@@ -127,10 +121,7 @@
 
     <View
         android:id="@+id/divider_line_3"
-        android:layout_width="@dimen/dimens_0_dp"
-        android:layout_height="@dimen/dimens_1_dp"
-        android:layout_marginTop="@dimen/dimens_16_dp"
-        android:background="@color/color_for_popup_window_divider"
+        style="@style/Divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/event_room_name" />
@@ -188,10 +179,7 @@
 
     <View
         android:id="@+id/divider_line_4"
-        android:layout_width="@dimen/dimens_0_dp"
-        android:layout_height="@dimen/dimens_1_dp"
-        android:layout_marginTop="@dimen/dimens_16_dp"
-        android:background="@color/color_for_popup_window_divider"
+        style="@style/Divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_event_description" />
