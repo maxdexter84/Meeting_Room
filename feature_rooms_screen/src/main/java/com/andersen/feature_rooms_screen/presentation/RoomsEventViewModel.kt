@@ -1,18 +1,22 @@
 package com.andersen.feature_rooms_screen.presentation
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.MainEventAdapter
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsAdapter
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.MainEventAdapter
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.RoomsAdapter
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,8 +43,11 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
-    private val roomLiveData = MutableLiveData<Room>()
-    val room: LiveData<Room> get() = roomLiveData
+    private val _mutableRoom = MutableStateFlow<Room?>(null)
+    val room: StateFlow<Room?> get() = _mutableRoom.asStateFlow()
+
+    private val _mutableRoomListByFloor = MutableStateFlow<List<Room>>(emptyList())
+    val mutableRoomListByFloor: StateFlow<List<Room>> get() = _mutableRoomListByFloor.asStateFlow()
 
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
@@ -98,7 +105,20 @@ class RoomsEventViewModel @Inject constructor(
             try {
                 _mutableLoadingState.emit(State.Loading)
                 delay(DELAY_DOWNLOAD)
-                roomLiveData.postValue(roomsApi.getOneRoom(roomTitle))
+                _mutableRoom.emit(roomsApi.getOneRoom(roomTitle))
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun getRoomsOnTheFloor(floor: Int){
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                _mutableRoomListByFloor.emit(roomsApi.getAllRoomsOnTheFloor(floor))
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)

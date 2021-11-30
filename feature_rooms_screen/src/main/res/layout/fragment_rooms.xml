@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_set_location_fragment">
+    android:layout_height="match_parent">
 
     <com.meeringroom.ui.view.toolbar.MrToolBar
         android:id="@+id/rooms_toolbar"
@@ -132,23 +131,26 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/grid_recycler_view"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimens_8_dp"
+                android:layout_marginBottom="@dimen/dimens_8_dp"
                 android:nestedScrollingEnabled="false"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/single_room_grid_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
+                android:visibility="invisible"
                 android:layout_marginTop="@dimen/dimens_8_dp"
                 android:layout_marginBottom="@dimen/dimens_8_dp"
                 android:layout_marginEnd="@dimen/dimens_16_dp"
                 android:layout_marginStart="@dimen/dimens_4_dp"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </FrameLayout>
 
     </androidx.core.widget.NestedScrollView>

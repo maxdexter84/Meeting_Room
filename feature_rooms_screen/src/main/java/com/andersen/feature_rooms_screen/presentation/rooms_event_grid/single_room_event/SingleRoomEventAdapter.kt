@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
+import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEmptyEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventSingleRoomBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
 import javax.inject.Inject
@@ -17,13 +19,13 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
             field = value
             notifyDataSetChanged()
         }
-    var emptyEventList = emptyList<Int>()
+    var emptyEventList = emptyList<EmptyRoomEventForGrid>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             EMPTY_EVENT_VIEW_HOLDER_TYPE ->
                 EmptyEventsViewHolder(
-                    ItemGagEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    ItemEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 )
             else -> EventsRoomViewHolder(
                 ItemEventSingleRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -67,11 +69,11 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         }
     }
 
-    inner class EmptyEventsViewHolder(private val binding: ItemGagEmptyEventBinding) :
+    inner class EmptyEventsViewHolder(private val binding: ItemEmptyEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.root.layoutParams.height = emptyEventList[position / 2]
+            binding.root.layoutParams.height = emptyEventList[position / 2].heightEventItem
         }
     }
 

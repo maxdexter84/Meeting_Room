@@ -3,6 +3,7 @@ package com.andersen.feature_rooms_screen.data
 import android.graphics.Color
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -50,7 +51,12 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
     }
 
     override fun getAllRoomsOnTheFloor(floor: Int): List<Room> {
-        TODO("Not yet implemented")
+        val listRoom = getRooms()
+        return if (floor == RoomsEventGridFragment.ALL_ROOMS_IN_OFFICE){
+            listRoom
+        } else{
+            listRoom.filter { it.floor == floor }
+        }
     }
 
     override fun getRoomEventsByRoom(): List<RoomEvent> {
@@ -64,7 +70,7 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
                     room = "Blue",
                     colorRoom = Color.BLUE,
                     roomId = 1,
-                    startDateTime = "2021-11-16T08:00:00.777Z",
+                    startDateTime = "2021-11-16T06:00:00.777Z",
                     endDateTime = "2021-11-16T09:00:00.777Z",
                     status = getStatus(i),
                     title = getTitle(i),
@@ -276,28 +282,28 @@ class GagForRoomsScreen @Inject constructor() : RoomsApi {
 
     private fun getEndDateTime(i: Int) =
         when (i % 9) {
-            0 -> "12:00"
-            1 -> "10:30"
-            2 -> "17:00"
-            3 -> "18:00"
-            4 -> "13:00"
-            5 -> "16:00"
-            6 -> "11:00"
-            7 -> "12:40"
-            else -> "11:30"
+            0 -> "2021-11-16T12:00:00.777Z"
+            1 -> "2021-11-16T10:30:00.777Z"
+            2 -> "2021-11-16T17:00:00.777Z"
+            3 -> "2021-11-16T18:00:00.777Z"
+            4 -> "2021-11-16T13:00:00.777Z"
+            5 -> "2021-11-16T16:00:00.777Z"
+            6 -> "2021-11-16T11:00:00.777Z"
+            7 -> "2021-11-16T12:40:00.777Z"
+            else -> "2021-11-16T11:30:00.777Z"
         }
 
     private fun getStartDateTime(i: Int) =
         when (i % 9) {
-            0 -> "11:00"
-            1 -> "09:00"
-            2 -> "16:30"
-            3 -> "17:00"
-            4 -> "12:00"
-            5 -> "14:00"
-            6 -> "09:00"
-            7 -> "11:30"
-            else -> "09:30"
+            0 -> "2021-11-16T11:00:00.777Z"
+            1 -> "2021-11-16T09:00:00.777Z"
+            2 -> "2021-11-16T16:30:00.777Z"
+            3 -> "2021-11-16T17:00:00.777Z"
+            4 -> "2021-11-16T12:00:00.777Z"
+            5 -> "2021-11-16T14:00:00.777Z"
+            6 -> "2021-11-16T09:00:00.777Z"
+            7 -> "2021-11-16T11:30:00.777Z"
+            else -> "2021-11-16T09:30:00.777Z"
         }
 
     private fun getRoom(i: Int) =
