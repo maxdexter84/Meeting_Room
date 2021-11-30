@@ -2,7 +2,7 @@ package com.andersen.feature_rooms_screen.presentation.di
 
 import com.andersen.feature_rooms_screen.presentation.di.view_model.ViewModelModule
 import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
-import com.andersen.feature_rooms_screen.presentation.new_event.dialog_room_picker.RoomPickerDialogFragment
+import com.meeringroom.ui.event_dialogs.dialog_room_picker.presentation.RoomPickerDialogFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.dialog_rooms.DialogRoomsFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
 import com.example.core_module.di.FeatureScope

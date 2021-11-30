@@ -35,6 +35,7 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEven
 import kotlinx.android.synthetic.main.fragment_new_event.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import java.time.LocalDate
@@ -103,8 +104,10 @@ class NewEventFragment :
             newEventToolbar.toolbarSaveCancel.setOnClickListener(onCancelClickListener)
             eventRoomName.setOnClickListener {
                 findNavController().navigate(
-                    NewEventFragmentDirections.actionNewEventFragmentToRoomPickerDialogFragment (
-                        eventRoomName.text.toString()
+                    NewEventFragmentDirections.actionNewEventFragmentToRoomPickerDialogFragment(
+                        ROOM_KEY,
+                        eventRoomName.text.toString(),
+                        viewModel.roomPickerList.value
                     )
                 )
             }

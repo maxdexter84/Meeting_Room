@@ -1,9 +1,6 @@
 package com.andersen.feature_rooms_screen.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
@@ -12,6 +9,7 @@ import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsAdap
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
+import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -34,6 +32,9 @@ class RoomsEventViewModel @Inject constructor(
 
     private val _mutableRoomList = MutableStateFlow<List<Room>>(emptyList())
     val mutableRoomList: StateFlow<List<Room>> get() = _mutableRoomList.asStateFlow()
+
+    private val _roomPickerList = MutableStateFlow<Array<RoomPickerNewEventData>>(emptyArray())
+    val roomPickerList: StateFlow<Array<RoomPickerNewEventData>> get() = _roomPickerList.asStateFlow()
 
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
@@ -62,6 +63,22 @@ class RoomsEventViewModel @Inject constructor(
     }
 
     fun getFreeRoomsList() = roomsApi.getFreeRooms()
+
+    private fun getRoomPickerData() {
+        viewModelScope.launch {
+            mutableRoomList.collectLatest { it ->
+                val freeRooms = getFreeRoomsList()
+                val roomsList = Array(it.size) { index ->
+                    RoomPickerNewEventData(
+                        it[index].title,
+                        ROOM_IS_SELECTED,
+                        it[index] in freeRooms
+                    )
+                }
+                _roomPickerList.emit(roomsList.sortedByDescending { room -> room.isEnabled }.toTypedArray())
+            }
+        }
+    }
 
     fun getEventList(date: CalendarDay?) {
         viewModelScope.launch {
@@ -105,9 +122,11 @@ class RoomsEventViewModel @Inject constructor(
     init {
         getRoomList()
         getEventsByRoom()
+        getRoomPickerData()
     }
 
     companion object{
         const val DELAY_DOWNLOAD = 500L
+        private const val ROOM_IS_SELECTED = false
     }
 }

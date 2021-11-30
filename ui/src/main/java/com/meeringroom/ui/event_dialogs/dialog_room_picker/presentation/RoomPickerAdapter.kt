@@ -1,12 +1,12 @@
-package com.andersen.feature_rooms_screen.presentation.new_event.dialog_room_picker
+package com.meeringroom.ui.event_dialogs.dialog_room_picker.presentation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.andersen.feature_rooms_screen.domain.entity.new_event.RoomPickerNewEventData
-import com.meetingroom.andersen.feature_rooms_screen.R
+import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
+import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.RoomAndTimeAdapterItemBinding
 
 class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> Unit) :
