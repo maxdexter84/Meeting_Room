@@ -1,4 +1,4 @@
-package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui
+package com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -22,16 +22,16 @@ import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
 import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.UserTimeTypes
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.DaggerModifyUpcomingEventFragmentComponent
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.model.UserTimeTypes
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
 import kotlinx.coroutines.*
@@ -93,8 +93,10 @@ class ModifyUpcomingEventFragment :
             }
             modifyRoomChooser.setOnClickListener {
                 findNavController().navigate(
-                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment2(
-                        eventRoom
+                    ModifyUpcomingEventFragmentDirections.actionModufyUpcomingEventFragmentToRoomPickerDialogFragment(
+                        ROOM_KEY,
+                        eventRoom,
+                        viewModel.roomPickerArray.value
                     )
                 )
             }
@@ -109,8 +111,12 @@ class ModifyUpcomingEventFragment :
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
             eventRoomName.text = args.upcomingEvent.eventRoom
-            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
-            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
+            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(Pattern.compile(
+                ASCII_PATTERN
+            )))
+            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(
+                ASCII_PATTERN
+            )))
 
             observeRoomChange()
             observeTimeChange()
@@ -192,11 +198,17 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun createNotification(reminderStartTime: Long) {
+        with (binding) {
         NotificationHelper.setNotification(
-            args.upcomingEvent,
+            NotificationData(
+                eventModifyTitle.text.toString(),
+                eventRoomName.text.toString(),
+                modifyStartTimePicker.text.toString(),
+                reminderLeftTime.text.toString()
+            ),
             notificationHelper,
             reminderStartTime
-        )
+        )}
     }
 
     private fun observeTimeValidation() {
