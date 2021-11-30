@@ -278,8 +278,8 @@ class NewEventFragment :
                     localDate.isAfter(maxDate) -> datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
                 }
             }
-            datePicker.minDate = LocalDateTime.of(minDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-            datePicker.maxDate = LocalDateTime.of(maxDate, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            datePicker.minDate = getLocalDateTime(minDate)
+            datePicker.maxDate = getLocalDateTime(maxDate)
             datePicker.firstDayOfWeek = Calendar.MONDAY
             setCancelable(false)
             show()
@@ -366,8 +366,8 @@ class NewEventFragment :
     }
 
     companion object {
-        const val ROOM_KEY = "ROOM_KEY"
-        const val TIME_KEY = "TIME_KEY"
+        private const val ROOM_KEY = "ROOM_KEY"
+        private  const val TIME_KEY = "TIME_KEY"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val ASCII_PATTERN = "\\p{ASCII}"
         private val DEFAULT_LOCALE = Locale.UK
@@ -402,5 +402,7 @@ class NewEventFragment :
             val finalTime = reminderSetOffTime - currentTime
             return currentTime + finalTime
         }
+
+        private fun getLocalDateTime(date : LocalDate) = LocalDateTime.of(date, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
     }
 }
