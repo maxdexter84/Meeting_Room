@@ -18,7 +18,7 @@
         android:id="@+id/border_view"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@+id/eventRecyclerView"
+        app:layout_constraintStart_toEndOf="@id/eventRecyclerView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/cream_dark"

@@ -40,7 +40,7 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginRight="220dp"
-        app:layout_constraintEnd_toStartOf="@+id/mrtoolbar_icon"
+        app:layout_constraintEnd_toStartOf="@id/mrtoolbar_icon"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dimens_20_dp"
         android:background="@null"/>

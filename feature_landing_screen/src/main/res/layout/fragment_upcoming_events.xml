@@ -30,7 +30,7 @@
         android:text="@string/relieved_face_emoji"
         android:textSize="@dimen/dimens_40_sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/feels_lonely_empty_upcomings"
+        app:layout_constraintBottom_toTopOf="@id/feels_lonely_empty_upcomings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
@@ -43,7 +43,7 @@
         style="@style/TextAppearanceDescription"
         android:text="@string/feels_lonely_upcoming"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/book_meeting_suggestion_empty_upcomings"
+        app:layout_constraintBottom_toTopOf="@id/book_meeting_suggestion_empty_upcomings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />

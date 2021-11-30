@@ -28,7 +28,7 @@
         style="@style/TextAppearanceTitle"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/toolbar_save_cancel"
+        app:layout_constraintStart_toEndOf="@id/toolbar_save_cancel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.meeringroom.ui.view.login_button.MainActionButton
