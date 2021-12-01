@@ -15,7 +15,7 @@
         android:background="@android:color/transparent"
         android:inputType="textPassword"
         android:textCursorDrawable="@drawable/color_cursor"
-        app:layout_constraintEnd_toStartOf="@+id/toggle_button_custom_edit_text"
+        app:layout_constraintEnd_toStartOf="@id/toggle_button_custom_edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toBottomOf="@+id/edit_text_custom_edit_text"
+        app:layout_constraintBottom_toBottomOf="@id/edit_text_custom_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +44,7 @@
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_custom_edit_text" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_custom_edit_text" />
 
     <TextView
         android:id="@+id/error_text_custom_edit_text"
@@ -53,7 +53,7 @@
         android:text=""
         android:textColor="@color/error_color_for_textview"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/view_custom_edit_text"
-        app:layout_constraintTop_toBottomOf="@+id/view_custom_edit_text" />
+        app:layout_constraintStart_toStartOf="@id/view_custom_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/view_custom_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

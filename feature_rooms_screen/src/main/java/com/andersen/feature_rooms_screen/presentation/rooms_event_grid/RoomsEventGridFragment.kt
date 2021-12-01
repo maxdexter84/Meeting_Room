@@ -2,7 +2,6 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -14,14 +13,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
+import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
-import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import com.meeringroom.ui.view.time_line.TimeLineView
+import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -38,7 +38,8 @@ import javax.inject.Inject
 
 class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
 
-    private var selectedDateForGrid: LocalDate? = null
+    private lateinit var selectedDateForGrid: LocalDate
+    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -67,11 +68,24 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     override fun getComponent(): RoomsEventComponent =
-        DaggerRoomsEventComponent.builder().build()
+        DaggerRoomsEventComponent.builder()
+            .newEventModule(NewEventModule(requireContext()))
+            .build()
 
     private fun initToolbar() {
         with(binding) {
             roomsToolbar.setToolBarTitle(getString(R.string.toolbar_rooms_title))
+            roomsToolbar.changeToolBarConfiguration(
+                ToolbarHandlerOptions.AddEvent(
+                    onIconClick = {
+                        findNavController().navigate(
+                            RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
+                               selectedDateForGrid, eventRoom
+                            )
+                        )
+                    }
+                )
+            )
         }
     }
 
@@ -163,11 +177,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {
+            selectedDateForGrid = LocalDate.now()
             setDateSelected(CalendarDay.today(), true)
             setCurrentDateColor()
-            setOnDateChangedListener { widget, date, selected ->
-                selectedDateForGrid =
-                    "${date.day}/${date.month}/${date.year}".stringToDate(DATE_FORMAT)
+            setOnDateChangedListener { _, date, _ ->
+                selectedDateForGrid = LocalDate.of(date.year, date.month, date.day)
             }
             setOnTitleClickListener {
                 showDatePickerDialog()
@@ -183,9 +197,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
         DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                selectedDateForGrid =
-                    "$dayOfMonth/${monthOfYear + 1}/$year".stringToDate(DATE_FORMAT)
+            { _, year, monthOfYear, dayOfMonth ->
+                selectedDateForGrid = LocalDate.of(year, month, dayOfMonth)
                 val selectedDayForCalendar = CalendarDay.from(year, monthOfYear + 1, dayOfMonth)
                 with(binding.oneWeekCalendar) {
                     setDateSelected(selectedDate, false)
@@ -311,7 +324,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     companion object {
-        private const val DATE_FORMAT = "d/M/yyyy"
         const val ROOM_KEY = "ROOM_KEY"
         const val ALL_ROOMS_IN_OFFICE = -1
     }

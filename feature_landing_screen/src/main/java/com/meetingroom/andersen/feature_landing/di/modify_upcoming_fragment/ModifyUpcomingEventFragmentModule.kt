@@ -2,12 +2,13 @@ package com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meetingroom.andersen.feature_landing.di.Screen
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.data.GagForRooms
+import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventFragment
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventViewModelFactory
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.NotificationHelper
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.TimeValidationDialogManager
-import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.ui.ModifyUpcomingEventFragment
 import dagger.Module
 import dagger.Provides
 
@@ -16,8 +17,10 @@ class ModifyUpcomingEventFragmentModule(private val modifyUpcomingEventFragment:
 
     @Provides
     @Screen
-    fun provideViewModelFactory(dialogManager: TimeValidationDialogManager): ModifyUpcomingEventViewModelFactory =
-        ModifyUpcomingEventViewModelFactory(dialogManager)
+    fun provideViewModelFactory(
+        gagForRooms: GagForRooms,
+        dialogManager: TimeValidationDialogManager
+    ): ModifyUpcomingEventViewModelFactory = ModifyUpcomingEventViewModelFactory(gagForRooms, dialogManager)
 
     @Provides
     @Screen
@@ -30,7 +33,5 @@ class ModifyUpcomingEventFragmentModule(private val modifyUpcomingEventFragment:
 
     @Provides
     @Screen
-    fun provideNotificationHelper(context: Context) : NotificationHelper {
-        return NotificationHelper(context)
-    }
+    fun provideNotificationHelper(context: Context) = NotificationHelper(context)
 }

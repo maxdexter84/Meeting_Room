@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimens_12_sp"
-            app:layout_constraintStart_toStartOf="@+id/lineUnderRoomView"
+            app:layout_constraintStart_toStartOf="@id/lineUnderRoomView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Paris" />
 
