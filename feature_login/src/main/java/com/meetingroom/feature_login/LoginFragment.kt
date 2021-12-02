@@ -10,12 +10,16 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
 import com.meetingroom.feature_login.di.DaggerLoginComponent
+import com.meetingroom.feature_login.di.LoginComponent
 import com.meetingroom.feature_login.di.LoginFragmentModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.vponomarenko.injectionmanager.IHasComponent
+import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
-class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate) {
+class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate),
+    IHasComponent<LoginComponent> {
 
     @Inject
     lateinit var viewModel: LoginFragmentViewModel
@@ -23,11 +27,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        DaggerLoginComponent.builder()
-            .loginFragmentModule(LoginFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
-            .build()
-            .inject(this)
+        XInjectionManager.bindComponent(this).inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,4 +75,9 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
             }
         }
     }
+
+    override fun getComponent(): LoginComponent = DaggerLoginComponent.builder()
+        .loginFragmentModule(LoginFragmentModule(this))
+        .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
+        .build()
 }
