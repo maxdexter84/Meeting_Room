@@ -92,7 +92,7 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
-    private fun getEventsByRoom(){
+    fun getEventsByRoom(vararg room: Room?) {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
@@ -107,7 +107,6 @@ class RoomsEventViewModel @Inject constructor(
 
     init {
         getRoomList()
-        getEventsByRoom()
     }
 
     companion object{

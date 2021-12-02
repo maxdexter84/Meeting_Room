@@ -2,7 +2,6 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -21,7 +20,6 @@ import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import com.meeringroom.ui.view.time_line.TimeLineView
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -103,7 +101,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
-                viewModel.singleRoomEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid,binding.oneWeekCalendar.currentDate)
+                viewModel.singleRoomEventAdapter.emptyEventList =
+                    it.toEmptyEventListForGrid(heightSingleRoomGrid, binding.oneWeekCalendar.currentDate)
                 viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
@@ -112,8 +111,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private fun roomListObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomList.collectLatest {
-                viewModel.roomsAdapter.roomList = it
-                viewModel.mainEventAdapter.roomList = it
+                with(viewModel) {
+                    roomsAdapter.roomList = it
+                    mainEventAdapter.roomList = it
+                    getEventsByRoom(*it.toTypedArray())
+                }
             }
         }
     }
@@ -238,15 +240,15 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             }
     }
 
-    private fun getSelectedRoomsFromDialog(roomTitle: String){
-        if(roomTitle.contains(getString(R.string.allString), true)){
+    private fun getSelectedRoomsFromDialog(roomTitle: String) {
+        if (roomTitle.contains(getString(R.string.allString), true)) {
             var floor = roomTitle.filter { char -> char.isDigit() }
-            if(floor.isEmpty()){
+            if (floor.isEmpty()) {
                 floor = "$ALL_ROOMS_IN_OFFICE"
             }
             viewModel.getRoomsOnTheFloor(floor.toInt())
             allRoomsOnTheFloorObserver()
-        }else{
+        } else {
             viewModel.getRoom(roomTitle)
             oneRoomStateObserver()
         }
@@ -267,7 +269,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun checkWhiteboard(room: Room){
+    private fun checkWhiteboard(room: Room) {
         if (room.board) {
             binding.ivIconWhiteboard.visibility = View.VISIBLE
         } else {
@@ -275,7 +277,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun checkProjector(room: Room){
+    private fun checkProjector(room: Room) {
         if (room.projector) {
             binding.ivIconProjector.visibility = View.VISIBLE
         } else {
@@ -298,6 +300,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 it?.let {
                     checkEventRoom(it)
                 }
+                binding.gridRecyclerView.isVisible = false
+                binding.singleRoomGridRecyclerView.isVisible = true
+                binding.roomRecyclerView.isVisible = false
+                viewModel.getEventsByRoom(it)
             }
         }
     }
@@ -306,6 +312,12 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomListByFloor.collectLatest {
                 hideIconsForAllRooms()
+                binding.singleRoomGridRecyclerView.isVisible = false
+                binding.gridRecyclerView.isVisible = true
+                binding.roomRecyclerView.isVisible = true
+                viewModel.roomsAdapter.roomList = it
+                viewModel.mainEventAdapter.roomList = it
+                viewModel.getEventsByRoom(*it.toTypedArray())
             }
         }
     }
