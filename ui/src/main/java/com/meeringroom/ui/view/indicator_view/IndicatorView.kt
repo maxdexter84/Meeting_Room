@@ -9,33 +9,40 @@ import android.view.MotionEvent
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.withStyledAttributes
+import com.example.core_module.utils.stringToDateTime
+import com.example.core_module.utils.timeToString
 import com.meetingroom.ui.R
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import timber.log.Timber
+import java.time.LocalTime
 
 
-@SuppressLint("ResourceAsColor", "ResourceType", "ClickableViewAccessibility")
 class IndicatorView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
+    private val job = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
 
     private var currentY: Float = 0f
     private var currentX: Float = 0f
-    private var rectangleHeight = 0f
-    private val pattern = "[0-9]{2}:[0-9]{2}".toRegex()
-    var startTimeRange: String = ""
+    private var rectangleHeight = 0
+    var startTimeRange = LocalTime.now().timeToString(TIME_FORMAT)
         set(value) {
-            field = if (value.contains(pattern)) value else "00:00"
+            field = value
             invalidate()
         }
-    var endTimeRange = ""
+    var endTimeRange = LocalTime.now().timeToString(TIME_FORMAT)
         set(value) {
-            field = if (value.contains(pattern)) value else "00:00"
+            field = value
             invalidate()
         }
     private var indicatorColor = 0
     private var thumbColor = 0
-    private var indicatorStrokeWidth = 0f
+    private var frameStrokeWidth = 0f
     private var figure: Square? = null
     private var currentYTop = 0f
     private var currentYBottom = 0f
@@ -45,11 +52,16 @@ class IndicatorView @JvmOverloads constructor(
     private var motionTouchEventX = 0f
     private val startPadding = 4f
     private val endPadding = if (startPadding > 0) startPadding * 2 else startPadding
+    private var topThumbPadding = 35
+        set(value) {
+            if (value in 0 until width) field = value
+        }
+    private var bottomThumbPadding = 35
+        set(value) {
+            if (value in 0 until width) field = value
+        }
     private var rectangleCreated: Boolean = false
-    private val normalRectHeight: Int by lazy {
-        getMinuteHeight() * 60
-    }
-
+    private var normalRectHeight: Int = resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
 
     init {
         this.subscribe()
@@ -57,33 +69,43 @@ class IndicatorView @JvmOverloads constructor(
         setWillNotDraw(false)
         context.withStyledAttributes(attrs, R.styleable.IndicatorView) {
             indicatorColor =
-                getColor(R.styleable.IndicatorView_indicatorColor, R.color.indicatorColor)
-            thumbColor = getColor(R.styleable.IndicatorView_thumbColor, R.color.indicatorColor)
-            indicatorStrokeWidth = getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, 2f)
+                getColor(
+                    R.styleable.IndicatorView_indicatorColor,
+                    resources.getColor(R.color.indicatorColor, context.theme)
+                )
+            thumbColor = getColor(
+                R.styleable.IndicatorView_thumbColor,
+                resources.getColor(R.color.indicatorColor, context.theme)
+            )
+            frameStrokeWidth = getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, FRAME_WIDTH)
             startTimeRange = getString(R.styleable.IndicatorView_startPeriod).toString()
             endTimeRange = getString(R.styleable.IndicatorView_endPeriod).toString()
+            normalRectHeight = getDimensionPixelSize(
+                R.styleable.IndicatorView_hourFrameHeight,
+                resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
+            )
+            topThumbPadding = getDimensionPixelSize(
+                R.styleable.IndicatorView_topThumbPadding,
+                DEFAULT_THUMB_PADDING
+            )
+            bottomThumbPadding = getDimensionPixelSize(
+                R.styleable.IndicatorView_bottomThumbPadding,
+                DEFAULT_THUMB_PADDING
+            )
         }
-
     }
 
-    private fun getMinuteHeight(): Int {
-        var period = 0
-        if (startTimeRange.contains(pattern) && endTimeRange.contains(pattern)) {
-            period = IndicatorUtils.getTimePeriod(startTimeRange, endTimeRange)
-        }
-        return if (period != 0) height / period else 1
-    }
-
+    private fun getMinuteHeight(): Float = normalRectHeight / MINUTE_IN_HOUR
 
     private val rectanglePaint = Paint().apply {
         style = Paint.Style.STROKE
-        strokeWidth = indicatorStrokeWidth
+        strokeWidth = frameStrokeWidth
         color = indicatorColor
     }
     private val thumbPaint = Paint().apply {
         color = thumbColor
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = indicatorStrokeWidth
+        strokeWidth = frameStrokeWidth
         strokeJoin = Paint.Join.ROUND
         isAntiAlias = true
     }
@@ -107,7 +129,6 @@ class IndicatorView @JvmOverloads constructor(
         }
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         motionTouchEventY = event.y
@@ -125,6 +146,7 @@ class IndicatorView @JvmOverloads constructor(
                 touchMove()
             }
             else -> {
+                Timber.i("${event.action}")
             }
         }
         return true
@@ -136,11 +158,11 @@ class IndicatorView @JvmOverloads constructor(
                 motionTouchEventY,
                 thumbTop.x,
                 thumbTop.y,
-                thumbTop.radius * 5
-            ) && motionTouchEventY >= 0 && motionTouchEventY < thumbBottom.y - (getMinuteHeight() * 15)
+                thumbTop.radius * THUMB_INVISIBLE_AREA
+            ) && motionTouchEventY >= 0 && motionTouchEventY < thumbBottom.y - (getMinuteHeight() * MIN_MINUTE_INTERVAL)
         ) {
             currentX = motionTouchEventX
-            currentY = motionTouchEventY
+            currentY = filterMoveCoord(motionTouchEventY)
             val distanceBetweenTopAndBottom = thumbBottom.y - currentY
             createSquare(distanceBetweenTopAndBottom)
         } else if (IndicatorUtils.isPointInCircle(
@@ -148,21 +170,21 @@ class IndicatorView @JvmOverloads constructor(
                 motionTouchEventY,
                 thumbBottom.x,
                 thumbBottom.y,
-                thumbBottom.radius * 5
-            ) && motionTouchEventY <= height && motionTouchEventY > thumbTop.y + (getMinuteHeight() * 15)
+                thumbBottom.radius * THUMB_INVISIBLE_AREA
+            ) && motionTouchEventY <= height && motionTouchEventY > thumbTop.y + (getMinuteHeight() * MIN_MINUTE_INTERVAL)
         ) {
-            val distanceBetweenTopAndBottom = motionTouchEventY - thumbTop.y
+            val distanceBetweenTopAndBottom = filterMoveCoord(motionTouchEventY) - thumbTop.y
             createSquare(distanceBetweenTopAndBottom)
-        }
+        } else this.parent.requestDisallowInterceptTouchEvent(false)
     }
 
     private fun touchStart() {
         if (!rectangleCreated) {
             currentX = motionTouchEventX
-            currentY = if (motionTouchEventY < normalRectHeight) 0f else motionTouchEventY
-            val distanceToTheBottom = measuredHeight - currentY
-            rectangleHeight = findRectangleHeight(distanceToTheBottom)
-            createSquare(rectangleHeight)
+            currentY = filterStartCoord(motionTouchEventY)
+            val distanceToTheBottom = height - currentY
+            rectangleHeight = findRectangleHeight(distanceToTheBottom.toInt())
+            createSquare(rectangleHeight.toFloat())
         } else if ((motionTouchEventY > currentYTop && motionTouchEventY < currentYBottom) && rectangleCreated) {
             if (!IndicatorUtils.isPointInCircle(
                     motionTouchEventX,
@@ -182,8 +204,25 @@ class IndicatorView @JvmOverloads constructor(
                 performClick()
             }
         } else {
+            emitRangePeriod(null, null)
             clearFigure()
         }
+    }
+
+    private fun filterStartCoord(touchEventY: Float): Float {
+        return if (touchEventY % (getMinuteHeight() * MIN_MINUTE_INTERVAL) != 0f) {
+            val dif = touchEventY % (getMinuteHeight() * MIN_MINUTE_INTERVAL)
+            if (touchEventY - dif < 0 || touchEventY < normalRectHeight) 0f
+            else touchEventY - dif
+        } else touchEventY
+    }
+
+    private fun filterMoveCoord(touchEvent: Float): Float {
+        return if (touchEvent % (getMinuteHeight() * MIN_MINUTE_STEP) != 0f) {
+            val dif = touchEvent % (getMinuteHeight() * MIN_MINUTE_STEP)
+            if (touchEvent - dif < 0) 0f
+            else touchEvent - dif
+        } else touchEvent
     }
 
     private fun clearFigure() {
@@ -191,8 +230,7 @@ class IndicatorView @JvmOverloads constructor(
         currentYTop = 0f
         currentYBottom = 0f
         rectangleCreated = false
-
-        postInvalidate()
+        invalidate()
     }
 
     private fun createSquare(height: Float) {
@@ -205,27 +243,53 @@ class IndicatorView @JvmOverloads constructor(
         ).also {
             createNewThumb(it)
         }
-        currentYTop = currentY - 50
-        currentYBottom = currentY + height + 50
+        currentYTop = currentY - FRAME_INVISIBLE_AREA
+        currentYBottom = currentY + height + FRAME_INVISIBLE_AREA
         rectangleCreated = true
         invalidate()
     }
 
-    private fun findRectangleHeight(distanceToTheBottom: Float) =
-        if (distanceToTheBottom < normalRectHeight) distanceToTheBottom
-        else if (measuredHeight < normalRectHeight) measuredHeight.toFloat()
-        else normalRectHeight.toFloat()
+    private fun findRectangleHeight(distanceToTheBottom: Int) =
+        when {
+            distanceToTheBottom < normalRectHeight -> distanceToTheBottom
+            height < normalRectHeight -> height
+            else -> {
+                normalRectHeight
+            }
+        }
+
 
     private fun createNewThumb(figure: Square) {
         thumbBottom =
             CircleThumb(
-                figure.x + figure.width - 50,
+                figure.x + figure.width - bottomThumbPadding,
                 figure.y + figure.height,
                 figure.color,
-                8f
+                DEFOULT_THUMB_RADIUS
             )
-        thumbTop = CircleThumb(figure.x + 50, figure.y, figure.color, 8f)
+        thumbTop = CircleThumb(figure.x + topThumbPadding, figure.y, figure.color, DEFOULT_THUMB_RADIUS)
+        mapCoordinatesToTime(thumbTop, thumbBottom)
+    }
 
+    private fun mapCoordinatesToTime(thumbTop: CircleThumb, thumbBottom: CircleThumb) {
+        val topDynamicTime = startTimeRange.stringToDateTime(TIME_DATE_FORMAT).toLocalTime()
+        val topMinute = when {
+            thumbTop.y > 0 -> thumbTop.y / getMinuteHeight()
+            else -> 0
+        }
+        val bottomMinute = thumbBottom.y / getMinuteHeight()
+        val resultTopTime = topDynamicTime.plusMinutes(topMinute.toLong())
+        val resultBottomTime = topDynamicTime.plusMinutes(bottomMinute.toLong())
+        emitRangePeriod(resultTopTime, resultBottomTime)
+    }
+
+    private fun emitRangePeriod(
+        resultTopTime: LocalTime?,
+        resultBottomTime: LocalTime?
+    ) {
+        job.launch {
+            mutableRangePeriod.emit(Pair(resultTopTime, resultBottomTime))
+        }
     }
 
     override fun performClick(): Boolean {
@@ -236,12 +300,28 @@ class IndicatorView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         unSubscribe()
+        job.cancel()
     }
 
     companion object {
         val listView = mutableListOf<IndicatorView>()
-    }
+        private val mutableRangePeriod = MutableSharedFlow<Pair<LocalTime?, LocalTime?>>()
+        val rangePeriod: SharedFlow<Pair<LocalTime?, LocalTime?>>
+            get() = mutableRangePeriod
+        private val DEFAULT_HOUR_HEIGHT_ID = R.dimen.dimens_66_dp
+        private const val TIME_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+        private const val TIME_FORMAT = "HH:mm"
+        private const val MIN_MINUTE_INTERVAL = 15
+        private const val MIN_MINUTE_STEP = 5
+        private const val DEFAULT_THUMB_PADDING = 35
+        private const val FRAME_INVISIBLE_AREA = 50
+        private const val THUMB_INVISIBLE_AREA = 5
+        private const val MINUTE_IN_HOUR = 60f
+        private const val FRAME_WIDTH = 2f
+        private const val DEFOULT_THUMB_RADIUS = 8f
 
+
+    }
 
     private fun subscribe() {
         listView.add(this)

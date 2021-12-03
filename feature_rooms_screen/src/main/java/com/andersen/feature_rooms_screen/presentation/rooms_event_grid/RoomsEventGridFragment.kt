@@ -21,6 +21,7 @@ import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForG
 import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view.indicator_view.IndicatorView
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
@@ -28,7 +29,9 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import kotlinx.android.synthetic.main.fragment_rooms.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
@@ -65,6 +68,19 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         getEventsByDate()
         eventListByRoomObserver()
         observeRoomChange()
+        observeIndicatorTimeRange()
+
+    }
+
+    private fun observeIndicatorTimeRange() {
+        lifecycleScope.launch {
+            IndicatorView.rangePeriod.collectLatest {
+                binding.timeLineView.apply {
+                    dynamicStartTime = it.first
+                    dynamicEndTime = it.second
+                }
+            }
+        }
     }
 
     override fun getComponent(): RoomsEventComponent =
