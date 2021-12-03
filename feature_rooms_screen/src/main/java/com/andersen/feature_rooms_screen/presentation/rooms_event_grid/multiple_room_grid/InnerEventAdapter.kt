@@ -67,12 +67,19 @@ class InnerEventAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.root.layoutParams.height = emptyEventList[position / 2].heightEventItem
+            binding.itemGagEmptyRoomEvent.apply {
+                layoutParams.height = emptyEventList[position / POSITION_DIVISION].heightEventItem
+                startTimeRange = emptyEventList[position / POSITION_DIVISION].startTime
+                endTimeRange = emptyEventList[position / POSITION_DIVISION].startTime
+            }
+
         }
     }
 
     companion object {
         private const val EMPTY_EVENT_VIEW_HOLDER_TYPE = 1
         private const val EVENT_VIEW_HOLDER_TYPE = 2
+        private const val POSITION_DIVISION = 2
+
     }
 }

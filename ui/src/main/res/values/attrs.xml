@@ -41,5 +41,8 @@
         <attr name="indicatorStrokeWidth" format="integer"/>
         <attr name="startPeriod" format="string"/>
         <attr name="endPeriod" format="string"/>
+        <attr name="hourFrameHeight" format="dimension"/>
+        <attr name="topThumbPadding" format="dimension"/>
+        <attr name="bottomThumbPadding" format="dimension"/>
     </declare-styleable>
 </resources>
