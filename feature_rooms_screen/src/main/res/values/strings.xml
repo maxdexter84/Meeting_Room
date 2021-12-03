@@ -10,4 +10,9 @@
     <string name="end_for_third_floor">%1$dd</string>
     <string name="end_for_other_floors">%1$dth</string>
     <string name="allString">all</string>
+    <string name="new_event_title_hint">Add title</string>
+    <string name="new_event_comment_hint">Add comment</string>
+    <string name="cancel_button">cancel</string>
+    <string name="ok_button">ok</string>
+    <string name="time_picker_dialog_title">SELECT TIME</string>
 </resources>

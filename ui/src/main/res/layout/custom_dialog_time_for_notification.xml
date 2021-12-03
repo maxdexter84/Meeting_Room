@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:id="@+id/textView_custom_dialog_title"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:text="@string/custom_notifications"
+        android:textSize="@dimen/dimens_14_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/user_custom_time_edit_text"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginBottom="@dimen/dimens_4_dp"
+        android:background="@android:color/transparent"
+        android:inputType="number"
+        android:maxLength="3"
+        app:layout_constraintBottom_toTopOf="@id/view_custom_dialog_edit_text_line"
+        app:layout_constraintEnd_toEndOf="@id/view_custom_dialog_edit_text_line"
+        app:layout_constraintStart_toStartOf="@id/view_custom_dialog_edit_text_line"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <View
+        android:id="@+id/view_custom_dialog_edit_text_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_44_dp"
+        android:layout_marginEnd="@dimen/dimens_24_dp"
+        android:background="@color/enabled_bell_colour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_custom_dialog_title" />
+
+    <RadioGroup
+        android:id="@+id/time_format_custom_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:paddingTop="@dimen/dimens_12_dp"
+        android:paddingEnd="@dimen/dimens_12_dp"
+        android:paddingBottom="@dimen/dimens_12_dp"
+        android:paddingStart="@dimen/dimens_24_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_edit_text_line">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/custom_time_in_minutes"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginBottom="@dimen/dimens_24_dp"
+            android:checked="true"
+            android:paddingStart="@dimen/dimens_20_dp"
+            android:text="@string/custom_dialog_radio_button_minutes" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/custom_time_in_hours"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:layout_marginBottom="@dimen/dimens_24_dp"
+            android:paddingStart="@dimen/dimens_20_dp"
+            android:text="@string/custom_dialog_radio_button_hours" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/custom_time_in_days"
+            style="@style/TextAppearanceDescription"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_24_dp"
+            android:paddingStart="@dimen/dimens_20_dp"
+            android:text="@string/custom_dialog_radio_button_days" />
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/view_custom_dialog_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_format_custom_dialog" />
+
+    <TextView
+        android:id="@+id/custom_dialog_button_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:layout_marginEnd="@dimen/dimens_8_dp"
+        android:layout_marginBottom="@dimen/dimens_8_dp"
+        android:background="@drawable/ic_button_custom_dialog_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_divider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

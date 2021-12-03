@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/roomPickerDialogNavigation"
+    app:startDestination="@id/roomPickerDialogFragment">
+    <dialog
+        android:id="@+id/roomPickerDialogFragment"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_room_picker.presentation.RoomPickerDialogFragment"
+        android:label="RoomPickerDialogFragment" >
+        <argument
+            android:name="key"
+            app:argType="string"/>
+        <argument
+            android:name="userRoom"
+            app:argType="string" />
+        <argument
+            android:name="rooms"
+            app:argType="com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData[]"/>
+    </dialog>
+</navigation>
