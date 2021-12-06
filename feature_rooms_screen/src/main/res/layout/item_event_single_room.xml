@@ -42,7 +42,7 @@
                 android:textSize="@dimen/dimens_12_sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/event_title_upcoming"
+                app:layout_constraintTop_toBottomOf="@id/event_title_upcoming"
                 app:layout_constraintVertical_bias="0.1"
                 tools:text="Alexandrov Alexandr" />
 
@@ -53,9 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimens_8_dp"
                 android:textSize="@dimen/dimens_12_sp"
-                app:layout_constraintBottom_toBottomOf="@+id/name_of_booker"
-                app:layout_constraintStart_toEndOf="@+id/name_of_booker"
-                app:layout_constraintTop_toTopOf="@+id/name_of_booker"
+                app:layout_constraintBottom_toBottomOf="@id/name_of_booker"
+                app:layout_constraintStart_toEndOf="@id/name_of_booker"
+                app:layout_constraintTop_toTopOf="@id/name_of_booker"
                 tools:text="Js developer" />
 
             <View
