@@ -93,6 +93,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/room_recycler_view"
+        android:visibility="visible"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimens_4_dp"
@@ -101,7 +102,7 @@
         app:layout_constraintStart_toStartOf="@id/time_line_view"
         app:layout_constraintEnd_toEndOf="@id/time_line_view"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"/>
 
     <com.meeringroom.ui.view.time_line.TimeLineView
         android:id="@+id/time_line_view"
