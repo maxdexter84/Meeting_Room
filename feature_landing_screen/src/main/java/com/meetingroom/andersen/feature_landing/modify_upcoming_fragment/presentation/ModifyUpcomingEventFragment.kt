@@ -20,7 +20,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_module.utils.*
-import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
@@ -34,14 +33,19 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import java.util.*
-import javax.inject.Inject
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
     BaseFragment<FragmentModifyUpcomingEventBinding>(FragmentModifyUpcomingEventBinding::inflate),
@@ -73,12 +77,10 @@ class ModifyUpcomingEventFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val config = resources.configuration
         Locale.setDefault(DEFAULT_LOCALE)
-        resources.configuration.apply {
-            setLocale(DEFAULT_LOCALE)
-            setLayoutDirection(DEFAULT_LOCALE)
-            requireContext().createConfigurationContext(this)
-        }
+        config.setLocale(DEFAULT_LOCALE)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     @SuppressLint("ClickableViewAccessibility")

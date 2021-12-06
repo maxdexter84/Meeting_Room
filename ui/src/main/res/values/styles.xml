@@ -105,9 +105,10 @@
 
     <!-- TIMEPICKER. LIGHT -->
 
-    <style name="TimePickerDialog.Light" parent="Dialog.Light">
+    <style name="TimePickerDialog.Light" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:timePickerStyle">@style/TimePicker.Light</item>
         <item name="android:windowTitleStyle">@style/TimePicker.Title.TextAppearance.Light</item>
+        <item name="android:buttonBarButtonStyle">@style/Dialog.Button.Light</item>
     </style>
 
     <style name="TimePicker.Light" parent="@android:style/Widget.Material.Light.TimePicker">
