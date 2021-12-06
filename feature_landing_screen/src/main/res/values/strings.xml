@@ -16,6 +16,8 @@
     <string name="time_picker_dialog_title">SELECT TIME</string>
     <string name="cancel_button">cancel</string>
     <string name="ok_button">ok</string>
+    <string name="delete">delete</string>
+    <string name="delete_the_event">Delete the event?</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

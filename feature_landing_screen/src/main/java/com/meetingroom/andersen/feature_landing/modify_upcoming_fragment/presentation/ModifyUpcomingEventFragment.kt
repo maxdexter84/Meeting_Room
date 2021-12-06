@@ -11,6 +11,7 @@ import android.text.InputFilter
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -33,6 +34,7 @@ import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.Dagg
 import com.meetingroom.andersen.feature_landing.di.modify_upcoming_fragment.ModifyUpcomingEventFragmentModule
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getLongReminderLabel
 import com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.utils.getShortReminderLabel
+import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -132,6 +134,10 @@ class ModifyUpcomingEventFragment :
             }
             modifyEndTimePicker.setOnClickListener {
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
+            }
+
+            btnDeleteEvent.setOnClickListener {
+                showDeleteEventDialog()
             }
         }
         findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
@@ -376,6 +382,26 @@ class ModifyUpcomingEventFragment :
         return stringDateAndTimeToMillis(
             dateInMillis.toString(),
             binding.modifyStartTimePicker.text.toString()
+        )
+    }
+
+    private fun showDeleteEventDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.delete_the_event))
+            .setCancelable(false)
+            .setNegativeButton(R.string.cancel_button) { dialog, _ -> dialog.cancel() }
+            .setPositiveButton(R.string.delete) { _, _ -> deleteEvent(args.upcomingEvent) }
+            .show()
+    }
+
+    private fun deleteEvent(event: UpcomingEventData){
+        Toast.makeText(requireContext(), "${getString(R.string.delete)} ${event.title}", Toast.LENGTH_SHORT).show()
+        navigateToUpcomingEventFragment()
+    }
+
+    private fun navigateToUpcomingEventFragment() {
+        findNavController().navigate(
+            ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToLandingFragment()
         )
     }
 
