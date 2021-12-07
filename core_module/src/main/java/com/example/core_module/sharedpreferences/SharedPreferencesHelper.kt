@@ -2,8 +2,9 @@ package com.example.core_module.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class SharedPreferencesHelper(val context: Context) : IPreferenceHelper {
+class SharedPreferencesHelper @Inject constructor (val context: Context) : IPreferenceHelper {
 
     private val name = "SharedPreferencesHelper"
     private val preferences: SharedPreferences =

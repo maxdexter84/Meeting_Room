@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landing_fragment.ui.LandingFragment">
+    tools:context=".presentation.landing_fragment.LandingFragment">
 
     <com.meeringroom.ui.view.toolbar.MrToolBar
         android:id="@+id/landing_toolbar"

@@ -1,10 +1,12 @@
 package com.example.core_module.user_logout
 
+import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelper
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import kotlinx.datetime.Clock
+import javax.inject.Inject
 
-class LogOutHelper(
-    private val saveData: UserDataPrefHelperImpl
+class LogOutHelper @Inject constructor (
+    private val saveData: UserDataPrefHelper
 ) {
 
     fun isDeleteRequired(): Boolean {

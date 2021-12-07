@@ -1,18 +1,28 @@
 package com.meetingroom.android.di
 
 import android.content.Context
+import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
 import com.example.core_network.NetworkModule
+import com.example.feature_set_location.di.SetLocationDeps
+import com.meetingroom.andersen.feature_landing.presentation.di.LandingDeps
+import com.meetingroom.android.ApplicationMeetingRoom
 import com.meetingroom.android.ui.MainActivity
+import com.meetingroom.feature_login.di.LoginDeps
+import dagger.BindsInstance
 import dagger.Component
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
 
-@Component(modules = [ApplicationModule::class, NetworkModule::class])
-interface ApplicationComponent {
-     fun appContext() : Context
-     fun okHttpClient(): OkHttpClient
-     fun retrofit(): Retrofit
+@Component(modules = [SharedPreferencesModule::class, NetworkModule::class])
+interface ApplicationComponent:
+     LandingDeps,
+     LoginDeps,
+     SetLocationDeps
+{
 
      fun inject(activity: MainActivity)
+     fun inject(application: ApplicationMeetingRoom)
 
+     @Component.Factory
+     interface Factory {
+          fun create(@BindsInstance context: Context): ApplicationComponent
+     }
 }

@@ -48,6 +48,7 @@ dependencies {
     implementation libraries.room
     implementation libraries.dagger
     implementation libraries.legacy
+    implementation libraries.componentsManager
 
     kapt libraries.daggerCompiler
 

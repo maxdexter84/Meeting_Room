@@ -67,10 +67,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         observeRoomChange()
     }
 
-    override fun getComponent(): RoomsEventComponent =
-        DaggerRoomsEventComponent.builder()
-            .newEventModule(NewEventModule(requireContext()))
-            .build()
+    override fun getComponent(): RoomsEventComponent {
+        return DaggerRoomsEventComponent
+            .factory()
+            .create(requireContext())
+    }
 
     private fun initToolbar() {
         with(binding) {
