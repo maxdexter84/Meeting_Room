@@ -27,7 +27,7 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         }
 
         binding.confirmLocationFragment.setOnClickListener {
-            navigateToDeepLink(resources.getString(R.string.bottom_navigation_deep_link))
+            navigateToDeepLink(resources.getString(R.string.deeplink_uri_bottom_navigation))
         }
     }
 

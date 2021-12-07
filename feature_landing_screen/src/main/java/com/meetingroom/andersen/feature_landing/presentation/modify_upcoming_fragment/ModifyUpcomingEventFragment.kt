@@ -19,7 +19,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
-import com.google.android.material.datepicker.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
@@ -29,15 +28,20 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
-import com.meetingroom.andersen.feature_landing.presentation.di.DaggerLandingComponent
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import java.util.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -67,15 +71,11 @@ class ModifyUpcomingEventFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         XInjectionManager.findComponent<LandingComponent>().inject(this)
+        val config = resources.configuration
         Locale.setDefault(DEFAULT_LOCALE)
-        resources.configuration.apply {
-            setLocale(DEFAULT_LOCALE)
-            setLayoutDirection(DEFAULT_LOCALE)
-            requireContext().createConfigurationContext(this)
-        }
+        config.setLocale(DEFAULT_LOCALE)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
-
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,8 +111,7 @@ class ModifyUpcomingEventFragment :
                 InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(
                     Pattern.compile(
                 ASCII_PATTERN
-            ))
-            )
+            )))
             userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(
                 ASCII_PATTERN
             )))

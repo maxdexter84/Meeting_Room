@@ -4,6 +4,7 @@
     android:id="@+id/item_gag_empty_room_event"
     app:indicatorColor="@color/indicatorColor"
     app:thumbColor="@color/indicatorColor"
+    app:hourFrameHeight="@dimen/dimens_90_dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 </com.meeringroom.ui.view.indicator_view.IndicatorView>
