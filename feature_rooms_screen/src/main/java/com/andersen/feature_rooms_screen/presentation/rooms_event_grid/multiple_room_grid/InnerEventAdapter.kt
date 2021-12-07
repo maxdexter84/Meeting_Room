@@ -79,7 +79,7 @@ class InnerEventAdapter(
     companion object {
         private const val EMPTY_EVENT_VIEW_HOLDER_TYPE = 1
         private const val EVENT_VIEW_HOLDER_TYPE = 2
-        private const val POSITION_DIVISION = 2
+        const val POSITION_DIVISION = 2
 
     }
 }
