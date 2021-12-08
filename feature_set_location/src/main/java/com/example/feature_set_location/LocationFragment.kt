@@ -11,13 +11,13 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.citySelectText.text = arguments?.getString(CITY_KEY) ?: ""
+        binding.tvCitySelectText.text = arguments?.getString(CITY_KEY) ?: ""
 
-        binding.selectLayoutLocationFragment.setOnClickListener {
+        binding.ivSelectLayoutLocationFragment.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
 
-        binding.confirmLocationFragment.setOnClickListener {
+        binding.btnConfirmLocationFragment.setOnClickListener {
             navigateToDeepLink(resources.getString(R.string.deeplink_uri_bottom_navigation))
         }
     }
