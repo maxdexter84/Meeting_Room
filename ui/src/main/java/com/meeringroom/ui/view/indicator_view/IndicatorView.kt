@@ -77,7 +77,8 @@ class IndicatorView @JvmOverloads constructor(
                 R.styleable.IndicatorView_thumbColor,
                 resources.getColor(R.color.indicatorColor, context.theme)
             )
-            frameStrokeWidth = getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, FRAME_WIDTH)
+            frameStrokeWidth =
+                getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, FRAME_WIDTH)
             startTimeRange = getString(R.styleable.IndicatorView_startPeriod).toString()
             endTimeRange = getString(R.styleable.IndicatorView_endPeriod).toString()
             normalRectHeight = getDimensionPixelSize(
@@ -267,7 +268,8 @@ class IndicatorView @JvmOverloads constructor(
                 figure.color,
                 DEFOULT_THUMB_RADIUS
             )
-        thumbTop = CircleThumb(figure.x + topThumbPadding, figure.y, figure.color, DEFOULT_THUMB_RADIUS)
+        thumbTop =
+            CircleThumb(figure.x + topThumbPadding, figure.y, figure.color, DEFOULT_THUMB_RADIUS)
         mapCoordinatesToTime(thumbTop, thumbBottom)
     }
 
