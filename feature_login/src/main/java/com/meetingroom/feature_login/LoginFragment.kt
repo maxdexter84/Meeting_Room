@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.IHasComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.login_button.MainActionButtonState
 import com.meetingroom.feature_login.databinding.LoginFragmentBinding
@@ -14,8 +16,6 @@ import com.meetingroom.feature_login.di.DaggerLoginComponent
 import com.meetingroom.feature_login.di.LoginComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.vponomarenko.injectionmanager.IHasComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::inflate), IHasComponent<LoginComponent> {

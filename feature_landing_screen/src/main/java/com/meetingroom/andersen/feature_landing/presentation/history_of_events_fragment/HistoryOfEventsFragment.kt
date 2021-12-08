@@ -9,12 +9,12 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentHistoryOfEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 

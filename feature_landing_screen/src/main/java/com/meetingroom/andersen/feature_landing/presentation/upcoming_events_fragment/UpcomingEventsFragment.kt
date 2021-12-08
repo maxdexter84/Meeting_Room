@@ -5,13 +5,13 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragmentDirections
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 class UpcomingEventsFragment :

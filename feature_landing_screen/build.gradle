@@ -51,7 +51,6 @@ dependencies {
     implementation libraries.dagger
     implementation libraries.legacy
     implementation libraries.datetime
-    implementation libraries.componentsManager
 
     kapt libraries.daggerCompiler
 

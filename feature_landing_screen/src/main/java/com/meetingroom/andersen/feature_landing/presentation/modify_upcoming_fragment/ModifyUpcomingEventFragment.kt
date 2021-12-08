@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -36,7 +37,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.*
 import java.time.LocalDate
 import java.time.LocalDateTime

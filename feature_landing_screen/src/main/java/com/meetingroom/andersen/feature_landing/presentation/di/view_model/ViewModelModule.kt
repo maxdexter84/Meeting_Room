@@ -18,7 +18,7 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HistoryOfEventsFragmentViewModel::class)
+    @ViewModelKey(LandingFragmentViewModel::class)
     fun bindLandingFragmentViewModel(landingFragmentViewModel: LandingFragmentViewModel): ViewModel
 
     @Binds
@@ -30,4 +30,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(UpcomingEventsFragmentViewModel::class)
     fun bindUpcomingEventsFragmentViewModel(upcomingEventsFragmentViewModel: UpcomingEventsFragmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HistoryOfEventsFragmentViewModel::class)
+    fun bindHistoryOfEventsFragmentViewModel(historyOfEventsFragmentViewModel: HistoryOfEventsFragmentViewModel): ViewModel
 }

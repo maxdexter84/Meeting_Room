@@ -13,13 +13,13 @@ import com.andersen.feature_rooms_screen.domain.entity.rooms_event_grid.RoomPick
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.DialogFragmentRoomsBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 class DialogRoomsFragment :

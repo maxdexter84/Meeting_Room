@@ -5,11 +5,11 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CountryFragmentBinding
 import com.example.feature_set_location.di.SetLocationComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 class CountryFragment : BaseFragment<CountryFragmentBinding>(CountryFragmentBinding::inflate) {

@@ -9,6 +9,8 @@ import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.IHasComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
@@ -17,11 +19,9 @@ import com.meetingroom.andersen.feature_landing.databinding.FragmentMySpaceBindi
 import com.meetingroom.andersen.feature_landing.databinding.PopupWindowBinding
 import com.meetingroom.andersen.feature_landing.presentation.di.DaggerLandingComponent
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
-import me.vponomarenko.injectionmanager.IHasComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
-class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBinding::inflate),IHasComponent<LandingComponent> {
+class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBinding::inflate), IHasComponent<LandingComponent> {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

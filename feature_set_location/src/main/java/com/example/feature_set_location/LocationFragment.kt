@@ -4,12 +4,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.IHasComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.feature_set_location.databinding.LocationFragmentBinding
 import com.example.feature_set_location.di.DaggerSetLocationComponent
 import com.example.feature_set_location.di.SetLocationComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import me.vponomarenko.injectionmanager.IHasComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 
 class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentBinding::inflate), IHasComponent<SetLocationComponent> {
 

@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.feature_set_location.LocationFragment
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CityFragmentBinding
@@ -14,7 +15,6 @@ import com.example.feature_set_location.di.SetLocationComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import javax.inject.Inject
 
 class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::inflate) {
