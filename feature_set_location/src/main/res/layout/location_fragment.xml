@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/app_logo_location_fragment"
+        android:id="@+id/iv_app_logo_location_fragment"
         android:layout_width="@dimen/dimens_52_dp"
         android:layout_height="@dimen/dimens_52_dp"
         android:layout_marginTop="@dimen/dimens_60_dp"
@@ -16,35 +15,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/select_layout_location_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_48_dp"
-        app:layout_constraintTop_toBottomOf="@id/select_location_fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/dimens_64_dp"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimens_24_dp"
+        android:id="@+id/iv_select_layoutLocation_fragment"
+        android:layout_width="@dimen/dimens_20_dp"
+        android:layout_height="@dimen/dimens_22_dp"
+        android:layout_marginEnd="11dp"
         android:src="@drawable/arrow"
-        app:layout_constraintBottom_toBottomOf="@id/select_layout_location_fragment"
-        app:layout_constraintEnd_toEndOf="@id/select_layout_location_fragment"
-        app:layout_constraintTop_toTopOf="@id/select_layout_location_fragment" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_city_select_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_city_select_text" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/divider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <View
+        android:id="@+id/view_border"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/location_divider_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_city_select_text"
+        app:layout_constraintTop_toBottomOf="@id/tv_city_select_text" />
 
 
     <TextView
-        android:id="@+id/select_location_fragment"
+        android:id="@+id/tv_select_location_fragment"
         style="@style/TextAppearanceLargeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,37 +46,37 @@
         android:text="@string/select_your_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_logo_location_fragment" />
+        app:layout_constraintTop_toBottomOf="@id/iv_app_logo_location_fragment" />
 
     <TextView
-        android:id="@+id/city_select_text"
+        android:id="@+id/tv_city_select_text"
         style="@style/TextAppearanceDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/select_layout_location_fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/select_layout_location_fragment"
         android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="71dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_select_location_fragment"
         tools:text="Dnipro" />
 
     <TextView
-        android:id="@+id/error_text_location_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/tv_error_text_location_fragment"
+        android:layout_width="2dp"
+        android:layout_height="10dp"
         android:layout_marginStart="@dimen/dimens_16_dp"
         android:layout_marginTop="@dimen/dimens_12_dp"
         android:textColor="@color/error_color_for_textview"
         android:textSize="@dimen/dimens_12_sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/select_layout_location_fragment" />
+        app:layout_constraintTop_toBottomOf="@+id/view_border" />
 
     <com.meeringroom.ui.view.login_button.MainActionButton
-        android:id="@+id/confirm_location_fragment"
+        android:id="@+id/btn_confirm_location_fragment"
         android:layout_width="0dp"
         android:layout_height="@dimen/dimens_50_dp"
-        android:layout_marginBottom="@dimen/dimens_20_dp"
-        android:layout_marginEnd="@dimen/dimens_16_dp"
         android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:layout_marginBottom="@dimen/dimens_20_dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
