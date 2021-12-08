@@ -13,7 +13,7 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         super.onViewCreated(view, savedInstanceState)
         binding.tvCitySelectText.text = arguments?.getString(CITY_KEY) ?: ""
 
-        binding.tvSelectLocationFragment.setOnClickListener {
+        binding.ivSelectLayoutLocationFragment.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
         }
 
