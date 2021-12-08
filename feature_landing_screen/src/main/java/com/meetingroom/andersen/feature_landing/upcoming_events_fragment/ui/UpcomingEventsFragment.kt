@@ -3,7 +3,10 @@ package com.meetingroom.andersen.feature_landing.upcoming_events_fragment.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
@@ -12,6 +15,8 @@ import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.Upco
 import com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragmentDirections
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UpcomingEventsFragment :
@@ -35,15 +40,37 @@ class UpcomingEventsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        viewModel.gagData.observe(viewLifecycleOwner) {
-            eventAdapter.setData(it)
-            initEmptyUpcomingMessage(it.isEmpty())
+        upcomingEventsListObserver()
+    }
+
+    private fun upcomingEventsListObserver(){
+        lifecycleScope.launch {
+            viewModel.upcomingEvents.collectLatest {
+                eventAdapter.setData(it)
+                loadingStateObserver()
+                initEmptyUpcomingMessage(it.isEmpty())
+            }
+        }
+    }
+
+    private fun loadingStateObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableState.collectLatest {
+                when (it) {
+                    is State.Loading -> {
+                        with(binding) {
+                            progressBarUpcomingEvents.isVisible = true
+                            initEmptyUpcomingMessage(false)
+                        }
+                    }
+                    else -> binding.progressBarUpcomingEvents.isVisible = false
+                }
+            }
         }
     }
 
     private fun initEmptyUpcomingMessage(visibility: Boolean) {
         with(binding) {
-            progressBarUpcomingEvents.visibilityIf(false)
             emojiEmptyUpcomings.visibilityIf(visibility)
             feelsLonelyEmptyUpcomings.visibilityIf(visibility)
             bookMeetingSuggestionEmptyUpcomings.visibilityIf(visibility)
