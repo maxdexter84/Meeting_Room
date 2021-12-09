@@ -2,28 +2,27 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragmentDirections
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
-import kotlinx.datetime.toLocalDate
-import java.time.LocalDate
 import java.time.LocalTime
 
 class InnerEventAdapter(
     val eventList: List<RoomEventForGrid>,
-    val emptyEventList: List<EmptyRoomEventForGrid>, val click:(Pair<LocalTime, LocalTime>)->Unit
+    val emptyEventList: List<EmptyRoomEventForGrid>, val click: (Pair<LocalTime, LocalTime>) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             EMPTY_EVENT_VIEW_HOLDER_TYPE ->
                 EmptyEventsViewHolder(
-                    ItemGagEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    ItemGagEmptyEventBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ),
                 )
             else -> EventsRoomViewHolder(
                 ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -75,13 +74,11 @@ class InnerEventAdapter(
         fun bind(position: Int) {
             val item = emptyEventList[position / POSITION_DIVISION]
             binding.itemGagEmptyRoomEvent.apply {
-
                 layoutParams.height = item.heightEventItem
                 startTimeRange = item.startTime
                 endTimeRange = item.startTime
                 setOnClickListener {
                     click.invoke(this.currentRangePeriod)
-                    Toast.makeText(context, "dsff", Toast.LENGTH_SHORT).show()
                 }
             }
 

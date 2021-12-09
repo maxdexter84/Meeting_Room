@@ -3,18 +3,15 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragmentDirections
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventsRoomBinding
-import java.time.LocalDate
-import javax.inject.Inject
+import java.time.LocalTime
 
-class MainEventAdapter @Inject constructor(val click:()->Unit) :
+class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>) -> Unit) :
     RecyclerView.Adapter<MainEventAdapter.EventsRoomViewHolder>() {
 
     var roomList = emptyList<Room>()
@@ -23,7 +20,7 @@ class MainEventAdapter @Inject constructor(val click:()->Unit) :
             field = value
             notifyDataSetChanged()
         }
-    var emptyEventList  = emptyList<EmptyRoomEventForGrid>()
+    var emptyEventList = emptyList<EmptyRoomEventForGrid>()
 
     var eventList = emptyList<RoomEventForGrid>()
         @SuppressLint("NotifyDataSetChanged")
@@ -33,11 +30,23 @@ class MainEventAdapter @Inject constructor(val click:()->Unit) :
         }
 
     override fun onBindViewHolder(holder: EventsRoomViewHolder, position: Int) {
-        if (roomList.isNotEmpty()) holder.bind(roomList[position], position, eventList, emptyEventList)
+        if (roomList.isNotEmpty()) holder.bind(
+            roomList[position],
+            position,
+            eventList,
+            emptyEventList,
+            click
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRoomViewHolder {
-        return EventsRoomViewHolder(ItemEventsRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return EventsRoomViewHolder(
+            ItemEventsRoomBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = roomList.size
@@ -50,17 +59,19 @@ class MainEventAdapter @Inject constructor(val click:()->Unit) :
             room: Room, position: Int,
             eventList: List<RoomEventForGrid>,
             emptyEventList: List<EmptyRoomEventForGrid>,
+            click: (Triple<LocalTime, LocalTime, String>) -> Unit
         ) {
             with(binding.eventRecyclerView) {
                 layoutManager =
-                    LinearLayoutManager(binding.eventRecyclerView.context, LinearLayoutManager.VERTICAL, false)
-                adapter = InnerEventAdapter(eventList = eventList, emptyEventList = emptyEventList) {
-                    findNavController().navigate(
-                        RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
-                            LocalDate.now(), "Yellow"
-                        )
+                    LinearLayoutManager(
+                        binding.eventRecyclerView.context,
+                        LinearLayoutManager.VERTICAL,
+                        false
                     )
-                }
+                adapter =
+                    InnerEventAdapter(eventList = eventList, emptyEventList = emptyEventList) {
+                        click.invoke(Triple(it.first, it.second, room.title))
+                    }
             }
         }
     }
