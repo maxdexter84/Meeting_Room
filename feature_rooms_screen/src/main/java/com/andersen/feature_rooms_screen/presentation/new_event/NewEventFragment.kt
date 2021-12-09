@@ -87,6 +87,7 @@ class NewEventFragment :
             setLayoutDirection(DEFAULT_LOCALE)
             requireContext().createConfigurationContext(this)
         }
+
     }
 
     override fun getComponent(): RoomsEventComponent =
