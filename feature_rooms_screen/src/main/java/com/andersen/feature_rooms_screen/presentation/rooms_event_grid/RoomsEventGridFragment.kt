@@ -17,6 +17,9 @@ import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.MainEventAdapter
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.RoomsAdapter
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.state.State
@@ -29,17 +32,17 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import kotlinx.android.synthetic.main.fragment_rooms.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import me.vponomarenko.injectionmanager.IHasComponent
 import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
-class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), IHasComponent<RoomsEventComponent> {
+class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate),
+    IHasComponent<RoomsEventComponent> {
 
     private lateinit var selectedDateForGrid: LocalDate
     private var eventRoom = "All rooms"
@@ -49,6 +52,20 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     private val viewModel: RoomsEventViewModel by viewModels {
         viewModelFactory
     }
+
+    private val singleRoomEventAdapter = SingleRoomEventAdapter()
+    private val roomsAdapter = RoomsAdapter()
+    private val mainEventAdapter = MainEventAdapter {
+        findNavController().navigate(
+            RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
+                eventDate = selectedDateForGrid,
+                eventStartTime = it.first,
+                eventEndTime = it.second,
+                roomTitle = it.third
+            )
+        )
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +113,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                     onIconClick = {
                         findNavController().navigate(
                             RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
-                               selectedDateForGrid, eventRoom
+                                selectedDateForGrid,
+                                eventRoom,
+                                eventStartTime = LocalTime.now(),
+                                eventEndTime = LocalTime.now(),
                             )
                         )
                     }
@@ -107,24 +127,30 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun initRecyclerView() {
         val singleRoomEventRecyclerView = binding.singleRoomGridRecyclerView
-        singleRoomEventRecyclerView.adapter = viewModel.singleRoomEventAdapter
-        singleRoomEventRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        singleRoomEventRecyclerView.adapter = singleRoomEventAdapter
+        singleRoomEventRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         val roomRecyclerView = binding.roomRecyclerView
-        roomRecyclerView.adapter = viewModel.roomsAdapter
-        roomRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        roomRecyclerView.adapter = roomsAdapter
+        roomRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val gridRecyclerView = binding.gridRecyclerView
-        gridRecyclerView.adapter = viewModel.mainEventAdapter
-        gridRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        gridRecyclerView.adapter = mainEventAdapter
+        gridRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun eventListObserver() {
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
-                viewModel.mainEventAdapter.emptyEventList = it.toEmptyEventListForGrid(heightSingleRoomGrid, binding.oneWeekCalendar.currentDate)
-                viewModel.mainEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
+                mainEventAdapter.emptyEventList = it.toEmptyEventListForGrid(
+                    heightSingleRoomGrid,
+                    binding.oneWeekCalendar.currentDate
+                )
+                mainEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
     }
@@ -133,9 +159,12 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomEventListByRoom.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
-                viewModel.singleRoomEventAdapter.emptyEventList =
-                    it.toEmptyEventListForGrid(heightSingleRoomGrid, binding.oneWeekCalendar.currentDate)
-                viewModel.singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
+                singleRoomEventAdapter.emptyEventList =
+                    it.toEmptyEventListForGrid(
+                        heightSingleRoomGrid,
+                        binding.oneWeekCalendar.currentDate
+                    )
+                singleRoomEventAdapter.eventList = it.toEventListForGrid(heightSingleRoomGrid)
             }
         }
     }
@@ -346,8 +375,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 binding.singleRoomGridRecyclerView.isVisible = false
                 binding.gridRecyclerView.isVisible = true
                 binding.roomRecyclerView.isVisible = true
-                viewModel.roomsAdapter.roomList = it
-                viewModel.mainEventAdapter.roomList = it
+                roomsAdapter.roomList = it
+                mainEventAdapter.roomList = it
                 viewModel.getEventsByRoom(*it.toTypedArray())
             }
         }

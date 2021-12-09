@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.MainEventAdapter
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.RoomsAdapter
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
-import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.example.core_module.state.State
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -22,9 +19,6 @@ import javax.inject.Inject
 
 class RoomsEventViewModel @Inject constructor(
     private val roomsApi: RoomsApi,
-    val roomsAdapter: RoomsAdapter,
-    val mainEventAdapter: MainEventAdapter,
-    val singleRoomEventAdapter: SingleRoomEventAdapter,
     private val dialogManager: TimeValidationDialogManager
 ) : ViewModel() {
 
@@ -52,7 +46,7 @@ class RoomsEventViewModel @Inject constructor(
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
 
-    fun setEvent(event : TimeValidationDialogManager.ValidationEvent) {
+    fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
 
@@ -82,7 +76,8 @@ class RoomsEventViewModel @Inject constructor(
                         it[index] in freeRooms
                     )
                 }
-                _roomPickerList.emit(roomsList.sortedByDescending { room -> room.isEnabled }.toTypedArray())
+                _roomPickerList.emit(roomsList.sortedByDescending { room -> room.isEnabled }
+                    .toTypedArray())
             }
         }
     }
@@ -113,7 +108,7 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
-    fun getRoomsOnTheFloor(floor: Int){
+    fun getRoomsOnTheFloor(floor: Int) {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
@@ -145,7 +140,7 @@ class RoomsEventViewModel @Inject constructor(
         getRoomPickerData()
     }
 
-    companion object{
+    companion object {
         const val DELAY_DOWNLOAD = 500L
         private const val ROOM_IS_SELECTED = false
     }
