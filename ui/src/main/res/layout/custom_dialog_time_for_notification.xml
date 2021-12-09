@@ -103,7 +103,7 @@
         android:layout_marginTop="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_8_dp"
         android:layout_marginBottom="@dimen/dimens_8_dp"
-        android:background="@drawable/ic_button_custom_dialog_background"
+        android:background="@drawable/button_custom_dialog_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_divider" />
