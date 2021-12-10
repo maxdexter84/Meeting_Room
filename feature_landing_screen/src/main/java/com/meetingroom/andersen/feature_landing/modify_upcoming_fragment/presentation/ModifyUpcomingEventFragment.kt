@@ -324,7 +324,7 @@ class ModifyUpcomingEventFragment :
             requireContext(),
             this,
             date.year,
-            date.monthValue - 1,
+            date.monthValue - MONTH_DIFFERENT,
             date.dayOfMonth
         ).apply {
             val minDate = LocalDate.now()
@@ -333,19 +333,19 @@ class ModifyUpcomingEventFragment :
             setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
             datePicker.init(
                 date.year,
-                date.monthValue - 1,
+                date.monthValue - MONTH_DIFFERENT,
                 date.dayOfMonth
             ) { datePicker, year, month, day ->
-                val localDate = LocalDate.of(year, month + 1, day)
+                val localDate = LocalDate.of(year, month + MONTH_DIFFERENT, day)
                 when {
                     localDate.isBefore(minDate) -> datePicker.updateDate(
                         minDate.year,
-                        minDate.monthValue - 1,
+                        minDate.monthValue - MONTH_DIFFERENT,
                         minDate.dayOfMonth
                     )
                     localDate.isAfter(maxDate) -> datePicker.updateDate(
                         maxDate.year,
-                        maxDate.monthValue - 1,
+                        maxDate.monthValue - MONTH_DIFFERENT,
                         maxDate.dayOfMonth
                     )
                 }
@@ -384,7 +384,7 @@ class ModifyUpcomingEventFragment :
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        dateOfEvent = LocalDate.of(year, month + 1, day)
+        dateOfEvent = LocalDate.of(year, month + MONTH_DIFFERENT, day)
         with(binding) {
             modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
@@ -455,6 +455,7 @@ class ModifyUpcomingEventFragment :
         private const val DESCRIPTION_MAX_LENGTH = 150
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
+        private const val MONTH_DIFFERENT = 1
 
         fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
