@@ -231,51 +231,21 @@ class ModifyUpcomingEventFragment :
             with(binding) {
                 when (it) {
                     is TimeValidationDialogManager.ValidationState.InvalidStartTime -> {
-                        modifyStartTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
+                        modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
                         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {
-                        modifyEndTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
+                        modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
                         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidBothTime -> {
-                        modifyStartTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
-                        modifyEndTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
+                        modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
                         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.TimeIsValid -> {
-                        modifyStartTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.black
-                            )
-                        )
-                        modifyEndTimePicker.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.black
-                            )
-                        )
+                        modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                        modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
                         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = true
                     }
                 }
