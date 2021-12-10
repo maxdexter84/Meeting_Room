@@ -9,9 +9,9 @@ import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventsRoomBinding
-import javax.inject.Inject
+import java.time.LocalTime
 
-class MainEventAdapter @Inject constructor() :
+class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>) -> Unit) :
     RecyclerView.Adapter<MainEventAdapter.EventsRoomViewHolder>() {
 
     var roomList = emptyList<Room>()
@@ -20,7 +20,7 @@ class MainEventAdapter @Inject constructor() :
             field = value
             notifyDataSetChanged()
         }
-    var emptyEventList  = emptyList<EmptyRoomEventForGrid>()
+    var emptyEventList = emptyList<EmptyRoomEventForGrid>()
 
     var eventList = emptyList<RoomEventForGrid>()
         @SuppressLint("NotifyDataSetChanged")
@@ -30,11 +30,23 @@ class MainEventAdapter @Inject constructor() :
         }
 
     override fun onBindViewHolder(holder: EventsRoomViewHolder, position: Int) {
-        if (roomList.isNotEmpty()) holder.bind(roomList[position], position, eventList, emptyEventList)
+        if (roomList.isNotEmpty()) holder.bind(
+            roomList[position],
+            position,
+            eventList,
+            emptyEventList,
+            click
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRoomViewHolder {
-        return EventsRoomViewHolder(ItemEventsRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return EventsRoomViewHolder(
+            ItemEventsRoomBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount() = roomList.size
@@ -47,11 +59,19 @@ class MainEventAdapter @Inject constructor() :
             room: Room, position: Int,
             eventList: List<RoomEventForGrid>,
             emptyEventList: List<EmptyRoomEventForGrid>,
+            click: (Triple<LocalTime, LocalTime, String>) -> Unit
         ) {
             with(binding.eventRecyclerView) {
                 layoutManager =
-                    LinearLayoutManager(binding.eventRecyclerView.context, LinearLayoutManager.VERTICAL, false)
-                adapter = InnerEventAdapter(eventList = eventList, emptyEventList = emptyEventList)
+                    LinearLayoutManager(
+                        binding.eventRecyclerView.context,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                adapter =
+                    InnerEventAdapter(eventList = eventList, emptyEventList = emptyEventList) {
+                        click.invoke(Triple(it.first, it.second, room.title))
+                    }
             }
         }
     }

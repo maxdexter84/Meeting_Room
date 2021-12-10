@@ -50,7 +50,7 @@ dependencies {
     kapt libraries.daggerCompiler
     implementation libraries.dagger
 
-    implementation project(":ui")
+    implementation project(path:':ui')
     implementation project(path: ':core_network')
     implementation project(path: ':core_module')
 

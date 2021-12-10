@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
+import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
@@ -31,7 +31,6 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEventBinding
-import kotlinx.android.synthetic.main.fragment_new_event.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -111,8 +110,14 @@ class NewEventFragment :
             }
             newEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
-            newEventTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
-            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(ASCII_PATTERN)))
+            newEventTitle.filters = arrayOf(
+                InputFilter.LengthFilter(TITLE_MAX_LENGTH),
+                PatternInputFilter(Pattern.compile(ASCII_PATTERN))
+            )
+            userEventDescription.filters = arrayOf(
+                InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH),
+                PatternInputFilter(Pattern.compile(ASCII_PATTERN))
+            )
 
             observeRoomChange()
             observeTimeChange()
@@ -136,13 +141,14 @@ class NewEventFragment :
     }
 
     private fun addLifecycleObserver() {
-        findNavController().getBackStackEntry(R.id.newEventFragment).lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_RESUME -> setTimeOut()
-                Lifecycle.Event.ON_PAUSE -> deleteTimeOut()
-                else -> {}
-            }
-        })
+        findNavController().getBackStackEntry(R.id.newEventFragment).lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> setTimeOut()
+                    Lifecycle.Event.ON_PAUSE -> deleteTimeOut()
+                    else -> {}
+                }
+            })
     }
 
     override fun onStart() {
@@ -153,15 +159,17 @@ class NewEventFragment :
     private fun initViews() {
         with(binding) {
             dateOfEvent = args.eventDate
-            start_date_picker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
-            end_date_picker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
-            startTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).timeToString(
-                TIME_FORMAT)
-            endTimePicker.text = LocalTime.now().roundUpMinute(MINUTE_TO_ROUND).plusHours(
-                DEFAULT_HOURS_EVENT_LENGTH).timeToString(TIME_FORMAT)
+            startDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
+            endDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
+            startTimePicker.text = args.eventStartTime.roundUpMinute(MINUTE_TO_ROUND).timeToString(
+                TIME_FORMAT
+            )
+            endTimePicker.text = args.eventEndTime.roundUpMinute(MINUTE_TO_ROUND).plusHours(
+                DEFAULT_HOURS_EVENT_LENGTH
+            ).timeToString(TIME_FORMAT)
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
-            eventRoomName.text = viewModel.getFreeRoomsList().first().title
+            eventRoomName.text = args.roomTitle
         }
     }
 
@@ -203,24 +211,54 @@ class NewEventFragment :
 
     private fun observeTimeValidation() {
         viewModel.stateLiveData.observe(viewLifecycleOwner) {
-            with (binding) {
+            with(binding) {
                 when (it) {
                     is TimeValidationDialogManager.ValidationState.InvalidStartTime -> {
-                        startTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        startTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {
-                        endTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        endTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidBothTime -> {
-                        startTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                        endTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        startTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
+                        endTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.red
+                            )
+                        )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.TimeIsValid -> {
-                        startTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                        endTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                        startTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
+                        endTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = true
                     }
                 }
@@ -262,11 +300,23 @@ class NewEventFragment :
             val maxDate = LocalDate.now().plusMonths(MAX_MONTH)
             setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok_button), this)
             setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
-            datePicker.init(date.year, date.monthValue - MONTH_VALUE_OFFSET, date.dayOfMonth) { datePicker, year, month, day ->
+            datePicker.init(
+                date.year,
+                date.monthValue - MONTH_VALUE_OFFSET,
+                date.dayOfMonth
+            ) { datePicker, year, month, day ->
                 val localDate = LocalDate.of(year, month + MONTH_VALUE_OFFSET, day)
                 when {
-                    localDate.isBefore(minDate) -> datePicker.updateDate(minDate.year, minDate.monthValue - 1, minDate.dayOfMonth)
-                    localDate.isAfter(maxDate) -> datePicker.updateDate(maxDate.year, maxDate.monthValue - 1, maxDate.dayOfMonth)
+                    localDate.isBefore(minDate) -> datePicker.updateDate(
+                        minDate.year,
+                        minDate.monthValue - 1,
+                        minDate.dayOfMonth
+                    )
+                    localDate.isAfter(maxDate) -> datePicker.updateDate(
+                        maxDate.year,
+                        maxDate.monthValue - 1,
+                        maxDate.dayOfMonth
+                    )
                 }
             }
             datePicker.minDate = getLocalDateTime(minDate)
@@ -277,7 +327,10 @@ class NewEventFragment :
         }
     }
 
-    private fun showTimePickerDialog(timeString: String, listener: TimePickerDialog.OnTimeSetListener) {
+    private fun showTimePickerDialog(
+        timeString: String,
+        listener: TimePickerDialog.OnTimeSetListener
+    ) {
         deleteTimeOut()
         with(timeString.stringToTime(TIME_FORMAT)) {
             TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
@@ -306,7 +359,8 @@ class NewEventFragment :
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnDateChanged(
                     startTimePicker.text.toString().stringToTime(TIME_FORMAT),
-                    dateOfEvent)
+                    dateOfEvent
+                )
             )
         }
     }
@@ -358,7 +412,7 @@ class NewEventFragment :
 
     companion object {
         private const val ROOM_KEY = "ROOM_KEY"
-        private  const val TIME_KEY = "TIME_KEY"
+        private const val TIME_KEY = "TIME_KEY"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val ASCII_PATTERN = "\\p{ASCII}"
         private val DEFAULT_LOCALE = Locale.UK
@@ -394,6 +448,8 @@ class NewEventFragment :
             return currentTime + finalTime
         }
 
-        private fun getLocalDateTime(date : LocalDate) = LocalDateTime.of(date, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        private fun getLocalDateTime(date: LocalDate) =
+            LocalDateTime.of(date, LocalTime.of(0, 0, 0)).atZone(ZoneId.systemDefault()).toInstant()
+                .toEpochMilli()
     }
 }

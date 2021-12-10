@@ -60,6 +60,8 @@ class IndicatorView @JvmOverloads constructor(
         set(value) {
             if (value in 0 until width) field = value
         }
+    var currentRangePeriod: Pair<LocalTime, LocalTime> = Pair(LocalTime.now(), LocalTime.now())
+
     private var rectangleCreated: Boolean = false
     private var normalRectHeight: Int = resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
 
@@ -282,6 +284,7 @@ class IndicatorView @JvmOverloads constructor(
         val bottomMinute = thumbBottom.y / getMinuteHeight()
         val resultTopTime = topDynamicTime.plusMinutes(topMinute.toLong())
         val resultBottomTime = topDynamicTime.plusMinutes(bottomMinute.toLong())
+        currentRangePeriod = Pair(resultTopTime, resultBottomTime)
         emitRangePeriod(resultTopTime, resultBottomTime)
     }
 
@@ -295,8 +298,8 @@ class IndicatorView @JvmOverloads constructor(
     }
 
     override fun performClick(): Boolean {
-        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
-        return super.performClick()
+        if (super.performClick()) return true
+        return true
     }
 
     override fun onDetachedFromWindow() {
