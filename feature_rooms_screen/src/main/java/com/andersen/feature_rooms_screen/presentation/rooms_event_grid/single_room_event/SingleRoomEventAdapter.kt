@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.InnerEventAdapter
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
-import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEmptyEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventSingleRoomBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
-import javax.inject.Inject
 
-class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SingleRoomEventAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var eventList = emptyList<RoomEventForGrid>()
         @SuppressLint("NotifyDataSetChanged")
@@ -26,10 +24,18 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         return when (viewType) {
             EMPTY_EVENT_VIEW_HOLDER_TYPE ->
                 EmptyEventsViewHolder(
-                    ItemGagEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    ItemGagEmptyEventBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ),
                 )
             else -> EventsRoomViewHolder(
-                ItemEventSingleRoomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemEventSingleRoomBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             )
         }
     }
@@ -41,7 +47,7 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         }
     }
 
-    override fun getItemCount() =  eventList.size + emptyEventList.size
+    override fun getItemCount() = eventList.size + emptyEventList.size
 
     override fun getItemViewType(position: Int): Int {
         return when {
@@ -76,14 +82,20 @@ class SingleRoomEventAdapter @Inject constructor() : RecyclerView.Adapter<Recycl
         fun bind(position: Int) {
             binding.root.layoutParams.height = emptyEventList[position / 2].heightEventItem
             binding.itemGagEmptyRoomEvent.apply {
-                layoutParams.height = emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].heightEventItem
-                startTimeRange = emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].startTime
-                endTimeRange = emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].startTime
+                layoutParams.height =
+                    emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].heightEventItem
+                startTimeRange =
+                    emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].startTime
+                endTimeRange =
+                    emptyEventList[position / InnerEventAdapter.POSITION_DIVISION].startTime
             }
         }
     }
 
-    private fun setEventDataInItem(roomEvent: RoomEventForGrid, binding: ItemEventSingleRoomBinding) {
+    private fun setEventDataInItem(
+        roomEvent: RoomEventForGrid,
+        binding: ItemEventSingleRoomBinding
+    ) {
         with(binding) {
             eventCityColourLineUpcoming.setBackgroundColor(roomEvent.colorRoom)
             nameOfBooker.text = roomEvent.userFullName
