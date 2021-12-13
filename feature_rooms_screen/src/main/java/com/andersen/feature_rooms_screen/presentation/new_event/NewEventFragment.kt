@@ -18,9 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
-import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
-import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
@@ -38,19 +37,17 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import me.vponomarenko.injectionmanager.IHasComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 class NewEventFragment :
     BaseFragment<FragmentNewEventBinding>(FragmentNewEventBinding::inflate),
-    IHasComponent<RoomsEventComponent>,
     DatePickerDialog.OnDateSetListener {
 
     private val args: NewEventFragmentArgs by navArgs()
@@ -78,20 +75,14 @@ class NewEventFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        XInjectionManager.bindComponent(this).inject(this)
+        XInjectionManager.findComponent<RoomsEventComponent>().inject(this)
         Locale.setDefault(DEFAULT_LOCALE)
         resources.configuration.apply {
             setLocale(DEFAULT_LOCALE)
             setLayoutDirection(DEFAULT_LOCALE)
             requireContext().createConfigurationContext(this)
         }
-
     }
-
-    override fun getComponent(): RoomsEventComponent =
-        DaggerRoomsEventComponent.builder()
-            .newEventModule(NewEventModule(requireContext()))
-            .build()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

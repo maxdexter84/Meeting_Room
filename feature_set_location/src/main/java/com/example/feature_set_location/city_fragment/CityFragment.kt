@@ -3,14 +3,15 @@ package com.example.feature_set_location.city_fragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.feature_set_location.LocationFragment
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CityFragmentBinding
-import com.example.feature_set_location.di.CityFragmentModule
-import com.example.feature_set_location.di.DaggerCityComponent
+import com.example.feature_set_location.di.SetLocationComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,16 +29,14 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         })
 
     @Inject
-    lateinit var viewModel: CityFragmentViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: CityFragmentViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        DaggerCityComponent.builder()
-            .cityFragmentModule(CityFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
-            .build()
-            .inject(this)
+        injectDependencies()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +66,11 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
             it.isSelected = true
         }
         viewModel.saveCityOfUserLocation(city)
+    }
+
+    private fun injectDependencies() {
+        XInjectionManager.findComponent<SetLocationComponent>()
+            .inject(this)
     }
 
     companion object{

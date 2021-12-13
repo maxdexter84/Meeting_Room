@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
-import com.andersen.feature_rooms_screen.presentation.di.NewEventModule
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.MainEventAdapter
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.RoomsAdapter
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
 import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
+import com.example.core_module.component_manager.IHasComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.indicator_view.IndicatorView
@@ -34,8 +35,6 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade
 import kotlinx.android.synthetic.main.fragment_rooms.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import me.vponomarenko.injectionmanager.IHasComponent
-import me.vponomarenko.injectionmanager.x.XInjectionManager
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -99,10 +98,11 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    override fun getComponent(): RoomsEventComponent =
-        DaggerRoomsEventComponent.builder()
-            .newEventModule(NewEventModule(requireContext()))
-            .build()
+    override fun getComponent(): RoomsEventComponent {
+        return DaggerRoomsEventComponent
+            .factory()
+            .create(requireContext())
+    }
 
     private fun initToolbar() {
         with(binding) {

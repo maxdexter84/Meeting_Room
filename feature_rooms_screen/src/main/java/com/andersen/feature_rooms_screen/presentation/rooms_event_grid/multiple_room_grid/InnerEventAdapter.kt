@@ -81,7 +81,6 @@ class InnerEventAdapter(
                     click.invoke(this.currentRangePeriod)
                 }
             }
-
         }
     }
 

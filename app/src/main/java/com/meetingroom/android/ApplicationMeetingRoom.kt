@@ -1,33 +1,25 @@
 package com.meetingroom.android
 
 import android.app.Application
-import com.example.core_network.NetworkModule
-import com.meetingroom.android.di.AppComponentProvider
+import com.example.core_module.component_manager.IHasComponent
+import com.example.core_module.component_manager.XInjectionManager
 import com.meetingroom.android.di.ApplicationComponent
-import com.meetingroom.android.di.ApplicationModule
 import com.meetingroom.android.di.DaggerApplicationComponent
 
-
-class ApplicationMeetingRoom : Application(), AppComponentProvider {
-    private lateinit var appComponent: ApplicationComponent
+class ApplicationMeetingRoom : Application(), IHasComponent<ApplicationComponent> {
 
     override fun onCreate() {
         super.onCreate()
-        initComponent()
+        initDagger()
     }
 
-    private fun initComponent() {
-        appComponent =
-            DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this))
-                .networkModule(
-                    NetworkModule()
-                ).build()
+    fun initDagger() {
+        XInjectionManager.init(this)
+        XInjectionManager.bindComponent(this)
     }
 
-    override fun provideCoreComponent(): ApplicationComponent {
-        if (this::appComponent.isInitialized.not()) {
-            initComponent()
-        }
-        return appComponent
-    }
+    override fun getComponent(): ApplicationComponent = DaggerApplicationComponent
+        .factory()
+        .create(this)
+
 }
