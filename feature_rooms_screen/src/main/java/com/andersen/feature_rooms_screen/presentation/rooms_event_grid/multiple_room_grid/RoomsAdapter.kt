@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemRoomBinding
-import javax.inject.Inject
 
-class RoomsAdapter @Inject constructor() :
+class RoomsAdapter() :
     RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>() {
 
     var roomList = emptyList<Room>()

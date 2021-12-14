@@ -11,7 +11,7 @@
         app:popUpTo="@id/landingFragment"/>
     <fragment
         android:id="@+id/landingFragment"
-        android:name="com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragment"
+        android:name="com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_my_space" >
         <action
@@ -20,12 +20,12 @@
     </fragment>
     <fragment
         android:id="@+id/modifyUpcomingEventFragment"
-        android:name="com.meetingroom.andersen.feature_landing.modify_upcoming_fragment.presentation.ModifyUpcomingEventFragment"
+        android:name="com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fragment.ModifyUpcomingEventFragment"
         android:label="fragment_modify_upcoming_event"
         tools:layout="@layout/fragment_modify_upcoming_event" >
         <argument
             android:name="upcoming_event"
-            app:argType="com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData" />
+            app:argType="com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData" />
         <action
             android:id="@+id/action_modifyUpcomingEventFragment_to_timeForNotificationDialog"
             app:destination="@id/timeForNotificationDialogNavigation">

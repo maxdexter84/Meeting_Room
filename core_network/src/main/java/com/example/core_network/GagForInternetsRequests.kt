@@ -7,16 +7,15 @@ import com.example.core_network.location_responses.GetAllAvailableCountriesRespo
 import com.example.core_network.user_interfaces.LogInInterface
 import com.example.core_network.user_posts.LogInRequest
 import com.example.core_network.user_responses.LogInResponse
-import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 
 class GagForInternetsRequests : LogInInterface, LocationInterface {
     override suspend fun logInUser(post: LogInRequest): Response<LogInResponse> {
         return if (arrayOfUsers.filter { it.email == post.email }.count() == 1) {
             Response.success(arrayOfUsers.filter { it.email == post.email }[0])
-        } else Response.error(404, ResponseBody.Companion.create(null, "Something wrong"))
+        } else Response.error(404, "Something wrong".toResponseBody(null))
     }
-
     companion object {
         private val arrayOfUsers by lazy {
             arrayListOf(
@@ -66,7 +65,8 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         private const val andersenEnding: String = "@andersenlab.com"
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
-        private val names = listOf("sascha", "nikita", "vladimir", "andrey", "qwerty", "v.khrytanenka")
+        private val names =
+            listOf("sascha", "nikita", "vladimir", "andrey", "qwerty", "v.khrytanenka")
         private val countries = arrayListOf(
             GetAllAvailableCitiesRequest("Ukraine"),
             GetAllAvailableCitiesRequest("Russia"),
@@ -85,7 +85,7 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
         )
         private val citiesOfRussia = arrayListOf(
             GetAllAvailableCitiesResponse("Moscow"),
-            GetAllAvailableCitiesResponse("Piter"),
+            GetAllAvailableCitiesResponse("Saint Petersburg"),
             GetAllAvailableCitiesResponse("Kazan"),
             GetAllAvailableCitiesResponse("Vladivostok")
         )
@@ -114,7 +114,11 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
             "Ukraine" -> citiesOfUkraine
             "Russia" -> citiesOfRussia
             "Belarus" -> citiesOfBelarus
-            else -> arrayListOf(GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"), GetAllAvailableCitiesResponse("none"))
+            else -> arrayListOf(
+                GetAllAvailableCitiesResponse("none"),
+                GetAllAvailableCitiesResponse("none"),
+                GetAllAvailableCitiesResponse("none")
+            )
         }
 
     }

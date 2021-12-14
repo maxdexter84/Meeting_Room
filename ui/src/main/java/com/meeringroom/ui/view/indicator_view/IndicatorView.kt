@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -15,7 +16,6 @@ import com.meetingroom.ui.R
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import timber.log.Timber
 import java.time.LocalTime
 
 
@@ -60,6 +60,8 @@ class IndicatorView @JvmOverloads constructor(
         set(value) {
             if (value in 0 until width) field = value
         }
+    var currentRangePeriod: Pair<LocalTime, LocalTime> = Pair(LocalTime.now(), LocalTime.now())
+
     private var rectangleCreated: Boolean = false
     private var normalRectHeight: Int = resources.getDimensionPixelSize(DEFAULT_HOUR_HEIGHT_ID)
 
@@ -77,7 +79,8 @@ class IndicatorView @JvmOverloads constructor(
                 R.styleable.IndicatorView_thumbColor,
                 resources.getColor(R.color.indicatorColor, context.theme)
             )
-            frameStrokeWidth = getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, FRAME_WIDTH)
+            frameStrokeWidth =
+                getDimension(R.styleable.IndicatorView_indicatorStrokeWidth, FRAME_WIDTH)
             startTimeRange = getString(R.styleable.IndicatorView_startPeriod).toString()
             endTimeRange = getString(R.styleable.IndicatorView_endPeriod).toString()
             normalRectHeight = getDimensionPixelSize(
@@ -146,7 +149,7 @@ class IndicatorView @JvmOverloads constructor(
                 touchMove()
             }
             else -> {
-                Timber.i("${event.action}")
+                Log.i("ACTION", "${event.action}")
             }
         }
         return true
@@ -267,7 +270,8 @@ class IndicatorView @JvmOverloads constructor(
                 figure.color,
                 DEFOULT_THUMB_RADIUS
             )
-        thumbTop = CircleThumb(figure.x + topThumbPadding, figure.y, figure.color, DEFOULT_THUMB_RADIUS)
+        thumbTop =
+            CircleThumb(figure.x + topThumbPadding, figure.y, figure.color, DEFOULT_THUMB_RADIUS)
         mapCoordinatesToTime(thumbTop, thumbBottom)
     }
 
@@ -280,6 +284,7 @@ class IndicatorView @JvmOverloads constructor(
         val bottomMinute = thumbBottom.y / getMinuteHeight()
         val resultTopTime = topDynamicTime.plusMinutes(topMinute.toLong())
         val resultBottomTime = topDynamicTime.plusMinutes(bottomMinute.toLong())
+        currentRangePeriod = Pair(resultTopTime, resultBottomTime)
         emitRangePeriod(resultTopTime, resultBottomTime)
     }
 
@@ -293,8 +298,8 @@ class IndicatorView @JvmOverloads constructor(
     }
 
     override fun performClick(): Boolean {
-        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
-        return super.performClick()
+        if (super.performClick()) return true
+        return true
     }
 
     override fun onDetachedFromWindow() {

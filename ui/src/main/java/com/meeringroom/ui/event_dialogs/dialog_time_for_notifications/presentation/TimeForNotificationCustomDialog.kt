@@ -90,12 +90,15 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
             timeFormatCustomDialog.setOnCheckedChangeListener { _, _ -> userCustomTimeEditText.setText("") }
             userCustomTimeEditText.doAfterTextChanged { text ->
                 if (text.isNullOrEmpty().not()){
+                    binding.customDialogButtonDone.isActivated = true
                     val valueTime = text.toString().toInt()
                     when {
                         customTimeInMinutes.isChecked -> if (valueTime > MAX_MINUTES_VALUE) userCustomTimeEditText.setText("$MAX_MINUTES_VALUE")
                         customTimeInHours.isChecked -> if (valueTime > MAX_HOURS_VALUE) userCustomTimeEditText.setText("$MAX_HOURS_VALUE")
                         customTimeInDays.isChecked -> if (valueTime > MAX_DAYS_VALUE) userCustomTimeEditText.setText("$MAX_DAYS_VALUE")
                     }
+                } else {
+                    binding.customDialogButtonDone.isActivated = false
                 }
             }
         }

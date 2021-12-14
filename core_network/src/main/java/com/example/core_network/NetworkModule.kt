@@ -24,6 +24,11 @@ class NetworkModule {
     }
 
     @Provides
+    fun getRequestMaker(logInInterface: LogInInterface, locationInterface: LocationInterface ): RequestMaker {
+        return RequestMaker(logInInterface, locationInterface)
+    }
+
+    @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()

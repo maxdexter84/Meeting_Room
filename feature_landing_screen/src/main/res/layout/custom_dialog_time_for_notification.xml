@@ -14,7 +14,6 @@
         android:layout_marginTop="@dimen/dimens_24_dp"
         android:text="@string/custom_notifications"
         android:textSize="@dimen/dimens_14_sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +29,6 @@
         android:maxLength="3"
         app:layout_constraintBottom_toTopOf="@id/view_custom_dialog_edit_text_line"
         app:layout_constraintEnd_toEndOf="@id/view_custom_dialog_edit_text_line"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@id/view_custom_dialog_edit_text_line"
         tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -43,7 +41,6 @@
         android:layout_marginEnd="@dimen/dimens_24_dp"
         android:background="@color/enabled_bell_colour"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_custom_dialog_title" />
 
@@ -57,7 +54,7 @@
         android:paddingBottom="@dimen/dimens_12_dp"
         android:paddingStart="@dimen/dimens_24_dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_edit_text_line">
 
@@ -106,7 +103,7 @@
         android:layout_marginTop="@dimen/dimens_24_dp"
         android:layout_marginEnd="@dimen/dimens_8_dp"
         android:layout_marginBottom="@dimen/dimens_8_dp"
-        android:background="@drawable/ic_button_custom_dialog_background"
+        android:background="@drawable/button_custom_dialog_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_custom_dialog_divider" />

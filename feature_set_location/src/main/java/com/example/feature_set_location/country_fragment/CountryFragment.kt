@@ -2,15 +2,15 @@ package com.example.feature_set_location.country_fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.core_module.component_manager.XInjectionManager
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CountryFragmentBinding
-import com.example.feature_set_location.di.CountryFragmentModule
-import com.example.feature_set_location.di.DaggerCountryComponent
+import com.example.feature_set_location.di.SetLocationComponent
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import javax.inject.Inject
-
 
 class CountryFragment : BaseFragment<CountryFragmentBinding>(CountryFragmentBinding::inflate) {
 
@@ -19,16 +19,14 @@ class CountryFragment : BaseFragment<CountryFragmentBinding>(CountryFragmentBind
     })
 
     @Inject
-    lateinit var viewModel: CountryFragmentViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: CountryFragmentViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        DaggerCountryComponent.builder()
-            .countryFragmentModule(CountryFragmentModule(this))
-            .sharedPreferencesModule(SharedPreferencesModule(requireContext()))
-            .build()
-            .inject(this)
+        injectDependencies()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,5 +46,10 @@ class CountryFragment : BaseFragment<CountryFragmentBinding>(CountryFragmentBind
     private fun moveToCitiesAndSaveCountryName(countryName: String) {
         findNavController().navigate(R.id.action_countryFragment_to_cityFragment)
         viewModel.saveCountryOfUserLocation(countryName)
+    }
+
+    private fun injectDependencies() {
+        XInjectionManager.findComponent<SetLocationComponent>()
+            .inject(this)
     }
 }

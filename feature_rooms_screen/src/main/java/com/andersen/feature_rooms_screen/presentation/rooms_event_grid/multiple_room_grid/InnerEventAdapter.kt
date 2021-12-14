@@ -7,17 +7,22 @@ import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGri
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
+import java.time.LocalTime
 
 class InnerEventAdapter(
     val eventList: List<RoomEventForGrid>,
-    val emptyEventList: List<EmptyRoomEventForGrid>
+    val emptyEventList: List<EmptyRoomEventForGrid>, val click: (Pair<LocalTime, LocalTime>) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             EMPTY_EVENT_VIEW_HOLDER_TYPE ->
                 EmptyEventsViewHolder(
-                    ItemGagEmptyEventBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    ItemGagEmptyEventBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ),
                 )
             else -> EventsRoomViewHolder(
                 ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -67,19 +72,22 @@ class InnerEventAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
+            val item = emptyEventList[position / POSITION_DIVISION]
             binding.itemGagEmptyRoomEvent.apply {
-                layoutParams.height = emptyEventList[position / POSITION_DIVISION].heightEventItem
-                startTimeRange = emptyEventList[position / POSITION_DIVISION].startTime
-                endTimeRange = emptyEventList[position / POSITION_DIVISION].startTime
+                layoutParams.height = item.heightEventItem
+                startTimeRange = item.startTime
+                endTimeRange = item.startTime
+                setOnClickListener {
+                    click.invoke(this.currentRangePeriod)
+                }
             }
-
         }
     }
 
     companion object {
         private const val EMPTY_EVENT_VIEW_HOLDER_TYPE = 1
         private const val EVENT_VIEW_HOLDER_TYPE = 2
-        private const val POSITION_DIVISION = 2
+        const val POSITION_DIVISION = 2
 
     }
 }

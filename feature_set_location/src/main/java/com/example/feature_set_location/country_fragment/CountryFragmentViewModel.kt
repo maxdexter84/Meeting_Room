@@ -3,6 +3,7 @@ package com.example.feature_set_location.country_fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelper
 import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
 import com.example.core_network.RequestMaker
 import com.example.core_network.ResultOfRequest
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class CountryFragmentViewModel @Inject constructor(
     private val requestMaker: RequestMaker,
-    private val saveData: UserDataPrefHelperImpl
+    private val saveData: UserDataPrefHelper
 ) : ViewModel() {
     val requestResult: MutableLiveData<List<GetAllAvailableCountriesResponse>> by lazy {
         MutableLiveData<List<GetAllAvailableCountriesResponse>>()
