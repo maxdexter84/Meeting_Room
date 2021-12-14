@@ -7,6 +7,6 @@ import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 interface RoomsApi {
 
     fun getRoomPickerNewEventData(): Array<RoomPickerNewEventData>
-    fun getUpcomingEventData(): List<UpcomingEventData>
+    suspend fun getUpcomingEventData(): List<UpcomingEventData>
     fun getGagForHistoryEvents(): List<HistoryEventData>
 }

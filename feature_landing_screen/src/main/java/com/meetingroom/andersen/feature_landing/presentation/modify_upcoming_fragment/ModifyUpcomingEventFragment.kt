@@ -31,6 +31,7 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
+import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -137,7 +138,7 @@ class ModifyUpcomingEventFragment :
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
             }
 
-            btnDeleteEvent.setOnClickListener {
+            tvDeleteEvent.setOnClickListener {
                 showDeleteEventDialog()
             }
         }
@@ -420,13 +421,7 @@ class ModifyUpcomingEventFragment :
 
     private fun deleteEvent(event: UpcomingEventData){
         Toast.makeText(requireContext(), "${getString(R.string.delete)} ${event.title}", Toast.LENGTH_SHORT).show()
-        navigateToUpcomingEventFragment()
-    }
-
-    private fun navigateToUpcomingEventFragment() {
-        findNavController().navigate(
-            ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToLandingFragment()
-        )
+        requireActivity().onBackPressed()
     }
 
     companion object {

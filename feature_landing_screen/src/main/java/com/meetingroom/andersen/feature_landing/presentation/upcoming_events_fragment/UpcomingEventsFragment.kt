@@ -12,11 +12,9 @@ import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
-import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.DaggerUpcomingEventsFragmentComponent
-import com.meetingroom.andersen.feature_landing.di.upcoming_events_fragment.UpcomingEventsFragmentModule
-import com.meetingroom.andersen.feature_landing.landing_fragment.ui.LandingFragmentDirections
-import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.model.UpcomingEventData
-import com.meetingroom.andersen.feature_landing.upcoming_events_fragment.presentation.UpcomingEventsFragmentViewModel
+import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
+import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragmentDirections
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -92,7 +90,7 @@ class UpcomingEventsFragment :
     private fun navigateToModify(upcomingEventData: UpcomingEventData) {
         findNavController().navigate(
             LandingFragmentDirections.actionLandingFragmentToModifyUpcomingEventFragment(
-                upcomingEventData,
+                upcomingEventData
             )
         )
     }
