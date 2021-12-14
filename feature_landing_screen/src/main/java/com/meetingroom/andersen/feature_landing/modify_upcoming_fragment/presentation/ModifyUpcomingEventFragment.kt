@@ -113,12 +113,8 @@ class ModifyUpcomingEventFragment :
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
             eventRoomName.text = args.upcomingEvent.eventRoom
-            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(Pattern.compile(
-                ASCII_PATTERN
-            )))
-            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(Pattern.compile(
-                ASCII_PATTERN
-            )))
+            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
+            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH))
 
             observeRoomChange()
             observeTimeChange()
