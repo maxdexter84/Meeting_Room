@@ -109,20 +109,8 @@ class ModifyUpcomingEventFragment :
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
             eventRoomName.text = args.upcomingEvent.eventRoom
-            eventModifyTitle.filters = arrayOf(
-                InputFilter.LengthFilter(TITLE_MAX_LENGTH), PatternInputFilter(
-                    Pattern.compile(
-                        ASCII_PATTERN
-                    )
-                )
-            )
-            userEventDescription.filters = arrayOf(
-                InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH), PatternInputFilter(
-                    Pattern.compile(
-                        ASCII_PATTERN
-                    )
-                )
-            )
+            eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
+            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH))
 
             observeRoomChange()
             observeTimeChange()
@@ -431,7 +419,6 @@ class ModifyUpcomingEventFragment :
         private const val INPUT_DATE_FORMAT = "d MMM yyyy"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val TIME_FORMAT = "HH:mm"
-        private const val ASCII_PATTERN = "\\p{ASCII}"
         private val DEFAULT_LOCALE = Locale.UK
         private const val TITLE_MAX_LENGTH = 50
         private const val DESCRIPTION_MAX_LENGTH = 150

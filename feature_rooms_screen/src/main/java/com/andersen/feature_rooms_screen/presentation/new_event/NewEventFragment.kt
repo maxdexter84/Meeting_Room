@@ -110,14 +110,8 @@ class NewEventFragment :
             }
             newEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
-            newEventTitle.filters = arrayOf(
-                InputFilter.LengthFilter(TITLE_MAX_LENGTH),
-                PatternInputFilter(Pattern.compile(ASCII_PATTERN))
-            )
-            userEventDescription.filters = arrayOf(
-                InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH),
-                PatternInputFilter(Pattern.compile(ASCII_PATTERN))
-            )
+            newEventTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
+            userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH))
 
             observeRoomChange()
             observeTimeChange()
@@ -414,7 +408,6 @@ class NewEventFragment :
         private const val ROOM_KEY = "ROOM_KEY"
         private const val TIME_KEY = "TIME_KEY"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
-        private const val ASCII_PATTERN = "\\p{ASCII}"
         private val DEFAULT_LOCALE = Locale.UK
         private const val TITLE_MAX_LENGTH = 50
         private const val DESCRIPTION_MAX_LENGTH = 150
