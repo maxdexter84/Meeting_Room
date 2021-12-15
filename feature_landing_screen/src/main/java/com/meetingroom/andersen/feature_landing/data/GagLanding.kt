@@ -4,6 +4,7 @@ import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEv
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class GagLanding @Inject constructor() : RoomsApi {
@@ -190,9 +191,9 @@ class GagLanding @Inject constructor() : RoomsApi {
         return array.sortedByDescending { room -> room.isEnabled }.toTypedArray()
     }
 
-    override fun getUpcomingEventData(): List<UpcomingEventData> {
+    override suspend fun getUpcomingEventData(): List<UpcomingEventData> {
         val list = ArrayList<UpcomingEventData>()
-
+        delay(1000)
         for (i in 0 until 9) {
             val title = when (i % 9) {
                 0 -> "Retrospective - AlphaBank Home Insurance App"

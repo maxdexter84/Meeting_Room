@@ -10,6 +10,7 @@ import android.text.InputFilter
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,6 +31,7 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
+import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -134,6 +136,10 @@ class ModifyUpcomingEventFragment :
             }
             modifyEndTimePicker.setOnClickListener {
                 showTimePickerDialog(modifyEndTimePicker.text.toString(), endTimePickerListener)
+            }
+
+            tvDeleteEvent.setOnClickListener {
+                showDeleteEventDialog()
             }
         }
         findNavController().getBackStackEntry(R.id.modifyUpcomingEventFragment).lifecycle.addObserver(
@@ -402,6 +408,20 @@ class ModifyUpcomingEventFragment :
             dateInMillis.toString(),
             binding.modifyStartTimePicker.text.toString()
         )
+    }
+
+    private fun showDeleteEventDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.delete_the_event))
+            .setCancelable(false)
+            .setNegativeButton(R.string.cancel_button) { dialog, _ -> dialog.cancel() }
+            .setPositiveButton(R.string.delete) { _, _ -> deleteEvent(args.upcomingEvent) }
+            .show()
+    }
+
+    private fun deleteEvent(event: UpcomingEventData){
+        Toast.makeText(requireContext(), "${getString(R.string.delete)} ${event.title}", Toast.LENGTH_SHORT).show()
+        requireActivity().onBackPressed()
     }
 
     companion object {
