@@ -6,12 +6,8 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class NewEventModule(val context: Context) {
+class NewEventModule() {
 
-    @Provides
-    fun provideContext(): Context {
-        return context
-    }
 
     @Provides
     fun provideNotificationHelper(context: Context) : NotificationHelper {

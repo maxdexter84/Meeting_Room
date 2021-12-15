@@ -1,16 +1,22 @@
 package com.meetingroom.feature_login.di
 
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import android.content.Context
+import com.example.core_module.di.FeatureScope
 import com.example.core_network.NetworkModule
 import com.meetingroom.feature_login.LoginFragment
 import com.meetingroom.feature_login.LoginFragmentViewModel
+import com.meetingroom.feature_login.di.view_model.ViewModelModule
+import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [LoginFragmentModule::class, NetworkModule::class, SharedPreferencesModule::class])
-@Screen
+@Component(modules = [ ViewModelModule::class], dependencies = [LoginDeps::class])
+@FeatureScope
 interface LoginComponent {
 
-    fun provideViewModel(): LoginFragmentViewModel
-
     fun inject(loginFragment: LoginFragment)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context, loginDeps: LoginDeps): LoginComponent
+    }
 }

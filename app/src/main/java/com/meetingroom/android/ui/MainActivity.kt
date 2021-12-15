@@ -8,14 +8,19 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.core_module.component_manager.XInjectionManager
 import com.meetingroom.android.R
 import com.meetingroom.android.databinding.ActivityMainBinding
+import com.meetingroom.android.di.ApplicationComponent
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        XInjectionManager
+            .findComponent<ApplicationComponent>()
+            .inject(this)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController =

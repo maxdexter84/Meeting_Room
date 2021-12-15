@@ -60,6 +60,12 @@
         <action
             android:id="@+id/action_newEventFragment_to_needMoreTimeDialog"
             app:destination="@id/needMoreTimeDialogNavigation" />
+        <argument
+            android:name="eventStartTime"
+            app:argType="java.time.LocalTime" />
+        <argument
+            android:name="eventEndTime"
+            app:argType="java.time.LocalTime" />
     </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
