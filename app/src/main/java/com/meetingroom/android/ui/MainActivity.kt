@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
         binding.bottomNavView.mainBottomNavigationView.setupWithNavController(navController)
         destinationListener(binding)
-
     }
 
     private fun destinationListener(binding: ActivityMainBinding) {
@@ -45,5 +44,4 @@ class MainActivity : AppCompatActivity() {
             else -> false
         }
     }
-
 }

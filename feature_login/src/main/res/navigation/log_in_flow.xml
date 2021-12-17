@@ -6,7 +6,7 @@
     app:startDestination="@id/login_fragment">
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.meetingroom.feature_login.LoginFragment"
+        android:name="com.meetingroom.feature_login.presentation.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/login_fragment">
         <deepLink app:uri="@string/deeplink_uri_login_screen" />

@@ -1,9 +1,12 @@
-package com.example.core_module.sharedpreferences.save_data
+package com.example.core_module.sharedpreferences.user_data_pref_helper
 
 interface UserDataPrefHelper {
-    fun saveToken(value: String)
 
-    fun getToken(): String?
+    var token: String?
+
+    var refreshToken: String?
+
+    fun getToken(tokenKey: String): String?
 
     fun saveCityOfUserLocation(value: String)
 

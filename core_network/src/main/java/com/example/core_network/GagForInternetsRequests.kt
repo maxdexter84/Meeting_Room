@@ -4,65 +4,9 @@ import com.example.core_network.location_interfaces.LocationInterface
 import com.example.core_network.location_posts.GetAllAvailableCitiesRequest
 import com.example.core_network.location_responses.GetAllAvailableCitiesResponse
 import com.example.core_network.location_responses.GetAllAvailableCountriesResponse
-import com.example.core_network.user_interfaces.LogInInterface
-import com.example.core_network.user_posts.LogInRequest
-import com.example.core_network.user_responses.LogInResponse
-import okhttp3.ResponseBody.Companion.toResponseBody
-import retrofit2.Response
 
-class GagForInternetsRequests : LogInInterface, LocationInterface {
-    override suspend fun logInUser(post: LogInRequest): Response<LogInResponse> {
-        return if (arrayOfUsers.filter { it.email == post.email }.count() == 1) {
-            Response.success(arrayOfUsers.filter { it.email == post.email }[0])
-        } else Response.error(404, "Something wrong".toResponseBody(null))
-    }
+class GagForInternetsRequests : LocationInterface {
     companion object {
-        private val arrayOfUsers by lazy {
-            arrayListOf(
-                LogInResponse(
-                    10,
-                    names[1],
-                    names[1] + andersenEnding,
-                    roles.subList(0, 1),
-                    typeOfTokens[0],
-                    "wjfwfwf4wgw6g46wg6swopkgsvs121vw4DGs6g4sw"
-                ),
-                LogInResponse(
-                    33,
-                    names[0],
-                    names[0] + andersenEnding,
-                    roles.subList(1, roles.size),
-                    typeOfTokens[0],
-                    ":QWf563fqCvwq56f5234f6561qfqF98f56a"
-                ),
-                LogInResponse(
-                    5,
-                    names[2],
-                    names[2] + andersenEnding,
-                    roles.subList(0, 1),
-                    typeOfTokens[0],
-                    "tfuwhkncmcF??FSFs252sgsWwf365fzdwds"
-                ),
-                LogInResponse(
-                    1,
-                    "qwerty",
-                    "qwerty$andersenEnding",
-                    roles,
-                    "usual",
-                    "gYqefdszxfg78chv4bjok8954985rdtyfwqyg5Tavhac"
-                ),
-                LogInResponse(
-                    1,
-                    names[5],
-                    names[5] + andersenEnding,
-                    roles,
-                    "usual",
-                    "498565465ehdg+52s5xg56sg5s5hs56h4s5x"
-                )
-
-            )
-        }
-        private const val andersenEnding: String = "@andersenlab.com"
         private val typeOfTokens = listOf("usual token", "another token")
         private val roles = listOf("normal user", "admin")
         private val names =
@@ -98,15 +42,15 @@ class GagForInternetsRequests : LogInInterface, LocationInterface {
 
     }
 
-    override suspend fun getAllAvailableCountries(): Response<List<GetAllAvailableCountriesResponse>> {
-        return Response.success(
+    override suspend fun getAllAvailableCountries(): RequestResult<List<GetAllAvailableCountriesResponse>> {
+        return RequestResult.Success(
             countriesResponse
         )
     }
 
-    override suspend fun getAllAvailableCities(post: GetAllAvailableCitiesRequest): Response<List<GetAllAvailableCitiesResponse>> {
-        if (countries.contains(post)) return Response.success(getAllCitiesFromCountry(post))
-        return Response.error(404, null)
+    override suspend fun getAllAvailableCities(post: GetAllAvailableCitiesRequest): RequestResult<List<GetAllAvailableCitiesResponse>> {
+        if (countries.contains(post)) return RequestResult.Success(getAllCitiesFromCountry(post))
+        return RequestResult.Error("No cities", 404)
     }
 
     private fun getAllCitiesFromCountry(post: GetAllAvailableCitiesRequest): List<GetAllAvailableCitiesResponse> {

@@ -1,4 +1,4 @@
-package com.example.core_module.sharedpreferences
+package com.example.core_module.sharedpreferences.pref_helper
 
 interface IPreferenceHelper {
 

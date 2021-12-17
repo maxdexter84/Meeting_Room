@@ -41,6 +41,8 @@ dependencies {
     implementation libraries.coreKtx
     implementation libraries.legacy
     implementation libraries.datetime
+    implementation libraries.retrofit
+    implementation libraries.networking
     kapt libraries.daggerCompiler
     coreLibraryDesugaring libraries.desugaring
 

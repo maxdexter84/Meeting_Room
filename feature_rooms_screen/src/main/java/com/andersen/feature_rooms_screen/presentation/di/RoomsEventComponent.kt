@@ -12,7 +12,7 @@ import dagger.Component
 
 @FeatureScope
 @Component(modules = [
-    NetworkModule::class,
+    ApiModule::class,
     ViewModelModule::class,
     NewEventModule::class
 ])

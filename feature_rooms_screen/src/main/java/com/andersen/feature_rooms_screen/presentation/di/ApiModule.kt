@@ -7,7 +7,7 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-interface NetworkModule {
+interface ApiModule {
 
     @Binds
     @FeatureScope

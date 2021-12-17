@@ -10,7 +10,7 @@ import dagger.BindsInstance
 import dagger.Component
 
 @FeatureScope
-@Component(modules = [ViewModelModule::class], dependencies = [SetLocationDeps::class])
+@Component(modules = [LocationModule::class, ViewModelModule::class], dependencies = [SetLocationDeps::class])
 interface SetLocationComponent {
     fun inject(cityFragment: CityFragment)
     fun inject(countryFragment: CountryFragment)

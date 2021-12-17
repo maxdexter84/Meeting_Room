@@ -3,4 +3,7 @@
     <string name="edit_email_login_fragment_hint">E-mail</string>
     <string name="edit_password_login_fragment_hint">Password</string>
     <string name="error_for_log_in">Incorrect e-mail or password!</string>
+    <string name="error_title_no_internet">Seems you’re offline</string>
+    <string name="error_description_no_internet">Please make sure you have a working Internet connection and try log in later</string>
+    <string name="got_it">Got it</string>
 </resources>

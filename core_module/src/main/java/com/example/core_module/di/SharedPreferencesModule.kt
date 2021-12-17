@@ -1,9 +1,9 @@
-package com.example.core_module.sharedpreferences_di
+package com.example.core_module.di
 
-import com.example.core_module.sharedpreferences.IPreferenceHelper
 import com.example.core_module.sharedpreferences.SharedPreferencesHelper
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelper
-import com.example.core_module.sharedpreferences.save_data.UserDataPrefHelperImpl
+import com.example.core_module.sharedpreferences.pref_helper.IPreferenceHelper
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelperImpl
 import dagger.Binds
 import dagger.Module
 
