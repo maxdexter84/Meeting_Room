@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.example.core_module.component_manager.XInjectionManager
+import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT

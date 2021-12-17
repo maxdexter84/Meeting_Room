@@ -1,7 +1,7 @@
 package com.meetingroom.android.di
 
 import android.content.Context
-import com.example.core_module.sharedpreferences_di.SharedPreferencesModule
+import com.example.core_module.di.SharedPreferencesModule
 import com.example.core_network.NetworkModule
 import com.example.feature_set_location.di.SetLocationDeps
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingDeps

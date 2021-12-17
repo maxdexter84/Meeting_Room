@@ -1,7 +1,5 @@
 package com.example.core_network
 
-import com.example.core_network.location_interfaces.LocationInterface
-import com.example.core_network.user_interfaces.LogInInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,23 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class NetworkModule {
-
-    @Provides
-    fun getLocationInterface(retrofit: Retrofit):LocationInterface{
-        return GagForInternetsRequests()
-    }
-
-    @Provides
-    fun getLogInInterface(retrofit: Retrofit): LogInInterface {
-        return GagForInternetsRequests()
-//      return retrofit.create(LogInInterface::class.java)
-    }
-
-    @Provides
-    fun getRequestMaker(logInInterface: LogInInterface, locationInterface: LocationInterface ): RequestMaker {
-        return RequestMaker(logInInterface, locationInterface)
-    }
+class NetworkModule() {
 
     @Provides
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -39,9 +21,13 @@ class NetworkModule {
     }
 
     @Provides
-    fun getOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun getOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
 
@@ -53,6 +39,6 @@ class NetworkModule {
     }
 
     companion object {
-        private const val BASE_URL = "http://10.10.15.190:8080/api/auth/"
+        private const val BASE_URL = "http://10.10.15.190:9090/"
     }
 }

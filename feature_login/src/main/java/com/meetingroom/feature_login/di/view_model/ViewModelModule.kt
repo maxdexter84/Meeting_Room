@@ -2,7 +2,7 @@ package com.meetingroom.feature_login.di.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.meetingroom.feature_login.LoginFragmentViewModel
+import com.meetingroom.feature_login.presentation.LoginFragmentViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
