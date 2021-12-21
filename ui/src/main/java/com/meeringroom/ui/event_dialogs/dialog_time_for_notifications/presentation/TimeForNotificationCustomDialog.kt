@@ -92,7 +92,7 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
                 if (text.isNullOrEmpty().not()){
                     binding.customDialogButtonDone.isActivated = true
                     val valueTime = text.toString().toInt()
-                    if (valueTime <= 0) userCustomTimeEditText.setText("$MIN_CUSTOM_VALUE")
+                    if (valueTime < MIN_CUSTOM_VALUE) userCustomTimeEditText.setText("$MIN_CUSTOM_VALUE")
                     when {
                         customTimeInMinutes.isChecked -> if (valueTime > MAX_MINUTES_VALUE) userCustomTimeEditText.setText("$MAX_MINUTES_VALUE")
                         customTimeInHours.isChecked -> if (valueTime > MAX_HOURS_VALUE) userCustomTimeEditText.setText("$MAX_HOURS_VALUE")

@@ -15,5 +15,6 @@ class LoginModule() {
     fun getLoginApi(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
     @Provides
-    fun getLoginRepository(requestMaker: RequestMaker, authApi: AuthApi): ILoginRepository = LoginRepository(requestMaker, authApi)
+    fun getLoginRepository(requestMaker: RequestMaker, authApi: AuthApi): ILoginRepository =
+        LoginRepository(requestMaker, authApi)
 }

@@ -24,7 +24,11 @@ class LoginRepository @Inject constructor(
 
     override suspend fun refreshToken(refToken: String): RequestResult<LoginResponseDto> = withContext(ioDispatcher) {
         requestMaker.safeApiCall{
-            authApi.refreshToken("Bearer $refToken")
+            authApi.refreshToken("$BEARER_FOR_TOKEN $refToken")
         }
+    }
+
+    companion object {
+        const val BEARER_FOR_TOKEN = "Bearer"
     }
 }
