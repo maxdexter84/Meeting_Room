@@ -29,6 +29,7 @@ import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.User
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
+import com.meeringroom.ui.view_utils.setSafeClickListener
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
@@ -45,7 +46,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.util.Locale
 import java.util.Calendar
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ModifyUpcomingEventFragment :
@@ -89,16 +89,16 @@ class ModifyUpcomingEventFragment :
                 root.hideKeyboard(requireContext())
                 requireActivity().onBackPressed()
             }
-            modifyRoomChooser.setOnClickListener {
+            modifyRoomChooser.setSafeClickListener {
                 findNavController().navigate(
-                    ModifyUpcomingEventFragmentDirections.actionModufyUpcomingEventFragmentToRoomPickerDialogFragment(
+                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment(
                         ROOM_KEY,
                         eventRoom,
                         viewModel.roomPickerArray.value
                     )
                 )
             }
-            setReminder.setOnClickListener {
+            setReminder.setSafeClickListener {
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToTimeForNotificationDialog(
                         TIME_KEY,

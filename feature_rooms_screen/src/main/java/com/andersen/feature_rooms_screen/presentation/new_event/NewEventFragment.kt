@@ -31,6 +31,7 @@ import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.Time
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
+import com.meeringroom.ui.view_utils.setSafeClickListener
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEventBinding
 import kotlinx.coroutines.Job
@@ -93,7 +94,7 @@ class NewEventFragment :
             chosenRoomTitle = args.roomTitle
             newEventToolbar.toolbarSaveTitle.text = getString(R.string.new_event_toolbar)
             newEventToolbar.toolbarSaveCancel.setOnClickListener(onCancelClickListener)
-            eventRoomName.setOnClickListener {
+            eventRoomName.setSafeClickListener {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToRoomPickerDialogFragment(
                         ROOM_KEY,
@@ -102,7 +103,7 @@ class NewEventFragment :
                     )
                 )
             }
-            reminderLeftTime.setOnClickListener {
+            reminderLeftTime.setSafeClickListener {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToTimeForNotificationDialog(
                         TIME_KEY,

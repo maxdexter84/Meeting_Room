@@ -37,7 +37,7 @@
                 app:argType="string" />
         </action>
         <action
-            android:id="@+id/action_modufyUpcomingEventFragment_to_roomPickerDialogFragment"
+            android:id="@+id/action_modifyUpcomingEventFragment_to_roomPickerDialogFragment"
             app:destination="@id/roomPickerDialogNavigation" >
             <argument
                 android:name="key"
