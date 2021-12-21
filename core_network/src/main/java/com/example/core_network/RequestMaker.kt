@@ -11,7 +11,10 @@ class RequestMaker @Inject constructor() {
             if (myResp.isSuccessful) {
                 RequestResult.Success(myResp.body()!!)
             } else {
-                RequestResult.Error(myResp.errorBody()?.toString() ?: "Something goes wrong", myResp.code())
+                RequestResult.Error(
+                    myResp.errorBody()?.toString() ?: "Something goes wrong",
+                    myResp.code()
+                )
             }
         } catch (e: Exception) {
             RequestResult.Error(e.message ?: "Internet error runs", DEFAULT_EXCEPTION_CODE)

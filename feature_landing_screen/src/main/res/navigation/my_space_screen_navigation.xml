@@ -14,6 +14,7 @@
         android:name="com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragment"
         android:label="fragment_landing"
         tools:layout="@layout/fragment_my_space" >
+        <deepLink app:uri="@string/deeplink_uri_my_space_fragment" />
         <action
             android:id="@+id/action_landingFragment_to_modifyUpcomingEventFragment"
             app:destination="@id/modifyUpcomingEventFragment" />

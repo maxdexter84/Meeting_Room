@@ -99,6 +99,9 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
 
     private fun navigateToDeepLink(link: String){
         val uri = Uri.parse(link)
-        findNavController().navigate(uri)
+        with(findNavController()){
+            popBackStack(R.id.landingFragment, true)
+            navigate(uri)
+        }
     }
 }

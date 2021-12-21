@@ -8,8 +8,7 @@ import com.meetingroom.feature_login.domain.ILoginRepository
 class LoginViewModelFactory(
     private val loginRepository: ILoginRepository,
     private val saveNetworkData: UserDataPrefHelper
-) :
-    ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         LoginFragmentViewModel(loginRepository, saveNetworkData) as T

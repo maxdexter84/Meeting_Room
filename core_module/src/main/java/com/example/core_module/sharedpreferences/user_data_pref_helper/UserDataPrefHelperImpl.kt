@@ -36,18 +36,21 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
 
     override fun getTokenDay(): Long? = iPreferenceHelper.getLong(TOKEN_DAY_KEY)
 
-    override fun saveCityOfUserLocation(value: String) = iPreferenceHelper.saveString(CITY_OF_USER_LOCATION_KEY, value)
+    override fun saveCityOfUserLocation(value: String) =
+        iPreferenceHelper.saveString(CITY_OF_USER_LOCATION_KEY, value)
 
     override fun getCityOfUserLocation() = iPreferenceHelper.getString(CITY_OF_USER_LOCATION_KEY)
 
     override fun saveCountryOfUserLocation(value: String) =
         iPreferenceHelper.saveString(COUNTRY_OF_USER_LOCATION_KEY, value)
 
-    override fun getCountryOfUserLocation() = iPreferenceHelper.getString(COUNTRY_OF_USER_LOCATION_KEY)
+    override fun getCountryOfUserLocation() =
+        iPreferenceHelper.getString(COUNTRY_OF_USER_LOCATION_KEY)
 
     override fun deleteToken() = iPreferenceHelper.deleteUserToken(ACCESS_TOKEN_KEY, TOKEN_DAY_KEY)
 
-    override fun saveUserRoles(roles: Collection<String>) = iPreferenceHelper.saveCollectionAsStringSet(USER_ROLES_KEY, roles)
+    override fun saveUserRoles(roles: Collection<String>) =
+        iPreferenceHelper.saveCollectionAsStringSet(USER_ROLES_KEY, roles)
 
     override fun getUserRoles(): Collection<String>? =
         iPreferenceHelper.getCollectionAsStringSet(USER_ROLES_KEY)

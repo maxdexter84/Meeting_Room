@@ -50,7 +50,10 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                     is RequestResult.Success -> {
                         lifecycleScope.launch {
                             val uri = Uri.parse(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
-                            findNavController().navigate(uri)
+                            with(findNavController()){
+                                popBackStack(R.id.login_fragment, true)
+                                navigate(uri)
+                            }
                         }
                     }
                     is RequestResult.Error -> {

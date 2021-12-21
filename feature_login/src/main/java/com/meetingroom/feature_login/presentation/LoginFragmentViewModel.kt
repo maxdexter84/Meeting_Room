@@ -10,7 +10,7 @@ import com.meetingroom.feature_login.domain.ILoginRepository
 import com.meetingroom.feature_login.domain.LoginRequest
 import com.meetingroom.feature_login.domain.LoginResponseDto
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class LoginFragmentViewModel @Inject constructor(
@@ -72,7 +72,7 @@ class LoginFragmentViewModel @Inject constructor(
                 saveNetworkData.refreshToken = response.data.refreshToken
             }
             is RequestResult.Error -> loginRequestResult.postValue(RequestResult.Error(response.exception, response.code))
-            else -> {}
+            is RequestResult.Loading -> loginRequestResult.value = response
         }
         loginRequestResult.value = response
     }
@@ -80,13 +80,11 @@ class LoginFragmentViewModel @Inject constructor(
     private fun isInputValid(login: String, password: String): Boolean {
         return password.length >= MIN_PASSWORD_LENGTH
                 && Regex(LOGIN_REGEX).matches(login)
-                //&& Regex(PASSWORD_REGEX).matches(password)
     }
 
     companion object {
-        private const val MIN_PASSWORD_LENGTH = 4 //8
+        private const val MIN_PASSWORD_LENGTH = 4
         private const val LOGIN_REGEX = ".*@.+[.].{2,}"
-        private const val PASSWORD_REGEX = "(?=.*[0-9])(?=.*[!@?#\$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#\$%^&*]{8,}"
         private const val EXCEPTION_INCORRECT_EMAIL_OR_PASSWORD = "Incorrect email or password"
         private const val CODE_UNAUTHORIZED = 401
         private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER = 604800000
