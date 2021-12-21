@@ -1,14 +1,14 @@
-package com.example.feature_set_location.country_fragment
+package com.example.feature_set_location.presentation.adapters.country_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_network.location_responses.GetAllAvailableCountriesResponse
 import com.example.feature_set_location.databinding.CountryItemBinding
 
-class CountryAdapter(var onItemClick: (String) -> Unit) : RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
+class CountryAdapter(var onItemClick: (String) -> Unit) :
+    RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
-    var countries = listOf<GetAllAvailableCountriesResponse>()
+    var countries = listOf<String>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -23,14 +23,14 @@ class CountryAdapter(var onItemClick: (String) -> Unit) : RecyclerView.Adapter<C
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         holder.bind(countries[position])
-        holder.itemView.setOnClickListener { onItemClick(countries[position].name) }
+        holder.itemView.setOnClickListener { onItemClick(countries[position]) }
     }
 
     class CountryViewHolder(private val binding: CountryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(country: GetAllAvailableCountriesResponse) {
-            binding.countryName.text = country.name
+        fun bind(country: String) {
+            binding.countryName.text = country
         }
     }
 }

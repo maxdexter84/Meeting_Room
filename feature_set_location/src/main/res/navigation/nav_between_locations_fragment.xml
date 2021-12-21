@@ -6,7 +6,7 @@
     app:startDestination="@id/locationFragment">
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.example.feature_set_location.LocationFragment"
+        android:name="com.example.feature_set_location.presentation.fragments.location_fragment.LocationFragment"
         android:label="LocationFragment"
         tools:layout="@layout/location_fragment">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/countryFragment"
-        android:name="com.example.feature_set_location.country_fragment.CountryFragment"
+        android:name="com.example.feature_set_location.presentation.fragments.country_fragment.CountryFragment"
         android:label="CountryFragment"
         tools:layout="@layout/country_fragment">
         <action
@@ -25,12 +25,15 @@
     </fragment>
     <fragment
         android:id="@+id/cityFragment"
-        android:name="com.example.feature_set_location.city_fragment.CityFragment"
+        android:name="com.example.feature_set_location.presentation.fragments.city_fragment.CityFragment"
         android:label="CityFragment"
         tools:layout="@layout/city_fragment" >
         <action
             android:id="@+id/action_cityFragment_to_locationFragment"
             app:destination="@id/locationFragment" />
+        <argument
+            android:name="countryName"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_countryFragment"

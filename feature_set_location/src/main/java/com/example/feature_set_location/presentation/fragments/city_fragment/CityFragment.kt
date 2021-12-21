@@ -1,19 +1,19 @@
-package com.example.feature_set_location.city_fragment
+package com.example.feature_set_location.presentation.fragments.city_fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.XInjectionManager
-import com.example.feature_set_location.LocationFragment
 import com.example.feature_set_location.R
 import com.example.feature_set_location.databinding.CityFragmentBinding
 import com.example.feature_set_location.di.SetLocationComponent
+import com.example.feature_set_location.presentation.adapters.city_adapter.CityAdapter
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +23,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         CityAdapter(onItemClick = {
             saveCity(it)
             lifecycleScope.launch {
-                delay(DELAY_AFTER_CLICK_CITY)
-                findNavController().navigate(R.id.locationFragment,  bundleOf(LocationFragment.CITY_KEY to it))
+                findNavController().navigate(R.id.locationFragment)
             }
         })
 
@@ -41,14 +40,12 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val currentCity = CityFragmentArgs.fromBundle(requireArguments()).countryName
+        viewModel.getCountryCityList(currentCity)
+        viewModel.cityList.onEach {
+            cityAdapter.cities = it
+        }.launchIn(lifecycleScope)
         binding.recyclerViewCityFragment.adapter = cityAdapter
-        viewModel.requestResult.observe(viewLifecycleOwner, {
-            val alreadySelectedCity =
-                viewModel?.getCityOfUserLocation() ?: ""
-            for (city in it) {
-                cityAdapter.cities += CityAdapterModel(city.name, alreadySelectedCity == city.name)
-            }
-        })
         binding.toolBarLocationFragment.arrowBackLocationFragment.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -65,7 +62,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         }.map {
             it.isSelected = true
         }
-        viewModel.saveCityOfUserLocation(city)
+        viewModel.saveCity(city)
     }
 
     private fun injectDependencies() {
@@ -73,7 +70,5 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
             .inject(this)
     }
 
-    companion object{
-        const val DELAY_AFTER_CLICK_CITY = 3L
-    }
+
 }

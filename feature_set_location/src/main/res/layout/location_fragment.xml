@@ -64,10 +64,11 @@
 
     <TextView
         android:id="@+id/tv_error_text_location_fragment"
-        android:layout_width="2dp"
-        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_16_dp"
         android:layout_marginTop="@dimen/dimens_12_dp"
+        android:text="@string/office_not_covered"
         android:textColor="@color/error_color_for_textview"
         android:textSize="@dimen/dimens_12_sp"
         app:layout_constraintStart_toStartOf="parent"

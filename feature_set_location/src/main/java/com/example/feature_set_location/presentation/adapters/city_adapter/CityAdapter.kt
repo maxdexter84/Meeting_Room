@@ -1,9 +1,10 @@
-package com.example.feature_set_location.city_fragment
+package com.example.feature_set_location.presentation.adapters.city_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.feature_set_location.databinding.CityItemBinding
+import com.example.feature_set_location.presentation.fragments.model.CityAdapterModel
 
 class CityAdapter(private val onItemClick: (String) -> Unit) :
     RecyclerView.Adapter<CityAdapter.CityViewHolder>() {

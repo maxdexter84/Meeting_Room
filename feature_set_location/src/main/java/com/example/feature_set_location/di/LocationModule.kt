@@ -1,7 +1,6 @@
 package com.example.feature_set_location.di
 
-import com.example.core_network.GagForInternetsRequests
-import com.example.core_network.location_interfaces.LocationInterface
+import com.example.feature_set_location.data.remote.location_api.LocationApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -10,7 +9,5 @@ import retrofit2.Retrofit
 class LocationModule {
 
     @Provides
-    fun getLocationInterface(): LocationInterface {
-        return GagForInternetsRequests()
-    }
+    fun getLocationApi(retrofit: Retrofit): LocationApi = retrofit.create(LocationApi::class.java)
 }
