@@ -14,9 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="popupMenuStyle">@style/PopupMenuToolbar</item>
 
-        <item name="android:timePickerDialogTheme">@style/TimePickerDialog.Light</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerDialog.Light</item>
         <item name="materialAlertDialogTheme">@style/AlertDialog.Light</item>
+        <item name="materialTimePickerTheme">@style/TimePickerMaterial.Light</item>
     </style>
 
     <style name="PopupMenuToolbar" parent="@style/Widget.AppCompat.PopupWindow">
