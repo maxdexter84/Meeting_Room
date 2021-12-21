@@ -103,29 +103,42 @@
         <item name="android:headerYearTextAppearance">@style/TextAppearance.MaterialComponents.Headline3</item>
     </style>
 
-    <!-- TIMEPICKER. LIGHT -->
+    <!-- TIMEPICKER. Material. LIGHT -->
 
-    <style name="TimePickerDialog.Light" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="android:timePickerStyle">@style/TimePicker.Light</item>
+    <style name="TimePickerDialogMaterial.Light" parent="Dialog.Light">
+        <item name="android:timePickerStyle">@style/TimePickerMaterial.Light</item>
         <item name="android:windowTitleStyle">@style/TimePicker.Title.TextAppearance.Light</item>
-        <item name="android:buttonBarButtonStyle">@style/Dialog.Button.Light</item>
     </style>
 
-    <style name="TimePicker.Light" parent="@android:style/Widget.Material.Light.TimePicker">
-        <item name="android:headerBackground">@color/white</item>
-        <item name="android:timePickerMode">clock</item>
-        <item name="android:headerTimeTextAppearance">@style/TimePicker.TextAppearance.Light</item>
-        <item name="android:numbersTextColor">@color/black_020303</item>
-        <item name="android:numbersSelectorColor">@color/yellow</item>
-        <item name="android:numbersBackgroundColor">@color/gray_60_dark</item>
-        <item name="android:numbersInnerTextColor">@color/gray_light</item>
-        <item name="android:background">@color/white</item>
+    <style name="TimePickerMaterial.Light" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="materialButtonStyle">@style/Widget.App.Button.OutlinedButton.Light</item>
+        <item name="chipStyle">@style/TimePickerMaterial.Display.Light</item>
+        <item name="imageButtonStyle">@style/TimePickerMaterial.ImageButton.Light</item>
+        <item name="materialClockStyle">@style/TimePickerMaterial.Clock.Light</item>
     </style>
 
-    <style name="TimePicker.TextAppearance.Light" parent="@style/TextAppearance.MaterialComponents.Headline2">
+    <style name="TimePickerMaterial.Clock.Light" parent="Widget.MaterialComponents.TimePicker">
+        <item name="clockHandColor">@color/yellow</item>
+        <item name="clockNumberTextColor">@color/black_020303</item>
+    </style>
+
+    <style name="TimePickerMaterial.Display.Light" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:colorPrimary">@color/yellow</item>
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textColor">@color/time_picker_text_color_selector_light</item>
         <item name="fontWeight">300</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="TimePickerMaterial.ImageButton.Light" parent="Widget.MaterialComponents.TimePicker.ImageButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton.Light" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/cream_dark</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:layout_marginStart">8dp</item>
     </style>
 
     <style name="TimePicker.Title.TextAppearance.Light" parent="@style/TextAppearance.MaterialComponents.Overline">
@@ -133,6 +146,55 @@
         <item name="android:textColor">@color/text_unvisible</item>
         <item name="android:textSize">@dimen/dimens_16_sp</item>
         <item name="background">@color/white</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+    <!-- TIMEPICKER. Material. DARK -->
+
+    <style name="TimePickerDialogMaterial.Dark" parent="Dialog.Dark">
+        <item name="android:timePickerStyle">@style/TimePickerMaterial.Dark</item>
+        <item name="android:windowTitleStyle">@style/TimePicker.Title.TextAppearance.Dark</item>
+    </style>
+
+    <style name="TimePickerMaterial.Dark" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:backgroundTint">@color/android_dark_background</item>
+        <item name="materialButtonStyle">@style/Widget.App.Button.OutlinedButton.Dark</item>
+        <item name="chipStyle">@style/TimePickerMaterial.Display.Dark</item>
+        <item name="imageButtonStyle">@style/TimePickerMaterial.ImageButton.Dark</item>
+        <item name="materialClockStyle">@style/TimePickerMaterial.Clock.Dark</item>
+    </style>
+
+    <style name="TimePickerMaterial.Clock.Dark" parent="Widget.MaterialComponents.TimePicker">
+        <item name="android:backgroundTint">@color/android_dark_dropbox</item>
+        <item name="clockHandColor">@color/yellow</item>
+        <item name="clockNumberTextColor">@color/white</item>
+    </style>
+
+    <style name="TimePickerMaterial.Display.Dark" parent="Widget.MaterialComponents.TimePicker.Display">
+        <item name="android:colorPrimary">@color/yellow</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/time_picker_text_color_selector_dark</item>
+        <item name="fontWeight">300</item>
+        <item name="android:backgroundTint">@color/android_dark_background</item>
+    </style>
+
+    <style name="TimePickerMaterial.ImageButton.Dark" parent="Widget.MaterialComponents.TimePicker.ImageButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton.Dark" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/cream_dark</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+
+    <style name="TimePicker.Title.TextAppearance.Dark" parent="@style/TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/grey_text_color</item>
+        <item name="android:textSize">@dimen/dimens_16_sp</item>
+        <item name="background">@color/android_dark_background</item>
         <item name="fontWeight">500</item>
     </style>
 
@@ -170,38 +232,6 @@
         <item name="android:headerYearTextAppearance">@style/TextAppearance.MaterialComponents.Headline3</item>
         <item name="android:background">@color/android_dark_background</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <!-- TIMEPICKER. DARK -->
-
-    <style name="TimePickerDialog.Dark" parent="Dialog.Dark">
-        <item name="android:timePickerStyle">@style/TimePicker.Dark</item>
-        <item name="android:windowTitleStyle">@style/TimePicker.Title.TextAppearance.Dark</item>
-    </style>
-
-    <style name="TimePicker.Dark" parent="@android:style/Widget.Material.TimePicker">
-        <item name="android:headerBackground">@color/android_dark_background</item>
-        <item name="android:timePickerMode">clock</item>
-        <item name="android:headerTimeTextAppearance">@style/TimePicker.TextAppearance.Dark</item>
-        <item name="android:numbersTextColor">@color/white</item>
-        <item name="android:numbersSelectorColor">@color/yellow</item>
-        <item name="android:numbersBackgroundColor">@color/android_dark_dropbox</item>
-        <item name="android:numbersInnerTextColor">@color/text_gray</item>
-        <item name="android:background">@color/android_dark_background</item>
-    </style>
-
-    <style name="TimePicker.TextAppearance.Dark" parent="@style/TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textColor">@color/time_picker_text_color_selector_dark</item>
-        <item name="fontWeight">300</item>
-    </style>
-
-    <style name="TimePicker.Title.TextAppearance.Dark" parent="@style/TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="android:textColor">@color/grey_text_color</item>
-        <item name="android:textSize">@dimen/dimens_16_sp</item>
-        <item name="background">@color/android_dark_background</item>
-        <item name="fontWeight">500</item>
     </style>
 
     <!-- ALERT DIALOGS -->

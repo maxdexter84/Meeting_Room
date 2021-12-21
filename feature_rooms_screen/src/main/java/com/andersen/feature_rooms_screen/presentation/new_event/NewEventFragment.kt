@@ -2,7 +2,6 @@ package com.andersen.feature_rooms_screen.presentation.new_event
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputFilter
@@ -25,6 +24,8 @@ import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
@@ -122,10 +123,10 @@ class NewEventFragment :
                 showDatePickerDialog(dateOfEvent)
             }
             startTimePicker.setOnClickListener {
-                showTimePickerDialog(startTimePicker.text.toString(), startTimePickerListener)
+                showTimePickerDialog(TimePickerTag.START, startTimePicker.text.toString())
             }
             endTimePicker.setOnClickListener {
-                showTimePickerDialog(endTimePicker.text.toString(), endTimePickerListener)
+                showTimePickerDialog(TimePickerTag.END, endTimePicker.text.toString())
             }
         }
         addLifecycleObserver()
@@ -322,19 +323,24 @@ class NewEventFragment :
         }
     }
 
-    private fun showTimePickerDialog(
-        timeString: String,
-        listener: TimePickerDialog.OnTimeSetListener
-    ) {
+    private fun showTimePickerDialog(tag: TimePickerTag, timeString: String) {
         deleteTimeOut()
         with(timeString.stringToTime(TIME_FORMAT)) {
-            TimePickerDialog(requireContext(), listener, hour, minute, true).apply {
-                setButton(DatePickerDialog.BUTTON_POSITIVE, getString(R.string.ok), this)
-                setButton(DatePickerDialog.BUTTON_NEGATIVE, getString(R.string.cancel_button), this)
-                setTitle(R.string.time_picker_dialog_title)
-                setCancelable(false)
-                show()
-            }
+            MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(hour)
+                .setMinute(minute)
+                .build()
+                .apply {
+                    isCancelable = false
+                    addOnPositiveButtonClickListener {
+                        when (tag) {
+                            TimePickerTag.START -> onStartTimeSet(hour, minute)
+                            TimePickerTag.END -> onEndTimeSet(hour, minute)
+                        }
+                    }
+                }
+                .show(childFragmentManager, null)
         }
     }
 
@@ -360,7 +366,7 @@ class NewEventFragment :
         }
     }
 
-    private var startTimePickerListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+    private fun onStartTimeSet(hour: Int, minute: Int) {
         with(binding) {
             val startTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             startTimePicker.text = startTime.timeToString(TIME_FORMAT)
@@ -374,7 +380,7 @@ class NewEventFragment :
         }
     }
 
-    private var endTimePickerListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+    private fun onEndTimeSet(hour: Int, minute: Int) {
         with(binding) {
             val endTime = LocalTime.of(hour, minute).roundUpMinute(MINUTE_TO_ROUND)
             endTimePicker.text = endTime.timeToString(TIME_FORMAT)
@@ -418,8 +424,11 @@ class NewEventFragment :
         private const val DEFAULT_HOURS_EVENT_LENGTH = 1L
         private const val MONTH_VALUE_OFFSET = 1
         private const val EVENT_IS_HANDLED = true
+        private enum class TimePickerTag {
+            START, END
+        }
 
-        fun stringDateAndTimeToMillis(date: String, time: String): Long {
+            fun stringDateAndTimeToMillis(date: String, time: String): Long {
             val dateSegment = date.split("-")
             val timeSegment = time.split(":")
             val dateConstruct = kotlinx.datetime.LocalDateTime(
