@@ -17,7 +17,7 @@ class AuthInterceptor @Inject constructor() : Interceptor {
         if (!accessToken.isNullOrBlank()) {
             requestBuilder.addHeader(
                 HEADER_NAME,
-                accessToken
+                "$BEARER $accessToken"
             )
         }
         return chain.proceed(requestBuilder.build())
@@ -25,5 +25,6 @@ class AuthInterceptor @Inject constructor() : Interceptor {
 
     companion object {
         private const val HEADER_NAME = "Authorization"
+        private const val BEARER = "Bearer"
     }
 }
