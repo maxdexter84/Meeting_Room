@@ -53,7 +53,7 @@ fun EditText.afterTextChanged(listener: () -> Unit) {
         })
 }
 
-fun View.setSafeClickListener(interval: Int = 500, onSafeClick: (View) -> Unit) {
+fun View.onClick(interval: Int = 500, onSafeClick: (View) -> Unit) {
         val safeClickListener = SafeClickListener(interval) {
                 onSafeClick(it)
         }
