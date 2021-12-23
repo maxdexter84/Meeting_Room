@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimens_16_dp"
+    android:layout_marginTop="@dimen/dimens_12_dp"
+    android:layout_marginEnd="@dimen/dimens_16_dp"
+    app:cardCornerRadius="@dimen/dimens_4_dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_68_dp">
+
+        <TextView
+            android:id="@+id/room_title"
+            style="@style/AvailableRoomTitleTextAppearance"
+            android:layout_width="@dimen/dimens_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_12_dp"
+            android:layout_marginTop="@dimen/dimens_12_dp"
+            android:layout_marginEnd="@dimen/dimens_60_dp"
+            app:layout_constraintEnd_toStartOf="@id/book_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Paris Room" />
+
+        <TextView
+            android:id="@+id/book_button"
+            style="@style/ClickableTextAppearance"
+            android:layout_width="@dimen/dimens_36_dp"
+            android:layout_height="@dimen/dimens_28_dp"
+            android:layout_marginTop="@dimen/dimens_22_dp"
+            android:layout_marginEnd="@dimen/dimens_16_dp"
+            android:text="@string/book"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/room_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/room_color"
+            android:layout_width="@dimen/dimens_4_dp"
+            android:layout_height="@dimen/dimens_0_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/red_for_logout_text" />
+
+        <TextView
+            android:id="@+id/time_available"
+            android:layout_width="@dimen/dimens_0_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens_4_dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/available_for"
+            android:textColor="@color/gray_light"
+            android:textSize="@dimen/dimens_12_sp"
+            app:layout_constraintStart_toStartOf="@id/room_title"
+            app:layout_constraintTop_toBottomOf="@id/room_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

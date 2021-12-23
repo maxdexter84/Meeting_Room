@@ -5,6 +5,7 @@
     app:startDestination="@id/my_space_screen_navigation">
     <include app:graph="@navigation/my_space_screen_navigation" />
     <include app:graph="@navigation/rooms_screen_navigation" />
+    <include app:graph="@navigation/meet_now_screen_navigation" />
     <deepLink
         app:uri="@string/deeplink_uri_bottom_navigation" />
 </navigation>
