@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/meet_now_screen_navigation"
+    app:startDestination="@id/meetNowFragment"
+    app:defaultNavHost="true">
+    <action
+        android:id="@+id/action_to_meetNowFragment"
+        app:destination="@id/meetNowFragment"
+        app:popUpTo="@id/meetNowFragment"/>
+    <fragment
+        android:id="@+id/meetNowFragment"
+        android:name="com.meetingroom.feature_meet_now.presentation.meet_now_fragment.MeetNowFragment"
+        android:label="fragment_rooms"
+        tools:layout="@layout/fragment_meet_now">
+    </fragment>
+</navigation>
