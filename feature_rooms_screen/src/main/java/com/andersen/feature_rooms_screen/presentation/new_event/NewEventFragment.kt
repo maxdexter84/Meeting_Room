@@ -19,7 +19,6 @@ import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.example.core_module.component_manager.XInjectionManager
-import com.andersen.feature_rooms_screen.presentation.di.DaggerRoomsEventComponent
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
@@ -31,6 +30,7 @@ import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.Time
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
+import com.meeringroom.ui.view_utils.onClick
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEventBinding
 import kotlinx.coroutines.Job
@@ -45,7 +45,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.util.Calendar
 import java.util.Locale
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 class NewEventFragment :
@@ -93,7 +92,7 @@ class NewEventFragment :
             chosenRoomTitle = args.roomTitle
             newEventToolbar.toolbarSaveTitle.text = getString(R.string.new_event_toolbar)
             newEventToolbar.toolbarSaveCancel.setOnClickListener(onCancelClickListener)
-            eventRoomName.setOnClickListener {
+            eventRoomName.onClick {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToRoomPickerDialogFragment(
                         ROOM_KEY,
@@ -102,7 +101,7 @@ class NewEventFragment :
                     )
                 )
             }
-            reminderLeftTime.setOnClickListener {
+            reminderLeftTime.onClick {
                 findNavController().navigate(
                     NewEventFragmentDirections.actionNewEventFragmentToTimeForNotificationDialog(
                         TIME_KEY,
