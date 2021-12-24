@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
+import com.example.core_module.deeplink_manager.Deeplink
+import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
@@ -27,6 +29,9 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: LandingFragmentViewModel by viewModels {
         viewModelFactory
+    }
+    private val deeplinkNavigatorHelper: DeeplinkNavigatorHelper by lazy {
+        DeeplinkNavigatorHelper(findNavController())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,24 +89,16 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             elevation = 20f
             setBackgroundDrawable(null)
             bindingPopup.popupLocalSettings.setOnClickListener {
-                navigateToDeepLink(resources.getString(com.meetingroom.ui.R.string.deeplink_uri_set_locations_screen))
+                deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_SET_LOCATION)
                 dismiss()
             }
             bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()
-                navigateToDeepLink(resources.getString(R.string.deeplink_uri_login_screen))
+                deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_LOGIN_SCREEN)
                 dismiss()
             }
             showAsDropDown(view, 215, 0)
-        }
-    }
-
-    private fun navigateToDeepLink(link: String){
-        val uri = Uri.parse(link)
-        with(findNavController()){
-            popBackStack(R.id.landingFragment, true)
-            navigate(uri)
         }
     }
 }
