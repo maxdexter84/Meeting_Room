@@ -8,6 +8,11 @@
     <color name="purple_dark">#FF3700B3</color>
     <color name="teal_light">#FF03DAC5</color>
     <color name="teal_dark">#FF018786</color>
+    <color name="green">#FF0BB746</color>
+    <color name="dark_red">#FFC41328</color>
+    <color name="blue">#FF4169E1</color>
+    <color name="pink">#FFFF1493</color>
+    <color name="orange">#FFFFA500</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ripple_effect">#1f000000</color>

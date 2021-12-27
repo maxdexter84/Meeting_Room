@@ -83,7 +83,7 @@ class ModifyUpcomingEventFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            eventRoom = args.upcomingEvent.eventRoom
+            eventRoom = args.upcomingEvent.room
             modifyEventToolbar.toolbarSaveTitle.text = getString(R.string.modify_event_toolbar)
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
                 root.hideKeyboard(requireContext())
@@ -108,7 +108,7 @@ class ModifyUpcomingEventFragment :
             }
             modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
 
-            eventRoomName.text = args.upcomingEvent.eventRoom
+            eventRoomName.text = args.upcomingEvent.room
             eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
             userEventDescription.filters = arrayOf(InputFilter.LengthFilter(DESCRIPTION_MAX_LENGTH))
 
@@ -161,13 +161,13 @@ class ModifyUpcomingEventFragment :
                     getString(R.string.reminder_disabled_text_for_time)
                 eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             }
-            args.upcomingEvent.eventDescription?.let {
-                userEventDescription.setText(args.upcomingEvent.eventDescription)
+            args.upcomingEvent.description?.let {
+                userEventDescription.setText(args.upcomingEvent.description)
             }
             eventModifyTitle.setText(args.upcomingEvent.title)
             modifyStartTimePicker.text = args.upcomingEvent.startTime
             modifyEndTimePicker.text = args.upcomingEvent.endTime
-            eventRoomName.text = args.upcomingEvent.eventRoom
+            eventRoomName.text = args.upcomingEvent.room
             dateOfEvent = args.upcomingEvent.eventDate.stringToDate(INPUT_DATE_FORMAT)
             modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
@@ -260,7 +260,7 @@ class ModifyUpcomingEventFragment :
                     reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
                 reminderRemainingTime =
                     getShortReminderLabel(requireContext(), reminderLeftTime.text.toString())
-                eventDescription = userEventDescription.text.toString()
+                description = userEventDescription.text.toString()
             }
             eventReminderStartTime?.let {
                 createNotification(
@@ -424,7 +424,7 @@ class ModifyUpcomingEventFragment :
         const val ROOM_KEY = "ROOM_KEY"
         const val TIME_KEY = "TIME_KEY"
         private const val USER_INACTIVITY_LIMIT = 30000L
-        private const val INPUT_DATE_FORMAT = "d MMM yyyy"
+        private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
         private const val TIME_FORMAT = "HH:mm"
         private val DEFAULT_LOCALE = Locale.UK

@@ -3,7 +3,8 @@ package com.meetingroom.andersen.feature_landing.presentation.upcoming_events_fr
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_module.state.State
-import com.meetingroom.andersen.feature_landing.data.RoomsApi
+import com.example.core_network.RequestResult
+import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UpcomingEventsFragmentViewModel @Inject constructor(
-    private val roomsApi: RoomsApi
+    private val roomsEventRepository: IRoomsEventRepository
 ) : ViewModel() {
 
     private val _upcomingEvents = MutableStateFlow<List<UpcomingEventData>>(emptyList())
@@ -29,7 +30,17 @@ class UpcomingEventsFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                _upcomingEvents.emit(roomsApi.getUpcomingEventData())
+                val response = roomsEventRepository.getUpcomingEventData()
+                when(response){
+                    is RequestResult.Success -> {
+                        _upcomingEvents.emit(response.data)
+                    }
+                    is RequestResult.Error -> {
+                        _upcomingEvents.emit(emptyList())
+                        _mutableLoadingState.emit(State.Error)
+                    }
+                    else -> _upcomingEvents.emit(emptyList())
+                }
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)

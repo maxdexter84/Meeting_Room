@@ -63,7 +63,12 @@ class UpcomingEventsFragment :
                             initEmptyUpcomingMessage(false)
                         }
                     }
-                    else -> binding.progressBarUpcomingEvents.isVisible = false
+                    else -> {
+                        if(viewModel.upcomingEvents.value.isEmpty()){
+                            initEmptyUpcomingMessage(true)
+                        }
+                        binding.progressBarUpcomingEvents.isVisible = false
+                    }
                 }
             }
         }
