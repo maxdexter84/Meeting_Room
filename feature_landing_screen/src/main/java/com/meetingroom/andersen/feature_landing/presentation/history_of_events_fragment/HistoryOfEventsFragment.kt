@@ -17,7 +17,6 @@ import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import javax.inject.Inject
 
-
 class HistoryOfEventsFragment :
     BaseFragment<FragmentHistoryOfEventsBinding>(FragmentHistoryOfEventsBinding::inflate) {
 
@@ -42,11 +41,11 @@ class HistoryOfEventsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-        viewModel.gagData.observe(viewLifecycleOwner) {
+
+        viewModel.historyEvents.observe(viewLifecycleOwner){
             eventAdapter.setData(it)
             initEmptyUpcomingMessage(it.isEmpty())
         }
-
     }
 
     private fun initRecyclerView() {

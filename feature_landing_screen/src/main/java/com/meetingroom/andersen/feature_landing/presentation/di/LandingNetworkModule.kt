@@ -1,17 +1,22 @@
 package com.meetingroom.andersen.feature_landing.presentation.di
 
-import com.example.core_module.di.FeatureScope
-import com.meetingroom.andersen.feature_landing.data.GagLanding
-import com.meetingroom.andersen.feature_landing.data.RoomsApi
-import dagger.Binds
+import com.example.core_network.RequestMaker
+import com.meetingroom.andersen.feature_landing.data.RoomsEventApi
+import com.meetingroom.andersen.feature_landing.data.RoomsEventRepository
+import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
 import dagger.Module
+import dagger.Provides
+import retrofit2.Retrofit
 
 @Module
-interface LandingNetworkModule {
+class LandingNetworkModule {
 
-    @Binds
-    @FeatureScope
-    fun roomsApi(
-        gagLanding: GagLanding
-    ): RoomsApi
+    @Provides
+    fun getRoomsEventApi(retrofit: Retrofit): RoomsEventApi = retrofit.create(RoomsEventApi::class.java)
+
+    @Provides
+    fun getRoomsEventRepository(
+        requestMaker: RequestMaker,
+        roomsEventApi: RoomsEventApi
+    ): IRoomsEventRepository = RoomsEventRepository(requestMaker, roomsEventApi)
 }

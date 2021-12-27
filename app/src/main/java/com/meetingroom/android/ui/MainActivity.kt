@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     private fun destinationListener(binding: ActivityMainBinding) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (checkDestination(destination)) {
-                binding.bottomNavView.mainBottomNavigationView.visibility = View.INVISIBLE
+                binding.bottomNavView.mainBottomNavigationView.visibility = View.GONE
             } else binding.bottomNavView.mainBottomNavigationView.visibility = View.VISIBLE
         }
     }

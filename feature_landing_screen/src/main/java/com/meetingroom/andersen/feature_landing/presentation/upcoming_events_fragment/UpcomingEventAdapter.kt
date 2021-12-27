@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core_module.utils.dateToString
+import com.example.core_module.utils.stringToDate
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
@@ -46,9 +48,13 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
 
     inner class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private lateinit var date: String
 
         fun bind(upcomingEventData: UpcomingEventData) {
             with(binding) {
+                upcomingEventData.startTime = getTime(upcomingEventData.startDateTime)
+                upcomingEventData.endTime = getTime(upcomingEventData.endDateTime)
+                upcomingEventData.eventDate = date
                 eventTitleUpcoming.text = upcomingEventData.title
                 eventPlannedTimeUpcoming.text =
                     String.format(
@@ -56,8 +62,10 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                         upcomingEventData.startTime,
                         upcomingEventData.endTime
                     )
-                eventPlannedDateUpcoming.text = upcomingEventData.eventDate
-                eventRoomUpcoming.text = upcomingEventData.eventRoom
+                eventPlannedDateUpcoming.text = upcomingEventData.eventDate.stringToDate(INPUT_DATE_FORMAT)
+                        .dateToString(OUTPUT_DATE_FORMAT)
+                eventRoomUpcoming.text = upcomingEventData.room
+                upcomingEventData.eventRoomColour = createColor(upcomingEventData.room)
                 eventCityColourLineUpcoming.setBackgroundResource(upcomingEventData.eventRoomColour)
                 eventCardUpcomingRoot.setOnClickListener { onEventClicked(upcomingEventData) }
                 if (!upcomingEventData.reminderActive) {
@@ -69,6 +77,34 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                     eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
                 }
             }
+        }
+
+        private fun createColor(nameRoom: String): Int {
+            val listColor = listOf(
+                R.color.purple_light,
+                R.color.purple_dark,
+                R.color.purple,
+                R.color.teal_dark,
+                R.color.teal_light
+            )
+
+            return when (nameRoom) {
+                "Green" -> R.color.green
+                "Yellow" -> R.color.yellow_for_selected_item
+                "Gray" -> R.color.gray_60_dark
+                "Red" -> R.color.dark_red
+                "Blue" -> R.color.blue
+                "Pink" -> R.color.pink
+                "Purple" -> R.color.purple_light
+                "Orange" -> R.color.orange
+                else -> listColor.random()
+            }
+        }
+
+        private fun getTime(stringDateAndTime: String): String {
+            val strings = stringDateAndTime.split("T")
+            date = strings[0]
+            return strings[1].dropLast(3)
         }
     }
 
@@ -88,6 +124,11 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             return oldList[oldItemPosition] == newList[newItemPosition]
         }
+    }
+
+    companion object {
+        private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
+        private const val OUTPUT_DATE_FORMAT = "d MMM YYYY"
     }
 }
 
