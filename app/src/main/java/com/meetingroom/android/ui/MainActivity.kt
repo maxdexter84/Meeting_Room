@@ -3,22 +3,20 @@ package com.meetingroom.android.ui
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.core_module.component_manager.XInjectionManager
+import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
+import com.meeringroom.ui.view.base_classes.BaseActivity
 import com.meetingroom.android.R
 import com.meetingroom.android.databinding.ActivityMainBinding
 import com.meetingroom.android.di.ApplicationComponent
 import java.util.Calendar
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
+class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.inflate(it)}, R.id.nav_host_fragment) {
 
     @Inject
     lateinit var userDataPrefHelper: UserDataPrefHelper
@@ -28,10 +26,6 @@ class MainActivity : AppCompatActivity() {
         XInjectionManager
             .findComponent<ApplicationComponent>()
             .inject(this)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        navController =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
         binding.bottomNavView.mainBottomNavigationView.setupWithNavController(navController)
         navigate()
         destinationListener(binding)
@@ -40,14 +34,10 @@ class MainActivity : AppCompatActivity() {
     private fun navigate() {
         checkAccessTokenForUser()
         val accessToken = userDataPrefHelper.getToken(SharedPreferencesKeys.ACCESS_TOKEN_KEY).toString()
-        val uri = if (accessToken.isNotBlank()) {
-            Uri.parse(resources.getString(R.string.deeplink_uri_my_space_fragment))
+        if (accessToken.isNotBlank()) {
+            deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_MY_SPACE)
         } else {
-            Uri.parse(resources.getString(R.string.deeplink_uri_login_screen))
-        }
-        with(navController){
-            popBackStack(R.id.login_fragment, true)
-            navigate(uri)
+            deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_LOGIN_SCREEN)
         }
     }
 
@@ -83,4 +73,6 @@ class MainActivity : AppCompatActivity() {
         private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER = 604800000
         private const val BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN = 10000
     }
+
+    override fun getViewBinding(): ActivityMainBinding  = ActivityMainBinding.inflate(layoutInflater)
 }
