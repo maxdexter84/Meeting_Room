@@ -1,6 +1,5 @@
 package com.example.feature_set_location.presentation.fragments.location_fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -9,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
-import com.example.feature_set_location.R
+import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.example.feature_set_location.databinding.LocationFragmentBinding
 import com.example.feature_set_location.di.DaggerSetLocationComponent
 import com.example.feature_set_location.di.SetLocationComponent
@@ -31,6 +30,9 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
     private val viewModel: LocationFragmentViewModel by viewModels {
         viewModelFactory
     }
+    private val deeplinkNavigatorHelper: DeeplinkNavigatorHelper by lazy {
+        DeeplinkNavigatorHelper(findNavController())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +42,7 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         }
 
         binding.btnConfirmLocationFragment.setOnClickListener {
-            navigateToDeepLink(resources.getString(R.string.deeplink_uri_bottom_navigation))
+            deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_BOTTOM_NAV)
         }
         observeData()
         observeCovered()
@@ -59,11 +61,6 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
         viewModel.myOffice.onEach {
             binding.tvCitySelectText.text = it
         }.launchIn(lifecycleScope)
-    }
-
-    private fun navigateToDeepLink(link: String) {
-        val uri = Uri.parse(link)
-        findNavController().navigate(uri)
     }
 
     override fun getComponent(): SetLocationComponent {

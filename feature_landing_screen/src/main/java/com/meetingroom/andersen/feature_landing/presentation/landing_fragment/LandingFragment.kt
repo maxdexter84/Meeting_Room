@@ -1,6 +1,5 @@
 package com.meetingroom.andersen.feature_landing.presentation.landing_fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
-import com.example.core_module.deeplink_manager.Deeplink
 import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
