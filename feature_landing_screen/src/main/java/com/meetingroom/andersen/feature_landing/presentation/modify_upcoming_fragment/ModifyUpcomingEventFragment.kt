@@ -319,7 +319,6 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun showTimePickerDialog(tag: TimePickerTag, timeString: String) {
-        deleteTimeOut()
         with(timeString.stringToTime(TIME_FORMAT)) {
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
