@@ -386,7 +386,8 @@ class NewEventFragment :
             viewModel.setEvent(
                 TimeValidationDialogManager.ValidationEvent.OnEndTimeChanged(
                     startTimePicker.text.toString().stringToTime(TIME_FORMAT),
-                    endTime
+                    endTime,
+                    dateOfEvent
                 )
             )
         }

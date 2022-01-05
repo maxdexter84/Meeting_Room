@@ -18,7 +18,7 @@ class TimeValidationDialogManager @Inject constructor() {
     fun handleEvent(event: ValidationEvent) {
         _effect.value = when (event) {
             is ValidationEvent.OnStartTimeChanged -> validateStartTime(event.startTime, event.endTime, event.date)
-            is ValidationEvent.OnEndTimeChanged -> validateEndTime(event.startTime, event.endTime)
+            is ValidationEvent.OnEndTimeChanged -> validateEndTime(event.startTime, event.endTime, event.date)
             is ValidationEvent.OnDateChanged -> {
                 if (isStartTimeBeforeCurrent(event.startTime, event.date)) {
                     _state.value = ValidationState.InvalidStartTime
@@ -75,11 +75,17 @@ class TimeValidationDialogManager @Inject constructor() {
                 _state.value = ValidationState.InvalidStartTime
                 ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_start_between_0_and_6_hours_message)
             }
-            else -> validateBothTimes(startTime, endTime)
+            else -> {
+                if (_state.value != ValidationState.InvalidEndTime) {
+                    validateBothTimes(startTime, endTime)
+                } else {
+                    validateEndTime(startTime, endTime, date)
+                }
+            }
         }
     }
 
-     private fun validateEndTime(startTime: LocalTime, endTime: LocalTime): ValidationEffect {
+     private fun validateEndTime(startTime: LocalTime, endTime: LocalTime, date: LocalDate): ValidationEffect {
         return when {
             isTimeNotInOfficeHours(startTime, endTime) -> {
                 _state.value = ValidationState.InvalidBothTime
@@ -89,7 +95,13 @@ class TimeValidationDialogManager @Inject constructor() {
                 _state.value = ValidationState.InvalidEndTime
                 ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_end_between_0_and_6_hours_message)
             }
-            else -> validateBothTimes(startTime, endTime)
+            else -> {
+                if (_state.value != ValidationState.InvalidStartTime) {
+                    validateBothTimes(startTime, endTime)
+                } else {
+                    validateStartTime(startTime, endTime, date)
+                }
+            }
         }
     }
 
@@ -102,7 +114,7 @@ class TimeValidationDialogManager @Inject constructor() {
 
     sealed class ValidationEvent {
         data class OnStartTimeChanged(val startTime: LocalTime, val endTime: LocalTime, val date: LocalDate) : ValidationEvent()
-        data class OnEndTimeChanged(val startTime: LocalTime, val endTime: LocalTime): ValidationEvent()
+        data class OnEndTimeChanged(val startTime: LocalTime, val endTime: LocalTime, val date: LocalDate): ValidationEvent()
         data class OnDateChanged(val startTime: LocalTime, val date: LocalDate) : ValidationEvent()
     }
 
