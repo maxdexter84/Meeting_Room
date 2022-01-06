@@ -29,6 +29,9 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
                 }
             }
             customDialogButtonDone.setOnClickListener { navigate() }
+            timeFormatCustomDialog.setOnCheckedChangeListener { _, _ ->
+                validateTime(userCustomTimeEditText.text.toString().toInt())
+            }
         }
         editTextChangeListener()
     }
@@ -87,20 +90,27 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
 
     private fun editTextChangeListener() {
         with(binding) {
-            timeFormatCustomDialog.setOnCheckedChangeListener { _, _ -> userCustomTimeEditText.setText("") }
             userCustomTimeEditText.doAfterTextChanged { text ->
                 if (text.isNullOrEmpty().not()){
                     binding.customDialogButtonDone.isActivated = true
-                    val valueTime = text.toString().toInt()
-                    if (valueTime < MIN_CUSTOM_VALUE) userCustomTimeEditText.setText("$MIN_CUSTOM_VALUE")
-                    when {
-                        customTimeInMinutes.isChecked -> if (valueTime > MAX_MINUTES_VALUE) userCustomTimeEditText.setText("$MAX_MINUTES_VALUE")
-                        customTimeInHours.isChecked -> if (valueTime > MAX_HOURS_VALUE) userCustomTimeEditText.setText("$MAX_HOURS_VALUE")
-                        customTimeInDays.isChecked -> if (valueTime > MAX_DAYS_VALUE) userCustomTimeEditText.setText("$MAX_DAYS_VALUE")
-                    }
+                    validateTime(text.toString().toInt())
                 } else {
                     binding.customDialogButtonDone.isActivated = false
                 }
+            }
+        }
+    }
+
+    private fun validateTime(valueTime: Int) {
+        with (binding) {
+            if (valueTime < MIN_CUSTOM_VALUE) userCustomTimeEditText.setText("$MIN_CUSTOM_VALUE")
+            when {
+                customTimeInMinutes.isChecked -> if (valueTime > MAX_MINUTES_VALUE)
+                    userCustomTimeEditText.setText("$MAX_MINUTES_VALUE")
+                customTimeInHours.isChecked -> if (valueTime > MAX_HOURS_VALUE)
+                    userCustomTimeEditText.setText("$MAX_HOURS_VALUE")
+                customTimeInDays.isChecked -> if (valueTime > MAX_DAYS_VALUE)
+                    userCustomTimeEditText.setText("$MAX_DAYS_VALUE")
             }
         }
     }
