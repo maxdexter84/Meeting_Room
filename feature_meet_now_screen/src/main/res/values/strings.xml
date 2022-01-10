@@ -1,7 +1,7 @@
 <resources>
     <string name="meet_now_title">Meet now</string>
     <string name="book">Book</string>
-    <string name="available_for">Available for </string>
+    <string name="available_for">Available for %s</string>
     <string name="no_available_rooms_title">There are no available rooms for now</string>
     <string name="busy_time_subtitle">Wow, it’s a busy time now. But keep calm, you should check rooms which will be available soon</string>
     <string name="pointing_finger_emoji">👉</string>
