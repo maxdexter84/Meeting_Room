@@ -3,7 +3,12 @@ package com.example.core_module.utils
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
+
+private const val MIN = "min"
+private const val HOUR = "hour"
+private const val HOURS = "hours"
 
 fun LocalTime.timeToString(format: String): String {
     val formatter = DateTimeFormatter.ofPattern(format)
@@ -26,4 +31,22 @@ fun LocalTime.roundUpMinute(min: Int): LocalTime {
         return plusHours(1).withMinute(0)
     }
     return withMinute(newMinute)
+}
+
+fun Int.minutesToTimeString(): String {
+    val hours = TimeUnit.MINUTES.toHours(this.toLong()).toInt()
+    val remainMinutes = this - TimeUnit.HOURS.toMinutes(hours.toLong()).toInt()
+    var timeString = "$this $MIN"
+
+    if (hours > 0) {
+        timeString = if (hours == 1) {
+            "$hours $HOUR"
+        } else {
+            "$hours $HOURS"
+        }
+        if (remainMinutes != 0) {
+            timeString += " $remainMinutes $MIN"
+        }
+    }
+    return timeString
 }

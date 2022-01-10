@@ -43,6 +43,10 @@ dependencies {
     implementation libraries.viewModel
     implementation libraries.dagger
     implementation libraries.navigation
+    implementation libraries.retrofit
+    implementation libraries.networking
+    implementation libraries.datetime
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     kapt libraries.daggerCompiler
 

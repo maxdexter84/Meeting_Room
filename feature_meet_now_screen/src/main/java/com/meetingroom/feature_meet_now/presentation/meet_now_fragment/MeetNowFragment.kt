@@ -14,8 +14,7 @@ import com.meetingroom.feature_meet_now_screen.databinding.FragmentMeetNowBindin
 import kotlinx.android.synthetic.main.fragment_meet_now.tabLayout
 import kotlinx.android.synthetic.main.fragment_meet_now.viewPager
 
-class MeetNowFragment : BaseFragment<FragmentMeetNowBinding>(FragmentMeetNowBinding::inflate),
-    IHasComponent<MeetNowComponent> {
+class MeetNowFragment : BaseFragment<FragmentMeetNowBinding>(FragmentMeetNowBinding::inflate), IHasComponent<MeetNowComponent> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +30,7 @@ class MeetNowFragment : BaseFragment<FragmentMeetNowBinding>(FragmentMeetNowBind
     override fun getComponent(): MeetNowComponent {
         return DaggerMeetNowComponent
             .factory()
-            .create(requireContext())
+            .create(requireContext(), XInjectionManager.findComponent())
     }
 
     private fun initToolbar() {

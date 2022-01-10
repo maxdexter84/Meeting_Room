@@ -8,6 +8,7 @@ import com.meetingroom.andersen.feature_landing.presentation.di.LandingDeps
 import com.meetingroom.android.ApplicationMeetingRoom
 import com.meetingroom.android.ui.MainActivity
 import com.meetingroom.feature_login.di.LoginDeps
+import com.meetingroom.feature_meet_now.presentation.di.MeetNowDeps
 import dagger.BindsInstance
 import dagger.Component
 
@@ -15,6 +16,7 @@ import dagger.Component
 interface ApplicationComponent:
      LandingDeps,
      LoginDeps,
+     MeetNowDeps,
      SetLocationDeps
 {
 
