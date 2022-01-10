@@ -14,7 +14,7 @@
     <string name="modify_event_toolbar">Modify event</string>
     <string name="new_event_toolbar">New event</string>
     <string name="button_toolbar_save">SAVE</string>
-    <string name="user_selected_custom_time_option">%1$s %2$s before</string>
+    <string name="user_selected_custom_time_option">%1$s %2$s </string>
     <string name="session_expired_dialog_title">Oops!</string>
     <string name="session_expired_dialog_message">Your session has expired :( . Please book your event again.</string>
     <string name="need_more_time_dialog_button">I need more time</string>

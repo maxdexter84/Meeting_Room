@@ -31,6 +31,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
         destinationListener(binding)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navController.popBackStack()
+        if(navController.currentDestination?.let { checkDestination(it) } == true) finish()
+    }
+
     private fun navigate() {
         checkAccessTokenForUser()
         val accessToken = userDataPrefHelper.getToken(SharedPreferencesKeys.ACCESS_TOKEN_KEY).toString()
