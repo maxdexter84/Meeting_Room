@@ -18,6 +18,10 @@
     <string name="ok_button">ok</string>
     <string name="delete">delete</string>
     <string name="delete_the_event">Delete the event?</string>
+    <string name="skype_marketUri">market://details?id=com.skype.raider</string>
+    <string name="skype_for_URI">skype:</string>
+    <string name="chat_skype_forURI">\?chat</string>
+    <string name="skype_package_name">com.skype.raider</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming
