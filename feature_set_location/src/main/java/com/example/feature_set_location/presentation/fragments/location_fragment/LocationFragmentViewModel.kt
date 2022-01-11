@@ -1,5 +1,7 @@
 package com.example.feature_set_location.presentation.fragments.location_fragment
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
@@ -31,6 +33,7 @@ class LocationFragmentViewModel @Inject constructor(
 
     init {
         getUserCity()
+        saveDataAboutRole()
     }
 
     private fun getUserCity() {
@@ -53,6 +56,32 @@ class LocationFragmentViewModel @Inject constructor(
             }
         }
         checkCoveredOffice(_myOffice.value)
+    }
+
+    private fun saveDataAboutRole() {
+            viewModelScope.launch {
+                when (val response = getUserOfficeCity.getRole()) {
+                    is RequestResult.Success -> {
+                        val roles = prefHelper.getUserRoles()
+                        val currentRole = response.data
+                        if (roles != null) {
+                            roles.forEach {
+                                if(it != currentRole){
+                                    roles.toMutableList().add(currentRole)
+                                    prefHelper.saveUserRoles(roles)
+                                }
+                            }
+                        } else {
+                            prefHelper.saveUserRoles(listOf(currentRole))
+                        }
+                    }
+                    is RequestResult.Error -> {
+                        _error.value = response.exception
+                        _loading.value = false
+                    }
+                    is RequestResult.Loading -> _loading.value = true
+                }
+            }
     }
 
     private fun checkCoveredOffice(city: String) {

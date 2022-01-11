@@ -49,9 +49,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
 
     private fun checkAccessTokenForUser(){
         val refreshTime = userDataPrefHelper.getTokenDay()
-        val currentTime: Long = Calendar.getInstance().timeInMillis
-        val limitTime = LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER - BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN
         if(refreshTime != null) {
+            val currentTime: Long = Calendar.getInstance().timeInMillis
+            var limitTime = LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_ADMIN - BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN
+            val role = userDataPrefHelper.getUserRoles()
+            if (role != null && role.contains(ROLE_USER)) {
+                limitTime = LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER - BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN
+            }
             val elapsedTime = currentTime - refreshTime
             if (elapsedTime > limitTime) {
                 userDataPrefHelper.deleteToken()
@@ -76,8 +80,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
     }
 
     companion object {
+        private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_ADMIN = 86400000
         private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER = 604800000
-        private const val BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN = 10000
+        private const val BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN = 1000000
+        private const val ROLE_USER = "ROLE_USER"
     }
 
     override fun getViewBinding(): ActivityMainBinding  = ActivityMainBinding.inflate(layoutInflater)

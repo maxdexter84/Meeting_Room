@@ -5,11 +5,20 @@ import com.example.feature_set_location.domain.interactors.GetUserOfficeCityInte
 import com.example.feature_set_location.domain.repository.LocationRepository
 import javax.inject.Inject
 
-class GetUserOfficeCityInteractorImpl @Inject constructor(private val repository: LocationRepository) : GetUserOfficeCityInteractor {
+class GetUserOfficeCityInteractorImpl @Inject constructor(
+    private val repository: LocationRepository
+) : GetUserOfficeCityInteractor {
 
     override suspend fun getData(): RequestResult<String> =
         when (val res = repository.getUserOffice()) {
             is RequestResult.Success -> RequestResult.Success(res.data.officeCity)
+            is RequestResult.Error -> res
+            is RequestResult.Loading -> res
+        }
+
+    override suspend fun getRole(): RequestResult<String> =
+        when (val res = repository.getUserOffice()) {
+            is RequestResult.Success -> RequestResult.Success(res.data.role)
             is RequestResult.Error -> res
             is RequestResult.Loading -> res
         }
