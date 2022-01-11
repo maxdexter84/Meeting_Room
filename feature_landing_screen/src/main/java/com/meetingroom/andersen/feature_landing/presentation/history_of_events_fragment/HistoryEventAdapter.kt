@@ -14,7 +14,11 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementHistoryBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
 
-class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
+
+class HistoryEventAdapter(
+    private val onBookersFieldsClick: (View, String) -> Unit,
+    private val onBookersSkypeClick: (String) -> Unit
+) :
     RecyclerView.Adapter<HistoryEventAdapter.HistoryEventViewHolder>() {
     private val events = ArrayList<HistoryEventData>()
 
@@ -83,7 +87,7 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
                     onBookersFieldsClick(it, bookerEmail.text.toString())
                 }
                 bookerSkype.setOnClickListener {
-                    onBookersFieldsClick(it, bookerSkype.text.toString())
+                    onBookersSkypeClick(bookerSkype.text.toString())
                 }
             }
         }

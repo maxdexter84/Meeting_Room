@@ -3,6 +3,8 @@ package com.meetingroom.andersen.feature_landing.presentation.history_of_events_
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
+import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentHistoryOfEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
@@ -21,9 +24,10 @@ class HistoryOfEventsFragment :
     BaseFragment<FragmentHistoryOfEventsBinding>(FragmentHistoryOfEventsBinding::inflate) {
 
     private val eventAdapter by lazy {
-        HistoryEventAdapter { view, text ->
+        HistoryEventAdapter({ view, text ->
             showCopyPrompt(view, text)
-        }
+        },
+            { text -> openSkypeDialog(text) })
     }
 
     @Inject
@@ -41,10 +45,19 @@ class HistoryOfEventsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
+        with(viewModel) {
+            historyEvents.observe(viewLifecycleOwner) {
+                eventAdapter.setData(it)
+                initEmptyUpcomingMessage(it.isEmpty())
+            }
 
-        viewModel.historyEvents.observe(viewLifecycleOwner){
-            eventAdapter.setData(it)
-            initEmptyUpcomingMessage(it.isEmpty())
+            isSkypeInstallData.observe(viewLifecycleOwner) {
+                initSkype(it.nickname)
+            }
+
+            skypeNotInstall.observe(viewLifecycleOwner) {
+                goToMarket()
+            }
         }
     }
 
@@ -84,6 +97,28 @@ class HistoryOfEventsFragment :
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         myClipboard.setPrimaryClip(ClipData.newPlainText("Label", text))
     }
+
+    private fun openSkypeDialog(nickname: String) {
+        viewModel.openSkypeDialog(nickname)
+    }
+
+    private fun initSkype(skyNickname: String) {
+        val skyIntent = Intent(Intent.ACTION_VIEW)
+        skyIntent.data =
+            Uri.parse(
+                getString(R.string.skype_for_URI) + skyNickname +
+                        getString(R.string.chat_skype_forURI)
+            )
+        requireContext().startActivity(skyIntent)
+    }
+
+    private fun goToMarket() {
+        val marketUri = Uri.parse(getString(R.string.skype_marketUri))
+        val myIntent = Intent(Intent.ACTION_VIEW, marketUri)
+        myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        requireContext().startActivity(myIntent)
+    }
+
 
     private fun initEmptyUpcomingMessage(visibility: Boolean) {
         with(binding) {
