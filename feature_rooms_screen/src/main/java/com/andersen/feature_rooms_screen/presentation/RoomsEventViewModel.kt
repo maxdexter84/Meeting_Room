@@ -71,6 +71,7 @@ class RoomsEventViewModel @Inject constructor(
                 val freeRooms = getFreeRoomsList()
                 val roomsList = Array(it.size) { index ->
                     RoomPickerNewEventData(
+                        it[index].id,
                         it[index].title,
                         ROOM_IS_SELECTED,
                         it[index] in freeRooms

@@ -17,7 +17,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_graph" />
-
     <include
         android:id="@+id/bottom_nav_view"
         layout="@layout/bottom_navigation_tool_bar"

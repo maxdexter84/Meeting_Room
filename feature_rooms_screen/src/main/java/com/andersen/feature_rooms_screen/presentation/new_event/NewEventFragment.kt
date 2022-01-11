@@ -71,7 +71,7 @@ class NewEventFragment :
 
     private val onCancelClickListener: (View) -> Unit = {
         binding.root.hideKeyboard(requireContext())
-        requireActivity().onBackPressed()
+        findNavController().popBackStack()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -279,7 +279,7 @@ class NewEventFragment :
                 )
             )
         }
-        requireActivity().onBackPressed()
+        findNavController().popBackStack()
     }
 
     private fun showDatePickerDialog(date: LocalDate) {

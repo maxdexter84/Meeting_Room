@@ -1,5 +1,6 @@
 package com.meetingroom.andersen.feature_landing.presentation.history_of_events_fragment
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,8 +69,7 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
                 eventPlannedDateUpcoming.text = historyEventData.eventDate.stringToDate(INPUT_DATE_FORMAT)
                     .dateToString(OUTPUT_DATE_FORMAT)
                 eventRoomUpcoming.text = historyEventData.room
-                historyEventData.eventRoomColour = createColor(historyEventData.room)
-                eventCityColourLineUpcoming.setBackgroundResource(historyEventData.eventRoomColour)
+                eventCityColourLineUpcoming.setBackgroundColor(Color.parseColor(historyEventData.color))
                 eventCardUpcomingRoot.setOnClickListener {
                     flexiblePartOfCardView.visibilityIf(!flexiblePartOfCardView.isVisible)
                     nameOfBooker.text = historyEventData.userFullName
@@ -88,32 +88,10 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
             }
         }
 
-        private fun createColor(nameRoom: String): Int {
-            val listColor = listOf(
-                R.color.purple_light,
-                R.color.purple_dark,
-                R.color.purple,
-                R.color.teal_dark,
-                R.color.teal_light
-            )
-
-            return when (nameRoom) {
-                "Green" -> R.color.green
-                "Yellow" -> R.color.yellow_for_selected_item
-                "Gray" -> R.color.gray_60_dark
-                "Red" -> R.color.dark_red
-                "Blue" -> R.color.blue
-                "Pink" -> R.color.pink
-                "Purple" -> R.color.purple_light
-                "Orange" -> R.color.orange
-                else -> listColor.random()
-            }
-        }
-
         private fun getTime(stringDateAndTime: String): String {
             val strings = stringDateAndTime.split("T")
             date = strings[0]
-            return strings[1].dropLast(3)
+            return strings[1].substring(START_INDEX_FOR_TIME, END_INDEX_FOR_TIME)
         }
     }
 
@@ -138,5 +116,7 @@ class HistoryEventAdapter(var onBookersFieldsClick: (View, String) -> Unit) :
     companion object {
         private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
         private const val OUTPUT_DATE_FORMAT = "d MMM YYYY"
+        private const val START_INDEX_FOR_TIME = 0
+        private const val END_INDEX_FOR_TIME = 5
     }
 }

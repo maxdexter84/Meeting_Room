@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class RoomPickerNewEventData(
+    val idRoom: Long,
     val room: String,
     var isSelected: Boolean,
     var isEnabled: Boolean,

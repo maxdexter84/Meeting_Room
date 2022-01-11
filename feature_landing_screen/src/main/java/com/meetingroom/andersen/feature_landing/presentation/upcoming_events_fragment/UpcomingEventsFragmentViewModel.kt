@@ -22,18 +22,21 @@ class UpcomingEventsFragmentViewModel @Inject constructor(
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
 
-    init {
-        getUpcomingEvents()
-    }
-
-    private fun getUpcomingEvents() {
+    fun getUpcomingEvents() {
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
                 val response = roomsEventRepository.getUpcomingEventData()
                 when(response){
                     is RequestResult.Success -> {
-                        _upcomingEvents.emit(response.data)
+                        val listUpcomingEvents = response.data
+                        val notDeletedUpcomingEvents = mutableListOf<UpcomingEventData>()
+                        listUpcomingEvents.forEach{
+                            if(it.status != DELETED){
+                                notDeletedUpcomingEvents.add(it)
+                            }
+                        }
+                        _upcomingEvents.emit(notDeletedUpcomingEvents)
                     }
                     is RequestResult.Error -> {
                         _upcomingEvents.emit(emptyList())
@@ -46,5 +49,9 @@ class UpcomingEventsFragmentViewModel @Inject constructor(
                 _mutableLoadingState.emit(State.Error)
             }
         }
+    }
+
+    companion object {
+        const val DELETED = "DELETED"
     }
 }

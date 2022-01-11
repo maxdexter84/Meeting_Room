@@ -3,17 +3,22 @@ package com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fr
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.state.State
+import com.example.core_network.RequestResult
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
-import com.meetingroom.andersen.feature_landing.data.RoomsEventApi
+import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
+import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
+import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ModifyUpcomingEventViewModel @Inject constructor (
-    private val dialogManager: TimeValidationDialogManager
-): ViewModel() {
+class ModifyUpcomingEventViewModel @Inject constructor(
+    private val dialogManager: TimeValidationDialogManager,
+    private val roomsEventRepository: IRoomsEventRepository
+) : ViewModel() {
 
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
@@ -21,37 +26,67 @@ class ModifyUpcomingEventViewModel @Inject constructor (
     private val _roomPickerArray = MutableStateFlow<Array<RoomPickerNewEventData>>(emptyArray())
     val roomPickerArray: StateFlow<Array<RoomPickerNewEventData>> get() = _roomPickerArray.asStateFlow()
 
-    init {
-        _roomPickerArray.value = getRoomPickerNewEventData()
+    private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
+    val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
+
+    suspend fun deleteEvent(eventId: Long) {
+        viewModelScope.launch {
+            try {
+                roomsEventRepository.deleteUpcomingEvent(eventId)
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
     }
 
-    fun setEvent(event : TimeValidationDialogManager.ValidationEvent) {
+    fun putChangedEvent(event: ChangedEventDTO) {
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                roomsEventRepository.putChangedEvent(event)
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun getRoomsEvent(startDateTime: String, endDateTime: String) {
+        viewModelScope.launch {
+            try {
+                val response =
+                    roomsEventRepository.getRoomPickerNewEventData(startDateTime, endDateTime)
+                checkResponse(response)
+            } catch (exception: Exception) {
+                _roomPickerArray.value = emptyArray()
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
 
-    //GAG
-    fun getRoomPickerNewEventData(): Array<RoomPickerNewEventData> {
-        val array = Array(6) { i ->
-            val room = when (i) {
-                0 -> "Gray"
-                1 -> "Blue"
-                2 -> "Green"
-                3 -> "Black"
-                4 -> "Drkgray"
-                5 -> "Magenta"
-                6 -> "Red"
-                7 -> "Yellow"
-                else -> "Green"
+    private fun checkResponse(response: RequestResult<Array<StatusRoomsDTO>>) {
+        when (response) {
+            is RequestResult.Success -> {
+                val listStatusRoomsDTO = response.data.toList()
+                val listRoomPickerNewEventData = mutableListOf<RoomPickerNewEventData>()
+                listStatusRoomsDTO.forEach {
+                    listRoomPickerNewEventData.add(
+                        RoomPickerNewEventData(
+                            it.id,
+                            it.title,
+                            it.isSelected,
+                            it.isEnabled
+                        )
+                    )
+                }
+                _roomPickerArray.value = listRoomPickerNewEventData.toTypedArray()
             }
-
-            val isSelected = false
-
-            val isEnabled = when(i) {
-                3,4 -> false
-                else -> true
-            }
-            RoomPickerNewEventData(room, isSelected, isEnabled)
+            else -> _roomPickerArray.value = emptyArray()
         }
-        return array.sortedByDescending { room -> room.isEnabled }.toTypedArray()
     }
 }

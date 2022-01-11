@@ -24,7 +24,6 @@ class RoomPickerDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        isCancelable = false
     }
 
     private fun initRecyclerView() {
