@@ -141,11 +141,10 @@ class IndicatorView @JvmOverloads constructor(
         }
         when (event.action) {
             MotionEvent.ACTION_UP -> {
-                this.parent.requestDisallowInterceptTouchEvent(true)
                 touchStart()
             }
             MotionEvent.ACTION_MOVE -> {
-                this.parent.requestDisallowInterceptTouchEvent(true)
+                parent.requestDisallowInterceptTouchEvent(true)
                 touchMove()
             }
             else -> {
@@ -178,7 +177,7 @@ class IndicatorView @JvmOverloads constructor(
         ) {
             val distanceBetweenTopAndBottom = filterMoveCoord(motionTouchEventY) - thumbTop.y
             createSquare(distanceBetweenTopAndBottom)
-        } else this.parent.requestDisallowInterceptTouchEvent(false)
+        } else parent.requestDisallowInterceptTouchEvent(false)
     }
 
     private fun touchStart() {
@@ -207,6 +206,7 @@ class IndicatorView @JvmOverloads constructor(
                 performClick()
             }
         } else {
+            parent.requestDisallowInterceptTouchEvent(false)
             emitRangePeriod(null, null)
             clearFigure()
         }
@@ -224,6 +224,7 @@ class IndicatorView @JvmOverloads constructor(
         return if (touchEvent % (getMinuteHeight() * MIN_MINUTE_STEP) != 0f) {
             val dif = touchEvent % (getMinuteHeight() * MIN_MINUTE_STEP)
             if (touchEvent - dif < 0) 0f
+            else if(touchEvent - dif == height - (getMinuteHeight() * MIN_MINUTE_STEP)) height.toFloat()
             else touchEvent - dif
         } else touchEvent
     }

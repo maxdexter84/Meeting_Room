@@ -204,7 +204,7 @@ class ModifyUpcomingEventFragment :
                     eventModifyTitle.text.toString(),
                     eventRoomName.text.toString(),
                     modifyStartTimePicker.text.toString(),
-                    reminderLeftTime.text.toString()
+                    reminderLeftTime.text.toString().substringBefore(EXCLUDED_WORD)
                 ),
                 notificationHelper,
                 reminderStartTime
@@ -433,6 +433,7 @@ class ModifyUpcomingEventFragment :
         private const val MINUTE_TO_ROUND = 5
         private const val MAX_MONTH = 3L
         private const val MONTH_DIFFERENT = 1
+        private const val EXCLUDED_WORD = "before"
         private enum class TimePickerTag {
             START, END,
         }
