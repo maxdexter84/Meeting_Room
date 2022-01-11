@@ -5,4 +5,5 @@ import com.example.core_network.RequestResult
 interface GetUserOfficeCityInteractor {
 
     suspend fun getData(): RequestResult<String>
+    suspend fun getRole(): RequestResult<String>
 }
