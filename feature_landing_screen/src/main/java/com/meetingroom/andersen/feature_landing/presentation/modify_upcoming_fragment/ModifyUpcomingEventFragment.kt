@@ -8,8 +8,8 @@ import android.text.InputFilter
 import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -19,23 +19,25 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.state.State
 import com.example.core_module.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
-import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.UserTimeTypes
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.hideKeyboard
 import com.meeringroom.ui.view_utils.onClick
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
+import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -87,9 +89,12 @@ class ModifyUpcomingEventFragment :
             modifyEventToolbar.toolbarSaveTitle.text = getString(R.string.modify_event_toolbar)
             modifyEventToolbar.toolbarSaveCancel.setOnClickListener {
                 root.hideKeyboard(requireContext())
-                requireActivity().onBackPressed()
+                findNavController().popBackStack()
             }
             modifyRoomChooser.onClick {
+                val startTime = modifyStartTimePicker.text.toString()
+                val endTime = modifyEndTimePicker.text.toString()
+                viewModel.getRoomsEvent(startTime, endTime)
                 findNavController().navigate(
                     ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment(
                         ROOM_KEY,
@@ -250,18 +255,14 @@ class ModifyUpcomingEventFragment :
 
     private fun saveChanges() {
         with(binding) {
-            args.upcomingEvent.apply {
+            val changedEvent = ChangedEventDTO(
+                description = userEventDescription.text.toString(),
+                endDateTime = "${dateOfEvent}T${modifyEndTimePicker.text}",
+                id = args.upcomingEvent.id,
+                roomId = args.upcomingEvent.roomId,
+                startDateTime = "${dateOfEvent}T${modifyStartTimePicker.text}",
                 title = eventModifyTitle.text.toString()
-                startTime = modifyStartTimePicker.text.toString()
-                endTime = modifyEndTimePicker.text.toString()
-                eventDate = dateOfEvent.dateToString(INPUT_DATE_FORMAT)
-                eventRoom = eventRoomName.text.toString()
-                reminderActive =
-                    reminderLeftTime.text != getString(UserTimeTypes.fromId(R.string.reminder_disabled_text_for_time).id)
-                reminderRemainingTime =
-                    getShortReminderLabel(requireContext(), reminderLeftTime.text.toString())
-                description = userEventDescription.text.toString()
-            }
+            )
             eventReminderStartTime?.let {
                 createNotification(
                     getReminderSetOffTimeInMillis(
@@ -270,8 +271,22 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
+            lifecycleScope.launch {
+                viewModel.putChangedEvent(changedEvent)
+            }
+            loadingStateObserver()
         }
-        requireActivity().onBackPressed()
+    }
+
+    private fun loadingStateObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableState.collectLatest {
+                when (it) {
+                    is State.Loading -> binding.progressBar.isVisible = true
+                    else -> findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     private fun showDatePickerDialog(date: LocalDate) {
@@ -416,8 +431,10 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun deleteEvent(event: UpcomingEventData){
-        Toast.makeText(requireContext(), "${getString(R.string.delete)} ${event.title}", Toast.LENGTH_SHORT).show()
-        requireActivity().onBackPressed()
+        lifecycleScope.launch {
+            viewModel.deleteEvent(event.id)
+        }
+        findNavController().popBackStack()
     }
 
     companion object {

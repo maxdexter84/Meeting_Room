@@ -14,9 +14,9 @@ data class HistoryEventData(
     val userEmail: String,
     val userSkype: String,
     val status: String,
+    val color: String,
     var startTime: String,
     var endTime: String,
-    var eventDate: String,
-    var eventRoomColour: Int
+    var eventDate: String
 )
 

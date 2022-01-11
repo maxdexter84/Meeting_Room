@@ -45,6 +45,7 @@ class UpcomingEventsFragment :
 
     private fun upcomingEventsListObserver(){
         lifecycleScope.launch {
+            viewModel.getUpcomingEvents()
             viewModel.upcomingEvents.collectLatest {
                 eventAdapter.setData(it)
                 loadingStateObserver()

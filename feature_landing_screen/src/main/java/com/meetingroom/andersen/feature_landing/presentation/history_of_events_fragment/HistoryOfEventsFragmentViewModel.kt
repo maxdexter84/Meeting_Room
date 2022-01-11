@@ -37,7 +37,14 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
     private fun checkResponse(response: RequestResult<List<HistoryEventData>>) {
         when (response) {
             is RequestResult.Success -> {
-                historyEventsLiveData.postValue(response.data)
+                val listHistoryEvents = response.data
+                val notDeletedHistoryEvents = mutableListOf<HistoryEventData>()
+                listHistoryEvents.forEach{
+                    if(it.status != DELETED){
+                        notDeletedHistoryEvents.add(it)
+                    }
+                }
+                historyEventsLiveData.postValue(notDeletedHistoryEvents)
             }
             is RequestResult.Error -> {
                 historyEventsLiveData.postValue(emptyList())
@@ -51,5 +58,9 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
             else -> historyEventsLiveData.postValue(emptyList())
         }
         roomsEventRequestResult.value = response
+    }
+
+    companion object {
+        const val DELETED = "DELETED"
     }
 }
