@@ -223,6 +223,7 @@ class ModifyUpcomingEventFragment :
                 when (it) {
                     is TimeValidationDialogManager.ValidationState.InvalidStartTime -> {
                         modifyStartTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        modifyEndTimePicker.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
                         binding.modifyEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {

@@ -24,7 +24,6 @@
         android:clipToPadding="false"
         android:paddingBottom="@dimen/dimens_12_dp"
         android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
