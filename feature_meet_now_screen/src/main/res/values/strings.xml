@@ -1,10 +1,18 @@
 <resources>
     <string name="meet_now_title">Meet now</string>
     <string name="book">Book</string>
+    <!-- Available now-->
     <string name="available_for">Available for %s</string>
+    <string name="pointing_finger_emoji">👉</string>
     <string name="no_available_rooms_title">There are no available rooms for now</string>
     <string name="busy_time_subtitle">Wow, it’s a busy time now. But keep calm, you should check rooms which will be available soon</string>
-    <string name="pointing_finger_emoji">👉</string>
+    <!-- Available soon-->
+    <string name="available_in">Available in %s</string>
+    <string name="available_in_for">Available in %s for %s</string>
+    <string name="eyes_open_emoji">👀</string>
+    <string name="you_don_t_need_to_wait_title">You don’t need to wait</string>
+    <string name="check_the_rooms_subtitle">Check the rooms that are available right now</string>
+
     <string-array name="tab_titles">
         <item>
             Available now

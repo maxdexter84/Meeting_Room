@@ -13,21 +13,19 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.feature_meet_now.domain.entity.Room
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
+import com.meetingroom.feature_meet_now.presentation.utils.RefreshTimer
+import com.meetingroom.feature_meet_now.presentation.viewmodel.MeetNowSharedViewModel
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentAvailableNowBinding
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-private const val REFRESH_TIME: Long = 60000
 
 class RoomsAvailableNowFragment :
     BaseFragment<FragmentAvailableNowBinding>(FragmentAvailableNowBinding::inflate) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: RoomsAvailableNowViewModel by viewModels {
+    private val viewModel: MeetNowSharedViewModel by viewModels {
         viewModelFactory
     }
 
@@ -37,26 +35,12 @@ class RoomsAvailableNowFragment :
         }
     }
 
-    private var refreshTimerJob: Job? = null
-
-    private fun startRefreshTimer() {
-        stopRefreshTimer()
-        refreshTimerJob = lifecycleScope.launch {
-            while (true) {
-                delay(REFRESH_TIME)
-                viewModel.getRoomsAvailableNow()
-            }
-        }
-    }
-
-    private fun stopRefreshTimer() {
-        refreshTimerJob?.cancel()
-        refreshTimerJob = null
-    }
+    val refreshTimer = RefreshTimer(lifecycleScope)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         XInjectionManager.findComponent<MeetNowComponent>().inject(this)
+        viewModel.getRoomsAvailableNow()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,16 +49,15 @@ class RoomsAvailableNowFragment :
         initRecyclerView()
         loadingStateObserver()
         roomsAvailableNowObserver()
-        viewModel.getRoomsAvailableNow()
     }
 
     override fun onStop() {
         super.onStop()
-        stopRefreshTimer()
+        refreshTimer.stop()
     }
 
     private fun initRefreshLayout() {
-        with(binding.swipeContainer) {
+        with(binding.roomsAvailableNowSwipeContainer) {
             setOnRefreshListener {
                 viewModel.getRoomsAvailableNow()
             }
@@ -107,15 +90,15 @@ class RoomsAvailableNowFragment :
                         is State.Loading -> {
                             roomsAvailableNowRecyclerView.isVisible = false
                             roomsAvailableNowProgressBar.isVisible = true
-                            swipeContainer.isRefreshing = false
-                            displayNoAvailableRoomsMessage(false)
+                            roomsAvailableNowSwipeContainer.isRefreshing = false
+                            displayNoRoomsAvailableNowMessage(false)
                         }
                         is State.NotLoading -> {
                             roomsAvailableNowRecyclerView.isVisible = true
                             roomsAvailableNowProgressBar.isVisible = false
-                            startRefreshTimer()
+                            refreshTimer.start { viewModel.getRoomsAvailableNow() }
                             if (viewModel.roomsAvailableNow.value.isEmpty()) {
-                                displayNoAvailableRoomsMessage(true)
+                                displayNoRoomsAvailableNowMessage(true)
                             }
                         }
                         is State.Error -> {
@@ -128,11 +111,9 @@ class RoomsAvailableNowFragment :
         }
     }
 
-    private fun displayNoAvailableRoomsMessage(isVisible: Boolean) {
+    private fun displayNoRoomsAvailableNowMessage(isVisible: Boolean) {
         with(binding) {
-            noRoomsEmoji.visibilityIf(isVisible)
-            noRoomsTitle.visibilityIf(isVisible)
-            noRoomsSubtitle.visibilityIf(isVisible)
+            noRoomsAvailableNowGroup.visibilityIf(isVisible)
         }
     }
 
