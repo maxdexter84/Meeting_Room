@@ -215,6 +215,12 @@ class NewEventFragment :
                                 R.color.red
                             )
                         )
+                        endTimePicker.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = false
                     }
                     is TimeValidationDialogManager.ValidationState.InvalidEndTime -> {
