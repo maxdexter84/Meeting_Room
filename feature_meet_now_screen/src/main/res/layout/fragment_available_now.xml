@@ -3,12 +3,11 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_container"
+    android:id="@+id/rooms_available_now_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,45 +22,47 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="gone" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/no_rooms_available_now_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="no_rooms_available_now_emoji, no_rooms_available_now_title, no_rooms_available_now_subtitle"
+            tools:visibility="visible" />
+
         <TextView
-            android:id="@+id/no_rooms_emoji"
+            android:id="@+id/no_rooms_available_now_emoji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/pointing_finger_emoji"
             android:textSize="@dimen/dimens_40_sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/no_rooms_title"
+            app:layout_constraintBottom_toTopOf="@id/no_rooms_available_now_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/no_rooms_title"
+            android:id="@+id/no_rooms_available_now_title"
             style="@style/TextAppearanceDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_available_rooms_title"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/no_rooms_subtitle"
+            app:layout_constraintBottom_toTopOf="@id/no_rooms_available_now_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/no_rooms_subtitle"
+            android:id="@+id/no_rooms_available_now_subtitle"
             style="@style/TextAppearanceDescriptionDisabled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|top"
             android:lineSpacingExtra="@dimen/dimens_5_sp"
             android:text="@string/busy_time_subtitle"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/rooms_available_now_progress_bar"
