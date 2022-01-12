@@ -96,7 +96,8 @@ class TimeValidationDialogManager @Inject constructor() {
                 ValidationEffect.ShowInvalidTimeDialog(R.string.event_cant_end_between_0_and_6_hours_message)
             }
             else -> {
-                if (_state.value != ValidationState.InvalidStartTime) {
+                if (_state.value != ValidationState.InvalidStartTime &&
+                    _state.value != ValidationState.InvalidBothTime) {
                     validateBothTimes(startTime, endTime)
                 } else {
                     validateStartTime(startTime, endTime, date)
