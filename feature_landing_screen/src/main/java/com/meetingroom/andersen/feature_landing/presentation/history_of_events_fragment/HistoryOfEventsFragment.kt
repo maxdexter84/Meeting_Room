@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
@@ -23,8 +24,12 @@ import javax.inject.Inject
 class HistoryOfEventsFragment :
     BaseFragment<FragmentHistoryOfEventsBinding>(FragmentHistoryOfEventsBinding::inflate) {
 
+    private val historyEventsLayoutManager by lazy {
+        LinearLayoutManager(context)
+    }
+
     private val eventAdapter by lazy {
-        HistoryEventAdapter({ view, text ->
+        HistoryEventAdapter(historyEventsLayoutManager, { view, text ->
             showCopyPrompt(view, text)
         },
             { text -> openSkypeDialog(text) })
@@ -66,6 +71,7 @@ class HistoryOfEventsFragment :
             historyEventsRecyclerView.apply {
                 setHasFixedSize(true)
                 adapter = eventAdapter
+                layoutManager = historyEventsLayoutManager
             }
         }
     }

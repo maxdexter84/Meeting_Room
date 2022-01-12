@@ -1,11 +1,13 @@
 package com.meetingroom.andersen.feature_landing.presentation.history_of_events_fragment
 
 import android.graphics.Color
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.dateToString
 import com.example.core_module.utils.stringToDate
@@ -15,7 +17,7 @@ import com.meetingroom.andersen.feature_landing.databinding.EventElementHistoryB
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
 
 
-class HistoryEventAdapter(
+class HistoryEventAdapter(var layoutMgr: LinearLayoutManager,
     private val onBookersFieldsClick: (View, String) -> Unit,
     private val onBookersSkypeClick: (String) -> Unit
 ) :
@@ -81,6 +83,7 @@ class HistoryEventAdapter(
                     bookerEmail.text = historyEventData.userEmail
                     bookerSkype.text = historyEventData.userSkype
                     descriptonOfEvent.text = historyEventData.description
+                    scrollToFitExpandedCardView(it)
                     return@setOnClickListener
                 }
                 bookerEmail.setOnClickListener {
@@ -88,6 +91,32 @@ class HistoryEventAdapter(
                 }
                 bookerSkype.setOnClickListener {
                     onBookersSkypeClick(bookerSkype.text.toString())
+                }
+            }
+        }
+
+        private fun scrollToFitExpandedCardView(view: View) {
+            view.measure(
+                View.MeasureSpec.makeMeasureSpec(
+                    view.width, View.MeasureSpec.EXACTLY
+                ),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            with(binding) {
+                if (flexiblePartOfCardView.isVisible) {
+                    val bottomView =
+                        layoutMgr.findViewByPosition(layoutMgr.findLastVisibleItemPosition())
+                    if (bottomView != null) {
+                        val r = Rect()
+                        bottomView.getGlobalVisibleRect(r)
+                        val marginHeight = view.resources.getDimensionPixelSize(R.dimen.dimens_12_dp)
+                        if (adapterPosition == layoutMgr.findLastVisibleItemPosition()) {
+                            layoutMgr.offsetChildrenVertical(r.height() - flexiblePartOfCardView.measuredHeight - bottomView.height - marginHeight)
+                        }
+                        if (adapterPosition == layoutMgr.findLastVisibleItemPosition() - 1) {
+                            layoutMgr.offsetChildrenVertical(r.height() - flexiblePartOfCardView.measuredHeight)
+                        }
+                    }
                 }
             }
         }
