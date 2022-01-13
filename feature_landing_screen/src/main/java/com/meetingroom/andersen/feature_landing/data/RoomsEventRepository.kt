@@ -40,7 +40,12 @@ class RoomsEventRepository @Inject constructor(
         endDateTime: String
     ): RequestResult<Array<StatusRoomsDTO>> {
         val arrayRooms = generationGagForRooms()
-        return RequestResult.Success(arrayRooms.sortedByDescending { room -> room.isEnabled }
+        return RequestResult.Success(arrayRooms.sortedWith(
+                compareBy(
+                    { room -> !room.isEnabled },
+                    { room -> room.title }
+                )
+            )
             .toTypedArray())
     }
 
