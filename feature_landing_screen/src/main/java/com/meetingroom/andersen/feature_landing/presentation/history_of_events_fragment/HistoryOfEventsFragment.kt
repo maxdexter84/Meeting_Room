@@ -24,14 +24,9 @@ import javax.inject.Inject
 class HistoryOfEventsFragment :
     BaseFragment<FragmentHistoryOfEventsBinding>(FragmentHistoryOfEventsBinding::inflate) {
 
-    private val historyEventsLayoutManager by lazy {
-        LinearLayoutManager(context)
-    }
-
     private val eventAdapter by lazy {
-        HistoryEventAdapter(historyEventsLayoutManager, { view, text ->
-            showCopyPrompt(view, text)
-        },
+        HistoryEventAdapter(LinearLayoutManager(context),
+            { view, text -> showCopyPrompt(view, text) },
             { text -> openSkypeDialog(text) })
     }
 
@@ -71,7 +66,7 @@ class HistoryOfEventsFragment :
             historyEventsRecyclerView.apply {
                 setHasFixedSize(true)
                 adapter = eventAdapter
-                layoutManager = historyEventsLayoutManager
+                layoutManager = LinearLayoutManager(context)
             }
         }
     }

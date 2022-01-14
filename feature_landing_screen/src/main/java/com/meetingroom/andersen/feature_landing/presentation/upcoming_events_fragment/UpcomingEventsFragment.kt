@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -89,6 +91,12 @@ class UpcomingEventsFragment :
             upcomingEventsRecyclerView.apply {
                 setHasFixedSize(true)
                 adapter = eventAdapter
+                val itemAnimator: DefaultItemAnimator = object : DefaultItemAnimator() {
+                    override fun canReuseUpdatedViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean {
+                        return true
+                    }
+                }
+                this.itemAnimator = itemAnimator
             }
         }
     }
