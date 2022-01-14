@@ -38,11 +38,15 @@ class LocationFragmentViewModel @Inject constructor(
 
     private fun getUserCity() {
         val city = prefHelper.getCityOfUserLocation() ?: EMPTY_STRING
-        if (city != "") _myOffice.value = city
+        if (city != ""){
+            _myOffice.value = city
+            checkCoveredOffice(city)
+        }
         else {
             viewModelScope.launch {
                 when (val res = getUserOfficeCity.getData()) {
                     is RequestResult.Success -> {
+                        checkCoveredOffice(res.data)
                         _myOffice.value = res.data
                         _loading.value = false
                         prefHelper.saveCityOfUserLocation(res.data)
@@ -55,7 +59,6 @@ class LocationFragmentViewModel @Inject constructor(
                 }
             }
         }
-        checkCoveredOffice(_myOffice.value)
     }
 
     private fun saveDataAboutRole() {
@@ -88,7 +91,8 @@ class LocationFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             when (val res = getAllCoveredOfficeInteractor.getData()) {
                 is RequestResult.Success -> {
-                    _covered.emit(res.data.contains(city))
+                    val cityResult = res.data.contains(city)
+                    _covered.emit(cityResult)
                     _loading.value = false
                 }
                 is RequestResult.Error -> {

@@ -51,7 +51,7 @@ class LocationFragment : BaseFragment<LocationFragmentBinding>(LocationFragmentB
     private fun observeCovered() {
         viewModel.covered.onEach {
             when (it) {
-                true -> binding.tvErrorTextLocationFragment.visibility = View.INVISIBLE
+                true -> binding.tvErrorTextLocationFragment.visibility = View.GONE
                 false -> binding.tvErrorTextLocationFragment.visibility = View.VISIBLE
             }
         }.launchIn(lifecycleScope)
