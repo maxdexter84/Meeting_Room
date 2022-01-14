@@ -63,10 +63,13 @@ class LoginFragment : BaseFragment<LoginFragmentBinding>(LoginFragmentBinding::i
                                     R.string.error_description_no_internet,
                                     false,
                                     R.string.got_it)
+                                logInButtonMainActivity.state = MainActionButtonState.ENABLED
                             }
-                            else -> showErrorIncorrectEmailOrPassword()
+                            else -> {
+                                showErrorIncorrectEmailOrPassword()
+                                logInButtonMainActivity.state = MainActionButtonState.DISABLED
+                            }
                         }
-                        logInButtonMainActivity.state = MainActionButtonState.DISABLED
                     }
                 }
             })
