@@ -70,11 +70,11 @@ class LoginFragmentViewModel @Inject constructor(
             is RequestResult.Success -> {
                 saveNetworkData.token = response.data.token
                 saveNetworkData.refreshToken = response.data.refreshToken
+                loginRequestResult.value = response
             }
             is RequestResult.Error -> loginRequestResult.postValue(RequestResult.Error(response.exception, response.code))
             is RequestResult.Loading -> loginRequestResult.value = response
         }
-        loginRequestResult.value = response
     }
 
     private fun isInputValid(login: String, password: String): Boolean {
