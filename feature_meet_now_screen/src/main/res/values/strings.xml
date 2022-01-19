@@ -12,6 +12,10 @@
     <string name="eyes_open_emoji">👀</string>
     <string name="you_don_t_need_to_wait_title">You don’t need to wait</string>
     <string name="check_the_rooms_subtitle">Check the rooms that are available right now</string>
+    <string name="all_rooms_are_occupied_title">All rooms are occupied for the next \n30 min</string>
+    <string name="select_a_room_subtitle">Select a room, \nwhich will be available later</string>
+    <string name="free_at">Free at&#160;</string>
+    <string name="until">&#160;until&#160;</string>
 
     <string-array name="tab_titles">
         <item>

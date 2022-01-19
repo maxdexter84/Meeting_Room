@@ -14,7 +14,6 @@ import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.feature_meet_now.domain.entity.Room
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
 import com.meetingroom.feature_meet_now.presentation.utils.RefreshTimer
-import com.meetingroom.feature_meet_now.presentation.viewmodel.MeetNowSharedViewModel
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentAvailableNowBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ class RoomsAvailableNowFragment :
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: MeetNowSharedViewModel by viewModels {
+    private val viewModel: RoomsAvailableNowViewModel by viewModels {
         viewModelFactory
     }
 
@@ -77,7 +76,7 @@ class RoomsAvailableNowFragment :
     private fun roomsAvailableNowObserver() {
         lifecycleScope.launch {
             viewModel.roomsAvailableNow.collectLatest { list ->
-                roomsAdapter.setData(list)
+                roomsAdapter.setData(list.sortedBy { it.availableIn })
             }
         }
     }
@@ -113,7 +112,7 @@ class RoomsAvailableNowFragment :
 
     private fun displayNoRoomsAvailableNowMessage(isVisible: Boolean) {
         with(binding) {
-            noRoomsAvailableNowGroup.visibilityIf(isVisible)
+            noAvailableRoomsForNowPlaceholder.root.visibilityIf(isVisible)
         }
     }
 

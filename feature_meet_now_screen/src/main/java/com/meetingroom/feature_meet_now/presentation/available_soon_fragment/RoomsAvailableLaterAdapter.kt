@@ -3,34 +3,28 @@ package com.meetingroom.feature_meet_now.presentation.available_soon_fragment
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_module.utils.minutesToTimeString
 import com.meetingroom.feature_meet_now.domain.entity.Room
-import com.meetingroom.feature_meet_now_screen.R
-import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableSoonItemBinding
+import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableLaterItemBinding
 
-class RoomsAvailableSoonAdapter(
+class RoomsAvailableLaterAdapter(
     private val rooms: MutableList<Room>,
     private val onRoomClicked: (Room) -> Unit
 ) :
-    RecyclerView.Adapter<RoomsAvailableSoonAdapter.RoomViewHolder>() {
+    RecyclerView.Adapter<RoomsAvailableLaterAdapter.RoomViewHolder>() {
 
-    inner class RoomViewHolder(private val binding: RoomAvailableSoonItemBinding) :
+    inner class RoomViewHolder(private val binding: RoomAvailableLaterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(room: Room) {
             with(binding) {
                 roomTitle.text = room.title
-                if (room.timeUntilNextEvent == null) {
-                    roomInfo.text = itemView.resources.getString(
-                        R.string.available_in,
-                        room.availableIn.minutesToTimeString()
-                    )
+                startTime.text = room.currentEventEndTime.dropLast(3)
+                if (room.nextEventStartTime != null) {
+                    endTime.text = room.nextEventStartTime.dropLast(3)
                 } else {
-                    roomInfo.text = itemView.resources.getString(
-                        R.string.available_in_for,
-                        room.availableIn.minutesToTimeString(),
-                        room.timeUntilNextEvent?.minutesToTimeString()
-                    )
+                    untilText.isVisible = false
+                    endTime.isVisible = false
                 }
                 roomColor.setBackgroundColor(Color.parseColor(room.color))
                 rootLayout.setOnClickListener {
@@ -42,7 +36,7 @@ class RoomsAvailableSoonAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
         return RoomViewHolder(
-            RoomAvailableSoonItemBinding.inflate(
+            RoomAvailableLaterItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 ), parent, false
