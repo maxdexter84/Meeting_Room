@@ -9,13 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
+import com.google.android.material.appbar.AppBarLayout
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.feature_meet_now.domain.entity.Room
-import com.meetingroom.feature_meet_now.presentation.available_now_fragment.RoomsAvailableSoonAdapter
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
 import com.meetingroom.feature_meet_now.presentation.utils.RefreshTimer
-import com.meetingroom.feature_meet_now.presentation.viewmodel.MeetNowSharedViewModel
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentAvailableSoonBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,12 +24,18 @@ class RoomsAvailableSoonFragment : BaseFragment<FragmentAvailableSoonBinding>(
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: MeetNowSharedViewModel by viewModels {
+    private val viewModel: RoomsAvailableSoonViewModel by viewModels {
         viewModelFactory
     }
 
-    private val roomsAdapter by lazy {
+    private val roomsAvailableSoonAdapter by lazy {
         RoomsAvailableSoonAdapter(mutableListOf()) {
+            bookRoom(it)
+        }
+    }
+
+    private val roomsAvailableLaterAdapter by lazy {
+        RoomsAvailableLaterAdapter(mutableListOf()) {
             bookRoom(it)
         }
     }
@@ -47,9 +51,9 @@ class RoomsAvailableSoonFragment : BaseFragment<FragmentAvailableSoonBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRefreshLayout()
-        initRecyclerView()
+        initRecyclerViews()
         loadingStateObserver()
-        roomsAvailableSoonObserver()
+        availableRoomsObserver()
     }
 
     override fun onStop() {
@@ -58,63 +62,115 @@ class RoomsAvailableSoonFragment : BaseFragment<FragmentAvailableSoonBinding>(
     }
 
     private fun initRefreshLayout() {
-        with(binding.roomsAvailableSoonSwipeContainer) {
-            setOnRefreshListener {
+        with(binding) {
+            roomsAvailableLaterAppbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                roomsAvailableSoonSwipeContainer.isEnabled = verticalOffset == 0
+            })
+            roomsAvailableSoonSwipeContainer.setOnRefreshListener {
                 viewModel.getRoomsAvailableSoon()
             }
         }
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViews() {
         with(binding) {
             roomsAvailableSoonRecyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = roomsAdapter
+                adapter = roomsAvailableSoonAdapter
+            }
+            roomsAvailableLaterRecyclerView.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                adapter = roomsAvailableLaterAdapter
             }
         }
     }
 
-    private fun roomsAvailableSoonObserver() {
+    private fun availableRoomsObserver() {
         lifecycleScope.launch {
-            viewModel.roomsAvailableSoon.collectLatest { list ->
-                roomsAdapter.setData(list.sortedBy { it.availableIn })
-            }
-        }
-    }
-
-    private fun loadingStateObserver() {
-        with(binding) {
-            lifecycleScope.launch {
-                viewModel.loadingState.collectLatest {
-                    when (it) {
-                        is State.Loading -> {
-                            roomsAvailableSoonRecyclerView.isVisible = false
-                            roomsAvailableSoonProgressBar.isVisible = true
-                            roomsAvailableSoonSwipeContainer.isRefreshing = false
-                            displayNoRoomsAvailableSoonMessage(false)
-                        }
-                        is State.NotLoading -> {
-                            roomsAvailableSoonRecyclerView.isVisible = true
-                            roomsAvailableSoonProgressBar.isVisible = false
-                            refreshTimer.start { viewModel.getRoomsAvailableSoon() }
-                            if (viewModel.roomsAvailableSoon.value.isEmpty()) {
-                                displayNoRoomsAvailableSoonMessage(true)
-                            }
-                        }
-                        is State.Error -> {
-                            roomsAvailableSoonRecyclerView.isVisible = false
-                            roomsAvailableSoonProgressBar.isVisible = false
-                        }
-                    }
+            viewModel.availableRooms.collectLatest { list ->
+                when (viewModel.viewState) {
+                    ViewState.ROOMS_AVAILABLE_SOON_FOUND -> roomsAvailableSoonAdapter.setData(list.sortedBy { it.availableIn })
+                    ViewState.ROOMS_AVAILABLE_LATER_FOUND -> roomsAvailableLaterAdapter.setData(list.sortedBy { it.availableIn })
                 }
             }
         }
     }
 
-    private fun displayNoRoomsAvailableSoonMessage(isVisible: Boolean) {
+    private fun loadingStateObserver() {
+        lifecycleScope.launch {
+            viewModel.loadingState.collectLatest {
+                when (it) {
+                    is State.Loading -> displayLoading()
+                    is State.NotLoading -> {
+                        refreshTimer.start { viewModel.getRoomsAvailableSoon() }
+                        when (viewModel.viewState) {
+                            ViewState.ROOMS_AVAILABLE_SOON_FOUND -> {
+                                displayRoomsAvailableSoon()
+                            }
+                            ViewState.ROOMS_AVAILABLE_LATER_FOUND -> {
+                                displayRoomsAvailableLater()
+                            }
+                            ViewState.NO_ROOMS_FOUND -> {
+                                displayNoRoomsAvailable()
+                            }
+                        }
+                    }
+                    is State.Error -> displayError()
+                }
+            }
+        }
+    }
+
+    private fun displayRoomsAvailableSoon() {
         with(binding) {
-            noRoomsAvailableSoonGroup.visibilityIf(isVisible)
+            roomsAvailableSoonProgressBar.isVisible = false
+            roomsAvailableLaterAppbar.isVisible = false
+            youDontNeedToWaitPlaceholder.root.isVisible = false
+            roomsAvailableLaterRecyclerView.isVisible = false
+            roomsAvailableSoonRecyclerView.isVisible = true
+        }
+    }
+
+    private fun displayRoomsAvailableLater() {
+        with(binding) {
+            roomsAvailableSoonProgressBar.isVisible = false
+            youDontNeedToWaitPlaceholder.root.isVisible = false
+            roomsAvailableSoonRecyclerView.isVisible = false
+            roomsAvailableLaterAppbar.isVisible = true
+            roomsAvailableLaterRecyclerView.isVisible = true
+        }
+    }
+
+    private fun displayNoRoomsAvailable() {
+        with(binding) {
+            roomsAvailableSoonProgressBar.isVisible = false
+            roomsAvailableLaterAppbar.isVisible = false
+            roomsAvailableSoonRecyclerView.isVisible = false
+            roomsAvailableLaterRecyclerView.isVisible = false
+            youDontNeedToWaitPlaceholder.root.isVisible = true
+        }
+    }
+
+    private fun displayLoading() {
+        with(binding) {
+            roomsAvailableSoonSwipeContainer.isRefreshing = false
+            roomsAvailableLaterAppbar.isVisible = false
+            youDontNeedToWaitPlaceholder.root.isVisible = false
+            roomsAvailableSoonRecyclerView.isVisible = false
+            roomsAvailableLaterRecyclerView.isVisible = false
+            roomsAvailableSoonProgressBar.isVisible = true
+        }
+    }
+
+    private fun displayError() {
+        with(binding) {
+            roomsAvailableLaterAppbar.isVisible = false
+            youDontNeedToWaitPlaceholder.root.isVisible = false
+            roomsAvailableSoonRecyclerView.isVisible = false
+            roomsAvailableLaterRecyclerView.isVisible = false
+            roomsAvailableSoonProgressBar.isVisible = false
         }
     }
 

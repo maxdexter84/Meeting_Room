@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_68_dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/room_title"
@@ -22,6 +22,7 @@
             android:layout_marginStart="@dimen/dimens_12_dp"
             android:layout_marginTop="@dimen/dimens_12_dp"
             android:layout_marginEnd="@dimen/dimens_60_dp"
+            android:paddingBottom="@dimen/dimens_4_dp"
             app:layout_constraintEnd_toStartOf="@id/book_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,11 +50,11 @@
             tools:background="@color/red_for_logout_text" />
 
         <TextView
-            android:id="@+id/time_available"
+            android:id="@+id/room_info"
             android:layout_width="@dimen/dimens_0_dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimens_4_dp"
             android:fontFamily="@font/roboto"
+            android:paddingBottom="@dimen/dimens_12_dp"
             android:text="@string/available_for"
             android:textColor="@color/gray_light"
             android:textSize="@dimen/dimens_12_sp"

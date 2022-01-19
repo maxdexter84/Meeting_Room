@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dimens_80_dp">
+
+    <TextView
+        android:id="@+id/no_rooms_available_now_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pointing_finger_emoji"
+        android:textSize="@dimen/dimens_40_sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/no_rooms_available_now_title"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="@dimen/dimens_5_sp"
+        android:text="@string/no_available_rooms_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/no_rooms_available_now_emoji" />
+
+    <TextView
+        android:id="@+id/no_rooms_available_now_subtitle"
+        style="@style/TextAppearanceDescriptionDisabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_8_dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="@dimen/dimens_5_sp"
+        android:text="@string/busy_time_subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/no_rooms_available_now_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
