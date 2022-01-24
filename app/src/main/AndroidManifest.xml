@@ -3,7 +3,8 @@
     package="com.meetingroom.android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <queries>
+        <package android:name="com.skype.raider" /> </queries>
     <application
         android:name=".ApplicationMeetingRoom"
         android:allowBackup="false"
