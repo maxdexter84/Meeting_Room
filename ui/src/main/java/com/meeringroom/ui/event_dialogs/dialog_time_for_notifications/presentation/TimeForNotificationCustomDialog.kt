@@ -9,6 +9,7 @@ import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.Time
 import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.CustomDialogTimeForNotificationBinding
+import java.lang.NumberFormatException
 
 class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNotificationBinding>(
         CustomDialogTimeForNotificationBinding::inflate
@@ -30,7 +31,12 @@ class TimeForNotificationCustomDialog : BaseDialogFragment<CustomDialogTimeForNo
             }
             customDialogButtonDone.setOnClickListener { navigate() }
             timeFormatCustomDialog.setOnCheckedChangeListener { _, _ ->
-                validateTime(userCustomTimeEditText.text.toString().toInt())
+                val userCustomTime = userCustomTimeEditText.text.toString()
+                try {
+                    validateTime(userCustomTime.toInt())
+                } catch (e : NumberFormatException) {
+
+                }
             }
         }
         editTextChangeListener()
