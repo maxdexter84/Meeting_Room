@@ -246,7 +246,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         DatePickerDialog(
             requireContext(),
             { _, year, monthOfYear, dayOfMonth ->
-                selectedDateForGrid = LocalDate.of(year, month, dayOfMonth)
+                selectedDateForGrid = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
                 val selectedDayForCalendar = CalendarDay.from(year, monthOfYear + 1, dayOfMonth)
                 with(binding.oneWeekCalendar) {
                     setDateSelected(selectedDate, false)
