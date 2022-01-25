@@ -1,13 +1,7 @@
 package com.example.feature_set_location.di
 
-import com.example.feature_set_location.domain.interactors.GetAllCityInCountryInteractor
-import com.example.feature_set_location.domain.interactors.GetAllCountryInteractor
-import com.example.feature_set_location.domain.interactors.GetAllCoveredOfficeInteractor
-import com.example.feature_set_location.domain.interactors.GetUserOfficeCityInteractor
-import com.example.feature_set_location.domain.interactors_impl.GetAllCityInCountryInteractorImpl
-import com.example.feature_set_location.domain.interactors_impl.GetAllCountryInteractorImpl
-import com.example.feature_set_location.domain.interactors_impl.GetAllCoveredOfficeInteractorImpl
-import com.example.feature_set_location.domain.interactors_impl.GetUserOfficeCityInteractorImpl
+import com.example.feature_set_location.domain.interactors.*
+import com.example.feature_set_location.domain.interactors_impl.*
 import dagger.Binds
 import dagger.Module
 
@@ -25,5 +19,8 @@ interface InteractorModule {
 
     @Binds
     fun bindsGetAllCoveredOfficeInteractor(interactor: GetAllCoveredOfficeInteractorImpl): GetAllCoveredOfficeInteractor
+
+    @Binds
+    fun bindsSaveOfficeIdInteractor(interactor: SaveOfficeIdInteractorImpl): SaveOfficeIdInteractor
 
 }

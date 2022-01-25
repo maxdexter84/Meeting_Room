@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.feature_set_location.databinding.CityItemBinding
 import com.example.feature_set_location.presentation.fragments.model.CityAdapterModel
 
-class CityAdapter(private val onItemClick: (String) -> Unit) :
+class CityAdapter(private val onItemClick: (String, Int) -> Unit) :
     RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
     var cities = listOf<CityAdapterModel>()
@@ -46,7 +46,7 @@ class CityAdapter(private val onItemClick: (String) -> Unit) :
     }
 
     private fun userClickedOnItem(position: Int) {
-        onItemClick.invoke(cities[position].cityName)
+        onItemClick.invoke(cities[position].cityName, cities[position].officeId)
         notifyDataSetChanged()
     }
 }
