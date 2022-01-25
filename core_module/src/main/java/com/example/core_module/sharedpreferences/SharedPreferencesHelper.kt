@@ -62,12 +62,17 @@ class SharedPreferencesHelper @Inject constructor (val context: Context) : IPref
             .apply()
     }
 
-    override fun saveCollectionAsStringSet(key: String, collection: Collection<String>) {
-        preferences.edit().putStringSet(key, collection.toSet()).apply()
+    override fun saveStringSet(key: String, collection: Set<String>) {
+        preferences.edit().putStringSet(key, collection).apply()
     }
 
-    override fun getCollectionAsStringSet(key: String): Collection<String>? {
+    override fun getStringSet(key: String): Set<String>? {
         return preferences.getStringSet(key, null)
     }
 
+    override fun deleteTimeForReminder(eventId: Long) {
+        preferences.edit()
+            .remove(eventId.toString())
+            .apply()
+    }
 }

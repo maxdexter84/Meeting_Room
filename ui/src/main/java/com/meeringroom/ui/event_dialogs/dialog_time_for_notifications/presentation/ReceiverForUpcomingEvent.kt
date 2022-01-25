@@ -21,6 +21,8 @@ class ReceiverForUpcomingEvent : BroadcastReceiver() {
                 NotificationCompat.BigTextStyle()
                     .bigText(intent?.getStringExtra(NotificationHelper.REMINDER_NOTIFICATION_DESCRIPTION))
             )
+            .setAutoCancel(true)
+            .setContentIntent(NotificationHelper.resultIntent)
             .build()
 
         val notificationManager = NotificationManagerCompat.from(context)

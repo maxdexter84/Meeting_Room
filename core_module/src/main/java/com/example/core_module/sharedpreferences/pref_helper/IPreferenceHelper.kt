@@ -26,7 +26,9 @@ interface IPreferenceHelper {
 
     fun deleteUserToken(token: String, tokenDay: String)
 
-    fun saveCollectionAsStringSet(key: String, collection: Collection<String>)
+    fun saveStringSet(key: String, collection: Set<String>)
 
-    fun getCollectionAsStringSet(key: String): Collection<String>?
+    fun getStringSet(key: String): Set<String>?
+
+    fun deleteTimeForReminder(eventId: Long)
 }

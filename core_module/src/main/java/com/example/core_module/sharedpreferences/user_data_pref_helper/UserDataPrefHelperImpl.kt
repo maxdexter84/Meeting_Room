@@ -3,6 +3,7 @@ package com.example.core_module.sharedpreferences.user_data_pref_helper
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.ACCESS_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.CITY_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.COUNTRY_OF_USER_LOCATION_KEY
+import com.example.core_module.sharedpreferences.SharedPreferencesKeys.EVENT_IDS_FOR_REMINDER_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.OFFICE_ID_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.REFRESH_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.TOKEN_DAY_KEY
@@ -62,4 +63,22 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
 
     override fun getUserRole() =
         iPreferenceHelper.getString(USER_ROLES_KEY)
+
+    override fun saveEventIdsForReminder(eventId: Set<String>) {
+        iPreferenceHelper.saveStringSet(EVENT_IDS_FOR_REMINDER_KEY, eventId)
+    }
+
+    override fun getEventIdsForReminder(): Set<String>? =
+        iPreferenceHelper.getStringSet(EVENT_IDS_FOR_REMINDER_KEY)?.toSet()
+
+    override fun saveTimeForReminder(eventId: Long, time: String) {
+        iPreferenceHelper.saveString(eventId.toString(), time)
+    }
+
+    override fun getTimeForReminder(eventId: Long): String? =
+        iPreferenceHelper.getString(eventId.toString())
+
+    override fun deleteReminder(eventId: Long) {
+        iPreferenceHelper.deleteTimeForReminder(eventId)
+    }
 }

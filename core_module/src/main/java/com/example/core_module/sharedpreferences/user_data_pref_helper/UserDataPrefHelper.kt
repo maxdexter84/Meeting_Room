@@ -27,4 +27,14 @@ interface UserDataPrefHelper {
     fun saveUserRole(role: String)
 
     fun getUserRole(): String?
+
+    fun saveEventIdsForReminder(eventId: Set<String>)
+
+    fun getEventIdsForReminder(): Set<String>?
+
+    fun saveTimeForReminder(eventId: Long, time: String)
+
+    fun getTimeForReminder(eventId: Long): String?
+
+    fun deleteReminder(eventId: Long)
 }

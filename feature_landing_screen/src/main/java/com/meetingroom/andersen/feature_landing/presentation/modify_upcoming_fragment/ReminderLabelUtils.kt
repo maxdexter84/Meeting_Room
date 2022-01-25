@@ -1,29 +1,11 @@
 package com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fragment
 
 import android.content.Context
-import androidx.core.text.isDigitsOnly
 import com.meetingroom.andersen.feature_landing.R
 
-fun getShortReminderLabel(context: Context, longLabel: String): String {
-    with (context.getString(R.string.reminder_disabled_text_for_time)) {
-        if (longLabel == this) return this
-    }
-    val parts = longLabel.split(" ")
-    if (parts.size != 3 && parts[0].isDigitsOnly().not() && parts[2] != context.getString(R.string.before) ) {
-        return ""
-    } else {
-        var shortLabel = parts[0]
-        with (context.resources) {
-            shortLabel += when (parts[1]) {
-                in getStringArray(R.array.arrayMinutes) -> getString(R.string.shortMinute)
-                in getStringArray(R.array.arrayHours) -> getString(R.string.shortHour)
-                in getStringArray(R.array.arrayDays) -> getString(R.string.shortDay)
-                else -> return ""
-            }
-        }
-        return shortLabel
-    }
-}
+private const val MILLIS_IN_MINUTE = 60000
+private const val HOUR_IN_DAY = 24
+private const val MIN_IN_HOUR = 60
 
 fun getLongReminderLabel(context: Context, shortLabel: String): String {
     with (context.getString(R.string.reminder_disabled_text_for_time)) {
@@ -38,5 +20,17 @@ fun getLongReminderLabel(context: Context, shortLabel: String): String {
             else -> return ""
         }
         return String.format(getString(R.string.user_selected_custom_time_option), number, timeType)
+    }
+}
+
+fun setReminderTime(context: Context, remainingTime: String): String {
+    var time = remainingTime.toLong() / MILLIS_IN_MINUTE
+    with(context.resources) {
+        return if (time < MIN_IN_HOUR) "${time}${getString(R.string.shortMinute)}"
+        else {
+            time /= MIN_IN_HOUR
+            if (time > HOUR_IN_DAY) "${time / HOUR_IN_DAY}${getString(R.string.shortDay)}"
+            else "${time}${getString(R.string.shortHour)}"
+        }
     }
 }
