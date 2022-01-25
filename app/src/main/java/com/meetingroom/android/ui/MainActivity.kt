@@ -26,6 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
         XInjectionManager
             .findComponent<ApplicationComponent>()
             .inject(this)
+        binding.bottomNavView.mainBottomNavigationView.setOnNavigationItemReselectedListener{}
         binding.bottomNavView.mainBottomNavigationView.setupWithNavController(navController)
         navigate()
         destinationListener(binding)
