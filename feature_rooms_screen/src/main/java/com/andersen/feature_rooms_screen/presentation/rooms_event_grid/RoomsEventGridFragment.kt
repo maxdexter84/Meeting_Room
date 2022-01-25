@@ -84,7 +84,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         eventListByRoomObserver()
         observeRoomChange()
         observeIndicatorTimeRange()
-
+        initCalendarListener()
     }
 
     private fun observeIndicatorTimeRange() {
@@ -225,14 +225,22 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun initCalendar() {
         with(binding.oneWeekCalendar) {
-            selectedDateForGrid = LocalDate.now()
+            if (!this@RoomsEventGridFragment::selectedDateForGrid.isInitialized) {
+                selectedDateForGrid = LocalDate.now()
+            }
             setDateSelected(CalendarDay.today(), true)
             setCurrentDateColor()
-            setOnDateChangedListener { _, date, _ ->
-                selectedDateForGrid = LocalDate.of(date.year, date.month, date.day)
-            }
             setOnTitleClickListener {
                 showDatePickerDialog()
+            }
+        }
+    }
+
+    private fun initCalendarListener() {
+        with(binding.oneWeekCalendar) {
+            setOnDateChangedListener { _, date, _ ->
+                selectedDateForGrid = LocalDate.of(date.year, date.month, date.day)
+                viewModel.getEventList(date)
             }
         }
     }
@@ -315,7 +323,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun getEventsByDate() {
         viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
-        binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
     }
 
     private fun checkEventRoom(room: Room) {
