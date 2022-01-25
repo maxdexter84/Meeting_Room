@@ -37,7 +37,6 @@ class ModifyUpcomingEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                roomsEventRepository.deleteUpcomingEvent(eventId)
                 val role = userDataPrefHelper.getUserRole().toString()
                 if(role == ROLE_ADMIN){
                     roomsEventRepository.deleteUpcomingEventForAdmin(eventId)
