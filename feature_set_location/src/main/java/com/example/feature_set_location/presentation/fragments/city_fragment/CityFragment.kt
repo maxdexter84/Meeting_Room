@@ -20,8 +20,8 @@ import javax.inject.Inject
 class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::inflate) {
 
     private val cityAdapter =
-        CityAdapter(onItemClick = {
-            saveCity(it)
+        CityAdapter(onItemClick = { cityName, officeId ->
+            saveCity(cityName, officeId)
             lifecycleScope.launch {
                 findNavController().navigate(R.id.locationFragment)
             }
@@ -51,7 +51,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         }
     }
 
-    private fun saveCity(city: String) {
+    private fun saveCity(city: String, officeId: Int) {
         cityAdapter.cities.filter {
             it.cityName != city
         }.map {
@@ -62,7 +62,7 @@ class CityFragment : BaseFragment<CityFragmentBinding>(CityFragmentBinding::infl
         }.map {
             it.isSelected = true
         }
-        viewModel.saveCity(city)
+        viewModel.saveCity(city, officeId)
     }
 
     private fun injectDependencies() {

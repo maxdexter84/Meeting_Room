@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.example.core_network.RequestResult
 import com.example.feature_set_location.domain.interactors.GetAllCityInCountryInteractor
+import com.example.feature_set_location.domain.interactors.SaveOfficeIdInteractor
 import com.example.feature_set_location.domain.mapers.Mappers
+import com.example.feature_set_location.domain.model.OfficeOfSelectedCountry
 import com.example.feature_set_location.presentation.fragments.model.CityAdapterModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +16,7 @@ import javax.inject.Inject
 
 class CityFragmentViewModel @Inject constructor(
     private val getAllCityInCountryInteractor: GetAllCityInCountryInteractor,
+    private val saveOfficeIdInteractor: SaveOfficeIdInteractor,
     private val prefHelper: UserDataPrefHelper
 ) : ViewModel() {
 
@@ -42,13 +45,17 @@ class CityFragmentViewModel @Inject constructor(
         }
     }
 
-    private fun setCityList(list: List<String>) {
+    private fun setCityList(list: List<OfficeOfSelectedCountry>) {
         val currentCity = prefHelper.getCityOfUserLocation() ?: ""
         _cityList.value = Mappers.mapCityListToCityAdapterModelList(list, currentCity)
     }
 
-    fun saveCity(city: String){
+    fun saveCity(city: String, officeId: Int) {
         prefHelper.saveCityOfUserLocation(city)
+        prefHelper.saveOfficeIdOfUserLocation(officeId)
+        viewModelScope.launch {
+            saveOfficeIdInteractor.saveOfficeId(officeId)
+        }
     }
 
 }

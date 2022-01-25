@@ -12,6 +12,10 @@ interface UserDataPrefHelper {
 
     fun getCityOfUserLocation(): String?
 
+    fun saveOfficeIdOfUserLocation(value: Int)
+
+    fun getOfficeIdOfUserLocation(): Int?
+
     fun saveCountryOfUserLocation(value: String)
 
     fun getCountryOfUserLocation(): String?

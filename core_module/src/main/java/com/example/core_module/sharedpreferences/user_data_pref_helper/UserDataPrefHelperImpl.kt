@@ -3,6 +3,7 @@ package com.example.core_module.sharedpreferences.user_data_pref_helper
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.ACCESS_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.CITY_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.COUNTRY_OF_USER_LOCATION_KEY
+import com.example.core_module.sharedpreferences.SharedPreferencesKeys.OFFICE_ID_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.REFRESH_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.TOKEN_DAY_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.USER_ROLES_KEY
@@ -40,6 +41,12 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
         iPreferenceHelper.saveString(CITY_OF_USER_LOCATION_KEY, value)
 
     override fun getCityOfUserLocation() = iPreferenceHelper.getString(CITY_OF_USER_LOCATION_KEY)
+
+    override fun saveOfficeIdOfUserLocation(value: Int) {
+        iPreferenceHelper.saveInt(OFFICE_ID_OF_USER_LOCATION_KEY, value)
+    }
+
+    override fun getOfficeIdOfUserLocation() = iPreferenceHelper.getInt(OFFICE_ID_OF_USER_LOCATION_KEY)
 
     override fun saveCountryOfUserLocation(value: String) =
         iPreferenceHelper.saveString(COUNTRY_OF_USER_LOCATION_KEY, value)

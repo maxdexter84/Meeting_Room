@@ -4,6 +4,7 @@ import com.example.core_network.RequestMaker
 import com.example.core_network.RequestResult
 import com.example.feature_set_location.data.remote.dto.MyOffice
 import com.example.feature_set_location.data.remote.dto.Office
+import com.example.feature_set_location.data.remote.dto.UserUpdateOffice
 import com.example.feature_set_location.data.remote.location_api.LocationApi
 import com.example.feature_set_location.domain.repository.LocationRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -29,4 +30,9 @@ class LocationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun saveOfficeId(userOfficeId: UserUpdateOffice) = withContext(ioDispatcher) {
+        requestMaker.safeApiCall {
+            api.saveOfficeId(userOfficeId)
+        }
+    }
 }
