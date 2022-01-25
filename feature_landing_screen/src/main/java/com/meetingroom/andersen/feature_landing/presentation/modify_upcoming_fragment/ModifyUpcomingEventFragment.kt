@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.example.core_module.state.State
 import com.example.core_module.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -33,7 +34,6 @@ import com.meeringroom.ui.view_utils.onClick
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
-import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -64,6 +64,9 @@ class ModifyUpcomingEventFragment :
 
     @Inject
     lateinit var notificationHelper: NotificationHelper
+
+    @Inject
+    lateinit var userDataPrefHelper: UserDataPrefHelper
 
     private lateinit var eventRoom: String
     private lateinit var eventReminderTime: String
@@ -157,8 +160,11 @@ class ModifyUpcomingEventFragment :
     private fun initViews() {
         with(binding) {
             if (args.upcomingEvent.reminderActive) {
-                reminderLeftTime.text =
-                    getLongReminderLabel(requireContext(), args.upcomingEvent.reminderRemainingTime)
+                val reminderShort = setReminderTime(requireContext(), args.upcomingEvent.reminderRemainingTime)
+                reminderLeftTime.text = getString(
+                    R.string.reminder_time_for_modify_upcoming_event,
+                    getLongReminderLabel(requireContext(), reminderShort)
+                )
                 eventReminderTime = reminderLeftTime.text.toString()
             } else {
                 reminderLeftTime.text = getString(R.string.reminder_disabled_text_for_time)
@@ -212,7 +218,8 @@ class ModifyUpcomingEventFragment :
                     reminderLeftTime.text.toString().substringBefore(EXCLUDED_WORD)
                 ),
                 notificationHelper,
-                reminderStartTime
+                reminderStartTime,
+                requireActivity()
             )
         }
     }
@@ -271,6 +278,14 @@ class ModifyUpcomingEventFragment :
                         getEventStartDateInMillis()
                     )
                 )
+                if(eventReminderStartTime != 0){
+                    val listReminders = userDataPrefHelper.getEventIdsForReminder()
+                        ?.plus(listOf(changedEvent.id.toString())) ?: listOf(changedEvent.id.toString())
+                    userDataPrefHelper.saveEventIdsForReminder(listReminders.toSet())
+                    userDataPrefHelper.saveTimeForReminder(changedEvent.id, eventReminderStartTime.toString())
+                } else {
+                    deleteReminder(args.upcomingEvent.id)
+                }
             }
             lifecycleScope.launch {
                 viewModel.putChangedEvent(changedEvent)
@@ -427,15 +442,25 @@ class ModifyUpcomingEventFragment :
             .setMessage(getString(R.string.delete_the_event))
             .setCancelable(false)
             .setNegativeButton(R.string.cancel_button) { dialog, _ -> dialog.cancel() }
-            .setPositiveButton(R.string.delete) { _, _ -> deleteEvent(args.upcomingEvent) }
+            .setPositiveButton(R.string.delete) { _, _ -> deleteEvent(args.upcomingEvent.id) }
             .show()
     }
 
-    private fun deleteEvent(event: UpcomingEventData){
+    private fun deleteEvent(eventId: Long){
         lifecycleScope.launch {
-            viewModel.deleteEvent(event.id)
+            viewModel.deleteEvent(eventId)
+            deleteReminder(eventId)
         }
-        findNavController().popBackStack()
+        loadingStateObserver()
+    }
+
+    private fun deleteReminder(eventId: Long) {
+        userDataPrefHelper.deleteReminder(eventId)
+        val listReminders = userDataPrefHelper.getEventIdsForReminder()?.toMutableList()
+        listReminders?.removeIf { it == eventId.toString() }
+        if (!listReminders.isNullOrEmpty()) {
+            userDataPrefHelper.saveEventIdsForReminder(listReminders.toSet())
+        }
     }
 
     companion object {

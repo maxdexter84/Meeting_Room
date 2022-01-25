@@ -200,7 +200,8 @@ class NewEventFragment :
                 binding.reminderLeftTime.text.toString()
             ),
             notificationHelper,
-            reminderStartTime
+            reminderStartTime,
+            requireActivity()
         )
     }
 

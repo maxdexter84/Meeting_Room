@@ -1,5 +1,6 @@
 package com.meetingroom.andersen.feature_landing.presentation.upcoming_events_fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,16 +12,19 @@ import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.EventElementUpcomingBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fragment.setReminderTime
 
 class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
     RecyclerView.Adapter<UpcomingEventAdapter.UpcomingEventViewHolder>() {
 
     private val events = ArrayList<UpcomingEventData>()
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): UpcomingEventViewHolder {
+        context = parent.context
         return UpcomingEventViewHolder(
             EventElementUpcomingBinding.inflate(
                 LayoutInflater.from(
@@ -74,7 +78,7 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                 } else {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
-                    eventReminderCounterUpcoming.text = upcomingEventData.reminderRemainingTime
+                    eventReminderCounterUpcoming.text = setReminderTime(context, upcomingEventData.reminderRemainingTime)
                 }
             }
         }

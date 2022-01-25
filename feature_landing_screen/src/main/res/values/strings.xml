@@ -22,6 +22,7 @@
     <string name="skype_for_URI">skype:</string>
     <string name="chat_skype_forURI">\?chat</string>
     <string name="skype_package_name">com.skype.raider</string>
+    <string name="reminder_time_for_modify_upcoming_event">%1$s</string>
     <string-array name="titles_for_pages_my_Space">
         <item>
             Upcoming

@@ -1,6 +1,7 @@
 package com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
@@ -37,12 +38,14 @@ class NotificationHelper(private val context: Context) {
         const val REMINDER_NOTIFICATION_TITLE = "title"
         const val REMINDER_NOTIFICATION_CHANNEL = "REMINDER_NOTIFICATION_CHANNEL"
         const val UPCOMING_EVENT_NOTIFICATION_ID = 1
+        lateinit var resultIntent: PendingIntent
 
         @SuppressLint("UnspecifiedImmutableFlag")
         fun setNotification(
             notificationData: NotificationData,
             notificationHelper: NotificationHelper,
             reminderStartTime: Long,
+            activity: Activity
         ) {
             val notificationDescription =
                 String.format(
@@ -59,12 +62,30 @@ class NotificationHelper(private val context: Context) {
             val pendingIntent = PendingIntent.getBroadcast(
                 notificationHelper.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
+
             val alarmManager =
                 notificationHelper.context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
             alarmManager?.set(
                 AlarmManager.RTC_WAKEUP,
                 reminderStartTime,
                 pendingIntent
+            )
+
+            resultIntent = getResultIntent(activity, notificationHelper)
+        }
+
+        private fun getResultIntent(
+            activity: Activity,
+            notificationHelper: NotificationHelper
+        ): PendingIntent {
+            val resultIntent = Intent(notificationHelper.context, activity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            return PendingIntent.getActivity(
+                notificationHelper.context,
+                0,
+                resultIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT
             )
         }
     }
