@@ -35,6 +35,14 @@ class RoomsEventRepository @Inject constructor(
         roomsEventApi.deleteUpcomingEvent(eventId)
     }
 
+    override suspend fun putChangedEventForAdmin(event: ChangedEventDTO) = withContext(ioDispatcher) {
+        roomsEventApi.putChangedEventForAdmin(event)
+    }
+
+    override suspend fun deleteUpcomingEventForAdmin(eventId: Long) = withContext(ioDispatcher) {
+        roomsEventApi.deleteUpcomingEventForAdmin(eventId)
+    }
+
     override suspend fun getRoomPickerNewEventData(
         startDateTime: String,
         endDateTime: String
