@@ -26,8 +26,8 @@ class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEven
             eventPlannedTimeUpcoming.text =
                 String.format(
                     binding.root.resources.getString(R.string.event_time),
-                    roomEvent.startDateTime,
-                    roomEvent.endDateTime
+                    getTime(roomEvent.startDateTime),
+                    getTime(roomEvent.endDateTime)
                 )
             eventPlannedDateUpcoming.text = roomEvent.date
             eventRoomUpcoming.text = roomEvent.room
@@ -93,10 +93,17 @@ class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEven
             setPrimaryClip(ClipData.newPlainText(COPIED_TEXT_LABEL, text))
     }
 
+    private fun getTime(stringDateAndTime: String): String {
+        val strings = stringDateAndTime.split("T")
+        return strings[1].substring(START_INDEX_FOR_TIME, END_INDEX_FOR_TIME)
+    }
+
     companion object {
         private const val COPIED_TEXT_LABEL = "copied_text"
         private const val SKYPE_COMPONENT_PACKAGE_NAME ="com.skype.raider"
         private const val SKYPE_COMPONENT_CLASS_NAME = "com.skype4life.MainActivity"
         private const val MARKET_URI = "market://details?id=com.skype.raider"
+        private const val START_INDEX_FOR_TIME = 0
+        private const val END_INDEX_FOR_TIME = 5
     }
 }

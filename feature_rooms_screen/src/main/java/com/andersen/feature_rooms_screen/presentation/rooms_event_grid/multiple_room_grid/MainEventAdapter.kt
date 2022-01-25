@@ -11,7 +11,10 @@ import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventsRoomBinding
 import java.time.LocalTime
 
-class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>) -> Unit) :
+class MainEventAdapter(
+    private val onClickEvent: (RoomEventForGrid) -> Unit,
+    private val click: (Triple<LocalTime, LocalTime, String>) -> Unit
+) :
     RecyclerView.Adapter<MainEventAdapter.EventsRoomViewHolder>() {
 
     var roomList = emptyList<Room>()
@@ -35,7 +38,8 @@ class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>)
             position,
             eventList,
             emptyEventList,
-            click
+            click,
+            onClickEvent
         )
     }
 
@@ -59,7 +63,8 @@ class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>)
             room: Room, position: Int,
             eventList: List<RoomEventForGrid>,
             emptyEventList: List<EmptyRoomEventForGrid>,
-            click: (Triple<LocalTime, LocalTime, String>) -> Unit
+            click: (Triple<LocalTime, LocalTime, String>) -> Unit,
+            onClickEvent: (RoomEventForGrid) -> Unit
         ) {
             with(binding.eventRecyclerView) {
                 layoutManager =
@@ -69,7 +74,11 @@ class MainEventAdapter(private val click: (Triple<LocalTime, LocalTime, String>)
                         false
                     )
                 adapter =
-                    InnerEventAdapter(eventList = eventList, emptyEventList = emptyEventList) {
+                    InnerEventAdapter(
+                        eventList = eventList,
+                        emptyEventList = emptyEventList,
+                        onEventClick = onClickEvent
+                    ) {
                         click.invoke(Triple(it.first, it.second, room.title))
                     }
             }

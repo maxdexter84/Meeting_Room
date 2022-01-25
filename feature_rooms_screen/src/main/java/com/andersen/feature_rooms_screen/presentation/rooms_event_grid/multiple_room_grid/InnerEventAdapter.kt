@@ -10,6 +10,7 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEve
 import java.time.LocalTime
 
 class InnerEventAdapter(
+    var onEventClick: (RoomEventForGrid) -> Unit,
     val eventList: List<RoomEventForGrid>,
     val emptyEventList: List<EmptyRoomEventForGrid>, val click: (Pair<LocalTime, LocalTime>) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -56,12 +57,14 @@ class InnerEventAdapter(
                         root.layoutParams.height = eventList[0].heightEventItem
                         eventView.isUserOwnEvent = eventList[0].isUserOwnEvent
                         eventView.colorEvent = eventList[0].colorRoom
+                        eventView.setOnClickListener { onEventClick(eventList[0]) }
                     }
                     else
                     -> {
                         root.layoutParams.height = eventList[(position - 1) / 2].heightEventItem
                         eventView.isUserOwnEvent = eventList[(position - 1) / 2].isUserOwnEvent
                         eventView.colorEvent = eventList[(position - 1) / 2].colorRoom
+                        eventView.setOnClickListener { onEventClick(eventList[(position - 1) / 2]) }
                     }
                 }
             }

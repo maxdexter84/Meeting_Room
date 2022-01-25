@@ -19,6 +19,7 @@ import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.MainEventAdapter
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple_room_grid.RoomsAdapter
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.single_room_event.SingleRoomEventAdapter
+import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.toEmptyEventListForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.toEventListForGrid
 import com.example.core_module.component_manager.IHasComponent
@@ -52,9 +53,9 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         viewModelFactory
     }
 
-    private val singleRoomEventAdapter = SingleRoomEventAdapter()
+    private val singleRoomEventAdapter = SingleRoomEventAdapter(onEventTileClick = {navigateToDetail(it)})
     private val roomsAdapter = RoomsAdapter()
-    private val mainEventAdapter = MainEventAdapter {
+    private val mainEventAdapter = MainEventAdapter(onClickEvent = { navigateToDetail(it) }) {
         findNavController().navigate(
             RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
                 eventDate = selectedDateForGrid,
@@ -379,6 +380,14 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 viewModel.getEventsByRoom(*it.toTypedArray())
             }
         }
+    }
+
+    private fun navigateToDetail(roomEvent: RoomEventForGrid) {
+        if (roomEvent.isUserOwnEvent) findNavController().navigate(
+            RoomsEventGridFragmentDirections.actionRoomsFragmentToEventDetailDialog(
+                roomEvent = roomEvent
+            )
+        )
     }
 
     companion object {

@@ -73,7 +73,7 @@
         android:label="EventDetailDialog" >
         <argument
             android:name="roomEvent"
-            app:argType="com.andersen.feature_rooms_screen.domain.entity.RoomEvent" />
+            app:argType="com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid" />
     </dialog>
     <dialog
         android:id="@+id/dialogRoomsFragment"
