@@ -1,5 +1,6 @@
 package com.andersen.feature_rooms_screen.presentation.utils
 
+import android.os.Parcelable
 import android.view.View
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.example.core_module.utils.TimeUtilsConstants.END_WORK_TIME_IN_OFFICE
@@ -9,6 +10,7 @@ import com.example.core_module.utils.TimeUtilsConstants.TIME_DATE_FORMAT
 import com.example.core_module.utils.stringToDateTime
 import com.example.core_module.utils.stringToTime
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import kotlinx.android.parcel.Parcelize
 import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -24,7 +26,14 @@ fun List<RoomEvent>.toEventListForGrid(heightSingleRoomGrid: Int) =
             title = checkTitleLength(minuteInterval, it.title),
             heightEventItem = calculateHeightEventItem(minuteInterval, heightSingleRoomGrid),
             titleVisibility = checkTitleVisibility(minuteInterval),
-            isUserOwnEvent = it.isUserOwnEvent
+            isUserOwnEvent = it.isUserOwnEvent,
+            date = it.date,
+            room = it.room,
+            userEmail = it.userEmail,
+            userSkype = it.userSkype,
+            description = it.description,
+            startDateTime = it.startDateTime,
+            endDateTime = it.endDateTime
         )
     }
 
@@ -110,6 +119,7 @@ private fun calculateMinuteInterval(roomEvent: RoomEvent) = Duration.between(
     roomEvent.endDateTime.stringToTime(TIME_DATE_FORMAT)
 ).toMinutes()
 
+@Parcelize
 data class RoomEventForGrid(
     val userFullName: String,
     val userPosition: String,
@@ -118,7 +128,14 @@ data class RoomEventForGrid(
     val heightEventItem: Int,
     val titleVisibility: Int,
     val isUserOwnEvent: Boolean,
-)
+    val date: String,
+    val room: String,
+    val userEmail: String,
+    val userSkype: String,
+    val description: String,
+    val startDateTime: String,
+    val endDateTime: String,
+): Parcelable
 
 data class EmptyRoomEventForGrid(
     val startTime: String,

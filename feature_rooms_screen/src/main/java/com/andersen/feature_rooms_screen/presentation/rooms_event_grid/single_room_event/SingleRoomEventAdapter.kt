@@ -9,15 +9,16 @@ import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGri
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventSingleRoomBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
+import kotlinx.android.synthetic.main.item_event_single_room.view.*
 
-class SingleRoomEventAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SingleRoomEventAdapter(private val onEventTileClick : (RoomEventForGrid) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var eventList = emptyList<RoomEventForGrid>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
     var emptyEventList = emptyList<EmptyRoomEventForGrid>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -65,11 +66,13 @@ class SingleRoomEventAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
                     1 -> {
                         setEventDataInItem(eventList[0], binding)
                         layoutParams.height = eventList[0].heightEventItem
+                        event_card_upcoming_root.setOnClickListener { onEventTileClick(eventList[0]) }
                     }
                     else
                     -> {
                         setEventDataInItem(eventList[(position - 1) / 2], binding)
                         layoutParams.height = eventList[(position - 1) / 2].heightEventItem
+                        event_card_upcoming_root.setOnClickListener { onEventTileClick(eventList[(position - 1) / 2]) }
                     }
                 }
             }
