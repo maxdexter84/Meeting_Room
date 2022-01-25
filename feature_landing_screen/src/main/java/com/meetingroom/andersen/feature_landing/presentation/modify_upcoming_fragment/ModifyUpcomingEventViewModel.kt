@@ -3,6 +3,7 @@ package com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fr
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.example.core_module.state.State
 import com.example.core_network.RequestResult
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
@@ -20,6 +21,9 @@ class ModifyUpcomingEventViewModel @Inject constructor(
     private val roomsEventRepository: IRoomsEventRepository
 ) : ViewModel() {
 
+    @Inject
+    lateinit var userDataPrefHelper: UserDataPrefHelper
+
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
 
@@ -32,7 +36,12 @@ class ModifyUpcomingEventViewModel @Inject constructor(
     suspend fun deleteEvent(eventId: Long) {
         viewModelScope.launch {
             try {
-                roomsEventRepository.deleteUpcomingEvent(eventId)
+                val role = userDataPrefHelper.getUserRole().toString()
+                if(role == ROLE_ADMIN){
+                    roomsEventRepository.deleteUpcomingEventForAdmin(eventId)
+                } else{
+                    roomsEventRepository.deleteUpcomingEvent(eventId)
+                }
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)
@@ -44,7 +53,12 @@ class ModifyUpcomingEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                roomsEventRepository.putChangedEvent(event)
+                val role = userDataPrefHelper.getUserRole().toString()
+                if(role == ROLE_ADMIN){
+                    roomsEventRepository.putChangedEventForAdmin(event)
+                } else{
+                    roomsEventRepository.putChangedEvent(event)
+                }
                 _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)
@@ -88,5 +102,9 @@ class ModifyUpcomingEventViewModel @Inject constructor(
             }
             else -> _roomPickerArray.value = emptyArray()
         }
+    }
+
+    companion object {
+        private const val ROLE_ADMIN = "ROLE_ADMIN"
     }
 }

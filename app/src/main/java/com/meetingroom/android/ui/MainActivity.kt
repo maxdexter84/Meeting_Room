@@ -52,8 +52,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
         if(refreshTime != null) {
             val currentTime: Long = Calendar.getInstance().timeInMillis
             var limitTime = LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_ADMIN - BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN
-            val role = userDataPrefHelper.getUserRoles()
-            if (role != null && role.contains(ROLE_USER)) {
+            val role = userDataPrefHelper.getUserRole().toString()
+            if (role.isNotEmpty() && role == ROLE_USER) {
                 limitTime = LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER - BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN
             }
             val elapsedTime = currentTime - refreshTime

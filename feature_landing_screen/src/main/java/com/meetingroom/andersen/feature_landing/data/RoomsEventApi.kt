@@ -24,5 +24,11 @@ interface RoomsEventApi {
     @DELETE("api/events/{eventId}")
     suspend fun deleteUpcomingEvent(@Path("eventId") eventId: Long)
 
+    @PATCH("api/events")
+    suspend fun putChangedEventForAdmin(@Body event: ChangedEventDTO)
+
+    @DELETE("api/admin/events/{eventId}")
+    suspend fun deleteUpcomingEventForAdmin(@Path("eventId") eventId: Long)
+
     suspend fun getRoomPickerNewEventData(startDateTime: String, endDateTime: String): Response<Array<StatusRoomsDTO>>
 }

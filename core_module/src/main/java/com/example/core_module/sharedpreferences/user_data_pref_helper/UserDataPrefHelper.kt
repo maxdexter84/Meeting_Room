@@ -24,7 +24,7 @@ interface UserDataPrefHelper {
 
     fun deleteToken()
 
-    fun saveUserRoles(roles: Collection<String>)
+    fun saveUserRole(role: String)
 
-    fun getUserRoles(): Collection<String>?
+    fun getUserRole(): String?
 }
