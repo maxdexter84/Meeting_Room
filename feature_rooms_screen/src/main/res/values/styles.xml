@@ -3,7 +3,7 @@
     <style name="TextHeaderCalendar">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black_020303</item>
+        <item name="android:textColor">@color/color_primary_text</item>
         <item name="android:textSize">@dimen/dimens_16_sp</item>
         <item name="android:letterSpacing">0.03</item>
     </style>
@@ -19,14 +19,14 @@
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_12_sp</item>
         <item name="android:letterSpacing">0.03</item>
-        <item name="android:textColor">@color/black_020303</item>
+        <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
     <style name="RoomMaxCapacity">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_14_sp</item>
         <item name="android:letterSpacing">0.02</item>
-        <item name="android:textColor">@color/black_020303</item>
+        <item name="android:textColor">@color/color_primary_text</item>
     </style>
 
     <style name="Divider">

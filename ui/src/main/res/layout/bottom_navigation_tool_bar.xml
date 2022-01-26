@@ -8,7 +8,7 @@
     android:layout_marginEnd="@dimen/dimens_0_dp"
     android:animateLayoutChanges="false"
     android:animationCache="false"
-    android:background="@color/white_for_toolbar_background"
+    android:background="@color/toolbar_background"
     app:itemIconTint="@drawable/selected_item_change_color"
     app:itemRippleColor="@null"
     app:itemTextColor="@drawable/selected_item_change_color"

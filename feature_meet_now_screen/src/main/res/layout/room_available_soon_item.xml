@@ -56,7 +56,7 @@
             android:fontFamily="@font/roboto"
             android:paddingBottom="@dimen/dimens_12_dp"
             android:text="@string/available_for"
-            android:textColor="@color/gray_light"
+            android:textColor="@color/grey_text_color"
             android:textSize="@dimen/dimens_12_sp"
             app:layout_constraintStart_toStartOf="@id/room_title"
             app:layout_constraintTop_toBottomOf="@id/room_title" />

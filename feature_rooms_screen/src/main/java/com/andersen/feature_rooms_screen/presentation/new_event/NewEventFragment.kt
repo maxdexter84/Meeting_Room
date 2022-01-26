@@ -159,9 +159,7 @@ class NewEventFragment :
             startTimePicker.text = args.eventStartTime.roundUpMinute(MINUTE_TO_ROUND).timeToString(
                 TIME_FORMAT
             )
-            endTimePicker.text = args.eventEndTime.roundUpMinute(MINUTE_TO_ROUND).plusHours(
-                DEFAULT_HOURS_EVENT_LENGTH
-            ).timeToString(TIME_FORMAT)
+            endTimePicker.text = args.eventEndTime.roundUpMinute(MINUTE_TO_ROUND).timeToString(TIME_FORMAT)
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
             eventRoomName.text = args.roomTitle
@@ -219,7 +217,7 @@ class NewEventFragment :
                         endTimePicker.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
-                                R.color.black
+                                R.color.color_primary_text
                             )
                         )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = false
@@ -252,13 +250,13 @@ class NewEventFragment :
                         startTimePicker.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
-                                R.color.black
+                                R.color.color_primary_text
                             )
                         )
                         endTimePicker.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
-                                R.color.black
+                                R.color.color_primary_text
                             )
                         )
                         binding.newEventToolbar.buttonSaveToolbar.isEnabled = true

@@ -1,7 +1,7 @@
 package com.example.core_module.sharedpreferences.user_data_pref_helper
 
 interface UserDataPrefHelper {
-
+    
     var token: String?
 
     var refreshToken: String?
@@ -37,4 +37,8 @@ interface UserDataPrefHelper {
     fun getTimeForReminder(eventId: Long): String?
 
     fun deleteReminder(eventId: Long)
+
+    fun getTheme(): Int
+
+    fun saveTheme(key: String, theme: Int)
 }

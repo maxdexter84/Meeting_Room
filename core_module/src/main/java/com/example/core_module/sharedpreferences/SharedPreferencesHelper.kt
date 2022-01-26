@@ -75,4 +75,5 @@ class SharedPreferencesHelper @Inject constructor (val context: Context) : IPref
             .remove(eventId.toString())
             .apply()
     }
+
 }

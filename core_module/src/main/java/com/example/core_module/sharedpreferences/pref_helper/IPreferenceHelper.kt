@@ -31,4 +31,5 @@ interface IPreferenceHelper {
     fun getStringSet(key: String): Set<String>?
 
     fun deleteTimeForReminder(eventId: Long)
+
 }

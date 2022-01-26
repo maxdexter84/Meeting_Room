@@ -1,5 +1,6 @@
 package com.example.core_module.sharedpreferences.user_data_pref_helper
 
+import com.example.core_module.sharedpreferences.SharedPreferencesKeys
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.ACCESS_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.CITY_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.COUNTRY_OF_USER_LOCATION_KEY
@@ -81,4 +82,13 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
     override fun deleteReminder(eventId: Long) {
         iPreferenceHelper.deleteTimeForReminder(eventId)
     }
+
+    override fun getTheme(): Int {
+        return iPreferenceHelper.getInt(SharedPreferencesKeys.KEY_THEME)
+    }
+
+    override fun saveTheme(key: String, theme: Int) {
+        iPreferenceHelper.saveInt(key, theme)
+    }
+
 }

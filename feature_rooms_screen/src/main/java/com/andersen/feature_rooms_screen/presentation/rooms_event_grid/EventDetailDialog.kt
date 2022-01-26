@@ -31,7 +31,7 @@ class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEven
                 )
             eventPlannedDateUpcoming.text = roomEvent.date
             eventRoomUpcoming.text = roomEvent.room
-            eventCityColourLineUpcoming.setBackgroundResource(R.color.yellow)
+            eventCityColourLineUpcoming.setBackgroundResource(R.color.color_primary)
             nameOfBooker.text = roomEvent.userFullName
             roleOfBooker.text = roomEvent.userPosition
             bookerEmail.text = roomEvent.userEmail

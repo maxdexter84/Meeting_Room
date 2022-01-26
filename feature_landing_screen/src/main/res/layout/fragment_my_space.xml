@@ -6,42 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".presentation.landing_fragment.LandingFragment">
 
-    <com.meeringroom.ui.view.toolbar.MrToolBar
-        android:id="@+id/landing_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:setTitle="My space" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.meeringroom.ui.view.toolbar.MrToolBar
+            android:id="@+id/landing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_on_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:setTitle="My space" />
 
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_48_dp"
-        android:background="@color/white_for_toolbar_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/landing_toolbar"
-        app:tabIndicatorColor="@color/yellow"
-        app:tabRippleColor="@color/yellow_for_ripple_effect"
-        app:tabSelectedTextColor="@color/yellow_for_selected_item"
-        app:tabTextColor="@color/light_grey"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <View
-        android:id="@+id/gradient_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_2_dp"
-        android:background="@drawable/main_header_selector"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_48_dp"
+            android:background="@color/toolbar_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/landing_toolbar"
+            app:tabIndicatorColor="@color/color_primary"
+            app:tabRippleColor="@color/yellow_for_ripple_effect"
+            app:tabSelectedTextColor="@color/color_primary"
+            app:tabTextColor="@color/light_grey"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimens_0_dp"
-        app:layout_constraintTop_toBottomOf="@id/gradient_view"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

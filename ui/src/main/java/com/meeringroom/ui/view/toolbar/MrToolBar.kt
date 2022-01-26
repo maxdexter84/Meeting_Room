@@ -28,13 +28,13 @@ class MrToolBar @JvmOverloads constructor(
         }
 
     init {
+        binding.mrtoolbarTitle
         setupAttributes(attrs, defStyle)
     }
 
     private fun setupAttributes(attrs: AttributeSet?, defStyle: Int) {
         context.withStyledAttributes(attrs, R.styleable.MrToolBar, defStyle, 0) {
             binding.mrtoolbarTitle.text = getString(R.styleable.MrToolBar_setTitle) ?: ""
-
             changeConfiguration(getInt(R.styleable.MrToolBar_bottomType, 0))
         }
     }
