@@ -66,6 +66,9 @@
         <argument
             android:name="eventEndTime"
             app:argType="java.time.LocalTime" />
+        <action
+            android:id="@+id/action_newEventFragment_to_roomsFragment"
+            app:destination="@id/roomsFragment" />
     </fragment>
     <dialog
         android:id="@+id/eventDetailDialog"
