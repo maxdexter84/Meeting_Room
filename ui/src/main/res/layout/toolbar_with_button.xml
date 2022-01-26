@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimens_56_dp"
     android:id="@+id/toolbar_save"
-    android:background="@color/white_for_toolbar_background"
+    android:background="@color/toolbar_background"
     android:elevation="@dimen/dimens_4_dp">
 
     <ImageView

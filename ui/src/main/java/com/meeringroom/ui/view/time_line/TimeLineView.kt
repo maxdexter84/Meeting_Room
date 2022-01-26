@@ -83,7 +83,7 @@ class TimeLineView @JvmOverloads constructor(
         loadAttr(attrs, defStyleAttr)
         getItemsOfTime()
         timeLineAdapter = TimeLineAdapter(timeItems,
-            ContextCompat.getColor(context, R.color.yellow),
+            ContextCompat.getColor(context, R.color.color_primary),
             ContextCompat.getColor(context, R.color.text_unvisible),
             hourHeight)
         binding.rvTime.apply {

@@ -1,16 +1,22 @@
 package com.meetingroom.andersen.feature_landing.presentation.landing_fragment
 
+import android.content.Context
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
+import com.example.core_module.sharedpreferences.SharedPreferencesKeys
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
@@ -21,8 +27,11 @@ import com.meetingroom.andersen.feature_landing.presentation.di.DaggerLandingCom
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
 import javax.inject.Inject
 
-class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBinding::inflate), IHasComponent<LandingComponent> {
+class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBinding::inflate),
+    IHasComponent<LandingComponent> {
 
+    @Inject
+    lateinit var sharedPref: UserDataPrefHelper
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: LandingFragmentViewModel by viewModels {
@@ -77,6 +86,7 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
     private fun showPopupWindow(view: View) {
         val popupWindow = PopupWindow(requireActivity())
         val bindingPopup = PopupWindowBinding.inflate(LayoutInflater.from(requireContext()))
+        initTheme(bindingPopup)
         with(popupWindow) {
             contentView = bindingPopup.root
             height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -90,7 +100,9 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
                 deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_SET_LOCATION)
                 dismiss()
             }
-            bindingPopup.popupSwitchDarkTheme.setOnClickListener { dismiss() }
+            bindingPopup.popupSwitchDarkTheme.setOnCheckedChangeListener { _, isChecked ->
+                initThemeListener(isChecked)
+            }
             bindingPopup.popupLogOut.setOnClickListener {
                 viewModel.logout()
                 deeplinkNavigatorHelper.navigate(DeeplinkNavigatorHelper.GO_TO_LOGIN_SCREEN)
@@ -98,5 +110,41 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
             }
             showAsDropDown(view, 215, 0)
         }
+    }
+
+    private fun initTheme(bindingPopup: PopupWindowBinding) {
+        when (getSavedTheme()) {
+            THEME_LIGHT -> bindingPopup.popupSwitchDarkTheme.isChecked = false
+            THEME_DARK -> bindingPopup.popupSwitchDarkTheme.isChecked = true
+            THEME_UNDEFINED -> {
+                when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_NO -> bindingPopup.popupSwitchDarkTheme.isChecked = false
+                    Configuration.UI_MODE_NIGHT_YES -> bindingPopup.popupSwitchDarkTheme.isChecked = true
+                    Configuration.UI_MODE_NIGHT_UNDEFINED -> bindingPopup.popupSwitchDarkTheme.isChecked = false
+                }
+            }
+        }
+    }
+
+    private fun initThemeListener(isChecked: Boolean) {
+        when (isChecked) {
+            false -> setTheme(AppCompatDelegate.MODE_NIGHT_NO, THEME_LIGHT)
+            true -> setTheme(AppCompatDelegate.MODE_NIGHT_YES, THEME_DARK)
+        }
+    }
+
+    private fun setTheme(themeMode: Int, prefsMode: Int) {
+        AppCompatDelegate.setDefaultNightMode(themeMode)
+        sharedPref.saveTheme(SharedPreferencesKeys.KEY_THEME,prefsMode)
+    }
+
+
+    private fun getSavedTheme() = sharedPref.getTheme()
+
+    companion object {
+        const val THEME_UNDEFINED = -1
+        const val THEME_LIGHT = 0
+        const val THEME_DARK = 1
+        const val THEME_SYSTEM = 2
     }
 }

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="color_primary">#F3BE00</color>
-    <color name="color_primary_text">#020303</color>
-    <color name="color_on_primary">#000000</color>
-    <color name="status_bar_color">#E0E0E0</color>
-    <color name="grey_text_color">#556170</color>
-
+    <color name="color_primary_text">#E0E0E0</color>
+    <color name="color_on_primary">#FFFFFF</color>
+    <color name="status_bar_color">#020303</color>
+    <color name="grey_text_color">#BEBEBE</color>
     //views colors
-    <color name="toolbar_background">#F9F9F9</color>
-    <color name="popUpBackgroundColor">#FFFFFF</color>
-
+    <color name="toolbar_background">#1D1D1D</color>
+    <color name="popUpBackgroundColor">#3D3D3D</color>
 
     <color name="buttons_disabled">#BEBEBE</color>
     <color name="buttons_text_disabled">#716F6F</color>
@@ -31,13 +29,14 @@
     <color name="error_color_for_line_under_edittext">#EF4B41</color>
     <color name="tool_bar_color"> #F9F9F9</color>
     <color name="background_set_location_fragment">#F8F8F8</color>
+
     <color name="red_for_logout_text">#EF4B41</color>
     <color name="yellow_for_selected_item">#F3AF00</color>
     <color name="color_for_popup_window_divider">#E0E0E0</color>
     <color name="none">#00000000</color>
     <color name="disabled_bell_colour">#D2D2D2</color>
     <color name="enabled_bell_colour">#8C8C8C</color>
-    <color name="event_title_text_colour">#020303</color>
+    <color name="event_title_text_colour">#FFFFFF</color>
     <color name="yellow_for_ripple_effect">#FBFCE7</color>
     <color name="start_for_gradient">#f8f8f8</color>
     <color name="end_for_gradient">#aeaeae</color>

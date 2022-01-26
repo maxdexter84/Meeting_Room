@@ -5,7 +5,7 @@
     android:id="@+id/mr_toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dimens_56_dp"
-    android:background="@color/white_for_toolbar_background"
+    android:background="@color/toolbar_background"
     android:elevation="@dimen/dimens_4_dp">
 
     <TextView
