@@ -43,7 +43,6 @@ class DialogRoomsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        roomsListObserver()
         loadingStateObserver()
         initRecyclerView()
         isCancelable = false
@@ -54,15 +53,8 @@ class DialogRoomsFragment :
         }
     }
 
-    private fun roomsListObserver() {
-        lifecycleScope.launch {
-            roomsViewModel.mutableRoomList.collectLatest {
-                roomsList = it
-            }
-        }
-    }
-
     private fun loadingStateObserver() {
+        roomsList = args.roomList.toList()
         lifecycleScope.launch {
             roomsViewModel.mutableState.collectLatest {
                 when (it) {

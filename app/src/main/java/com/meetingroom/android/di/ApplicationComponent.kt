@@ -1,6 +1,7 @@
 package com.meetingroom.android.di
 
 import android.content.Context
+import com.andersen.feature_rooms_screen.presentation.di.RoomScreenDep
 import com.example.core_module.di.SharedPreferencesModule
 import com.example.core_network.NetworkModule
 import com.example.feature_set_location.di.SetLocationDeps
@@ -17,7 +18,8 @@ interface ApplicationComponent:
      LandingDeps,
      LoginDeps,
      MeetNowDeps,
-     SetLocationDeps
+     SetLocationDeps,
+     RoomScreenDep
 {
 
      fun inject(activity: MainActivity)

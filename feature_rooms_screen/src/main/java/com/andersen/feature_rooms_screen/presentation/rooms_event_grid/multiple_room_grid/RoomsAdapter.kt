@@ -3,6 +3,7 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemRoomBinding
@@ -41,7 +42,7 @@ class RoomsAdapter() :
 
             with(binding) {
                 roomTextView.text = room.title
-                lineUnderRoomView.setBackgroundColor(room.color)
+                lineUnderRoomView.setBackgroundColor(room.color.toColorInt())
             }
         }
     }

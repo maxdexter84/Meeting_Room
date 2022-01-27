@@ -102,7 +102,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     override fun getComponent(): RoomsEventComponent {
         return DaggerRoomsEventComponent
             .factory()
-            .create(requireContext())
+            .create(requireContext(), XInjectionManager.findComponent())
     }
 
     private fun initToolbar() {
@@ -144,7 +144,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun eventListObserver() {
         lifecycleScope.launch {
-            viewModel.mutableRoomEventListByRoom.collectLatest {
+            viewModel.mutableRoomEventList.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
                 mainEventAdapter.emptyEventList = it.toEmptyEventListForGrid(
                     heightSingleRoomGrid,
@@ -157,7 +157,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun eventListByRoomObserver() {
         lifecycleScope.launch {
-            viewModel.mutableRoomEventListByRoom.collectLatest {
+            viewModel.mutableRoomEventList.collectLatest {
                 val heightSingleRoomGrid = binding.timeLineView.getAllHoursHeight()
                 singleRoomEventAdapter.emptyEventList =
                     it.toEmptyEventListForGrid(
@@ -175,7 +175,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 with(viewModel) {
                     roomsAdapter.roomList = it
                     mainEventAdapter.roomList = it
-                    getEventsByRoom(*it.toTypedArray())
+                    getEventList(binding.oneWeekCalendar.selectedDate)
                 }
             }
         }
@@ -289,7 +289,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
             buttonDropDown.setOnClickListener {
                 findNavController().navigate(
                     RoomsEventGridFragmentDirections.actionRoomsFragmentToDialogRoomsFragment(
-                        binding.buttonDropDown.text.toString()
+                        binding.buttonDropDown.text.toString(), roomsAdapter.roomList.toTypedArray()
                     )
                 )
             }
@@ -310,20 +310,18 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun getSelectedRoomsFromDialog(roomTitle: String) {
         if (roomTitle.contains(getString(R.string.allString), true)) {
-            var floor = roomTitle.filter { char -> char.isDigit() }
-            if (floor.isEmpty()) {
-                floor = "$ALL_ROOMS_IN_OFFICE"
-            }
-            viewModel.getRoomsOnTheFloor(floor.toInt())
+            val floor = roomTitle.filter { char -> char.isDigit() }
+            viewModel.getRoomsOnTheFloor(floor)
             allRoomsOnTheFloorObserver()
         } else {
             viewModel.getRoom(roomTitle)
-            oneRoomStateObserver()
+            oneRoomStateObserver(roomTitle)
         }
     }
 
     private fun getEventsByDate() {
         viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
+        binding.oneWeekCalendar.setOnDateChangedListener { _, date, _ -> viewModel.getEventList(date) }
     }
 
     private fun checkEventRoom(room: Room) {
@@ -361,7 +359,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         }
     }
 
-    private fun oneRoomStateObserver() {
+    private fun oneRoomStateObserver(roomTitle: String) {
         lifecycleScope.launch {
             viewModel.room.collectLatest {
                 it?.let {
@@ -370,7 +368,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 binding.gridRecyclerView.isVisible = false
                 binding.singleRoomGridRecyclerView.isVisible = true
                 binding.roomRecyclerView.isVisible = false
-                viewModel.getEventsByRoom(it)
+                singleRoomEventAdapter.roomTitle = roomTitle
+                viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
             }
         }
     }
@@ -384,7 +383,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 binding.roomRecyclerView.isVisible = true
                 roomsAdapter.roomList = it
                 mainEventAdapter.roomList = it
-                viewModel.getEventsByRoom(*it.toTypedArray())
+                viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
             }
         }
     }
@@ -399,6 +398,5 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
-        const val ALL_ROOMS_IN_OFFICE = -1
     }
 }

@@ -21,6 +21,8 @@ class SingleRoomEventAdapter(private val onEventTileClick : (RoomEventForGrid) -
     }
     var emptyEventList = emptyList<EmptyRoomEventForGrid>()
 
+    var roomTitle : String = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             EMPTY_EVENT_VIEW_HOLDER_TYPE ->
@@ -53,6 +55,7 @@ class SingleRoomEventAdapter(private val onEventTileClick : (RoomEventForGrid) -
     override fun getItemViewType(position: Int): Int {
         return when {
             position % 2 == 0 -> EMPTY_EVENT_VIEW_HOLDER_TYPE
+            eventList[(position - 1) / 2].roomTitle != roomTitle -> EMPTY_EVENT_VIEW_HOLDER_TYPE
             else -> EVENT_VIEW_HOLDER_TYPE
         }
     }
