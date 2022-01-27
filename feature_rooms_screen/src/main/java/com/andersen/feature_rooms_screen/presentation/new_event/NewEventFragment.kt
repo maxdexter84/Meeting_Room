@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
 import com.example.core_module.component_manager.XInjectionManager
+import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.utils.*
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
@@ -71,7 +72,7 @@ class NewEventFragment :
 
     private val onCancelClickListener: (View) -> Unit = {
         binding.root.hideKeyboard(requireContext())
-        findNavController().popBackStack()
+        findNavController().navigate(NewEventFragmentDirections.actionToRoomsFragment())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -284,7 +285,7 @@ class NewEventFragment :
                 )
             )
         }
-        findNavController().popBackStack()
+        findNavController().navigate(NewEventFragmentDirections.actionToRoomsFragment())
     }
 
     private fun showDatePickerDialog(date: LocalDate) {
