@@ -8,6 +8,7 @@ import com.example.core_module.sharedpreferences.SharedPreferencesKeys.EVENT_IDS
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.OFFICE_ID_OF_USER_LOCATION_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.REFRESH_TOKEN_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.TOKEN_DAY_KEY
+import com.example.core_module.sharedpreferences.SharedPreferencesKeys.USER_ID_KEY
 import com.example.core_module.sharedpreferences.SharedPreferencesKeys.USER_ROLES_KEY
 import com.example.core_module.sharedpreferences.pref_helper.IPreferenceHelper
 import kotlinx.datetime.Clock
@@ -55,6 +56,10 @@ class UserDataPrefHelperImpl @Inject constructor(private val iPreferenceHelper: 
 
     override fun getCountryOfUserLocation() =
         iPreferenceHelper.getString(COUNTRY_OF_USER_LOCATION_KEY)
+
+    override fun saveUserId(value: Int) {
+        iPreferenceHelper.saveInt(USER_ID_KEY, value)
+    }
 
     override fun deleteToken() = iPreferenceHelper.deleteUserToken(ACCESS_TOKEN_KEY, TOKEN_DAY_KEY)
 
