@@ -7,6 +7,7 @@ import com.meeringroom.ui.event_dialogs.dialog_room_picker.presentation.RoomPick
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.dialog_rooms.DialogRoomsFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
 import com.example.core_module.di.FeatureScope
+import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import dagger.BindsInstance
 import dagger.Component
 
@@ -14,8 +15,9 @@ import dagger.Component
 @Component(modules = [
     ApiModule::class,
     ViewModelModule::class,
-    NewEventModule::class
-])
+    NewEventModule::class,
+    RoomsScreenNetworkModule::class
+], dependencies = [RoomScreenDep::class])
 
 interface RoomsEventComponent {
     fun inject(roomsEventGridFragment: RoomsEventGridFragment)
@@ -25,6 +27,6 @@ interface RoomsEventComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): RoomsEventComponent
+        fun create(@BindsInstance context: Context, roomScreenDep: RoomScreenDep): RoomsEventComponent
     }
 }

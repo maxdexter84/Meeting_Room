@@ -3,6 +3,7 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid.multiple
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
@@ -10,6 +11,7 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEve
 import java.time.LocalTime
 
 class InnerEventAdapter(
+    val room: Room,
     var onEventClick: (RoomEventForGrid) -> Unit,
     val eventList: List<RoomEventForGrid>,
     val emptyEventList: List<EmptyRoomEventForGrid>, val click: (Pair<LocalTime, LocalTime>) -> Unit
@@ -43,6 +45,7 @@ class InnerEventAdapter(
     override fun getItemViewType(position: Int): Int {
         return when {
             position % 2 == 0 -> EMPTY_EVENT_VIEW_HOLDER_TYPE
+            eventList[(position - 1) / 2].roomId != room.id -> EMPTY_EVENT_VIEW_HOLDER_TYPE
             else -> EVENT_VIEW_HOLDER_TYPE
         }
     }
@@ -56,15 +59,15 @@ class InnerEventAdapter(
                     1 -> {
                         root.layoutParams.height = eventList[0].heightEventItem
                         eventView.isUserOwnEvent = eventList[0].isUserOwnEvent
-                        eventView.colorEvent = eventList[0].colorRoom
+                        eventView.setColor(eventList[0].colorRoom)
                         eventView.setOnClickListener { onEventClick(eventList[0]) }
                     }
                     else
                     -> {
                         root.layoutParams.height = eventList[(position - 1) / 2].heightEventItem
                         eventView.isUserOwnEvent = eventList[(position - 1) / 2].isUserOwnEvent
-                        eventView.colorEvent = eventList[(position - 1) / 2].colorRoom
                         eventView.setOnClickListener { onEventClick(eventList[(position - 1) / 2]) }
+                        eventView.setColor(eventList[(position - 1) / 2].colorRoom)
                     }
                 }
             }

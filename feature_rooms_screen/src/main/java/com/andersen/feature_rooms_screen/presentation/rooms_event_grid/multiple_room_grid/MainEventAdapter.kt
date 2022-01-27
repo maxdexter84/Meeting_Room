@@ -35,7 +35,6 @@ class MainEventAdapter(
     override fun onBindViewHolder(holder: EventsRoomViewHolder, position: Int) {
         if (roomList.isNotEmpty()) holder.bind(
             roomList[position],
-            position,
             eventList,
             emptyEventList,
             click,
@@ -60,7 +59,7 @@ class MainEventAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            room: Room, position: Int,
+            room: Room,
             eventList: List<RoomEventForGrid>,
             emptyEventList: List<EmptyRoomEventForGrid>,
             click: (Triple<LocalTime, LocalTime, String>) -> Unit,
@@ -77,7 +76,8 @@ class MainEventAdapter(
                     InnerEventAdapter(
                         eventList = eventList,
                         emptyEventList = emptyEventList,
-                        onEventClick = onClickEvent
+                        onEventClick = onClickEvent,
+                        room = room
                     ) {
                         click.invoke(Triple(it.first, it.second, room.title))
                     }

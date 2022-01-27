@@ -83,6 +83,9 @@
         <argument
             android:name="userRoom"
             app:argType="string" />
+        <argument
+            android:name="roomList"
+            app:argType="com.andersen.feature_rooms_screen.domain.entity.Room[]" />
     </dialog>
     <include app:graph="@navigation/room_picker_dialog_navigation"/>
     <include app:graph="@navigation/time_for_notification_dialog_navigation"/>

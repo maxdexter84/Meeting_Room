@@ -315,7 +315,7 @@ class IndicatorView @JvmOverloads constructor(
         val rangePeriod: SharedFlow<Pair<LocalTime?, LocalTime?>>
             get() = mutableRangePeriod
         private val DEFAULT_HOUR_HEIGHT_ID = R.dimen.dimens_66_dp
-        private const val TIME_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+        private const val TIME_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
         private const val TIME_FORMAT = "HH:mm"
         private const val MIN_MINUTE_INTERVAL = 15
         private const val MIN_MINUTE_STEP = 5

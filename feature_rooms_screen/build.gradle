@@ -46,6 +46,9 @@ dependencies {
     implementation libraries.navigation
     implementation libraries.calendar
     implementation libraries.datetime
+    implementation libraries.retrofit
+    implementation libraries.networking
+    implementation libraries.threetenabp
 
     kapt libraries.daggerCompiler
     implementation libraries.dagger

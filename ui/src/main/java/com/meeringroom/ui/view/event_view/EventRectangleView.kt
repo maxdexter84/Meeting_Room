@@ -22,10 +22,6 @@ class EventRectangleView @JvmOverloads constructor(
         }
 
     var colorEvent = Color.WHITE
-        set(value) {
-            field = value
-            invalidate()
-        }
 
     private lateinit var painterEvent: Paint
     private lateinit var painterDiagonalLineEvent: Paint
@@ -70,5 +66,10 @@ class EventRectangleView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             alpha = 150
         }
+    }
+
+    fun setColor(color: Int) {
+        painterEvent.color = color
+        invalidate()
     }
 }

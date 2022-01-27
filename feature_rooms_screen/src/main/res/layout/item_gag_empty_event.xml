@@ -6,5 +6,7 @@
     app:thumbColor="@color/indicatorColor"
     app:hourFrameHeight="@dimen/dimens_90_dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"
+    >
 </com.meeringroom.ui.view.indicator_view.IndicatorView>
