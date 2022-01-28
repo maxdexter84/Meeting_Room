@@ -106,7 +106,7 @@ class ModifyUpcomingEventFragment :
                     )
                 )
             }
-            modifyEventToolbar.buttonSaveToolbar.setOnClickListener { saveChanges() }
+            modifyEventToolbar.buttonSaveToolbar.onClick { saveChanges() }
 
             eventRoomName.text = args.upcomingEvent.room
             eventModifyTitle.filters = arrayOf(InputFilter.LengthFilter(TITLE_MAX_LENGTH))
