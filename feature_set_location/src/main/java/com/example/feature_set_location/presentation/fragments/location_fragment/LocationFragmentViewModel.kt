@@ -32,6 +32,7 @@ class LocationFragmentViewModel @Inject constructor(
     init {
         getUserCity()
         saveDataAboutRole()
+        saveUserId()
     }
 
     private fun getUserCity() {
@@ -72,6 +73,21 @@ class LocationFragmentViewModel @Inject constructor(
                     is RequestResult.Loading -> _loading.value = true
                 }
             }
+    }
+
+    private fun saveUserId() {
+        viewModelScope.launch {
+            when (val response = getUserOfficeCity.getUserId()) {
+                is RequestResult.Success -> {
+                    prefHelper.saveUserId(response.data)
+                }
+                is RequestResult.Error -> {
+                    _error.value = response.exception
+                    _loading.value = false
+                }
+                is RequestResult.Loading -> _loading.value = true
+            }
+        }
     }
 
     private fun checkCoveredOffice(city: String) {

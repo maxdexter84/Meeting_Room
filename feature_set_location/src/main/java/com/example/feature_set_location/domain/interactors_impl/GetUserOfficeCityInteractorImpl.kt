@@ -22,4 +22,11 @@ class GetUserOfficeCityInteractorImpl @Inject constructor(
             is RequestResult.Error -> res
             is RequestResult.Loading -> res
         }
+
+    override suspend fun getUserId(): RequestResult<Int> =
+        when (val res = repository.getUserOffice()) {
+            is RequestResult.Success -> RequestResult.Success(res.data.id)
+            is RequestResult.Error -> res
+            is RequestResult.Loading -> res
+        }
 }
