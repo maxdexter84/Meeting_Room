@@ -40,7 +40,7 @@ class RoomPickerAdapter(private val onItemSelected: (RoomPickerNewEventData) -> 
 
         fun bind(roomPickerData: RoomPickerNewEventData) {
             with(binding) {
-                roomAndTimeName.text = roomPickerData.room
+                roomAndTimeName.text = roomPickerData.titleRoom
                 if (roomPickerData.isEnabled.not()) {
                     roomAndTimeName.setTextColor(
                         ContextCompat.getColor(

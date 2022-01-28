@@ -8,6 +8,7 @@ import com.example.core_module.state.State
 import com.example.core_network.RequestResult
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
+import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
 import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val OCCUPIED = "OCCUPIED"
 
 class ModifyUpcomingEventViewModel @Inject constructor(
     private val dialogManager: TimeValidationDialogManager,
@@ -27,8 +30,8 @@ class ModifyUpcomingEventViewModel @Inject constructor(
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
 
-    private val _roomPickerArray = MutableStateFlow<Array<RoomPickerNewEventData>>(emptyArray())
-    val roomPickerArray: StateFlow<Array<RoomPickerNewEventData>> get() = _roomPickerArray.asStateFlow()
+    private val _roomPickerArray = MutableStateFlow<List<RoomPickerNewEventData>>(emptyList())
+    val roomPickerArray: StateFlow<List<RoomPickerNewEventData>> get() = _roomPickerArray.asStateFlow()
 
     private val _mutableLoadingState = MutableStateFlow<State>(State.Loading)
     val mutableState: StateFlow<State> get() = _mutableLoadingState.asStateFlow()
@@ -70,11 +73,14 @@ class ModifyUpcomingEventViewModel @Inject constructor(
     fun getRoomsEvent(startDateTime: String, endDateTime: String) {
         viewModelScope.launch {
             try {
+                _mutableLoadingState.emit(State.Loading)
+                val dateTimeBody = DateTimeBody(startDateTime, endDateTime)
                 val response =
-                    roomsEventRepository.getRoomPickerNewEventData(startDateTime, endDateTime)
+                    roomsEventRepository.getRoomPickerNewEventData(dateTimeBody)
                 checkResponse(response)
+                _mutableLoadingState.emit(State.NotLoading)
             } catch (exception: Exception) {
-                _roomPickerArray.value = emptyArray()
+                _roomPickerArray.value = emptyList()
                 _mutableLoadingState.emit(State.Error)
             }
         }
@@ -84,24 +90,32 @@ class ModifyUpcomingEventViewModel @Inject constructor(
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
 
-    private fun checkResponse(response: RequestResult<Array<StatusRoomsDTO>>) {
+    private fun checkResponse(response: RequestResult<List<StatusRoomsDTO>>) {
         when (response) {
             is RequestResult.Success -> {
-                val listStatusRoomsDTO = response.data.toList()
+                val listStatusRoomsDTO = response.data
                 val listRoomPickerNewEventData = mutableListOf<RoomPickerNewEventData>()
                 listStatusRoomsDTO.forEach {
                     listRoomPickerNewEventData.add(
                         RoomPickerNewEventData(
                             it.id,
                             it.title,
-                            it.isSelected,
-                            it.isEnabled
+                            false,
+                            when (it.status){
+                                OCCUPIED -> false
+                                else -> true
+                            }
                         )
                     )
                 }
-                _roomPickerArray.value = listRoomPickerNewEventData.toTypedArray()
+                _roomPickerArray.value = listRoomPickerNewEventData.sortedWith(
+                    compareBy(
+                        {room -> !room.isEnabled},
+                        {room -> room.titleRoom}
+                    )
+                )
             }
-            else -> _roomPickerArray.value = emptyArray()
+            else -> _roomPickerArray.value = emptyList()
         }
     }
 

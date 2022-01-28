@@ -4,12 +4,14 @@ import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.Path
+import retrofit2.http.POST
 
 interface RoomsEventApi {
     @GET("api/me/events?type=upcoming")
@@ -30,5 +32,6 @@ interface RoomsEventApi {
     @DELETE("api/admin/events/{eventId}")
     suspend fun deleteUpcomingEventForAdmin(@Path("eventId") eventId: Long)
 
-    suspend fun getRoomPickerNewEventData(startDateTime: String, endDateTime: String): Response<Array<StatusRoomsDTO>>
+    @POST("api/rooms/occupied-free")
+    suspend fun getRoomPickerNewEventData(@Body dateTimeBody: DateTimeBody): Response<List<StatusRoomsDTO>>
 }
