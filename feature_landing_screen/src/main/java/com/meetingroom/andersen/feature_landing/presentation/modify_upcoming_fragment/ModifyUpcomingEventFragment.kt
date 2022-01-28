@@ -69,6 +69,7 @@ class ModifyUpcomingEventFragment :
     lateinit var userDataPrefHelper: UserDataPrefHelper
 
     private lateinit var eventRoom: String
+    private var eventRoomId: Long? = null
     private lateinit var eventReminderTime: String
     private var eventReminderStartTime: Int? = null
     private lateinit var dateOfEvent: LocalDate
@@ -95,16 +96,7 @@ class ModifyUpcomingEventFragment :
                 findNavController().popBackStack()
             }
             modifyRoomChooser.onClick {
-                val startTime = modifyStartTimePicker.text.toString()
-                val endTime = modifyEndTimePicker.text.toString()
-                viewModel.getRoomsEvent(startTime, endTime)
-                findNavController().navigate(
-                    ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment(
-                        ROOM_KEY,
-                        eventRoom,
-                        viewModel.roomPickerArray.value
-                    )
-                )
+                openRoomsDialog()
             }
             setReminder.onClick {
                 findNavController().navigate(
@@ -182,15 +174,17 @@ class ModifyUpcomingEventFragment :
             dateOfEvent = args.upcomingEvent.eventDate.stringToDate(INPUT_DATE_FORMAT)
             modifyStartDatePicker.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
             modifyEventEndDate.text = dateOfEvent.dateToString(OUTPUT_DATE_FORMAT)
+            getRooms()
         }
     }
 
     private fun observeRoomChange() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
-            ?.observe(viewLifecycleOwner) {
-                it?.let {
-                    binding.eventRoomName.text = it
-                    eventRoom = it
+            ?.observe(viewLifecycleOwner) { roomTitleAndId ->
+                roomTitleAndId?.let { roomTitleAndId ->
+                    eventRoom = roomTitleAndId.filterNot { it.isDigit() }
+                    binding.eventRoomName.text = eventRoom
+                    eventRoomId = roomTitleAndId.filter { it.isDigit() }.toLong()
                 }
             }
     }
@@ -249,6 +243,7 @@ class ModifyUpcomingEventFragment :
                     }
                 }
             }
+            getRooms()
         }
 
         viewModel.effectLiveData.observe(viewLifecycleOwner) {
@@ -267,7 +262,7 @@ class ModifyUpcomingEventFragment :
                 description = userEventDescription.text.toString(),
                 endDateTime = "${dateOfEvent}T${modifyEndTimePicker.text}",
                 id = args.upcomingEvent.id,
-                roomId = args.upcomingEvent.roomId,
+                roomId = eventRoomId ?: args.upcomingEvent.roomId,
                 startDateTime = "${dateOfEvent}T${modifyStartTimePicker.text}",
                 title = eventModifyTitle.text.toString()
             )
@@ -389,6 +384,7 @@ class ModifyUpcomingEventFragment :
                 )
             )
         }
+        getRooms()
     }
 
     private fun onStartTimeSet(hour: Int, minute: Int) {
@@ -461,6 +457,24 @@ class ModifyUpcomingEventFragment :
         if (!listReminders.isNullOrEmpty()) {
             userDataPrefHelper.saveEventIdsForReminder(listReminders.toSet())
         }
+    }
+
+    private fun getRooms() {
+        lifecycleScope.launch {
+            val startDateTime = "${dateOfEvent}T${binding.modifyStartTimePicker.text}"
+            val endDateTime = "${dateOfEvent}T${binding.modifyEndTimePicker.text}"
+            viewModel.getRoomsEvent(startDateTime, endDateTime)
+        }
+    }
+
+    private fun openRoomsDialog(){
+        findNavController().navigate(
+            ModifyUpcomingEventFragmentDirections.actionModifyUpcomingEventFragmentToRoomPickerDialogFragment(
+                ROOM_KEY,
+                eventRoom,
+                viewModel.roomPickerArray.value.toTypedArray()
+            )
+        )
     }
 
     companion object {

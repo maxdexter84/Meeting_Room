@@ -9,5 +9,5 @@ interface IRoomsEventRepository {
     suspend fun deleteUpcomingEvent(eventId: Long)
     suspend fun putChangedEventForAdmin(event: ChangedEventDTO)
     suspend fun deleteUpcomingEventForAdmin(eventId: Long)
-    suspend fun getRoomPickerNewEventData(startDateTime: String, endDateTime: String): RequestResult<Array<StatusRoomsDTO>>
+    suspend fun getRoomPickerNewEventData(dateTimeBody: DateTimeBody): RequestResult<List<StatusRoomsDTO>>
 }

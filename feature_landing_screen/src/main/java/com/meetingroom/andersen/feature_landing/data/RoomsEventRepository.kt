@@ -44,52 +44,10 @@ class RoomsEventRepository @Inject constructor(
     }
 
     override suspend fun getRoomPickerNewEventData(
-        startDateTime: String,
-        endDateTime: String
-    ): RequestResult<Array<StatusRoomsDTO>> {
-        val arrayRooms = generationGagForRooms()
-        return RequestResult.Success(arrayRooms.sortedWith(
-                compareBy(
-                    { room -> !room.isEnabled },
-                    { room -> room.title }
-                )
-            )
-            .toTypedArray())
-    }
-
-    private fun generationGagForRooms(): Array<StatusRoomsDTO> {
-        return Array(6) { i ->
-            val roomId = when (i) {
-                0 -> 0
-                1 -> 1
-                2 -> 2
-                3 -> 3
-                4 -> 4
-                5 -> 5
-                6 -> 6
-                7 -> 7
-                else -> 8
-            }
-
-            val room = when (i) {
-                0 -> "Gray"
-                1 -> "Blue"
-                2 -> "Green"
-                3 -> "Black"
-                4 -> "Drkgray"
-                5 -> "Magenta"
-                6 -> "Red"
-                7 -> "Yellow"
-                else -> "Green"
-            }
-
-            val isSelected = false
-
-            val isEnabled = when (i) {
-                3, 4 -> false
-                else -> true
-            }
-            StatusRoomsDTO(roomId.toLong(), room, isSelected, isEnabled)
+        dateTimeBody: DateTimeBody
+    ): RequestResult<List<StatusRoomsDTO>> = withContext(ioDispatcher) {
+        requestMaker.safeApiCall {
+            roomsEventApi.getRoomPickerNewEventData(dateTimeBody)
         }
     }
 }
