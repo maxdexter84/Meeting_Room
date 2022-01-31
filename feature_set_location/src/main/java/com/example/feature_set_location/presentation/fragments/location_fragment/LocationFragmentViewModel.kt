@@ -33,6 +33,7 @@ class LocationFragmentViewModel @Inject constructor(
         getUserCity()
         saveDataAboutRole()
         saveUserId()
+        saveOfficeId()
     }
 
     private fun getUserCity() {
@@ -107,7 +108,25 @@ class LocationFragmentViewModel @Inject constructor(
         }
     }
 
+    private fun saveOfficeId() {
+        if (prefHelper.getOfficeIdOfUserLocation() == NO_VALUE) {
+            viewModelScope.launch {
+                when(val response = getUserOfficeCity.getOfficeId()) {
+                    is RequestResult.Success -> {
+                        prefHelper.saveOfficeIdOfUserLocation(response.data)
+                    }
+                    is RequestResult.Error -> {
+                        _error.value = response.exception
+                        _loading.value = false
+                    }
+                    is RequestResult.Loading -> _loading.value = true
+                }
+            }
+        }
+    }
+
     companion object{
         const val EMPTY_STRING = ""
+        const val NO_VALUE = -1
     }
 }

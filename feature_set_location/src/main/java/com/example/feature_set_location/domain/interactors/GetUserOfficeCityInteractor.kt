@@ -7,4 +7,5 @@ interface GetUserOfficeCityInteractor {
     suspend fun getData(): RequestResult<String>
     suspend fun getRole(): RequestResult<String>
     suspend fun getUserId(): RequestResult<Int>
+    suspend fun getOfficeId(): RequestResult<Int>
 }
