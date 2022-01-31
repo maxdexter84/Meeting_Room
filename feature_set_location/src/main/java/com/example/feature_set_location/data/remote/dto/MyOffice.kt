@@ -10,5 +10,6 @@ data class MyOffice(
     val role: String,
     val skype: String,
     val surname: String,
-    val username: String
+    val username: String,
+    val userOfficeId: Int
 )
