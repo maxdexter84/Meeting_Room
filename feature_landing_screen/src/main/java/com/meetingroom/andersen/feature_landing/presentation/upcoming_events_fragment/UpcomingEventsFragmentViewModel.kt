@@ -7,6 +7,7 @@ import com.example.core_module.state.State
 import com.example.core_network.RequestResult
 import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.domain.mappers.toUpcomingEventsList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,9 +32,9 @@ class UpcomingEventsFragmentViewModel @Inject constructor(
                 val response = roomsEventRepository.getUpcomingEventData()
                 when(response){
                     is RequestResult.Success -> {
-                        val listUpcomingEvents = response.data
+                        val listUpcomingEventsDTO = response.data
                         val notDeletedUpcomingEvents = mutableListOf<UpcomingEventData>()
-                        listUpcomingEvents.forEach{
+                        listUpcomingEventsDTO.toUpcomingEventsList().forEach{
                             if(it.status != DELETED){
                                 notDeletedUpcomingEvents.add(it)
                                 if(checkReminder(it.id)){

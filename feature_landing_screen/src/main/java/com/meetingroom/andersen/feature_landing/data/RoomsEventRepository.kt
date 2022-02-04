@@ -13,7 +13,7 @@ class RoomsEventRepository @Inject constructor(
     private val roomsEventApi: RoomsEventApi,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRoomsEventRepository {
-    override suspend fun getUpcomingEventData(): RequestResult<List<UpcomingEventData>> =
+    override suspend fun getUpcomingEventData(): RequestResult<List<UpcomingEventDataDTO>> =
         withContext(ioDispatcher) {
             requestMaker.safeApiCall {
                 roomsEventApi.getUpcomingEventData()

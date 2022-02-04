@@ -152,7 +152,7 @@ class ModifyUpcomingEventFragment :
     private fun initViews() {
         with(binding) {
             if (args.upcomingEvent.reminderActive) {
-                val reminderShort = setReminderTime(requireContext(), args.upcomingEvent.reminderRemainingTime)
+                val reminderShort = setReminderTime(requireContext(), args.upcomingEvent.reminderRemainingTime ?: "0")
                 reminderLeftTime.text = getString(
                     R.string.reminder_time_for_modify_upcoming_event,
                     getLongReminderLabel(requireContext(), reminderShort)

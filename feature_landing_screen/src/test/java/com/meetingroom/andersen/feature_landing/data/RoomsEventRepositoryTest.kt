@@ -4,6 +4,8 @@ import com.example.core_network.RequestResult
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventDataDTO
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -18,6 +20,92 @@ class RoomsEventRepositoryTest {
     @After
     fun tearDown() {
         Mockito.reset(roomsEventRepository)
+    }
+
+    @Test
+    fun shouldReturnUpcomingEventsSuccessfulFromRepository() {
+        val event =
+            UpcomingEventDataDTO(
+                id = ID,
+                title = TITLE,
+                description = DESCRIPTION,
+                startDateTime = START_DATE_TIME,
+                endDateTime = END_DATE_TIME,
+                roomId = ROOM_ID,
+                room = ROOM,
+                userFullName = USER_FULL_NAME,
+                userId = USER_ID,
+                userPosition = USER_POSITION,
+                userEmail = USER_EMAIL,
+                userSkype = USER_SKYPE,
+                status = STATUS,
+                color = COLOR
+            )
+        val testUpcomingEventDataList = listOf(event, event)
+        Mockito.`when`(runBlocking {
+            roomsEventRepository.getUpcomingEventData()
+        }).thenReturn(RequestResult.Success(testUpcomingEventDataList))
+
+        val actual = runBlocking {
+            roomsEventRepository.getUpcomingEventData()
+        }
+
+        val testUpcomingEventDataListExpected = listOf(event, event)
+        val expected = RequestResult.Success(testUpcomingEventDataListExpected)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun shouldReturnUpcomingEventsWithError() {
+        Mockito.`when`(runBlocking {
+            roomsEventRepository.getUpcomingEventData()
+        }).thenReturn(RequestResult.Error(EXCEPTION, EXCEPTION_CODE))
+
+        val actual = runBlocking {
+            roomsEventRepository.getUpcomingEventData()
+        }
+
+        val expected = RequestResult.Error(EXCEPTION, EXCEPTION_CODE)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun shouldReturnHistoryEvents() {
+        val event =
+            HistoryEventData(
+                id = ID,
+                title = TITLE,
+                description = DESCRIPTION,
+                startDateTime = START_DATE_TIME,
+                endDateTime = END_DATE_TIME,
+                roomId = ROOM_ID,
+                room = ROOM,
+                userFullName = USER_FULL_NAME,
+                userId = USER_ID,
+                userPosition = USER_POSITION,
+                userEmail = USER_EMAIL,
+                userSkype = USER_SKYPE,
+                status = STATUS,
+                color = COLOR,
+                startTime = START_TIME,
+                endTime = END_TIME,
+                eventDate = EVENT_DATE
+            )
+
+        val testHistoryEventsList = listOf(event, event)
+        Mockito.`when`(runBlocking {
+            roomsEventRepository.getHistoryEvents()
+        }).thenReturn(RequestResult.Success(testHistoryEventsList))
+
+        val actual = runBlocking {
+            roomsEventRepository.getHistoryEvents()
+        }
+
+        val expected = RequestResult.Success(listOf(event, event))
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -106,7 +194,7 @@ class RoomsEventRepositoryTest {
         val roomSecondWithStatus = StatusRoomsDTO(
             id = ID_SECOND_ROOM,
             title = TITLE_SECOND_ROOM,
-            status = STATUS_OCCUOIED
+            status = STATUS_OCCUPIED
         )
 
         val testRoomsStatusList = listOf<StatusRoomsDTO>(roomFirstWithStatus, roomSecondWithStatus)
@@ -123,21 +211,5 @@ class RoomsEventRepositoryTest {
         val expected = RequestResult.Success(testRoomStatusListExpected)
 
         assertEquals(expected, actual)
-    }
-
-    companion object {
-        const val DESCRIPTION = "Some description"
-        const val END_DATE_TIME = "2022-01-31T15:20:00"
-        const val START_DATE_TIME = "2022-01-31T15:20:00"
-        const val TITLE_FIRST_ROOM = "first room"
-        const val TITLE_SECOND_ROOM = "second room"
-        const val TITLE_EVENT_CHANGED = "some title"
-        const val STATUS_FREE = "FREE"
-        const val STATUS_OCCUOIED = "OCCUPIED"
-        const val ID_CHANGED_EVENT = 123L
-        const val ID_ROOM_CHANGED = 4L
-        const val ID_EVENT = 123L
-        const val ID_FIRST_ROOM = 1L
-        const val ID_SECOND_ROOM = 2L
     }
 }

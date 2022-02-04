@@ -3,7 +3,7 @@ package com.meetingroom.andersen.feature_landing.data
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
-import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventDataDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -15,7 +15,7 @@ import retrofit2.http.POST
 
 interface RoomsEventApi {
     @GET("api/me/events?type=upcoming")
-    suspend fun getUpcomingEventData(): Response<List<UpcomingEventData>>
+    suspend fun getUpcomingEventData(): Response<List<UpcomingEventDataDTO>>
 
     @GET("api/me/events?type=history")
     suspend fun getHistoryEvents(): Response<List<HistoryEventData>>
