@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_meet_now_icon"
         android:title="@string/text_for_meet_now_icon" />
     <item
-        android:id="@+id/workplace_screen_navigation"
+        android:id="@+id/workplaces_screen_navigation"
         android:icon="@drawable/ic_workplaces_icon"
         android:title="@string/text_for_workplaces_icon" />
     <item

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.meetingroom.feature_workplaces_screen.presentation.fragments.workplaces_fragment.WorkplacesFragment">
+
+    <com.meeringroom.ui.view.toolbar.MrToolBar
+        android:id="@+id/workplaces_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_on_primary"
+        android:elevation="@dimen/dimens_4_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:setTitle="@strings/toolbar_title_workplaces" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/workplaces_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/contentStart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/dimens_16_dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/contentEnd"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/dimens_16_dp" />
+
+            <ImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/dimens_48_dp"
+                android:layout_height="@dimen/dimens_48_dp"
+                android:layout_marginTop="@dimen/dimens_16_dp"
+                android:contentDescription="@string/image_of_user"
+                android:src="@drawable/ic_person_icon"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_8_dp"
+                android:text="@string/name_of_user"
+                android:textAppearance="@style/TextAppearanceTitleBold"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/ivUserImage" />
+
+            <TextView
+                android:id="@+id/tvUserPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_4_dp"
+                android:text="@string/user_position"
+                android:textAppearance="@style/TextAppearanceSmallDescription"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvUserName" />
+
+            <TextView
+                android:id="@+id/tvUserWorker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_4_dp"
+                android:text="@string/remote_worker"
+                android:textAppearance="@style/TextAppearanceUserWorker"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvUserPosition" />
+
+            <TextView
+                android:id="@+id/tvYourPlaceTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_24_dp"
+                android:text="@string/your_place"
+                android:textAppearance="@style/TextAppearanceGrayTitle"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvUserWorker" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvYourPlace"
+                android:layout_width="0dp"
+                android:layout_height="114dp"
+                android:layout_marginTop="@dimen/dimens_8_dp"
+                app:cardCornerRadius="@dimen/dimens_4_dp"
+                app:cardElevation="@dimen/dimens_2_dp"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvYourPlaceTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/cvContentStart"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/dimens_12_dp" />
+
+                    <View
+                        android:id="@+id/rectangle"
+                        android:layout_width="@dimen/dimens_4_dp"
+                        android:layout_height="@dimen/dimens_0_dp"
+                        android:background="@color/color_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvNoBookedWorkplace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimens_12_dp"
+                        android:text="@string/no_booked_workplace"
+                        android:textAppearance="@style/TextAppearanceSmallDescription"
+                        app:layout_constraintStart_toStartOf="@id/cvContentStart"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvOfficeWorkerTitle"
+                android:layout_width="@dimen/dimens_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_24_dp"
+                android:text="@string/office_worker_title"
+                android:textAppearance="@style/TextAppearanceTitle6"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/cvYourPlace" />
+
+            <TextView
+                android:id="@+id/tvOfficeWorkerDescription"
+                android:layout_width="@dimen/dimens_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimens_16_dp"
+                android:text="@string/remote_worker_description"
+                android:textAppearance="@style/TextAppearanceMiddleDescription"
+                app:layout_constraintEnd_toStartOf="@id/switchTypeWorker"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvOfficeWorkerTitle" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchTypeWorker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_36_dp"
+                android:minHeight="48dp"
+                android:theme="@style/Switch.Light"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toEndOf="@id/tvOfficeWorkerDescription"
+                app:layout_constraintTop_toBottomOf="@id/cvYourPlace" />
+
+            <TextView
+                android:id="@+id/tvSupportTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_24_dp"
+                android:text="@string/support_title"
+                android:textAppearance="@style/TextAppearanceGrayTitle"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvOfficeWorkerDescription" />
+
+            <TextView
+                android:id="@+id/tvMaintenanceTicketTitle"
+                android:layout_width="@dimen/dimens_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_12_dp"
+                android:text="@string/maintenance_ticket_title"
+                android:textAppearance="@style/TextAppearanceTitle6"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvSupportTitle" />
+
+            <TextView
+                android:id="@+id/tvChooseWorkplaceDescription"
+                android:layout_width="@dimen/dimens_0_dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_44_dp"
+                android:layout_marginTop="@dimen/dimens_24_dp"
+                android:layout_marginEnd="@dimen/dimens_44_dp"
+                android:text="@string/choose_workplace_description"
+                android:textAppearance="@style/TextAppearanceSmallDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMaintenanceTicketTitle" />
+
+            <Button
+                android:id="@+id/btnBookWorkplace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_16_dp"
+                android:layout_marginBottom="@dimen/dimens_52_dp"
+                android:text="@string/book_workplace_btn"
+                android:theme="@style/Button.Light"
+                app:layout_constraintEnd_toEndOf="@id/contentEnd"
+                app:layout_constraintStart_toStartOf="@id/contentStart"
+                app:layout_constraintTop_toBottomOf="@id/tvChooseWorkplaceDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isVisible
+import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.ToolbarBinding
 
@@ -69,4 +71,7 @@ class MrToolBar @JvmOverloads constructor(
         binding.mrtoolbarTitle.text = title
     }
 
+    fun setVisibilityToggleButton(visibility: Boolean) {
+        binding.mrtoolbarIcon.visibilityIf(visibility)
+    }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toolbar_title_workplaces">Workplaces</string>
+    <string name="image_of_user">Image of user</string>
+    <string name="name_of_user">User name</string>
+    <string name="user_position">User position</string>
+    <string name="remote_worker">Remote Worker</string>
+    <string name="your_place">YOUR PLACE</string>
+    <string name="no_booked_workplace">You haven`t booked workplace yet</string>
+    <string name="office_worker_title">Office worker</string>
+    <string name="remote_worker_description">Switching ON means you have permanent workplace in the office</string>
+    <string name="support_title">SUPPORT</string>
+    <string name="maintenance_ticket_title">Maintenance ticket</string>
+    <string name="choose_workplace_description">Choose a workplace for you from the list of places available for your request</string>
+    <string name="book_workplace_btn">BOOK A WORKPLACE</string>
+</resources>

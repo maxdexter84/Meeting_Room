@@ -85,6 +85,53 @@
         <item name="android:lineSpacingExtra">@dimen/dimens_5_sp</item>
     </style>
 
+    <!-- EPIC 6 -->
+
+    <style name="TextAppearanceTitle6">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_16_sp</item>
+        <item name="android:textColor">@color/color_primary_text</item>
+    </style>
+
+    <style name="TextAppearanceTitleBold">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_16_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_primary_text</item>
+    </style>
+
+    <style name="TextAppearanceUserWorker">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_12_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_primary_text</item>
+    </style>
+
+    <style name="TextAppearanceMiddleDescription">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_14_sp</item>
+        <item name="android:textColor">@color/grey_text_color</item>
+    </style>
+
+    <style name="TextAppearanceGrayTitle">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_14_sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey_text_color</item>
+    </style>
+
+    <style name="Switch.Light" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorSwitchThumbNormal">@color/enabled_bell_colour</item>
+    </style>
+
+    <style name="Button.Light" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:color">@color/color_primary</item>
+        <item name="android:textColor">@color/color_primary_text</item>
+        <item name="android:textSize">@dimen/dimens_14_sp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- DIALOG. LIGHT -->
 
     <style name="Dialog.Light" parent="android:Theme.Material.Light.Dialog">
