@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rooms_available_soon_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,6 +7,11 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rooms_available_soon_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <include
             android:id="@+id/you_dont_need_to_wait_placeholder"
@@ -20,44 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:indeterminateTint="@color/yellow_for_selected_item" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rooms_available_soon_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/dimens_12_dp" />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/rooms_available_later_appbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true">
-
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                    <include
-                        android:id="@+id/all_rooms_are_occupied_placeholder"
-                        layout="@layout/all_rooms_are_occupied_placeholder" />
-
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rooms_available_later_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/dimens_12_dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </FrameLayout>
 

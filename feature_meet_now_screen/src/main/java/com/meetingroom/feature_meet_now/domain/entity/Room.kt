@@ -1,11 +1,16 @@
 package com.meetingroom.feature_meet_now.domain.entity
 
 data class Room(
-    val id: Long,
-    val title: String,
-    val color: String,
-    val availableIn: Int,
+    val id: Long?,
+    val title: String?,
+    val office: String?,
+    val floor: Int?,
+    val capacity: Int?,
+    val board: Boolean?,
+    val projector: Boolean?,
+    val color: String?,
+    val availableIn: Int?,
     var timeUntilNextEvent: Int?,
-    val currentEventEndTime: String,
+    val currentEventEndTime: String?,
     val nextEventStartTime: String?
 )
