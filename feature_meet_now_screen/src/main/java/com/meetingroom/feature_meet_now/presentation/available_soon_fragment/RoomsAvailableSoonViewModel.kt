@@ -13,14 +13,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val SOON = "ROOMS_THAT_WILL_BE_AVAILABLE_WITHIN_30_MINUTES"
-private const val SIX_MIN = 6
-private const val HALF_HOUR = 30
-private const val MAX_BOOKING_TIME = 90
 
 class RoomsAvailableSoonViewModel @Inject constructor(
     private val repository: AvailableRoomsRepository
 ) : ViewModel() {
-    var viewState = ViewState.NO_ROOMS_FOUND
+    var roomsFound = RoomsFound.NO_ROOMS
 
     private val _availableRooms = MutableStateFlow<List<Room>>(emptyList())
     val availableRooms: StateFlow<List<Room>> get() = _availableRooms.asStateFlow()
@@ -33,13 +30,8 @@ class RoomsAvailableSoonViewModel @Inject constructor(
             _loadingState.emit(State.Loading)
             when (val response = repository.getAvailableRooms(SOON)) {
                 is RequestResult.Success -> {
-                    viewState = getViewState(response.data)
-                    val rooms = when(viewState) {
-                        ViewState.ROOMS_AVAILABLE_SOON_FOUND -> filterRoomsAvailableSoon(validateRooms(response.data))
-                        ViewState.ROOMS_AVAILABLE_LATER_FOUND -> filterRoomsAvailableLater(response.data)
-                        ViewState.NO_ROOMS_FOUND -> emptyList()
-                    }
-                    _availableRooms.emit(rooms)
+                    roomsFound = identifyRooms(response.data)
+                    _availableRooms.emit(response.data)
                     _loadingState.emit(State.NotLoading)
                 }
                 is RequestResult.Error -> {
@@ -53,43 +45,20 @@ class RoomsAvailableSoonViewModel @Inject constructor(
         }
     }
 
-    private fun getViewState(rooms: List<Room>): ViewState {
-        if (rooms.any { room ->
-                room.availableIn in SIX_MIN..HALF_HOUR
-            }) return ViewState.ROOMS_AVAILABLE_SOON_FOUND
-        if (rooms.any { room ->
-                room.availableIn > HALF_HOUR
-            }) return ViewState.ROOMS_AVAILABLE_LATER_FOUND
-        else {
-            return ViewState.NO_ROOMS_FOUND
+    private fun identifyRooms(rooms: List<Room>): RoomsFound {
+        if (rooms.isEmpty()) {
+            return RoomsFound.NO_ROOMS
         }
-    }
-
-    private fun filterRoomsAvailableSoon(rooms: List<Room>): List<Room> {
-        return rooms.filter { room ->
-            room.availableIn in SIX_MIN..HALF_HOUR
+        return if (rooms[0].currentEventEndTime == null && rooms[0].nextEventStartTime == null) {
+            RoomsFound.ROOMS_AVAILABLE_SOON
+        } else {
+            RoomsFound.ROOMS_AVAILABLE_LATER
         }
-    }
-
-    private fun filterRoomsAvailableLater(rooms: List<Room>): List<Room> {
-        return rooms.filter { room ->
-            room.availableIn > HALF_HOUR
-        }
-    }
-
-    private fun validateRooms(rooms: List<Room>): List<Room> {
-        for (room in rooms) {
-            room.apply {
-                timeUntilNextEvent = timeUntilNextEvent?.coerceAtMost(MAX_BOOKING_TIME)
-                    ?: MAX_BOOKING_TIME
-            }
-        }
-        return rooms
     }
 }
 
-enum class ViewState {
-    ROOMS_AVAILABLE_SOON_FOUND,
-    ROOMS_AVAILABLE_LATER_FOUND,
-    NO_ROOMS_FOUND
+enum class RoomsFound {
+    ROOMS_AVAILABLE_SOON,
+    ROOMS_AVAILABLE_LATER,
+    NO_ROOMS
 }

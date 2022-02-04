@@ -23,12 +23,12 @@ class RoomsAvailableSoonAdapter(
                 if (room.timeUntilNextEvent == null) {
                     roomInfo.text = itemView.resources.getString(
                         R.string.available_in,
-                        room.availableIn.minutesToTimeString()
+                        room.availableIn?.minutesToTimeString()
                     )
                 } else {
                     roomInfo.text = itemView.resources.getString(
                         R.string.available_in_for,
-                        room.availableIn.minutesToTimeString(),
+                        room.availableIn?.minutesToTimeString(),
                         room.timeUntilNextEvent?.minutesToTimeString()
                     )
                 }

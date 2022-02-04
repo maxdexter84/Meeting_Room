@@ -6,22 +6,30 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.meetingroom.feature_meet_now.domain.entity.Room
+import com.meetingroom.feature_meet_now_screen.databinding.AllRoomsAreOccupiedPlaceholderBinding
 import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableLaterItemBinding
+
+private const val HEADER_TYPE = 0
+private const val ROOM_TYPE = 1
+private const val ADDITIONAL_VIEW_HOLDER_POSITION = 1
 
 class RoomsAvailableLaterAdapter(
     private val rooms: MutableList<Room>,
     private val onRoomClicked: (Room) -> Unit
 ) :
-    RecyclerView.Adapter<RoomsAvailableLaterAdapter.RoomViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    inner class HeaderMessageViewHolder(binding: AllRoomsAreOccupiedPlaceholderBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     inner class RoomViewHolder(private val binding: RoomAvailableLaterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(room: Room) {
             with(binding) {
                 roomTitle.text = room.title
-                startTime.text = room.currentEventEndTime.dropLast(3)
+                startTime.text = room.currentEventEndTime
                 if (room.nextEventStartTime != null) {
-                    endTime.text = room.nextEventStartTime.dropLast(3)
+                    endTime.text = room.nextEventStartTime
                 } else {
                     untilText.isVisible = false
                     endTime.isVisible = false
@@ -34,8 +42,21 @@ class RoomsAvailableLaterAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
-        return RoomViewHolder(
+    override fun getItemViewType(position: Int): Int {
+        return if (position == HEADER_TYPE) HEADER_TYPE
+        else ROOM_TYPE
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == HEADER_TYPE)
+            HeaderMessageViewHolder(
+                AllRoomsAreOccupiedPlaceholderBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
+                    ), parent, false
+                )
+            )
+        else RoomViewHolder(
             RoomAvailableLaterItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
@@ -44,11 +65,11 @@ class RoomsAvailableLaterAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
-        holder.bind(rooms[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is RoomViewHolder) holder.bind(rooms[position - ADDITIONAL_VIEW_HOLDER_POSITION])
     }
 
-    override fun getItemCount(): Int = rooms.size
+    override fun getItemCount(): Int = rooms.size + ADDITIONAL_VIEW_HOLDER_POSITION
 
     fun setData(newRooms: List<Room>) {
         rooms.clear()
