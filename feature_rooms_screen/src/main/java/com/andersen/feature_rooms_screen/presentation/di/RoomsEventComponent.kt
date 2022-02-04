@@ -3,6 +3,7 @@ package com.andersen.feature_rooms_screen.presentation.di
 import android.content.Context
 import com.andersen.feature_rooms_screen.presentation.di.view_model.ViewModelModule
 import com.andersen.feature_rooms_screen.presentation.new_event.NewEventFragment
+import com.andersen.feature_rooms_screen.presentation.new_lock_event.NewLockEventFragment
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.presentation.RoomPickerDialogFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.dialog_rooms.DialogRoomsFragment
 import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
@@ -24,6 +25,7 @@ interface RoomsEventComponent {
     fun inject(newEventFragment: NewEventFragment)
     fun inject(roomsDialogFragment: DialogRoomsFragment)
     fun inject(roomPickerDialogRoomsFragment: RoomPickerDialogFragment)
+    fun inject(newLockEventFragment: NewLockEventFragment)
 
     @Component.Factory
     interface Factory {

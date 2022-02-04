@@ -46,7 +46,7 @@ class MainActionButton @JvmOverloads constructor(
             }
         }
 
-    private var textButton: String = ""
+    var textButton: String = ""
         set(value) {
             field = value
             binding.logInTextMainActivity.text = field

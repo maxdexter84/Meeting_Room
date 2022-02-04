@@ -54,6 +54,8 @@ class RoomsEventViewModel @Inject constructor(
 
     lateinit var currentList: List<Room>
 
+    var userRole: String? = null
+
     fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
@@ -148,6 +150,12 @@ class RoomsEventViewModel @Inject constructor(
             } catch (exception: Exception) {
                 _mutableLoadingState.emit(State.Error)
             }
+        }
+    }
+
+    fun getUserRole() {
+        viewModelScope.launch {
+            userRole = userDataPrefHelper.getUserRole()
         }
     }
 
