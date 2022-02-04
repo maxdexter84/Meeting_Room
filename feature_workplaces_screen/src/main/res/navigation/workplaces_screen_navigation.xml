@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/workplaces_screen_navigation"
+    app:startDestination="@id/workplacesFragment"
+    app:defaultNavHost="true">
+
+    <action
+        android:id="@+id/action_to_workplacesFragment"
+        app:destination="@id/workplacesFragment"
+        app:popUpTo="@id/workplacesFragment"/>
+
+    <fragment
+        android:id="@+id/workplacesFragment"
+        android:name="com.meetingroom.feature_workplaces_screen.presentation.fragments.workplaces_fragment.WorkplacesFragment"
+        android:label="fragment_workplaces"
+        tools:layout="@layout/fragment_workplaces" />
+</navigation>
