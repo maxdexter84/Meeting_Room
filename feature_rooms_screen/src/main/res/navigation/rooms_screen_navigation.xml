@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_roomsFragment_to_eventDetailDialog"
             app:destination="@id/eventDetailDialog" />
+        <action
+            android:id="@+id/action_roomsFragment_to_newLockEventFragment"
+            app:destination="@id/newLockEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/newEventFragment"
@@ -36,23 +39,23 @@
             app:argType="string" />
         <action
             android:id="@+id/action_newEventFragment_to_roomPickerDialogFragment"
-            app:destination="@id/roomPickerDialogNavigation" >
+            app:destination="@id/roomPickerDialogNavigation">
             <argument
                 android:name="key"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="userRoom"
                 app:argType="string" />
             <argument
                 android:name="rooms"
-                app:argType="com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData[]"/>
+                app:argType="com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData[]" />
         </action>
         <action
             android:id="@+id/action_newEventFragment_to_timeForNotificationDialog"
             app:destination="@id/timeForNotificationDialogNavigation">
             <argument
                 android:name="key"
-                app:argType="string"/>
+                app:argType="string" />
             <argument
                 android:name="userSelectedTime"
                 app:argType="string" />
@@ -73,7 +76,7 @@
     <dialog
         android:id="@+id/eventDetailDialog"
         android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.EventDetailDialog"
-        android:label="EventDetailDialog" >
+        android:label="EventDetailDialog">
         <argument
             android:name="roomEvent"
             app:argType="com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid" />
@@ -90,7 +93,28 @@
             android:name="roomList"
             app:argType="com.andersen.feature_rooms_screen.domain.entity.Room[]" />
     </dialog>
-    <include app:graph="@navigation/room_picker_dialog_navigation"/>
-    <include app:graph="@navigation/time_for_notification_dialog_navigation"/>
-    <include app:graph="@navigation/need_more_time_dialog_navigation"/>
+    <include app:graph="@navigation/room_picker_dialog_navigation" />
+    <include app:graph="@navigation/time_for_notification_dialog_navigation" />
+    <include app:graph="@navigation/need_more_time_dialog_navigation" />
+    <fragment
+        android:id="@+id/newLockEventFragment"
+        android:name="com.andersen.feature_rooms_screen.presentation.new_lock_event.NewLockEventFragment"
+        android:label="NewLockEventFragment">
+        <argument
+            android:name="eventDate"
+            app:argType="java.time.LocalDate" />
+        <argument
+            android:name="eventStartTime"
+            app:argType="java.time.LocalTime" />
+        <argument
+            android:name="eventEndTime"
+            app:argType="java.time.LocalTime" />
+        <action
+            android:id="@+id/action_newLockEventFragment_to_needMoreTimeDialog"
+            app:destination="@id/needMoreTimeDialogNavigation" />
+        <action
+            android:id="@+id/action_newLockEventFragment_to_needMoreTimeAdminDialog"
+            app:destination="@id/needMoreTimeAdminDialogNavigation" />
+    </fragment>
+    <include app:graph="@navigation/need_more_time_admin_dialog_navigation" />
 </navigation>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/needMoreTimeAdminDialogNavigation"
+    app:startDestination="@id/needMoreTimeAdminDialog">
+    <dialog
+        android:id="@+id/needMoreTimeAdminDialog"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_need_more_time.AdminNeedMoreTimeDialog"
+        android:label="NeedMoreTimeDialog"/>
+</navigation>

@@ -2,9 +2,12 @@ package com.andersen.feature_rooms_screen.presentation.rooms_event_grid
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -86,6 +89,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         observeRoomChange()
         observeIndicatorTimeRange()
         initCalendarListener()
+        getUserRole()
     }
 
     private fun observeIndicatorTimeRange() {
@@ -316,6 +320,9 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         } else {
             viewModel.getRoom(roomTitle)
             oneRoomStateObserver(roomTitle)
+            if (viewModel.userRole == getString(R.string.adminRole)) {
+                displayLockRoomAction()
+            }
         }
     }
 
@@ -378,6 +385,9 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         lifecycleScope.launch {
             viewModel.mutableRoomListByFloor.collectLatest {
                 hideIconsForAllRooms()
+                if (viewModel.userRole == getString(R.string.adminRole)) {
+                    hideRoomLockAction()
+                }
                 binding.singleRoomGridRecyclerView.isVisible = false
                 binding.gridRecyclerView.isVisible = true
                 binding.roomRecyclerView.isVisible = true
@@ -386,6 +396,87 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 viewModel.getEventList(binding.oneWeekCalendar.selectedDate)
             }
         }
+    }
+
+    private fun displayLockRoomAction() {
+
+        binding.lockIcon.visibility = View.VISIBLE
+        binding.lockButton.visibility = View.VISIBLE
+        binding.lockButton.setOnClickListener {
+            findNavController().navigate(
+                RoomsEventGridFragmentDirections.actionRoomsFragmentToNewLockEventFragment(
+                    eventDate = selectedDateForGrid,
+                    eventStartTime = LocalTime.now(),
+                    eventEndTime = LocalTime.now()
+                )
+            )
+        }
+
+        val metrics = requireActivity().resources?.displayMetrics
+        val tvMaxCapMarginStart = 16f
+        val ivIconCapMarginStart = 9f
+        val ivIconWhiteboardMarginStart = 24f
+        val ivIconProjectorMarginStart = 24f
+
+        with(binding) {
+            tvMaxCapacity.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToTop = -1
+                bottomToBottom = -1
+                endToStart = -1
+                topToBottom = buttonDropDown.id
+                startToStart = buttonDropDown.id
+                marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    tvMaxCapMarginStart,
+                    metrics
+                ).toInt()
+            }
+            ivIconCapacity.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                endToStart = -1
+                startToEnd = tvMaxCapacity.id
+                topToTop = tvMaxCapacity.id
+                bottomToBottom = tvMaxCapacity.id
+                marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    ivIconCapMarginStart,
+                    metrics
+                ).toInt()
+            }
+            ivIconWhiteboard.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                endToStart = -1
+                topToTop = ivIconCapacity.id
+                bottomToBottom = ivIconCapacity.id
+                startToEnd = ivIconCapacity.id
+                marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    ivIconWhiteboardMarginStart,
+                    metrics
+                ).toInt()
+            }
+            ivIconProjector.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                endToEnd = -1
+                startToEnd = ivIconWhiteboard.id
+                topToTop = ivIconCapacity.id
+                bottomToBottom = ivIconCapacity.id
+                marginStart = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    ivIconProjectorMarginStart,
+                    metrics
+                ).toInt()
+            }
+            roomRecyclerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToBottom = ivIconCapacity.id
+            }
+        }
+    }
+
+    private fun getUserRole() {
+        viewModel.getUserRole()
+    }
+
+    private fun hideRoomLockAction() {
+        binding.lockIcon.visibility = View.GONE
+        binding.lockButton.visibility = View.GONE
     }
 
     private fun navigateToDetail(roomEvent: RoomEventForGrid) {

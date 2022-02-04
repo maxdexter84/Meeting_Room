@@ -11,12 +11,14 @@ import com.meeringroom.ui.view.base_classes.BaseDialogFragment
 import com.meetingroom.ui.R
 import com.meetingroom.ui.databinding.CustomDialogNeedMoreTimeBinding
 
-class NeedMoreTimeDialog:  BaseDialogFragment<CustomDialogNeedMoreTimeBinding>(
+open class NeedMoreTimeDialog:  BaseDialogFragment<CustomDialogNeedMoreTimeBinding>(
     CustomDialogNeedMoreTimeBinding::inflate)  {
 
     private lateinit var timer: CountDownTimer
+    private var expiredDialogMessage: Int = R.string.session_expired_dialog_message
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        setExpiredDialogMessage(expiredDialogMessage)
         val dialogView = onCreateView(LayoutInflater.from(requireContext()), null, savedInstanceState)
         val secondsTextView = binding.textViewDialogTimeLeft.apply {
             text = (TIME_LIMIT_MILLIS / TIME_STEP_MILLIS).toString()
@@ -47,7 +49,7 @@ class NeedMoreTimeDialog:  BaseDialogFragment<CustomDialogNeedMoreTimeBinding>(
         dialog?.hide()
         createBaseDialogBuilder(
             R.string.session_expired_dialog_title,
-            R.string.session_expired_dialog_message,
+            expiredDialogMessage,
             R.string.session_expired_dialog_button) {
             findNavController().apply {
                 popBackStack()
@@ -55,6 +57,10 @@ class NeedMoreTimeDialog:  BaseDialogFragment<CustomDialogNeedMoreTimeBinding>(
             }
             dismiss()
         }.show()
+    }
+
+    open fun setExpiredDialogMessage(messageId: Int) {
+        expiredDialogMessage = messageId
     }
 
     private fun createBaseDialogBuilder(titleId: Int, messageId: Int, positiveButtonId: Int, onClickListener: () -> Unit): MaterialAlertDialogBuilder {
