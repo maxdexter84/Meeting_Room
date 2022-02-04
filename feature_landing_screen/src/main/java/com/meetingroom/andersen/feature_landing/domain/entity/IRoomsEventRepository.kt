@@ -3,7 +3,7 @@ package com.meetingroom.andersen.feature_landing.domain.entity
 import com.example.core_network.RequestResult
 
 interface IRoomsEventRepository {
-    suspend fun getUpcomingEventData(): RequestResult<List<UpcomingEventData>>
+    suspend fun getUpcomingEventData(): RequestResult<List<UpcomingEventDataDTO>>
     suspend fun getHistoryEvents(): RequestResult<List<HistoryEventData>>
     suspend fun putChangedEvent(event: ChangedEventDTO)
     suspend fun deleteUpcomingEvent(eventId: Long)

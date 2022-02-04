@@ -1,0 +1,31 @@
+package com.meetingroom.andersen.feature_landing.data
+
+const val ID = 123L
+const val TITLE = "title"
+const val DESCRIPTION = "description"
+const val START_DATE_TIME = "2022-01-31T12:20:00"
+const val END_DATE_TIME = "2022-01-31T15:20:00"
+const val ROOM_ID = 7L
+const val ROOM = "Gray"
+const val USER_FULL_NAME = "Andrei Dashkevich"
+const val USER_ID = 1L
+const val USER_POSITION = "PM"
+const val USER_EMAIL = "user1@gmail.com"
+const val USER_SKYPE = "live:.cid.11111"
+const val STATUS = "ACTIVE"
+const val COLOR = "#808080"
+const val START_TIME = "12:20:00"
+const val END_TIME = "12:20:00"
+const val EVENT_DATE = "2022-01-31"
+const val EXCEPTION = "Unauthorized"
+const val EXCEPTION_CODE = 401
+const val TITLE_FIRST_ROOM = "first room"
+const val TITLE_SECOND_ROOM = "second room"
+const val TITLE_EVENT_CHANGED = "some title"
+const val STATUS_FREE = "FREE"
+const val STATUS_OCCUPIED = "OCCUPIED"
+const val ID_CHANGED_EVENT = 123L
+const val ID_ROOM_CHANGED = 4L
+const val ID_EVENT = 123L
+const val ID_FIRST_ROOM = 1L
+const val ID_SECOND_ROOM = 2L

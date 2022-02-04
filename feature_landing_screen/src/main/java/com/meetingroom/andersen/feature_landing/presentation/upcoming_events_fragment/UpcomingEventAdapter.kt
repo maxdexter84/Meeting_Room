@@ -53,13 +53,9 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
 
     inner class UpcomingEventViewHolder(private val binding: EventElementUpcomingBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private lateinit var date: String
 
         fun bind(upcomingEventData: UpcomingEventData) {
             with(binding) {
-                upcomingEventData.startTime = getTime(upcomingEventData.startDateTime)
-                upcomingEventData.endTime = getTime(upcomingEventData.endDateTime)
-                upcomingEventData.eventDate = date
                 eventTitleUpcoming.text = upcomingEventData.title
                 eventPlannedTimeUpcoming.text =
                     String.format(
@@ -78,15 +74,9 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
                 } else {
                     eventReminderBellUpcoming.setImageResource(R.drawable.ic_enable_bell)
                     eventReminderCounterUpcoming.visibilityIf(true)
-                    eventReminderCounterUpcoming.text = setReminderTime(context, upcomingEventData.reminderRemainingTime)
+                    eventReminderCounterUpcoming.text = setReminderTime(context, upcomingEventData.reminderRemainingTime ?: "0")
                 }
             }
-        }
-
-        private fun getTime(stringDateAndTime: String): String {
-            val strings = stringDateAndTime.split("T")
-            date = strings[0]
-            return strings[1].substring(START_INDEX_FOR_TIME, END_INDEX_FOR_TIME)
         }
     }
 
@@ -111,8 +101,6 @@ class UpcomingEventAdapter(var onEventClicked: (UpcomingEventData) -> Unit) :
     companion object {
         private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
         private const val OUTPUT_DATE_FORMAT = "d MMM YYYY"
-        private const val START_INDEX_FOR_TIME = 0
-        private const val END_INDEX_FOR_TIME = 5
     }
 }
 

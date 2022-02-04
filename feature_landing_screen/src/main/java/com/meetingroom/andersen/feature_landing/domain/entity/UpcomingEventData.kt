@@ -22,6 +22,6 @@ data class UpcomingEventData(
     var endTime: String,
     var eventDate: String,
     val color: String,
-    var reminderRemainingTime: String,
+    var reminderRemainingTime: String?,
     var reminderActive: Boolean
 ) : Parcelable
