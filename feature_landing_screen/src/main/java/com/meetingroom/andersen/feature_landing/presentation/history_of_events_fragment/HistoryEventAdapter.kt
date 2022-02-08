@@ -56,15 +56,9 @@ class HistoryEventAdapter(var layoutMgr: LinearLayoutManager,
 
     inner class HistoryEventViewHolder(private val binding: EventElementHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private lateinit var date: String
 
         fun bind(historyEventData: HistoryEventData) {
             with(binding) {
-                with(historyEventData){
-                    startTime = getTime(historyEventData.startDateTime)
-                    endTime = getTime(historyEventData.endDateTime)
-                    eventDate = date
-                }
                 eventTitleUpcoming.text = historyEventData.title
                 eventPlannedTimeUpcoming.text =
                     String.format(
@@ -120,12 +114,6 @@ class HistoryEventAdapter(var layoutMgr: LinearLayoutManager,
                 }
             }
         }
-
-        private fun getTime(stringDateAndTime: String): String {
-            val strings = stringDateAndTime.split("T")
-            date = strings[0]
-            return strings[1].substring(START_INDEX_FOR_TIME, END_INDEX_FOR_TIME)
-        }
     }
 
     class HistoryEventsDiffCallback(
@@ -149,7 +137,5 @@ class HistoryEventAdapter(var layoutMgr: LinearLayoutManager,
     companion object {
         private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
         private const val OUTPUT_DATE_FORMAT = "d MMM YYYY"
-        private const val START_INDEX_FOR_TIME = 0
-        private const val END_INDEX_FOR_TIME = 5
     }
 }

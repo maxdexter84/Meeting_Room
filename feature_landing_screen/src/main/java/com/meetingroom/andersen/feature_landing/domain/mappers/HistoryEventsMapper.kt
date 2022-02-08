@@ -1,18 +1,18 @@
 package com.meetingroom.andersen.feature_landing.domain.mappers
 
 import com.example.core_module.utils.TimeUtilsConstants
-import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
-import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventDataDTO
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventDataDTO
 
 private const val START_INDEX_FOR_TIME = 0
 private const val END_INDEX_FOR_TIME = 5
 private const val DIVIDER_DATE_AND_TIME = "T"
 
-fun List<UpcomingEventDataDTO>.toUpcomingEventsList(): List<UpcomingEventData> {
-    val upcomingEventList = mutableListOf<UpcomingEventData>()
+fun List<HistoryEventDataDTO>.toHistoryEventsList(): List<HistoryEventData> {
+    val historyEventList = mutableListOf<HistoryEventData>()
     this.forEach {
-        upcomingEventList.add(
-            UpcomingEventData(
+        historyEventList.add(
+            HistoryEventData(
                 id = it.id,
                 title = it.title,
                 description = it.description,
@@ -41,11 +41,9 @@ fun List<UpcomingEventDataDTO>.toUpcomingEventsList(): List<UpcomingEventData> {
                     END_INDEX_FOR_TIME,
                 ),
                 eventDate = it.startDateTime.split(DIVIDER_DATE_AND_TIME)[0],
-                color = it.color,
-                reminderRemainingTime = null,
-                reminderActive = false
+                color = it.color
             )
         )
     }
-    return upcomingEventList
+    return historyEventList
 }

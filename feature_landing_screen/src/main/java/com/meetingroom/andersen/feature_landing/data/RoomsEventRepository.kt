@@ -20,7 +20,7 @@ class RoomsEventRepository @Inject constructor(
             }
         }
 
-    override suspend fun getHistoryEvents(): RequestResult<List<HistoryEventData>> =
+    override suspend fun getHistoryEvents(): RequestResult<List<HistoryEventDataDTO>> =
         withContext(ioDispatcher) {
             requestMaker.safeApiCall {
                 roomsEventApi.getHistoryEvents()

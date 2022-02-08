@@ -1,7 +1,7 @@
 package com.meetingroom.andersen.feature_landing.data
 
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
-import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventDataDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventDataDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
@@ -18,7 +18,7 @@ interface RoomsEventApi {
     suspend fun getUpcomingEventData(): Response<List<UpcomingEventDataDTO>>
 
     @GET("api/me/events?type=history")
-    suspend fun getHistoryEvents(): Response<List<HistoryEventData>>
+    suspend fun getHistoryEvents(): Response<List<HistoryEventDataDTO>>
 
     @PATCH("api/events")
     suspend fun putChangedEvent(@Body event: ChangedEventDTO)

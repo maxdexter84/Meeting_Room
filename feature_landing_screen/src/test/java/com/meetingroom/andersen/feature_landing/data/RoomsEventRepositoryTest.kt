@@ -4,7 +4,7 @@ import com.example.core_network.RequestResult
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.DateTimeBody
 import com.meetingroom.andersen.feature_landing.domain.entity.StatusRoomsDTO
-import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventDataDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventDataDTO
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
@@ -74,7 +74,7 @@ class RoomsEventRepositoryTest {
     @Test
     fun shouldReturnHistoryEvents() {
         val event =
-            HistoryEventData(
+            HistoryEventDataDTO(
                 id = ID,
                 title = TITLE,
                 description = DESCRIPTION,
@@ -88,10 +88,7 @@ class RoomsEventRepositoryTest {
                 userEmail = USER_EMAIL,
                 userSkype = USER_SKYPE,
                 status = STATUS,
-                color = COLOR,
-                startTime = START_TIME,
-                endTime = END_TIME,
-                eventDate = EVENT_DATE
+                color = COLOR
             )
 
         val testHistoryEventsList = listOf(event, event)
