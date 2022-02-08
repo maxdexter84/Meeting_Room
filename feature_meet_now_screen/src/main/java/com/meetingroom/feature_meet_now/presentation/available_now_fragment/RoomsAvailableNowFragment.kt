@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
@@ -13,6 +14,7 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.feature_meet_now.domain.entity.Room
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
+import com.meetingroom.feature_meet_now.presentation.meet_now_fragment.MeetNowFragmentDirections
 import com.meetingroom.feature_meet_now.presentation.utils.RefreshTimer
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentAvailableNowBinding
 import kotlinx.coroutines.flow.collectLatest
@@ -117,6 +119,10 @@ class RoomsAvailableNowFragment :
     }
 
     private fun bookRoom(room: Room) {
-        // TODO: Display Fast Booking Slider screen
+        findNavController().navigate(
+            MeetNowFragmentDirections.actionMeetNowFragmentToFastBookingFragment(
+                room
+            )
+        )
     }
 }

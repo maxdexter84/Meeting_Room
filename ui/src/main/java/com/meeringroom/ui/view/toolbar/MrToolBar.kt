@@ -56,6 +56,9 @@ class MrToolBar @JvmOverloads constructor(
         }
     }
 
+    fun showIcon(show: Boolean) {
+        binding.mrtoolbarIcon.isVisible = show
+    }
 
     fun changeToolBarConfiguration(newConfiguration: ToolbarHandlerOptions) {
         configuration = newConfiguration

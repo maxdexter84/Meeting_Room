@@ -25,6 +25,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -49,6 +50,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     kapt libraries.daggerCompiler
+
+    coreLibraryDesugaring libraries.desugaring
 
     implementation project(path:':ui')
     implementation project(path: ':core_network')

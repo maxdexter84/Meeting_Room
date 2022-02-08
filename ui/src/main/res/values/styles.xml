@@ -24,6 +24,19 @@
         <item name="android:background">@drawable/progress_button</item>
     </style>
 
+    <style name="Widget.Slider" parent="Widget.MaterialComponents.Slider">
+        <item name="labelStyle">@style/SliderTooltip</item>
+    </style>
+
+    <style name="SliderTooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@color/slider_tooltip_color</item>
+        <item name="android:textAppearance">@style/TextAppearanceSliderTooltip</item>
+    </style>
+
+    <style name="TextAppearanceSliderTooltip" parent="TextAppearance.MaterialComponents.Tooltip">
+        <item name="android:textColor">@color/color_primary_text</item>
+    </style>
+
     <style name="TextAppearanceLargeTitle">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">@dimen/dimens_34_sp</item>
@@ -83,6 +96,18 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="android:lineSpacingExtra">@dimen/dimens_5_sp</item>
+    </style>
+
+    <style name="SmallInfoTextAppearance">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_14_sp</item>
+        <item name="android:textColor">@color/black_020303</item>
+    </style>
+
+    <style name="SmallInfoClickableTextAppearance">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">@dimen/dimens_14_sp</item>
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <!-- EPIC 6 -->

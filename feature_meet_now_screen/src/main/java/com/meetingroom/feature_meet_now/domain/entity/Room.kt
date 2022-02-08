@@ -1,5 +1,9 @@
 package com.meetingroom.feature_meet_now.domain.entity
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Room(
     val id: Long?,
     val title: String?,
@@ -13,4 +17,4 @@ data class Room(
     var timeUntilNextEvent: Int?,
     val currentEventEndTime: String?,
     val nextEventStartTime: String?
-)
+) : Parcelable
