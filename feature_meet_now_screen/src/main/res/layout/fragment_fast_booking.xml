@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/fast_booking_toolbar"
+        layout="@layout/toolbar_with_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/select_time_range_text"
+        style="@style/TextAppearanceTitle"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:text="@string/select_time_range"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_toolbar" />
+
+    <View
+        android:id="@+id/fast_booking_divider_line"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:background="@color/color_for_popup_window_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_time_range_text" />
+
+    <TextView
+        android:id="@+id/available_for_text"
+        style="@style/TextAppearanceSmallDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_12_dp"
+        android:text="@string/available_for"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_divider_line" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/fast_booking_slider"
+        style="@style/Widget.Slider"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_54_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:stepSize="5"
+        android:valueFrom="0"
+        android:valueTo="120"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/available_for_text"
+        app:tickVisible="false"
+        app:values="@array/fast_booking_slider_values" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fast_booking_time_selected_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="fast_booking_start_time_selected, fast_booking_end_time_selected" />
+
+    <TextView
+        android:id="@+id/fast_booking_start_time_limit"
+        style="@style/TextAppearanceSmallDescription"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_slider"
+        tools:text="9:00" />
+
+    <TextView
+        android:id="@+id/fast_booking_end_time_limit"
+        style="@style/TextAppearanceSmallDescription"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_slider"
+        tools:text="10:00" />
+
+    <TextView
+        android:id="@+id/fast_booking_start_time_selected"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_16_dp"
+        android:layout_marginTop="@dimen/dimens_20_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_slider"
+        tools:text="9:00" />
+
+    <TextView
+        android:id="@+id/fast_booking_end_time_selected"
+        style="@style/TextAppearanceDescription"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_20_dp"
+        android:layout_marginEnd="@dimen/dimens_16_dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fast_booking_slider"
+        tools:text="10:00" />
+
+    <TextView
+        style="@style/SmallInfoTextAppearance"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens_24_dp"
+        android:gravity="center"
+        android:text="@string/for_meetings_longer_than_1_5_hours_use"
+        app:layout_constraintBottom_toBottomOf="@id/fast_booking_rooms_link"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/fast_booking_rooms_link"
+        style="@style/SmallInfoClickableTextAppearance"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimens_24_dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/rooms"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,6 +86,7 @@
     <string name="deeplink_uri_login_screen">"feature_login://loginFragment"</string>
     <string name="deeplink_uri_my_space_fragment">"feature_landing_screen://landingFragment"</string>
     <string name="deeplink_uri_rooms_fragment">"feature_rooms_screen://roomsEventGridFragment"</string>
+    <string name="deeplink_uri_meet_now_fragment">"feature_meet_now_screen://meetNowFragment"</string>
     <string name="deeplink_uri_set_locations_screen">"feature_set_location://locationFragment"</string>
     <string name="deeplink_uri_bottom_navigation">app://bottom_navigation</string>
 </resources>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dimens_80_dp">
+    android:paddingTop="@dimen/dimens_80_dp"
+    android:visibility="gone">
 
     <TextView
         android:id="@+id/no_rooms_available_now_emoji"

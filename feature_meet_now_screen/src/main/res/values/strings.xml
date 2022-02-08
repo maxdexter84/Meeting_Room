@@ -16,6 +16,14 @@
     <string name="select_a_room_subtitle">Select a room, \nwhich will be available later</string>
     <string name="free_at">Free at&#160;</string>
     <string name="until">&#160;until&#160;</string>
+    <!-- Fast booking -->
+    <string name="select_time_range">Select time range</string>
+    <string name="for_meetings_longer_than_1_5_hours_use">For meetings longer than 1,5 hours use</string>
+    <string name="rooms">Rooms</string>
+    <string name="incorrect_start_time_message">You can’t start event later than in 30 minutes from now.</string>
+    <string name="incorrect_min_time_message">The event can’t last less than 15 minutes.</string>
+    <string name="incorrect_max_time_message">The event can’t last longer than 1,5 hours.</string>
+    <string name="room_booked_successfully">%s has been booked\nSuccessfully!</string>
 
     <string-array name="tab_titles">
         <item>

@@ -6,7 +6,6 @@ import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
-import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.feature_meet_now.presentation.di.DaggerMeetNowComponent
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
 import com.meetingroom.feature_meet_now_screen.R
@@ -37,13 +36,7 @@ class MeetNowFragment : BaseFragment<FragmentMeetNowBinding>(FragmentMeetNowBind
         with(binding) {
             meetNowToolbar.apply {
                 setToolBarTitle(getString(R.string.meet_now_title))
-                changeToolBarConfiguration(
-                    ToolbarHandlerOptions.More(
-                        onIconClick = {
-                            // TODO: Show global settings
-                        }
-                    )
-                )
+                showIcon(false)
             }
         }
     }

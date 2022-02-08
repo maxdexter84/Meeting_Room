@@ -13,6 +13,7 @@
         android:name="com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment"
         android:label="fragment_rooms"
         tools:layout="@layout/fragment_rooms">
+        <deepLink app:uri="@string/deeplink_uri_rooms_fragment"/>
         <action
             android:id="@+id/action_roomsFragment_to_newEventFragment"
             app:destination="@id/newEventFragment" />

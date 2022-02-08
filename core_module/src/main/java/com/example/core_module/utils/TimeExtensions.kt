@@ -9,6 +9,7 @@ import kotlin.math.ceil
 private const val MIN = "min"
 private const val HOUR = "hour"
 private const val HOURS = "hours"
+private const val DEFAULT_FORMAT = "HH:mm"
 
 fun LocalTime.timeToString(format: String): String {
     val formatter = DateTimeFormatter.ofPattern(format)
@@ -49,4 +50,11 @@ fun Int.minutesToTimeString(): String {
         }
     }
     return timeString
+}
+
+fun String.addToStringTime(min: Int, format: String = DEFAULT_FORMAT): String {
+    return this
+        .stringToTime(format)
+        .plusMinutes(min.toLong())
+        .timeToString(format)
 }
