@@ -9,8 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.core_network.RequestResult
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventData
+import com.meetingroom.andersen.feature_landing.domain.entity.HistoryEventDataDTO
 import com.meetingroom.andersen.feature_landing.domain.entity.IRoomsEventRepository
 import com.meetingroom.andersen.feature_landing.domain.entity.SkypeInitData
+import com.meetingroom.andersen.feature_landing.domain.mappers.toHistoryEventsList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +21,7 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
     val appContext: Context
 ) : ViewModel() {
 
-    private val roomsEventRequestResult: MutableLiveData<RequestResult<List<HistoryEventData>>> by lazy {
+    private val roomsEventRequestResult: MutableLiveData<RequestResult<List<HistoryEventDataDTO>>> by lazy {
         MutableLiveData()
     }
 
@@ -51,12 +53,12 @@ class HistoryOfEventsFragmentViewModel @Inject constructor(
         }
     }
 
-    private fun checkResponse(response: RequestResult<List<HistoryEventData>>) {
+    private fun checkResponse(response: RequestResult<List<HistoryEventDataDTO>>) {
         when (response) {
             is RequestResult.Success -> {
-                val listHistoryEvents = response.data
+                val listHistoryEventsDTO = response.data
                 val notDeletedHistoryEvents = mutableListOf<HistoryEventData>()
-                listHistoryEvents.forEach{
+                listHistoryEventsDTO.toHistoryEventsList().forEach{
                     if(it.status != DELETED){
                         notDeletedHistoryEvents.add(it)
                     }
