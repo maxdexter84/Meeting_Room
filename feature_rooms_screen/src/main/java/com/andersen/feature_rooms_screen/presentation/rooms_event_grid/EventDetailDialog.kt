@@ -13,6 +13,8 @@ import com.meetingroom.andersen.feature_rooms_screen.databinding.PopoverCopyBind
 import android.net.Uri
 import android.content.pm.PackageManager
 import android.content.Intent
+import com.example.core_module.utils.dateToString
+import com.example.core_module.utils.stringToDate
 
 class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEventDetailBinding::inflate) {
 
@@ -29,9 +31,10 @@ class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEven
                     getTime(roomEvent.startDateTime),
                     getTime(roomEvent.endDateTime)
                 )
-            eventPlannedDateUpcoming.text = roomEvent.date
+            eventPlannedDateUpcoming.text = roomEvent.date.stringToDate(INPUT_DATE_FORMAT)
+                .dateToString(OUTPUT_DATE_FORMAT)
             eventRoomUpcoming.text = roomEvent.room
-            eventCityColourLineUpcoming.setBackgroundResource(R.color.color_primary)
+            eventCityColourLineUpcoming.setBackgroundColor(roomEvent.colorRoom)
             nameOfBooker.text = roomEvent.userFullName
             roleOfBooker.text = roomEvent.userPosition
             bookerEmail.text = roomEvent.userEmail
@@ -100,10 +103,12 @@ class EventDetailDialog: BaseDialogFragment<DialogEventDetailBinding>(DialogEven
 
     companion object {
         private const val COPIED_TEXT_LABEL = "copied_text"
-        private const val SKYPE_COMPONENT_PACKAGE_NAME ="com.skype.raider"
+        private const val SKYPE_COMPONENT_PACKAGE_NAME = "com.skype.raider"
         private const val SKYPE_COMPONENT_CLASS_NAME = "com.skype4life.MainActivity"
         private const val MARKET_URI = "market://details?id=com.skype.raider"
         private const val START_INDEX_FOR_TIME = 0
         private const val END_INDEX_FOR_TIME = 5
+        private const val INPUT_DATE_FORMAT = "yyyy-MM-d"
+        private const val OUTPUT_DATE_FORMAT = "d MMM YYYY"
     }
 }
