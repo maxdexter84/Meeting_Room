@@ -10,7 +10,7 @@
     <color name="toolbar_background">#1D1D1D</color>
     <color name="popUpBackgroundColor">#3D3D3D</color>
     <color name="slider_tooltip_color">#545454</color>
-
+    <color name="window_backgraund">#121212</color>
     <color name="buttons_disabled">#BEBEBE</color>
     <color name="buttons_text_disabled">#716F6F</color>
     <color name="purple_light">#FFBB86FC</color>

@@ -22,7 +22,7 @@
             android:paddingEnd="@dimen/dimens_8_dp"
             android:paddingBottom="@dimen/dimens_8_dp"
             android:text="@string/location_settings"
-            android:textColor="@color/black"
+            android:textColor="@color/color_primary_text"
             android:textSize="@dimen/dimens_20_sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
             android:paddingTop="@dimen/dimens_8_dp"
             android:paddingBottom="@dimen/dimens_8_dp"
             android:text="@string/theme_colour"
-            android:textColor="@color/black"
+            android:textColor="@color/color_primary_text"
             android:textSize="@dimen/dimens_20_sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/popup_local_settings" />
