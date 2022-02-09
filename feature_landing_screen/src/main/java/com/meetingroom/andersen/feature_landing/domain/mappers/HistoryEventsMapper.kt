@@ -17,12 +17,12 @@ fun List<HistoryEventDataDTO>.toHistoryEventsList(): List<HistoryEventData> {
                 title = it.title,
                 description = it.description,
                 startDateTime = it.startDateTime.substring(
-                    TimeUtilsConstants.FIRST_CHAR_DATE_REMOTE,
-                    TimeUtilsConstants.LAST_CHAR_DATE_REMOTE,
+                    TimeUtilsConstants.FIRST_CHAR_DATE_TIME_REMOTE,
+                    TimeUtilsConstants.LAST_CHAR_DATE_TIME_REMOTE,
                 ),
                 endDateTime = it.endDateTime.substring(
-                    TimeUtilsConstants.FIRST_CHAR_DATE_REMOTE,
-                    TimeUtilsConstants.LAST_CHAR_DATE_REMOTE,
+                    TimeUtilsConstants.FIRST_CHAR_DATE_TIME_REMOTE,
+                    TimeUtilsConstants.LAST_CHAR_DATE_TIME_REMOTE,
                 ),
                 roomId = it.roomId,
                 room = it.room,
