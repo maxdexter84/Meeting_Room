@@ -2,6 +2,7 @@ package com.meetingroom.feature_workplaces_screen.presentation.fragments.workpla
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.IHasComponent
 import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.view.base_classes.BaseFragment
@@ -22,6 +23,7 @@ class WorkplacesFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
+        initListeners()
     }
 
     override fun getComponent(): WorkplacesComponent {
@@ -35,6 +37,16 @@ class WorkplacesFragment :
             workplacesToolbar.apply {
                 setToolBarTitle(getString(R.string.toolbar_title_workplaces))
                 setVisibilityToggleButton(false)
+            }
+        }
+    }
+
+    private fun initListeners() {
+        with(binding) {
+            btnBookWorkplace.setOnClickListener {
+                findNavController().navigate(
+                    WorkplacesFragmentDirections.actionWorkplacesFragmentToBookWorkplaceFragment()
+                )
             }
         }
     }
