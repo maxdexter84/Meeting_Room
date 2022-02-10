@@ -13,4 +13,15 @@
     <string name="maintenance_ticket_title">Maintenance ticket</string>
     <string name="choose_workplace_description">Choose a workplace for you from the list of places available for your request</string>
     <string name="book_workplace_btn">BOOK A WORKPLACE</string>
+    <string name="toolbar_title_book_workplace">Book Workplace</string>
+    <string name="booking_time_date_title">SET BOOKING START AND END TIME</string>
+    <string name="time_icon">Time Icon</string>
+    <string name="filters_title">FILTERS</string>
+    <string name="fake_date">Wed, 26 May</string>
+    <string name="fake_time">14:00</string>
+    <string name="external_monitor_title">External monitor</string>
+    <string name="floor_icon">Floor icon</string>
+    <string name="select_a_floor_default_title">Select a floor</string>
+    <string name="room_icon">Room icon</string>
+    <string name="room_on_the_floor_default_title">Select a room on the floor</string>
 </resources>

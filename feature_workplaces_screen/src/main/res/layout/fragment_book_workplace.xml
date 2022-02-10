@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.meetingroom.feature_workplaces_screen.presentation.fragments.book_workplace_fragment.BookWorkplaceFragment">
+
+    <include
+        android:id="@+id/toolbarBookWorkplace"
+        layout="@layout/toolbar_with_up_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/contentStart"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_0_dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/dimens_16_dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/contentEnd"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_0_dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/dimens_16_dp" />
+
+    <TextView
+        android:id="@+id/tvTimeAndDateTitle"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:text="@string/booking_time_date_title"
+        android:textAppearance="@style/TextAppearanceGrayTitle"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/toolbarBookWorkplace" />
+
+    <View
+        android:id="@+id/vDividerUnderBookingTitle"
+        style="@style/DividerLine"
+        android:layout_marginTop="@dimen/dimens_12_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTimeAndDateTitle" />
+
+    <ImageView
+        android:id="@+id/ivTimeIcon"
+        android:layout_width="@dimen/dimens_24_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:contentDescription="@string/time_icon"
+        android:src="@drawable/ic_modify_event_time_icon"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/vDividerUnderBookingTitle" />
+
+    <TextView
+        android:id="@+id/tvStartDatePicker"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_34_dp"
+        android:text="@string/fake_date"
+        android:textAppearance="@style/TextAppearanceDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTimeIcon"
+        app:layout_constraintStart_toEndOf="@id/ivTimeIcon"
+        app:layout_constraintTop_toTopOf="@id/ivTimeIcon" />
+
+    <TextView
+        android:id="@+id/tvStartTimePicker"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:text="@string/fake_time"
+        android:textAppearance="@style/TextAppearanceDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStartDatePicker"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintTop_toTopOf="@id/tvStartDatePicker" />
+
+    <TextView
+        android:id="@+id/tvEndDatePicker"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_32_dp"
+        android:text="@string/fake_date"
+        android:textAppearance="@style/TextAppearanceDescription"
+        app:layout_constraintStart_toStartOf="@+id/tvStartDatePicker"
+        app:layout_constraintTop_toBottomOf="@id/tvStartDatePicker" />
+
+    <TextView
+        android:id="@+id/tvEndTimePicker"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:text="@string/fake_time"
+        android:textAppearance="@style/TextAppearanceDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEndDatePicker"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintTop_toTopOf="@+id/tvEndDatePicker" />
+
+    <View
+        android:id="@+id/vDividerUnderTimeDatePickers"
+        style="@style/DividerLine"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEndDatePicker" />
+
+    <TextView
+        android:id="@+id/tvFiltersTitle"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        android:text="@string/filters_title"
+        android:textAppearance="@style/TextAppearanceGrayTitle"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/vDividerUnderTimeDatePickers" />
+
+    <CheckBox
+        android:id="@+id/cbExternalMonitor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_12_dp"
+        android:layout_marginTop="@dimen/dimens_14_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFiltersTitle" />
+
+    <TextView
+        android:id="@+id/tvExternalMonitor"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:text="@string/external_monitor_title"
+        android:textAppearance="@style/TextAppearanceSmallText"
+        app:layout_constraintBottom_toBottomOf="@+id/cbExternalMonitor"
+        app:layout_constraintStart_toEndOf="@+id/cbExternalMonitor"
+        app:layout_constraintTop_toTopOf="@id/cbExternalMonitor" />
+
+    <View
+        android:id="@+id/vDividerUnderExternalMonitor"
+        style="@style/DividerLine"
+        android:layout_marginTop="@dimen/dimens_24_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cbExternalMonitor" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvFloorTitle"
+        style="@style/TextAppearanceClickableText"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_floor"
+        android:text="@string/select_a_floor_default_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vDividerUnderExternalMonitor" />
+
+    <View
+        android:id="@+id/vDividerUnderSelectFloor"
+        style="@style/DividerLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvFloorTitle" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvRoomTitle"
+        style="@style/TextAppearanceClickableText"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_room_on_the_floor"
+        android:text="@string/room_on_the_floor_default_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vDividerUnderSelectFloor" />
+
+    <View
+        android:id="@+id/vDividerUnderSelectRoom"
+        style="@style/DividerLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomTitle" />
+
+    <Button
+        android:id="@+id/btnBookWorkplace"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_16_dp"
+        android:layout_marginBottom="@dimen/dimens_52_dp"
+        android:text="@string/book_workplace_btn"
+        android:theme="@style/Button.Light"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/contentEnd"
+        app:layout_constraintStart_toStartOf="@id/contentStart"
+        app:layout_constraintTop_toBottomOf="@id/vDividerUnderSelectRoom" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

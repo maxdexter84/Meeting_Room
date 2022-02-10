@@ -15,5 +15,26 @@
         android:id="@+id/workplacesFragment"
         android:name="com.meetingroom.feature_workplaces_screen.presentation.fragments.workplaces_fragment.WorkplacesFragment"
         android:label="fragment_workplaces"
-        tools:layout="@layout/fragment_workplaces" />
+        tools:layout="@layout/fragment_workplaces" >
+        <action
+            android:id="@+id/action_workplacesFragment_to_bookWorkplaceFragment"
+            app:destination="@id/bookWorkplaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookWorkplaceFragment"
+        android:name="com.meetingroom.feature_workplaces_screen.presentation.fragments.book_workplace_fragment.BookWorkplaceFragment"
+        android:label="BookWorkplaceFragment"
+        tools:layout="@layout/fragment_book_workplace">
+        <action
+            android:id="@+id/action_bookWorkplaceFragment_to_workplacesFragment"
+            app:destination="@id/workplacesFragment" />
+        <action
+            android:id="@+id/action_bookWorkplaceFragment_to_floor_picker_dialog_navigation"
+            app:destination="@id/floor_picker_dialog_navigation" >
+            <argument
+                android:name="floors"
+                app:argType="com.meeringroom.ui.event_dialogs.dialog_floor_picker.model.FloorData[]" />
+        </action>
+    </fragment>
+    <include app:graph="@navigation/floor_picker_dialog_navigation" />
 </navigation>

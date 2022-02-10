@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/floor_picker_dialog_navigation"
+    app:startDestination="@id/floorPickerDialogFragment">
+
+    <dialog
+        android:id="@+id/floorPickerDialogFragment"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_floor_picker.presentation.FloorPickerDialogFragment"
+        android:label="FloorPickerDialogFragment" >
+        <argument
+            android:name="floors"
+            app:argType="com.meeringroom.ui.event_dialogs.dialog_floor_picker.model.FloorData[]" />
+    </dialog>
+</navigation>

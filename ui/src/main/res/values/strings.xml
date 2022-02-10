@@ -89,4 +89,7 @@
     <string name="deeplink_uri_meet_now_fragment">"feature_meet_now_screen://meetNowFragment"</string>
     <string name="deeplink_uri_set_locations_screen">"feature_set_location://locationFragment"</string>
     <string name="deeplink_uri_bottom_navigation">app://bottom_navigation</string>
+    <string name="up_button_content_description">Up button</string>
+    <string name="book_a_workplace_title">Book a workplace</string>
+    <string name="floor_item_title">%s (%d)</string>
 </resources>
