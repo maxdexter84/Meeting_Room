@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/status_bar_color</item>
         <!-- Customize your theme here. -->
         <item name="popupMenuStyle">@style/PopupMenuToolbar</item>
-
+        <item name="android:windowBackground">@color/window_backgraund</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerDialog.Light</item>
         <item name="materialAlertDialogTheme">@style/AlertDialog.Light</item>
         <item name="materialTimePickerTheme">@style/TimePickerMaterial.Light</item>
