@@ -13,7 +13,7 @@ import java.time.LocalTime
 
 class MainEventAdapter(
     private val onClickEvent: (RoomEventForGrid) -> Unit,
-    private val click: (Triple<LocalTime, LocalTime, String>) -> Unit
+    private val click: (Triple<LocalTime, LocalTime, Room>) -> Unit
 ) :
     RecyclerView.Adapter<MainEventAdapter.EventsRoomViewHolder>() {
 
@@ -62,7 +62,7 @@ class MainEventAdapter(
             room: Room,
             eventList: List<RoomEventForGrid>,
             emptyEventList: List<EmptyRoomEventForGrid>,
-            click: (Triple<LocalTime, LocalTime, String>) -> Unit,
+            click: (Triple<LocalTime, LocalTime, Room>) -> Unit,
             onClickEvent: (RoomEventForGrid) -> Unit
         ) {
             with(binding.eventRecyclerView) {
@@ -79,7 +79,7 @@ class MainEventAdapter(
                         onEventClick = onClickEvent,
                         room = room
                     ) {
-                        click.invoke(Triple(it.first, it.second, room.title))
+                        click.invoke(Triple(it.first, it.second, room))
                     }
             }
         }

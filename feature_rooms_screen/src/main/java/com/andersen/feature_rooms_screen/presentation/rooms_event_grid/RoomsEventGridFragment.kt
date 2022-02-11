@@ -30,6 +30,7 @@ import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view.indicator_view.IndicatorView
+import com.meeringroom.ui.view.snackbar.ConfirmationSnackbar
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentRoomsBinding
@@ -56,7 +57,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         viewModelFactory
     }
 
-    private val singleRoomEventAdapter = SingleRoomEventAdapter(onEventTileClick = {navigateToDetail(it)})
+    private val singleRoomEventAdapter =
+        SingleRoomEventAdapter(onEventTileClick = { navigateToDetail(it) })
     private val roomsAdapter = RoomsAdapter()
     private val mainEventAdapter = MainEventAdapter(onClickEvent = { navigateToDetail(it) }) {
         findNavController().navigate(
@@ -64,7 +66,8 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                 eventDate = selectedDateForGrid,
                 eventStartTime = it.first,
                 eventEndTime = it.second,
-                roomTitle = it.third
+                roomTitle = it.third.title,
+                roomId = it.third.id
             )
         )
     }
@@ -89,6 +92,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         observeRoomChange()
         observeIndicatorTimeRange()
         initCalendarListener()
+        observeSuccessBooked()
         getUserRole()
     }
 
@@ -118,9 +122,10 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
                         findNavController().navigate(
                             RoomsEventGridFragmentDirections.actionRoomsFragmentToNewEventFragment(
                                 selectedDateForGrid,
-                                eventRoom,
+                                viewModel.mutableRoomList.value[0].title,
                                 eventStartTime = LocalTime.now(),
-                                eventEndTime = LocalTime.now(),
+                                eventEndTime = LocalTime.now().plusHours(ONE_HOUR),
+                                roomId = viewModel.mutableRoomList.value[0].id
                             )
                         )
                     }
@@ -487,7 +492,26 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
         )
     }
 
+    private fun observeSuccessBooked() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            SUCCESS_KEY
+        )
+            ?.observe(viewLifecycleOwner) {
+                showSuccessBooked(resources.getString(R.string.booked_successfully))
+            }
+    }
+
+    private fun showSuccessBooked(snackbarMessage: String) {
+        ConfirmationSnackbar.make(binding.root).apply {
+            message = snackbarMessage
+        }
+            .setAnchorView(R.id.rooms_screen_navigation)
+            .show()
+    }
+
     companion object {
         const val ROOM_KEY = "ROOM_KEY"
+        const val ONE_HOUR = 1L
+        const val SUCCESS_KEY = "BOOKED"
     }
 }

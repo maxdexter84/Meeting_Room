@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/time_out_server_navigation"
+    app:startDestination="@id/serverTimeOutDialog">
+
+    <dialog
+        android:id="@+id/serverTimeOutDialog"
+        android:name="com.meeringroom.ui.event_dialogs.dialog_server_time_out.ServerTimeOutDialog"
+        android:label="ServerTimeOutDialog" />
+</navigation>

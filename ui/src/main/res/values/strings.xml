@@ -26,6 +26,11 @@
     <string name="need_more_time_dialog_message">The time slot that you selected can\'t be chosen by your colleagues. We can\'t hold the slot for too long. Please hurry up!</string>
     <string name="need_more_time_dialog_bottom_label">Your session will expire in:\ </string>
     <string name="session_expired_dialog_button">Got it</string>
+    <string name="time_out_server_dialog_title">Server Time-Out</string>
+    <string name="time_out_server_dialog_message">You can re-submit data to the Server ot to abort and reebook your event later</string>
+    <string name="time_out_server_dialog_button_positive">Try again</string>
+    <string name="time_out_server_dialog_button_negative">Leave</string>
+    <string name="booked_successfully">Room has been booked_successfully</string>
 
     <string name="event_upcoming_notification_description">%1$s room, %2$s.\nYour event starts in %3$s.</string>
     <string name="notification_channel_reminder_name">MEETING ROOMS</string>
@@ -78,6 +83,7 @@
     <string name="custom_dialog_radio_button_minutes">Minutes before</string>
     <string name="custom_dialog_radio_button_hours">Hours</string>
     <string name="custom_dialog_radio_button_days">Days</string>
+    <string name="success_changes">Changes have been saved Successfully</string>
 
     <string name="userRole">ROLE_USER</string>
     <string name="adminRole">ROLE_ADMIN</string>

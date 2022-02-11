@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -16,16 +17,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.andersen.feature_rooms_screen.domain.entity.remote.RoomEventCreateDto
 import com.andersen.feature_rooms_screen.presentation.RoomsEventViewModel
 import com.andersen.feature_rooms_screen.presentation.di.RoomsEventComponent
+import com.andersen.feature_rooms_screen.presentation.rooms_event_grid.RoomsEventGridFragment
 import com.example.core_module.component_manager.XInjectionManager
-import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
-import com.example.core_module.utils.*
+import com.example.core_module.state.State
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
+import com.example.core_module.utils.dateToString
+import com.example.core_module.utils.roundUpMinute
+import com.example.core_module.utils.stringToTime
+import com.example.core_module.utils.timeToString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
@@ -36,6 +43,7 @@ import com.meetingroom.andersen.feature_rooms_screen.R
 import com.meetingroom.andersen.feature_rooms_screen.databinding.FragmentNewEventBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
@@ -44,8 +52,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 class NewEventFragment :
@@ -64,11 +71,13 @@ class NewEventFragment :
     lateinit var notificationHelper: NotificationHelper
 
     private lateinit var chosenRoomTitle: String
+    private var chosenRoomId: Long? = null
     private lateinit var eventReminderTime: String
     private var eventReminderStartTime: Int? = null
     private lateinit var dateOfEvent: LocalDate
-
     private lateinit var needMoreTimeJob: Job
+    private var isValidTime: Boolean = true
+    private var isChoosenRoomFree: Boolean = true
 
     private val onCancelClickListener: (View) -> Unit = {
         binding.root.hideKeyboard(requireContext())
@@ -91,6 +100,7 @@ class NewEventFragment :
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             chosenRoomTitle = args.roomTitle
+            chosenRoomId = args.roomId
             newEventToolbar.toolbarSaveTitle.text = getString(R.string.new_event_toolbar)
             newEventToolbar.toolbarSaveCancel.setOnClickListener(onCancelClickListener)
             eventRoomName.onClick {
@@ -118,6 +128,7 @@ class NewEventFragment :
             observeRoomChange()
             observeTimeChange()
             observeTimeValidation()
+            observeAnotherEventInRooms()
 
             startDatePicker.setOnClickListener {
                 showDatePickerDialog(dateOfEvent)
@@ -142,14 +153,23 @@ class NewEventFragment :
                 when (event) {
                     Lifecycle.Event.ON_RESUME -> setTimeOut()
                     Lifecycle.Event.ON_PAUSE -> deleteTimeOut()
-                    else -> {}
+                    else -> {
+                    }
                 }
+            })
+    }
+
+    private fun callInitBooking() {
+        findNavController().getBackStackEntry(R.id.newEventFragment).lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) initBooking()
             })
     }
 
     override fun onStart() {
         super.onStart()
         initViews()
+        callInitBooking()
     }
 
     private fun initViews() {
@@ -164,17 +184,28 @@ class NewEventFragment :
             eventReminderTime = getString(R.string.reminder_disabled_text_for_time)
             reminderLeftTime.text = eventReminderTime
             eventRoomName.text = args.roomTitle
+            chosenRoomId?.let {
+                viewModel.getFreeRoomsList(
+                    getStartDateTime(), getEndDateTime(),
+                    it
+                )
+                saveButton()
+            }
         }
     }
 
     private fun observeRoomChange() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
-            ?.observe(viewLifecycleOwner) {
-                it?.let {
-                    binding.eventRoomName.text = it
-                    chosenRoomTitle = it
-                }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<RoomPickerNewEventData>(
+            ROOM_KEY
+        )?.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.eventRoomName.text = it.titleRoom
+                chosenRoomTitle = it.titleRoom
+                chosenRoomId = it.idRoom
+                viewModel.getFreeRoomsList(getStartDateTime(), getEndDateTime(), it.idRoom)
+                saveButton()
             }
+        }
     }
 
     private fun observeTimeChange() {
@@ -260,7 +291,15 @@ class NewEventFragment :
                                 R.color.color_primary_text
                             )
                         )
-                        binding.newEventToolbar.buttonSaveToolbar.isEnabled = true
+                        isValidTime = true
+                        chosenRoomId?.let {
+                            viewModel.getFreeRoomsList(
+                                getStartDateTime(), getEndDateTime(),
+                                it
+                            )
+                        }
+                        initBooking()
+                        saveButton()
                     }
                 }
             }
@@ -277,6 +316,13 @@ class NewEventFragment :
     }
 
     private fun saveChanges() {
+       lifecycleScope.launch {  viewModel.activateEvent(
+            description = binding.userEventDescription.text.toString(),
+            roomId = chosenRoomId ?: 0,
+            startDateTime = getStartDateTime(),
+            endDateTime = getEndDateTime(),
+            title = binding.newEventTitle.text.toString()
+        )}
         eventReminderStartTime?.let {
             createNotification(
                 getReminderSetOffTimeInMillis(
@@ -285,7 +331,31 @@ class NewEventFragment :
                 )
             )
         }
-        findNavController().navigate(NewEventFragmentDirections.actionToRoomsFragment())
+        loadingStateObserver()
+    }
+
+    private fun loadingStateObserver() {
+        lifecycleScope.launch {
+            viewModel.mutableState.collectLatest {
+                when (it) {
+                    is State.Loading -> binding.progressBar.isVisible = true
+                    else -> resultOfBooking()
+                }
+            }
+        }
+    }
+
+    private fun resultOfBooking() {
+        if (viewModel.mutableSaveBookingStaus.value == true) {
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                RoomsEventGridFragment.SUCCESS_KEY,
+                BOOKED
+            )
+            findNavController().popBackStack()
+        } else {
+            binding.progressBar.isVisible = false
+            findNavController().navigate(NewEventFragmentDirections.actionNewEventFragmentToTimeOutServerNavigation())
+        }
     }
 
     private fun showDatePickerDialog(date: LocalDate) {
@@ -368,6 +438,8 @@ class NewEventFragment :
                 )
             )
         }
+        chosenRoomId?.let { viewModel.getFreeRoomsList(getStartDateTime(), getEndDateTime(), it) }
+        observeRoomChange()
     }
 
     private fun onStartTimeSet(hour: Int, minute: Int) {
@@ -416,10 +488,52 @@ class NewEventFragment :
         )
     }
 
+    private fun getStartDateTime() = "${dateOfEvent}T${binding.startTimePicker.text}"
+
+    private fun getEndDateTime() = "${dateOfEvent}T${binding.endTimePicker.text}"
+
+    private fun initBooking() {
+        if (chosenRoomId != null && binding.newEventToolbar.buttonSaveToolbar.isEnabled) {
+            with(binding) {
+                viewModel.createEvent(
+                    RoomEventCreateDto(
+                        roomId = chosenRoomId ?: 0,
+                        description = userEventDescription.text.toString(),
+                        startDateTime = getStartDateTime(),
+                        endDateTime = getEndDateTime(),
+                        title = newEventTitle.text.toString()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun saveButton() {
+        binding.newEventToolbar.buttonSaveToolbar.isEnabled = isValidTime && isChoosenRoomFree
+    }
+
+    private fun observeAnotherEventInRooms() {
+        lifecycleScope.launch {
+            viewModel.mutableEventNow.collectLatest {
+                isChoosenRoomFree = it
+                binding.eventRoomName.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (it) R.color.color_primary else R.color.red
+                    )
+                )
+                saveButton()
+            }
+        }
+    }
+
     companion object {
         private const val ROOM_KEY = "ROOM_KEY"
         private const val TIME_KEY = "TIME_KEY"
+        private const val BOOKED = "BOOKED"
         private const val OUTPUT_DATE_FORMAT = "EEE, d MMM"
+        private const val VIEW_TIME_AND_DATE_FORMAT = "d MMMyyyyHH:mm"
+        private const val TIME_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
         private val DEFAULT_LOCALE = Locale.UK
         private const val TITLE_MAX_LENGTH = 50
         private const val DESCRIPTION_MAX_LENGTH = 150
