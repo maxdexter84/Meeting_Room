@@ -19,6 +19,7 @@ import com.example.core_module.sharedpreferences.SharedPreferencesKeys
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.google.android.material.tabs.TabLayoutMediator
 import com.meeringroom.ui.view.base_classes.BaseFragment
+import com.meeringroom.ui.view.snackbar.ConfirmationSnackbar
 import com.meeringroom.ui.view.toolbar.ToolbarHandlerOptions
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentMySpaceBinding
@@ -56,6 +57,7 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initViewPager()
+        observeSuccessChanged()
     }
 
     private fun initViewPager() {
@@ -141,10 +143,29 @@ class LandingFragment : BaseFragment<FragmentMySpaceBinding>(FragmentMySpaceBind
 
     private fun getSavedTheme() = sharedPref.getTheme()
 
+    private fun observeSuccessChanged() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(
+            SUCCESS_KEY
+        )
+            ?.observe(viewLifecycleOwner) {
+                showSuccessChanged(resources.getString(R.string.success_changes))
+            }
+    }
+
+    private fun showSuccessChanged(snackbarMessage: String) {
+        ConfirmationSnackbar.make(binding.root).apply {
+            message = snackbarMessage
+        }
+            .setAnchorView(R.id.my_space_screen_navigation)
+            .show()
+    }
+
+
     companion object {
         const val THEME_UNDEFINED = -1
         const val THEME_LIGHT = 0
         const val THEME_DARK = 1
         const val THEME_SYSTEM = 2
+        const val SUCCESS_KEY = "CHANGED"
     }
 }

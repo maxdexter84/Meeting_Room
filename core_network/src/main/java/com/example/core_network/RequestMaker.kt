@@ -16,6 +16,8 @@ class RequestMaker @Inject constructor() {
                     myResp.code()
                 )
             }
+        } catch (e: NullPointerException) {
+            RequestResult.Error(e.message ?: NULL_POINTER_EXCEPTION_MESSAGE, NULL_POINTER_EXCEPTION_CODE)
         } catch (e: Exception) {
             RequestResult.Error(e.message ?: "Internet error runs", DEFAULT_EXCEPTION_CODE)
         }
@@ -23,5 +25,7 @@ class RequestMaker @Inject constructor() {
 
     companion object {
         const val DEFAULT_EXCEPTION_CODE = 0
+        const val NULL_POINTER_EXCEPTION_CODE = 115
+        const val NULL_POINTER_EXCEPTION_MESSAGE = "NPE"
     }
 }

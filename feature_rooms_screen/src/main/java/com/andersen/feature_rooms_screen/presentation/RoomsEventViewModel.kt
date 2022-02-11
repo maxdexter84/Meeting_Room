@@ -1,5 +1,6 @@
 package com.andersen.feature_rooms_screen.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andersen.feature_rooms_screen.data.RoomsApi
@@ -7,6 +8,10 @@ import com.andersen.feature_rooms_screen.domain.entity.InRoomsScreenRepository
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
 import com.andersen.feature_rooms_screen.domain.entity.mappers.toEventList
+import com.andersen.feature_rooms_screen.domain.entity.remote.ActivateRoomEventDto
+import com.andersen.feature_rooms_screen.domain.entity.remote.DateDTO
+import com.andersen.feature_rooms_screen.domain.entity.remote.RoomEventCreateDto
+import com.andersen.feature_rooms_screen.domain.entity.remote.RoomStatusDTO
 import com.andersen.feature_rooms_screen.presentation.utils.toApiDate
 import com.example.core_module.event_time_validation.TimeValidationDialogManager
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
@@ -46,8 +51,19 @@ class RoomsEventViewModel @Inject constructor(
     private val _mutableRoom = MutableStateFlow<Room?>(null)
     val room: StateFlow<Room?> get() = _mutableRoom.asStateFlow()
 
+    private val _mutableEventNow = MutableStateFlow(true)
+    val mutableEventNow: StateFlow<Boolean> get() = _mutableEventNow.asStateFlow()
+
+    private val _mutableSaveBookingStatus = MutableStateFlow<Boolean?>(null)
+    val mutableSaveBookingStaus : StateFlow<Boolean?> get() = _mutableSaveBookingStatus
+
     private val _mutableRoomListByFloor = MutableStateFlow<List<Room>>(emptyList())
     val mutableRoomListByFloor: StateFlow<List<Room>> get() = _mutableRoomListByFloor.asStateFlow()
+
+    private var idEvent: Long = 0
+
+    private val _mutableRoomStatusList = MutableStateFlow<List<RoomStatusDTO>>(emptyList())
+    val mutableRoomStatusList: StateFlow<List<RoomStatusDTO>> get() = _mutableRoomStatusList.asStateFlow()
 
     val effectLiveData = dialogManager.effect
     val stateLiveData = dialogManager.state
@@ -55,6 +71,57 @@ class RoomsEventViewModel @Inject constructor(
     lateinit var currentList: List<Room>
 
     var userRole: String? = null
+
+    fun createEvent(event: RoomEventCreateDto) {
+        viewModelScope.launch {
+            when (val res = roomsScreenRepository.createEvent(event)) {
+                is RequestResult.Success -> {
+                    idEvent = res.data.id
+                }
+                is RequestResult.Error -> {
+                    Log.d(TAG_CHECK, MESSAGE_ERROR)
+                }
+                else -> Unit
+            }
+        }
+    }
+
+    fun activateEvent(
+        description: String,
+        roomId: Long,
+        startDateTime: String,
+        endDateTime: String,
+        title: String
+    ) {
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                when (val res = roomsScreenRepository.activateEvent(
+                    ActivateRoomEventDto(
+                        description = description,
+                        roomId = roomId,
+                        startDateTime = startDateTime,
+                        endDateTime = endDateTime,
+                        title = title,
+                        id = idEvent
+                    )
+                )) {
+                    is RequestResult.Error -> {
+                        if (res.code == NULL_POINTER_EXCEPTION_CODE) {
+                            _mutableSaveBookingStatus.emit(true)
+                        } else {
+                            _mutableSaveBookingStatus.emit(false)
+                        }
+                    }
+                    else -> Unit
+                }
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (e: Exception) {
+                _mutableLoadingState.emit(State.Error)
+                _mutableSaveBookingStatus.emit(false)
+            }
+        }
+    }
 
     fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
@@ -85,18 +152,45 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
-    fun getFreeRoomsList() = roomsApi.getFreeRooms()
+    fun getFreeRoomsList(startDate: String, endDate: String, chosenRoomId : Long) {
+        val date = DateDTO(startDate, endDate)
+        viewModelScope.launch {
+            try {
+                _mutableLoadingState.emit(State.Loading)
+                delay(DELAY_DOWNLOAD)
+                when (val response = roomsScreenRepository.getFreeRooms(date)) {
+                    is RequestResult.Success -> {
+                        _mutableRoomStatusList.emit(response.data)
+                        checkChoosenRoom(chosenRoomId, response.data)
+                    }
+                    is RequestResult.Error -> {
+                        _mutableRoomStatusList.emit(emptyList())
+                    }
+                }
+                _mutableLoadingState.emit(State.NotLoading)
+            } catch (exception: Exception) {
+                _mutableLoadingState.emit(State.Error)
+            }
+        }
+    }
+
+    fun checkChoosenRoom( chosenRoomId: Long, roomStatusList: List<RoomStatusDTO>) {
+        var isNotEventNow = true
+        roomStatusList.forEach {
+            if (it.id==chosenRoomId && it.status == STATUS_OCCUPIED && !(it.eventIdsList.contains(idEvent))) isNotEventNow = false
+        }
+        viewModelScope.launch { _mutableEventNow.emit(isNotEventNow) }
+    }
 
     private fun getRoomPickerData() {
         viewModelScope.launch {
-            mutableRoomList.collectLatest { it ->
-                val freeRooms = getFreeRoomsList()
+            mutableRoomStatusList.collectLatest { it ->
                 val roomsList = Array(it.size) { index ->
                     RoomPickerNewEventData(
                         it[index].id,
                         it[index].title,
                         ROOM_IS_SELECTED,
-                        it[index] in freeRooms
+                        it[index].status == STATUS_FREE || (it[index].status == STATUS_OCCUPIED && it[index].eventIdsList.contains(idEvent))
                     )
                 }
                 _roomPickerList.emit(roomsList.sortedByDescending { room -> room.isEnabled }
@@ -189,7 +283,13 @@ class RoomsEventViewModel @Inject constructor(
     }
 
     companion object {
+        const val NULL_POINTER_EXCEPTION_CODE = 115
         const val DELAY_DOWNLOAD = 500L
         private const val ROOM_IS_SELECTED = false
+        const val STATUS_FREE = "FREE"
+        const val STATUS_OCCUPIED = "OCCUPIED"
+        const val TAG_CHECK = "proverkaError"
+        const val MESSAGE_BAD = "bad"
+        const val MESSAGE_ERROR = "error"
     }
 }

@@ -35,6 +35,7 @@ import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentModifyUpcomingEventBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.ChangedEventDTO
 import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
+import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragment.Companion.SUCCESS_KEY
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -294,7 +295,10 @@ class ModifyUpcomingEventFragment :
             viewModel.mutableState.collectLatest {
                 when (it) {
                     is State.Loading -> binding.progressBar.isVisible = true
-                    else -> findNavController().popBackStack()
+                    else -> {findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                        SUCCESS_KEY,
+                        CHANGED
+                    ); findNavController().popBackStack()}
                 }
             }
         }
@@ -491,6 +495,7 @@ class ModifyUpcomingEventFragment :
         private const val MAX_MONTH = 3L
         private const val MONTH_DIFFERENT = 1
         private const val EXCLUDED_WORD = "before"
+        private const val CHANGED = "CHANGED"
         private enum class TimePickerTag {
             START, END,
         }
