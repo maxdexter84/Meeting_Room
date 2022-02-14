@@ -13,7 +13,8 @@ import com.andersen.feature_rooms_screen.domain.entity.remote.DateDTO
 import com.andersen.feature_rooms_screen.domain.entity.remote.RoomEventCreateDto
 import com.andersen.feature_rooms_screen.domain.entity.remote.RoomStatusDTO
 import com.andersen.feature_rooms_screen.presentation.utils.toApiDate
-import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.event_time_validation.UserTimeValidationDialogManager
+import com.example.core_module.event_time_validation.TimeValidationEvent
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.example.core_module.state.State
 import com.example.core_network.RequestResult
@@ -29,8 +30,8 @@ import javax.inject.Inject
 
 class RoomsEventViewModel @Inject constructor(
     private val roomsApi: RoomsApi,
-    private val dialogManager: TimeValidationDialogManager,
-    private val roomsScreenRepository: InRoomsScreenRepository,
+    private val dialogManager: UserTimeValidationDialogManager,
+    private val roomsScreenRepository: InRoomsScreenRepository
 ) : ViewModel() {
 
     @Inject
@@ -123,7 +124,7 @@ class RoomsEventViewModel @Inject constructor(
         }
     }
 
-    fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
+    fun setEvent(event: TimeValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
 
