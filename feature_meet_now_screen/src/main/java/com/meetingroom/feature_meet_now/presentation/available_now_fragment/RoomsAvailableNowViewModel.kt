@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val NOW = "ROOMS_AVAILABLE_RIGHT_NOW"
-private const val MAX_BOOKING_TIME = 90
 
 class RoomsAvailableNowViewModel @Inject constructor(
     private val repository: AvailableRoomsRepository
@@ -29,7 +28,7 @@ class RoomsAvailableNowViewModel @Inject constructor(
             _loadingState.emit(State.Loading)
             when (val response = repository.getAvailableRooms(NOW)) {
                 is RequestResult.Success -> {
-                    _roomsAvailableNow.emit(validateRooms(response.data))
+                    _roomsAvailableNow.emit(response.data)
                     _loadingState.emit(State.NotLoading)
                 }
                 is RequestResult.Error -> {
@@ -41,15 +40,5 @@ class RoomsAvailableNowViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun validateRooms(rooms: List<Room>): List<Room> {
-        for (room in rooms) {
-            room.apply {
-                timeUntilNextEvent = timeUntilNextEvent?.coerceAtMost(MAX_BOOKING_TIME)
-                    ?: MAX_BOOKING_TIME
-            }
-        }
-        return rooms
     }
 }

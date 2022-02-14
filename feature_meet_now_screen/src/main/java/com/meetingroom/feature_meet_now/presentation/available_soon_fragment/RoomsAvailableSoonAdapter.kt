@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.minutesToTimeString
 import com.meetingroom.feature_meet_now.domain.entity.Room
+import com.meetingroom.feature_meet_now.presentation.utils.getValidAvailableTime
 import com.meetingroom.feature_meet_now_screen.R
 import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableSoonItemBinding
 
@@ -20,18 +21,11 @@ class RoomsAvailableSoonAdapter(
         fun bind(room: Room) {
             with(binding) {
                 roomTitle.text = room.title
-                if (room.timeUntilNextEvent == null) {
-                    roomInfo.text = itemView.resources.getString(
-                        R.string.available_in,
-                        room.availableIn?.minutesToTimeString()
-                    )
-                } else {
-                    roomInfo.text = itemView.resources.getString(
-                        R.string.available_in_for,
-                        room.availableIn?.minutesToTimeString(),
-                        room.timeUntilNextEvent?.minutesToTimeString()
-                    )
-                }
+                roomInfo.text = itemView.resources.getString(
+                    R.string.available_in_for,
+                    room.availableIn?.minutesToTimeString(),
+                    room.getValidAvailableTime().minutesToTimeString()
+                )
                 roomColor.setBackgroundColor(Color.parseColor(room.color))
                 rootLayout.setOnClickListener {
                     onRoomClicked(room)
