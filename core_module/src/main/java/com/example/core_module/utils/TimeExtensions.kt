@@ -11,7 +11,7 @@ private const val HOUR = "hour"
 private const val HOURS = "hours"
 private const val DEFAULT_FORMAT = "HH:mm"
 
-fun LocalTime.timeToString(format: String): String {
+fun LocalTime.timeToString(format: String = DEFAULT_FORMAT): String {
     val formatter = DateTimeFormatter.ofPattern(format)
     return this.format(formatter)
 }

@@ -14,7 +14,5 @@ data class Room(
     val projector: Boolean?,
     val color: String?,
     val availableIn: Int?,
-    var timeUntilNextEvent: Int?,
-    val currentEventEndTime: String?,
-    val nextEventStartTime: String?
+    val timeUntilNextEvent: Int?
 ) : Parcelable

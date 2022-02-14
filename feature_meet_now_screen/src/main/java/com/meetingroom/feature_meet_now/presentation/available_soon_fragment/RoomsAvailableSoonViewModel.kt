@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val SOON = "ROOMS_THAT_WILL_BE_AVAILABLE_WITHIN_30_MINUTES"
+private const val SIX_MIN = 6
+private const val HALF_HOUR = 30
 
 class RoomsAvailableSoonViewModel @Inject constructor(
     private val repository: AvailableRoomsRepository
@@ -31,7 +33,15 @@ class RoomsAvailableSoonViewModel @Inject constructor(
             when (val response = repository.getAvailableRooms(SOON)) {
                 is RequestResult.Success -> {
                     roomsFound = identifyRooms(response.data)
-                    _availableRooms.emit(response.data)
+                    _availableRooms.emit(
+                        when (roomsFound) {
+                            RoomsFound.ROOMS_AVAILABLE_SOON ->
+                                filterRoomsAvailableSoon(response.data)
+                            RoomsFound.ROOMS_AVAILABLE_LATER ->
+                                filterRoomsAvailableLater(response.data)
+                            RoomsFound.NO_ROOMS -> emptyList()
+                        }
+                    )
                     _loadingState.emit(State.NotLoading)
                 }
                 is RequestResult.Error -> {
@@ -46,13 +56,26 @@ class RoomsAvailableSoonViewModel @Inject constructor(
     }
 
     private fun identifyRooms(rooms: List<Room>): RoomsFound {
-        if (rooms.isEmpty()) {
+        if (rooms.any { room ->
+                room.availableIn in SIX_MIN..HALF_HOUR
+            }) return RoomsFound.ROOMS_AVAILABLE_SOON
+        if (rooms.any { room ->
+                room.availableIn ?: HALF_HOUR > HALF_HOUR
+            }) return RoomsFound.ROOMS_AVAILABLE_LATER
+        else {
             return RoomsFound.NO_ROOMS
         }
-        return if (rooms[0].currentEventEndTime == null && rooms[0].nextEventStartTime == null) {
-            RoomsFound.ROOMS_AVAILABLE_SOON
-        } else {
-            RoomsFound.ROOMS_AVAILABLE_LATER
+    }
+
+    private fun filterRoomsAvailableSoon(rooms: List<Room>): List<Room> {
+        return rooms.filter { room ->
+            room.availableIn in SIX_MIN..HALF_HOUR
+        }
+    }
+
+    private fun filterRoomsAvailableLater(rooms: List<Room>): List<Room> {
+        return rooms.filter { room ->
+            room.availableIn ?: HALF_HOUR > HALF_HOUR
         }
     }
 }
