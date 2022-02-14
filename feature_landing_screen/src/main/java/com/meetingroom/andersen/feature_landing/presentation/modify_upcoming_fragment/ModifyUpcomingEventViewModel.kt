@@ -2,7 +2,9 @@ package com.meetingroom.andersen.feature_landing.presentation.modify_upcoming_fr
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core_module.event_time_validation.TimeValidationDialogManager
+import com.example.core_module.event_time_validation.TimeValidationDialogManagerInterface
+import com.example.core_module.event_time_validation.TimeValidationEvent
+import com.example.core_module.event_time_validation.UserTimeValidationDialogManager
 import com.example.core_module.sharedpreferences.user_data_pref_helper.UserDataPrefHelper
 import com.example.core_module.state.State
 import com.example.core_network.RequestResult
@@ -20,7 +22,7 @@ import javax.inject.Inject
 private const val OCCUPIED = "OCCUPIED"
 
 class ModifyUpcomingEventViewModel @Inject constructor(
-    private val dialogManager: TimeValidationDialogManager,
+    private val dialogManager: UserTimeValidationDialogManager,
     private val roomsEventRepository: IRoomsEventRepository
 ) : ViewModel() {
 
@@ -86,7 +88,7 @@ class ModifyUpcomingEventViewModel @Inject constructor(
         }
     }
 
-    fun setEvent(event: TimeValidationDialogManager.ValidationEvent) {
+    fun setEvent(event: TimeValidationEvent) {
         viewModelScope.launch { dialogManager.handleEvent(event) }
     }
 

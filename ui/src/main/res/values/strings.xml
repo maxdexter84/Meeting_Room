@@ -85,6 +85,9 @@
     <string name="custom_dialog_radio_button_days">Days</string>
     <string name="success_changes">Changes have been saved Successfully</string>
 
+    <string name="cancel_button">cancel</string>
+    <string name="ok_button">ok</string>
+
     <string name="userRole">ROLE_USER</string>
     <string name="adminRole">ROLE_ADMIN</string>
 
