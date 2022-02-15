@@ -35,6 +35,17 @@
                 android:name="floors"
                 app:argType="com.meeringroom.ui.event_dialogs.dialog_floor_picker.model.FloorData[]" />
         </action>
+        <action
+            android:id="@+id/action_bookWorkplaceFragment_to_floor_room_picker_dialog_navigation"
+            app:destination="@id/floor_room_picker_dialog_navigation" >
+            <argument
+                android:name="floorRooms"
+                app:argType="com.meeringroom.ui.event_dialogs.dialog_floor_room_picker.model.FloorRoomData[]" />
+            <argument
+                android:name="selectedFloor"
+                app:argType="string" />
+        </action>
     </fragment>
     <include app:graph="@navigation/floor_picker_dialog_navigation" />
+    <include app:graph="@navigation/floor_room_picker_dialog_navigation" />
 </navigation>

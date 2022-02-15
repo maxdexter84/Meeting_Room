@@ -101,4 +101,5 @@
     <string name="up_button_content_description">Up button</string>
     <string name="book_a_workplace_title">Book a workplace</string>
     <string name="floor_item_title">%s (%d)</string>
+    <string name="floor_room_dialog_title">All places on %s (%d)</string>
 </resources>

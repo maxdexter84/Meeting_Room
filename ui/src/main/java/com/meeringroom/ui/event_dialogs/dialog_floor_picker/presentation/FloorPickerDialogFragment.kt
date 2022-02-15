@@ -38,6 +38,6 @@ class FloorPickerDialogFragment : BaseDialogFragment<FloorPickerDialogFragmentBi
     }
 
     companion object {
-        const val KEY_RESULT_FLOOR = "key result floor"
+        const val KEY_RESULT_FLOOR = "KEY_RESULT_FLOOR"
     }
 }

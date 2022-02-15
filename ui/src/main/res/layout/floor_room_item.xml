@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RadioButton
+        android:id="@+id/rbFloorRoomPicker"
+        android:layout_width="@dimen/dimens_0_dp"
+        android:layout_height="@dimen/dimens_24_dp"
+        android:layout_marginStart="@dimen/dimens_24_dp"
+        android:paddingStart="@dimen/dimens_16_dp"
+        android:textAppearance="@style/TextAppearanceDescription"
+        app:buttonTint="@drawable/radio_button_colour_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck"
+        tools:text="22nd floor (80)" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_1_dp"
+        android:layout_marginStart="@dimen/dimens_12_dp"
+        android:layout_marginTop="@dimen/dimens_10_dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rbFloorRoomPicker" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
