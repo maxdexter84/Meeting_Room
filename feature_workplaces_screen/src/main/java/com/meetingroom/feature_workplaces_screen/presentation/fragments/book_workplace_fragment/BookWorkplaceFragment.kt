@@ -9,6 +9,7 @@ import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import com.example.core_module.component_manager.XInjectionManager
 import com.meeringroom.ui.event_dialogs.dialog_floor_picker.model.FloorData
+import com.meeringroom.ui.event_dialogs.dialog_floor_room_picker.model.FloorRoomData
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.getNavigationResult
 import com.meeringroom.ui.view_utils.onClick
@@ -25,6 +26,8 @@ class BookWorkplaceFragment :
     BaseFragment<FragmentBookWorkplaceBinding>(FragmentBookWorkplaceBinding::inflate) {
 
     private var arrayOfFloors = arrayOf<FloorData>()
+    private var arrayOfRooms = arrayOf<FloorRoomData>()
+    private var selectedFloor = DEFAULT_FLOOR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,19 +74,37 @@ class BookWorkplaceFragment :
             }
         }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.whenStarted {
+                viewModel.floorRoomList.collect {
+                    checkNumberOfRooms(it)
+                }
+            }
+        }
+
         getNavigationResult(KEY_RESULT_FLOOR)?.observe(viewLifecycleOwner) { result ->
-            setViewElementsUp(result)
+            setUpFloorTV(result)
+            getRoomsByFloor(result)
+            selectedFloor = result
             arrayOfFloors.map {
                 it.isSelected = it.floorName == result
+            }
+        }
+
+        getNavigationResult(KEY_RESULT_ROOM)?.observe(viewLifecycleOwner) { result ->
+            setUpRoomTV(result)
+            arrayOfRooms.map {
+                it.isSelected = it.roomName == result
             }
         }
     }
 
     private fun checkNumberOfFloors(list: List<FloorData>) {
-        if (list.size == SINGLE_FLOOR) {
+        if (list.size == SINGLE_ITEM) {
             with(binding) {
-                setViewElementsUp(list.first().floorName)
+                setUpFloorTV(list.first().floorName)
                 tvFloorTitle.isClickable = false
+                getRoomsByFloor(list.first().floorName)
             }
         } else {
             arrayOfFloors = list.toTypedArray()
@@ -92,12 +113,32 @@ class BookWorkplaceFragment :
         }
     }
 
-    private fun setViewElementsUp(floorName: String) {
+    private fun checkNumberOfRooms(list: List<FloorRoomData>) {
+        if (list.isNotEmpty()) {
+            tvRoomTitle.text = list.first().roomName
+            if (list.size == SINGLE_ITEM) {
+                tvRoomTitle.isClickable = false
+            } else {
+                arrayOfRooms = list.toTypedArray()
+                initListenerToFloorRoomDialog()
+            }
+        }
+    }
+
+    private fun setUpFloorTV(floorName: String) {
         tvFloorTitle.text = floorName
         btnBookWorkplace.visibilityIf(true)
         if (tvFloorTitle.text.toString() != getString(R.string.select_a_floor_default_title)) {
             tvRoomTitle.isClickable = true
         }
+    }
+
+    private fun setUpRoomTV(roomName: String) {
+        tvRoomTitle.text = roomName
+    }
+
+    private fun getRoomsByFloor(selectedFloor: String) {
+        viewModel.getRoomList(selectedFloor)
     }
 
     private fun initListenerToFloorDialog() {
@@ -111,8 +152,21 @@ class BookWorkplaceFragment :
         }
     }
 
+    private fun initListenerToFloorRoomDialog() {
+        binding.tvRoomTitle.onClick {
+            findNavController().navigate(
+                BookWorkplaceFragmentDirections
+                    .actionBookWorkplaceFragmentToFloorRoomPickerDialogNavigation(
+                        arrayOfRooms, selectedFloor
+                    )
+            )
+        }
+    }
+
     companion object {
-        const val SINGLE_FLOOR = 1
-        const val KEY_RESULT_FLOOR = "key result floor"
+        const val SINGLE_ITEM = 1
+        const val KEY_RESULT_FLOOR = "KEY_RESULT_FLOOR"
+        const val KEY_RESULT_ROOM = "KEY_RESULT_FLOOR_ROOM"
+        const val DEFAULT_FLOOR = "Default"
     }
 }

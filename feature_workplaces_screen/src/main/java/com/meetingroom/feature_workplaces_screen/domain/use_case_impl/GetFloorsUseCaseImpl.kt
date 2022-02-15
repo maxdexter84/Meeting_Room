@@ -1,11 +1,13 @@
-package com.meetingroom.feature_workplaces_screen.domain.use_case
+package com.meetingroom.feature_workplaces_screen.domain.use_case_impl
 
 import com.example.core_network.RequestResult
 import com.meetingroom.feature_workplaces_screen.domain.model.OfficeData
+import com.meetingroom.feature_workplaces_screen.domain.use_case.GetFloorsUseCase
+import javax.inject.Inject
 
-class GetOfficeDataUseCase {
+class GetFloorsUseCaseImpl @Inject constructor() : GetFloorsUseCase {
 
-    suspend operator fun invoke(): RequestResult<List<OfficeData>> =
+    override suspend operator fun invoke(): RequestResult<List<OfficeData>> =
         RequestResult.Success(
             listOf(
                 OfficeData(MOCK_DATA_1, MOCK_DATA_2),
