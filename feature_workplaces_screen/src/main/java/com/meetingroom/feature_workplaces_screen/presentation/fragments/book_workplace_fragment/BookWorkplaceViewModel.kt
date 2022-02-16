@@ -27,6 +27,8 @@ class BookWorkplaceViewModel @Inject constructor(
     private val _floorRoomList = MutableStateFlow<List<FloorRoomData>>(emptyList())
     val floorRoomList: StateFlow<List<FloorRoomData>> = _floorRoomList
 
+    private var externalMonitorState = false
+
     init {
         viewModelScope.launch {
             _loadingState.emit(State.Loading)
@@ -63,5 +65,9 @@ class BookWorkplaceViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setExternalMonitorState(isChecked: Boolean) {
+        externalMonitorState = isChecked
     }
 }

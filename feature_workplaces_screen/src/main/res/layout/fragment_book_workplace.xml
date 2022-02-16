@@ -118,22 +118,15 @@
 
     <CheckBox
         android:id="@+id/cbExternalMonitor"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dimens_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimens_12_dp"
         android:layout_marginTop="@dimen/dimens_14_dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFiltersTitle" />
-
-    <TextView
-        android:id="@+id/tvExternalMonitor"
-        android:layout_width="@dimen/dimens_0_dp"
-        android:layout_height="wrap_content"
         android:text="@string/external_monitor_title"
         android:textAppearance="@style/TextAppearanceSmallText"
-        app:layout_constraintBottom_toBottomOf="@+id/cbExternalMonitor"
-        app:layout_constraintStart_toEndOf="@+id/cbExternalMonitor"
-        app:layout_constraintTop_toTopOf="@id/cbExternalMonitor" />
+        app:layout_constraintEnd_toStartOf="@+id/contentEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFiltersTitle" />
 
     <View
         android:id="@+id/vDividerUnderExternalMonitor"

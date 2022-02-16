@@ -49,6 +49,7 @@ class BookWorkplaceFragment :
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initObservers()
+        initCheckBoxListener()
     }
 
     private fun initToolbar() {
@@ -62,6 +63,12 @@ class BookWorkplaceFragment :
                         .actionBookWorkplaceFragmentToWorkplacesFragment()
                 )
             }
+        }
+    }
+
+    private fun initCheckBoxListener() {
+        binding.cbExternalMonitor.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setExternalMonitorState(isChecked)
         }
     }
 
