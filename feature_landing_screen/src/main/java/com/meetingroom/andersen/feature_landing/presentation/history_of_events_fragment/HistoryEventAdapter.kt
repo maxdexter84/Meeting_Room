@@ -70,13 +70,21 @@ class HistoryEventAdapter(var layoutMgr: LinearLayoutManager,
                     .dateToString(OUTPUT_DATE_FORMAT)
                 eventRoomUpcoming.text = historyEventData.room
                 eventCityColourLineUpcoming.setBackgroundColor(Color.parseColor(historyEventData.color))
+                nameOfBooker.text = historyEventData.userFullName
+                roleOfBooker.text = historyEventData.userPosition
+                bookerEmail.text = historyEventData.userEmail
+                bookerSkype.text = historyEventData.userSkype
+                descriptonOfEvent.text = historyEventData.description
+
+                if(historyEventData.isOpened){
+                    flexiblePartOfCardView.visibility = View.VISIBLE
+                } else {
+                    flexiblePartOfCardView.visibility = View.GONE
+                }
+
                 eventCardUpcomingRoot.setOnClickListener {
+                    historyEventData.isOpened = !historyEventData.isOpened
                     flexiblePartOfCardView.visibilityIf(!flexiblePartOfCardView.isVisible)
-                    nameOfBooker.text = historyEventData.userFullName
-                    roleOfBooker.text = historyEventData.userPosition
-                    bookerEmail.text = historyEventData.userEmail
-                    bookerSkype.text = historyEventData.userSkype
-                    descriptonOfEvent.text = historyEventData.description
                     scrollToFitExpandedCardView(it)
                     return@setOnClickListener
                 }

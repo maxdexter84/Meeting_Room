@@ -49,7 +49,8 @@ class HistoryEventsMapperTest {
                 color = COLOR,
                 startTime = START_TIME,
                 endTime = END_TIME,
-                eventDate = EVENT_DATE
+                eventDate = EVENT_DATE,
+                isOpened = false
             )
 
         val expected = listOf(expectedEvent, expectedEvent)

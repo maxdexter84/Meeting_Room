@@ -17,6 +17,7 @@ data class HistoryEventData(
     val color: String,
     var startTime: String,
     var endTime: String,
-    var eventDate: String
+    var eventDate: String,
+    var isOpened: Boolean
 )
 
