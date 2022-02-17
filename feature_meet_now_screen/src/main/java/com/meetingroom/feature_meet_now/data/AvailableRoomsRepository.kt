@@ -1,5 +1,8 @@
 package com.meetingroom.feature_meet_now.data
 
+import com.andersen.feature_rooms_screen.domain.entity.remote.ActivateRoomEventDto
+import com.andersen.feature_rooms_screen.domain.entity.remote.RoomEventCreateDto
+import com.andersen.feature_rooms_screen.domain.entity.remote.RoomEventResponseDto
 import com.example.core_network.RequestMaker
 import com.example.core_network.RequestResult
 import com.meetingroom.feature_meet_now.domain.entity.Room
@@ -17,6 +20,20 @@ class AvailableRoomsRepository @Inject constructor(
         withContext(ioDispatcher) {
             requestMaker.safeApiCall {
                 roomsApi.getAvailableRooms(time)
+            }
+        }
+
+    suspend fun createEvent(event: RoomEventCreateDto): RequestResult<RoomEventResponseDto> =
+        withContext(ioDispatcher) {
+            requestMaker.safeApiCall {
+                roomsApi.createEvent(event)
+            }
+        }
+
+    suspend fun activateEvent(event: ActivateRoomEventDto): RequestResult<Unit> =
+        withContext(ioDispatcher) {
+            requestMaker.safeApiCall {
+                roomsApi.activateEvent(event)
             }
         }
 }

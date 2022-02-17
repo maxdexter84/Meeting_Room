@@ -56,8 +56,6 @@
         android:layout_marginTop="@dimen/dimens_54_dp"
         android:layout_marginEnd="@dimen/dimens_16_dp"
         android:stepSize="5"
-        android:valueFrom="0"
-        android:valueTo="120"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/available_for_text"

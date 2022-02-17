@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core_module.utils.minutesToTimeString
 import com.meetingroom.feature_meet_now.domain.entity.Room
+import com.meetingroom.feature_meet_now.presentation.fast_booking_fragment.Constants.MAX_EVENT_TIME
 import com.meetingroom.feature_meet_now.presentation.utils.getValidAvailableTime
 import com.meetingroom.feature_meet_now_screen.R
 import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableSoonItemBinding
@@ -24,7 +25,7 @@ class RoomsAvailableNowAdapter(
                 if (room.availableIn != null && room.timeUntilNextEvent != null) {
                     roomInfo.text = itemView.resources.getString(
                         R.string.available_for,
-                        room.getValidAvailableTime().minutesToTimeString()
+                        room.getValidAvailableTime(MAX_EVENT_TIME).minutesToTimeString()
                     )
                 }
                 roomColor.setBackgroundColor(Color.parseColor(room.color))
