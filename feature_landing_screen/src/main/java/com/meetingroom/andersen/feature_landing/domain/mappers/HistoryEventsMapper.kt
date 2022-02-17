@@ -41,7 +41,8 @@ fun List<HistoryEventDataDTO>.toHistoryEventsList(): List<HistoryEventData> {
                     END_INDEX_FOR_TIME,
                 ),
                 eventDate = it.startDateTime.split(DIVIDER_DATE_AND_TIME)[0],
-                color = it.color
+                color = it.color,
+                isOpened = false
             )
         )
     }
