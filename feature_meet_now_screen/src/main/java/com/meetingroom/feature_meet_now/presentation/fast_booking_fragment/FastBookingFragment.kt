@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.deeplink_manager.DeeplinkNavigatorHelper
-import com.example.core_module.utils.addToStringTime
 import com.example.core_module.utils.minutesToTimeString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.RangeSlider
@@ -18,12 +17,13 @@ import com.meeringroom.ui.view.snackbar.ConfirmationSnackbar
 import com.meeringroom.ui.view_utils.onClick
 import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
 import com.meetingroom.feature_meet_now.presentation.di.viewmodel.assistedViewModels
+import com.meetingroom.feature_meet_now.presentation.fast_booking_fragment.Constants.MAX_EVENT_TIME
+import com.meetingroom.feature_meet_now.presentation.utils.getValidAvailableTime
 import com.meetingroom.feature_meet_now_screen.R
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentFastBookingBinding
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
-private const val MAX_EVENT_TIME = 90F
 private const val SLIDER_START_THUMB_INDEX = 0
 private const val SLIDER_END_THUMB_INDEX = 1
 private const val TEXT_VIEWS_OVERLAP_MARGIN = 10
@@ -54,6 +54,9 @@ class FastBookingFragment :
         sliderValidationObserver()
         sliderStartObserver()
         sliderEndObserver()
+        eventCreatedObserver()
+        limitTimeStringObservers()
+        sliderStateObserver()
     }
 
     private fun setViews() {
@@ -61,13 +64,10 @@ class FastBookingFragment :
             fastBookingToolbar.toolbarSaveTitle.text = viewModel.room.title
             availableForText.text = resources.getString(
                 R.string.available_for,
-                viewModel.room.timeUntilNextEvent?.minutesToTimeString()
-                    ?: MAX_EVENT_TIME.toInt().minutesToTimeString()
+                viewModel.room.getValidAvailableTime(MAX_EVENT_TIME).minutesToTimeString()
             )
-            fastBookingStartTimeLimit.text = viewModel.rangeSliderAdapter.startTimeLimit
-            fastBookingEndTimeLimit.text = viewModel.rangeSliderAdapter.endTimeLimit
             fastBookingSlider.setLabelFormatter {
-                viewModel.rangeSliderAdapter.getSelectedTime(it)
+                viewModel.getSelectedTime(it.toInt())
             }
         }
     }
@@ -78,13 +78,7 @@ class FastBookingFragment :
                 findNavController().navigateUp()
             }
             fastBookingToolbar.buttonSaveToolbar.onClick {
-                showRoomSuccessfullyBookedDialog(
-                    resources.getString(
-                        R.string.room_booked_successfully,
-                        viewModel.room.title
-                    )
-                )
-                findNavController().navigateUp()
+                viewModel.bookRoom()
             }
             fastBookingRoomsLink.onClick {
                 deepLinkHelper.navigate(resources.getString(R.string.deeplink_uri_rooms_fragment))
@@ -102,10 +96,7 @@ class FastBookingFragment :
                         ValidationState.Invalid.MIN_EVENT_TIME_VIOLATION -> R.string.incorrect_min_time_message
                         ValidationState.Invalid.MAX_EVENT_TIME_VIOLATION -> R.string.incorrect_max_time_message
                     }
-                    binding.fastBookingSlider.setValues(
-                        viewModel.sliderState.startSelected,
-                        viewModel.sliderState.endSelected,
-                    )
+                    binding.fastBookingSlider.values = viewModel.getSliderStateSelectedValues()
                     showAlertDialog(message)
                 }
             }
@@ -117,9 +108,7 @@ class FastBookingFragment :
             lifecycleScope.launchWhenStarted {
                 viewModel.sliderStartFlow.collectLatest { startValue ->
                     fastBookingStartTimeLimit.isVisible =
-                        startValue !in viewModel.sliderState.startLimit..(viewModel.sliderState.startLimit + TEXT_VIEWS_OVERLAP_MARGIN)
-                    fastBookingStartTimeSelected.text = fastBookingStartTimeLimit.text.toString()
-                        .addToStringTime(startValue.toInt())
+                        startValue !in viewModel.getSliderStateStartLimit()..(viewModel.getSliderStateStartLimit() + TEXT_VIEWS_OVERLAP_MARGIN)
                 }
             }
         }
@@ -130,10 +119,52 @@ class FastBookingFragment :
             lifecycleScope.launchWhenStarted {
                 viewModel.sliderEndFlow.collectLatest { endValue ->
                     fastBookingEndTimeLimit.isVisible =
-                        endValue !in viewModel.sliderState.endLimit - TEXT_VIEWS_OVERLAP_MARGIN..viewModel.sliderState.endLimit
-                    fastBookingEndTimeSelected.text = fastBookingStartTimeLimit.text.toString()
-                        .addToStringTime(endValue.toInt())
+                        endValue !in viewModel.getSliderStateEndLimit() - TEXT_VIEWS_OVERLAP_MARGIN..viewModel.getSliderStateEndLimit()
                 }
+            }
+        }
+    }
+
+    private fun eventCreatedObserver() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.eventCreatedFlow.collectLatest { status ->
+                when (status) {
+                    true -> {
+                        showRoomSuccessfullyBookedDialog(
+                            resources.getString(
+                                R.string.room_booked_successfully,
+                                viewModel.room.title
+                            )
+                        )
+                        findNavController().navigateUp()
+                    }
+                    false -> {
+                    }
+                }
+            }
+        }
+    }
+
+    private fun limitTimeStringObservers() {
+        with(binding) {
+            viewModel.startLimitTimeStringData.observe(viewLifecycleOwner) {
+                fastBookingStartTimeLimit.text = it
+            }
+            viewModel.endLimitTimeStringData.observe(viewLifecycleOwner) {
+                fastBookingEndTimeLimit.text = it
+            }
+        }
+    }
+
+    private fun sliderStateObserver() {
+        with(binding) {
+            viewModel.sliderStateData.observe(viewLifecycleOwner) { sliderState ->
+                fastBookingSlider.valueFrom = sliderState.startLimit.toFloat()
+                fastBookingSlider.valueTo = sliderState.endLimit.toFloat()
+                fastBookingSlider.setValues(
+                    sliderState.startSelected.toFloat(),
+                    sliderState.endSelected.toFloat()
+                )
             }
         }
     }
@@ -173,19 +204,18 @@ class FastBookingFragment :
             var layoutParams: ConstraintLayout.LayoutParams
             var offset: Float
             val margin: Int
-            var timeSelected: String
 
             with(slider) {
-                offset = trackWidth * values[thumbIndex] / valueTo
+                offset = trackWidth * values[thumbIndex] / (valueTo - valueFrom)
                 margin = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
             }
 
             with(binding) {
                 if (thumbIndex == SLIDER_START_THUMB_INDEX) {
                     fastBookingStartTimeSelected.isVisible = true
+                    fastBookingStartTimeSelected.text =
+                        viewModel.getSelectedTime(slider.values[SLIDER_START_THUMB_INDEX].toInt())
                     offset += margin
-                    timeSelected =
-                        viewModel.rangeSliderAdapter.getSelectedTime(slider.values[SLIDER_START_THUMB_INDEX])
                     layoutParams =
                         fastBookingStartTimeSelected.layoutParams as ConstraintLayout.LayoutParams
                     layoutParams.marginStart = offset.toInt()
@@ -193,9 +223,9 @@ class FastBookingFragment :
                 }
                 if (thumbIndex == SLIDER_END_THUMB_INDEX) {
                     fastBookingEndTimeSelected.isVisible = true
+                    fastBookingEndTimeSelected.text =
+                        viewModel.getSelectedTime(slider.values[SLIDER_END_THUMB_INDEX].toInt())
                     offset -= margin
-                    timeSelected =
-                        viewModel.rangeSliderAdapter.getSelectedTime(slider.values[SLIDER_END_THUMB_INDEX])
                     layoutParams =
                         fastBookingEndTimeSelected.layoutParams as ConstraintLayout.LayoutParams
                     layoutParams.marginEnd = (slider.trackWidth - offset).toInt()

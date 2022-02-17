@@ -1,7 +1,9 @@
 package com.example.core_module.utils
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
@@ -9,9 +11,8 @@ import kotlin.math.ceil
 private const val MIN = "min"
 private const val HOUR = "hour"
 private const val HOURS = "hours"
-private const val DEFAULT_FORMAT = "HH:mm"
 
-fun LocalTime.timeToString(format: String = DEFAULT_FORMAT): String {
+fun LocalTime.timeToString(format: String): String {
     val formatter = DateTimeFormatter.ofPattern(format)
     return this.format(formatter)
 }
@@ -24,6 +25,13 @@ fun String.stringToTime(format: String): LocalTime {
 fun String.stringToDateTime(format: String): LocalDateTime {
     val formatter = DateTimeFormatter.ofPattern(format)
     return LocalDateTime.parse(this, formatter)
+}
+
+fun String.stringTimeToStringDateTime(inputFormat: String, outputFormat: String): String {
+    val outputFormatter = DateTimeFormatter.ofPattern(outputFormat)
+
+    return LocalDateTime.of(LocalDate.now(ZoneOffset.UTC), this.stringToTime(inputFormat))
+        .format(outputFormatter)
 }
 
 fun LocalTime.roundUpMinute(min: Int): LocalTime {
@@ -50,11 +58,4 @@ fun Int.minutesToTimeString(): String {
         }
     }
     return timeString
-}
-
-fun String.addToStringTime(min: Int, format: String = DEFAULT_FORMAT): String {
-    return this
-        .stringToTime(format)
-        .plusMinutes(min.toLong())
-        .timeToString(format)
 }

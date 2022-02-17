@@ -4,9 +4,12 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.core_module.utils.addToStringTime
+import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
+import com.example.core_module.utils.roundUpMinute
 import com.example.core_module.utils.timeToString
 import com.meetingroom.feature_meet_now.domain.entity.Room
+import com.meetingroom.feature_meet_now.presentation.fast_booking_fragment.Constants.MAX_EVENT_TIME
+import com.meetingroom.feature_meet_now.presentation.fast_booking_fragment.Constants.STEP
 import com.meetingroom.feature_meet_now.presentation.utils.getValidTimeUntilNextEvent
 import com.meetingroom.feature_meet_now_screen.databinding.AllRoomsAreOccupiedPlaceholderBinding
 import com.meetingroom.feature_meet_now_screen.databinding.RoomAvailableLaterItemBinding
@@ -33,10 +36,13 @@ class RoomsAvailableLaterAdapter(
                 roomTitle.text = room.title
                 if (room.availableIn != null) {
                     startTime.text =
-                        LocalTime.now(ZoneOffset.UTC).timeToString().addToStringTime(room.availableIn)
+                        LocalTime.now(ZoneOffset.UTC).plusMinutes(room.availableIn.toLong())
+                            .roundUpMinute(STEP).timeToString(TIME_FORMAT)
                 }
                 endTime.text =
-                    LocalTime.now(ZoneOffset.UTC).timeToString().addToStringTime(room.getValidTimeUntilNextEvent())
+                    LocalTime.now(ZoneOffset.UTC)
+                        .plusMinutes(room.getValidTimeUntilNextEvent(MAX_EVENT_TIME).toLong())
+                        .roundUpMinute(STEP).timeToString(TIME_FORMAT)
                 roomColor.setBackgroundColor(Color.parseColor(room.color))
                 rootLayout.setOnClickListener {
                     onRoomClicked(room)

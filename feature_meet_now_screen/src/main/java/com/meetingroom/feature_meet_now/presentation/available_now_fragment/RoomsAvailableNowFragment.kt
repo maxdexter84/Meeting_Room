@@ -41,6 +41,10 @@ class RoomsAvailableNowFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         XInjectionManager.findComponent<MeetNowComponent>().inject(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.getRoomsAvailableNow()
     }
 
