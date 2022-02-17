@@ -14,7 +14,6 @@ import dagger.Component
 
 @FeatureScope
 @Component(modules = [
-    ApiModule::class,
     ViewModelModule::class,
     NewEventModule::class,
     RoomsScreenNetworkModule::class

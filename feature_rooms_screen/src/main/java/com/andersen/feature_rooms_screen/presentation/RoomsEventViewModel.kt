@@ -3,7 +3,6 @@ package com.andersen.feature_rooms_screen.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.andersen.feature_rooms_screen.data.RoomsApi
 import com.andersen.feature_rooms_screen.domain.entity.InRoomsScreenRepository
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.domain.entity.RoomEvent
@@ -20,7 +19,6 @@ import com.example.core_module.state.State
 import com.example.core_network.RequestResult
 import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +27,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RoomsEventViewModel @Inject constructor(
-    private val roomsApi: RoomsApi,
     private val dialogManager: UserTimeValidationDialogManager,
     private val roomsScreenRepository: InRoomsScreenRepository
 ) : ViewModel() {
@@ -132,7 +129,6 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(DELAY_DOWNLOAD)
                 val response = userDataPrefHelper.getOfficeIdOfUserLocation()?.let {
                     roomsScreenRepository.getRoomsApi(it)
                 }
@@ -158,7 +154,6 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(DELAY_DOWNLOAD)
                 when (val response = roomsScreenRepository.getFreeRooms(date)) {
                     is RequestResult.Success -> {
                         _mutableRoomStatusList.emit(response.data)
@@ -204,7 +199,6 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(DELAY_DOWNLOAD)
                 val response = date?.let { roomsScreenRepository.getRoomsEventsApi(it.toApiDate()) }
                 when (response) {
                     is RequestResult.Success -> {
@@ -231,7 +225,6 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(DELAY_DOWNLOAD)
                 val response = roomsScreenRepository.getOneRoomApi(roomTitle)
                 when (response) {
                     is RequestResult.Success -> {
@@ -258,7 +251,6 @@ class RoomsEventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _mutableLoadingState.emit(State.Loading)
-                delay(DELAY_DOWNLOAD)
                 val response = userDataPrefHelper.getOfficeIdOfUserLocation()?.let {
                     roomsScreenRepository.getAllRoomsOnTheFloorApi(floor, it)
                 }
@@ -285,7 +277,6 @@ class RoomsEventViewModel @Inject constructor(
 
     companion object {
         const val NULL_POINTER_EXCEPTION_CODE = 115
-        const val DELAY_DOWNLOAD = 500L
         private const val ROOM_IS_SELECTED = false
         const val STATUS_FREE = "FREE"
         const val STATUS_OCCUPIED = "OCCUPIED"
