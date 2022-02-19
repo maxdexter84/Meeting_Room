@@ -49,7 +49,6 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     IHasComponent<RoomsEventComponent> {
 
     private lateinit var selectedDateForGrid: LocalDate
-    private var eventRoom = "All rooms"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -97,7 +96,7 @@ class RoomsEventGridFragment : BaseFragment<FragmentRoomsBinding>(FragmentRoomsB
     }
 
     private fun observeIndicatorTimeRange() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             IndicatorView.rangePeriod.collectLatest {
                 binding.timeLineView.apply {
                     dynamicStartTime = it.first
