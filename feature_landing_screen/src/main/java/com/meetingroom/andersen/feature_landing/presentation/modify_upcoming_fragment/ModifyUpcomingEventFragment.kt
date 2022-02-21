@@ -23,6 +23,7 @@ import com.example.core_module.utils.*
 import com.example.core_module.utils.DateTimePickerConstants.INPUT_DATE_FORMAT
 import com.example.core_module.utils.TimeUtilsConstants.TIME_FORMAT
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.meeringroom.ui.event_dialogs.dialog_room_picker.model.RoomPickerNewEventData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.NotificationData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.model.TimePickerData
 import com.meeringroom.ui.event_dialogs.dialog_time_for_notifications.presentation.NotificationHelper
@@ -172,12 +173,12 @@ class ModifyUpcomingEventFragment :
     }
 
     private fun observeRoomChange() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>(ROOM_KEY)
-            ?.observe(viewLifecycleOwner) { roomTitleAndId ->
-                roomTitleAndId?.let { roomTitleAndId ->
-                    eventRoom = roomTitleAndId.filterNot { it.isDigit() }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<RoomPickerNewEventData>(ROOM_KEY)
+            ?.observe(viewLifecycleOwner) {
+                it?.let {
+                    eventRoom = it.titleRoom
                     binding.eventRoomName.text = eventRoom
-                    eventRoomId = roomTitleAndId.filter { it.isDigit() }.toLong()
+                    eventRoomId = it.idRoom
                 }
             }
     }
