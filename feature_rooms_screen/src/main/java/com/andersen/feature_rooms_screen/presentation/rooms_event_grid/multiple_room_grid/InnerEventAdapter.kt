@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andersen.feature_rooms_screen.domain.entity.Room
 import com.andersen.feature_rooms_screen.presentation.utils.EmptyRoomEventForGrid
 import com.andersen.feature_rooms_screen.presentation.utils.RoomEventForGrid
+import com.meeringroom.ui.view_utils.onClick
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemEventBinding
 import com.meetingroom.andersen.feature_rooms_screen.databinding.ItemGagEmptyEventBinding
 import java.time.LocalTime
@@ -60,13 +61,13 @@ class InnerEventAdapter(
                         root.layoutParams.height = eventList[0].heightEventItem
                         eventView.isUserOwnEvent = eventList[0].isUserOwnEvent
                         eventView.setColor(eventList[0].colorRoom)
-                        eventView.setOnClickListener { onEventClick(eventList[0]) }
+                        eventView.onClick { onEventClick(eventList[0]) }
                     }
                     else
                     -> {
                         root.layoutParams.height = eventList[(position - 1) / 2].heightEventItem
                         eventView.isUserOwnEvent = eventList[(position - 1) / 2].isUserOwnEvent
-                        eventView.setOnClickListener { onEventClick(eventList[(position - 1) / 2]) }
+                        eventView.onClick { onEventClick(eventList[(position - 1) / 2]) }
                         eventView.setColor(eventList[(position - 1) / 2].colorRoom)
                     }
                 }
