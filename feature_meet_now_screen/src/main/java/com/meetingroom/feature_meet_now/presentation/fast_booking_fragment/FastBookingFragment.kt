@@ -81,7 +81,7 @@ class FastBookingFragment :
                 viewModel.bookRoom()
             }
             fastBookingRoomsLink.onClick {
-                deepLinkHelper.navigate(resources.getString(R.string.deeplink_uri_rooms_fragment))
+                deepLinkHelper.navigate(DeeplinkNavigatorHelper.GO_TO_ROOMS)
             }
             fastBookingSlider.addOnSliderTouchListener(FastBookingSliderTouchListener())
         }

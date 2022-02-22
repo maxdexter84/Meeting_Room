@@ -12,7 +12,7 @@ import com.example.core_module.component_manager.XInjectionManager
 import com.example.core_module.state.State
 import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meetingroom.feature_meet_now.domain.entity.Room
-import com.meetingroom.feature_meet_now.presentation.di.MeetNowComponent
+import com.meetingroom.feature_meet_now.presentation.meet_now_fragment.MeetNowFragment
 import com.meetingroom.feature_meet_now.presentation.meet_now_fragment.MeetNowFragmentDirections
 import com.meetingroom.feature_meet_now.presentation.utils.RefreshTimer
 import com.meetingroom.feature_meet_now_screen.databinding.FragmentAvailableSoonBinding
@@ -45,7 +45,7 @@ class RoomsAvailableSoonFragment : BaseFragment<FragmentAvailableSoonBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        XInjectionManager.findComponent<MeetNowComponent>().inject(this)
+        XInjectionManager.bindComponent(this.parentFragment as MeetNowFragment).inject(this)
         viewModel.getRoomsAvailableSoon()
     }
 
