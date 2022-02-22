@@ -56,12 +56,20 @@ class FastBookingViewModel @AssistedInject constructor(
     private val _endLimitTimeStringData = MutableLiveData<String>()
     val endLimitTimeStringData: LiveData<String> get() = _endLimitTimeStringData
 
+    private val _startSelectedTimeStringData = MutableLiveData<String>()
+    val startSelectedTimeStringData: LiveData<String> get() = _startSelectedTimeStringData
+
+    private val _endSelectedTimeStringData = MutableLiveData<String>()
+    val endSelectedTimeStringData: LiveData<String> get() = _endSelectedTimeStringData
+
     private val _sliderStateData = MutableLiveData<RangeSliderState>()
     val sliderStateData: LiveData<RangeSliderState> get() = _sliderStateData
 
     init {
         _startLimitTimeStringData.value = rangeSliderAdapter.startLimitTimeString
         _endLimitTimeStringData.value = rangeSliderAdapter.endLimitTimeString
+        _startSelectedTimeStringData.value = rangeSliderAdapter.getSelectedTime(sliderState.startSelected)
+        _endSelectedTimeStringData.value = rangeSliderAdapter.getSelectedTime(sliderState.endSelected)
         _sliderStateData.value = sliderState
     }
 
@@ -121,16 +129,8 @@ class FastBookingViewModel @AssistedInject constructor(
         return rangeSliderAdapter.getSelectedTime(sliderPosition)
     }
 
-    fun getSliderStateSelectedValues(): List<Float> {
-        return listOf(sliderState.startSelected.toFloat(), sliderState.endSelected.toFloat())
-    }
-
-    fun getSliderStateStartLimit(): Int {
-        return sliderState.startLimit
-    }
-
-    fun getSliderStateEndLimit(): Int {
-        return sliderState.endLimit
+    fun getSliderState(): RangeSliderState {
+        return sliderState
     }
 
     fun onSliderStateChanged(thumbIndex: Int, values: List<Float>) {
@@ -168,6 +168,8 @@ class FastBookingViewModel @AssistedInject constructor(
                 _sliderEndFlow.emit(endSelected)
             }
             _validationStateFlow.value = ValidationState.Valid
+            _startSelectedTimeStringData.value = rangeSliderAdapter.getSelectedTime(sliderState.startSelected)
+            _endSelectedTimeStringData.value = rangeSliderAdapter.getSelectedTime(sliderState.endSelected)
         }
     }
 

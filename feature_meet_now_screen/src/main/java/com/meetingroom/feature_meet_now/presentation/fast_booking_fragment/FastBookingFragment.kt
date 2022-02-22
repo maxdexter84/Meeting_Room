@@ -2,6 +2,7 @@ package com.meetingroom.feature_meet_now.presentation.fast_booking_fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -25,8 +26,9 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 private const val SLIDER_START_THUMB_INDEX = 0
-private const val SLIDER_END_THUMB_INDEX = 1
+private const val TWO = 2
 private const val TEXT_VIEWS_OVERLAP_MARGIN = 10
+private const val DEFAULT_SCREEN_WIDTH = 1080
 
 class FastBookingFragment :
     BaseFragment<FragmentFastBookingBinding>(FragmentFastBookingBinding::inflate) {
@@ -56,6 +58,7 @@ class FastBookingFragment :
         sliderEndObserver()
         eventCreatedObserver()
         limitTimeStringObservers()
+        selectedTimeStringObservers()
         sliderStateObserver()
     }
 
@@ -96,7 +99,10 @@ class FastBookingFragment :
                         ValidationState.Invalid.MIN_EVENT_TIME_VIOLATION -> R.string.incorrect_min_time_message
                         ValidationState.Invalid.MAX_EVENT_TIME_VIOLATION -> R.string.incorrect_max_time_message
                     }
-                    binding.fastBookingSlider.values = viewModel.getSliderStateSelectedValues()
+                    binding.fastBookingSlider.setValues(
+                        viewModel.getSliderState().startSelected.toFloat(),
+                        viewModel.getSliderState().endSelected.toFloat()
+                    )
                     showAlertDialog(message)
                 }
             }
@@ -108,7 +114,7 @@ class FastBookingFragment :
             lifecycleScope.launchWhenStarted {
                 viewModel.sliderStartFlow.collectLatest { startValue ->
                     fastBookingStartTimeLimit.isVisible =
-                        startValue !in viewModel.getSliderStateStartLimit()..(viewModel.getSliderStateStartLimit() + TEXT_VIEWS_OVERLAP_MARGIN)
+                        startValue !in viewModel.getSliderState().startLimit..(viewModel.getSliderState().startLimit + TEXT_VIEWS_OVERLAP_MARGIN)
                 }
             }
         }
@@ -119,7 +125,7 @@ class FastBookingFragment :
             lifecycleScope.launchWhenStarted {
                 viewModel.sliderEndFlow.collectLatest { endValue ->
                     fastBookingEndTimeLimit.isVisible =
-                        endValue !in viewModel.getSliderStateEndLimit() - TEXT_VIEWS_OVERLAP_MARGIN..viewModel.getSliderStateEndLimit()
+                        endValue !in viewModel.getSliderState().endLimit - TEXT_VIEWS_OVERLAP_MARGIN..viewModel.getSliderState().endLimit
                 }
             }
         }
@@ -141,6 +147,29 @@ class FastBookingFragment :
                     false -> {
                     }
                 }
+            }
+        }
+    }
+
+    private fun selectedTimeStringObservers() {
+        with(binding) {
+            viewModel.startSelectedTimeStringData.observe(viewLifecycleOwner) {
+                fastBookingStartTimeSelected.text = it
+                fastBookingStartTimeSelected.applyOffset(
+                    getSelectedTextViewOffset(
+                        fastBookingStartTimeSelected,
+                        viewModel.getSliderState().startSelected
+                    )
+                )
+            }
+            viewModel.endSelectedTimeStringData.observe(viewLifecycleOwner) {
+                fastBookingEndTimeSelected.text = it
+                fastBookingEndTimeSelected.applyOffset(
+                    getSelectedTextViewOffset(
+                        fastBookingStartTimeSelected,
+                        viewModel.getSliderState().endSelected
+                    )
+                )
             }
         }
     }
@@ -197,41 +226,28 @@ class FastBookingFragment :
         override fun onStopTrackingTouch(slider: RangeSlider) {
             binding.fastBookingTimeSelectedGroup.isVisible = true
             viewModel.onSliderStateChanged(thumbIndex, slider.values)
-            displayTextUnderThumbs(slider)
         }
+    }
 
-        private fun displayTextUnderThumbs(slider: RangeSlider) {
-            var layoutParams: ConstraintLayout.LayoutParams
-            var offset: Float
-            val margin: Int
-
-            with(slider) {
-                offset = trackWidth * values[thumbIndex] / (valueTo - valueFrom)
-                margin = resources.getDimensionPixelSize(R.dimen.dimens_16_dp)
-            }
-
-            with(binding) {
-                if (thumbIndex == SLIDER_START_THUMB_INDEX) {
-                    fastBookingStartTimeSelected.isVisible = true
-                    fastBookingStartTimeSelected.text =
-                        viewModel.getSelectedTime(slider.values[SLIDER_START_THUMB_INDEX].toInt())
-                    offset += margin
-                    layoutParams =
-                        fastBookingStartTimeSelected.layoutParams as ConstraintLayout.LayoutParams
-                    layoutParams.marginStart = offset.toInt()
-                    fastBookingStartTimeSelected.layoutParams = layoutParams
-                }
-                if (thumbIndex == SLIDER_END_THUMB_INDEX) {
-                    fastBookingEndTimeSelected.isVisible = true
-                    fastBookingEndTimeSelected.text =
-                        viewModel.getSelectedTime(slider.values[SLIDER_END_THUMB_INDEX].toInt())
-                    offset -= margin
-                    layoutParams =
-                        fastBookingEndTimeSelected.layoutParams as ConstraintLayout.LayoutParams
-                    layoutParams.marginEnd = (slider.trackWidth - offset).toInt()
-                    fastBookingEndTimeSelected.layoutParams = layoutParams
-                }
-            }
+    private fun getSelectedTextViewOffset(textView: TextView, thumbPosition: Int): Int {
+        with(viewModel.getSliderState()) {
+            textView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            return getSliderWidth() * (thumbPosition - startLimit) / (endLimit - startLimit) +
+                    resources.getDimensionPixelSize(R.dimen.dimens_16_dp) + binding.fastBookingSlider.haloRadius / TWO - textView.measuredWidth / TWO
         }
+    }
+
+    private fun View.applyOffset(offset: Int) {
+        val layoutParams = this.layoutParams as ConstraintLayout.LayoutParams
+        layoutParams.marginStart = offset
+        this.layoutParams = layoutParams
+    }
+
+    private fun getSliderWidth(): Int {
+        return getScreenWidth() - TWO * resources.getDimensionPixelSize(R.dimen.dimens_16_dp) - binding.fastBookingSlider.haloRadius
+    }
+
+    private fun getScreenWidth(): Int {
+        return requireActivity().resources?.displayMetrics?.widthPixels ?: DEFAULT_SCREEN_WIDTH
     }
 }
