@@ -15,7 +15,7 @@ import com.meeringroom.ui.view.base_classes.BaseFragment
 import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.databinding.FragmentUpcomingEventsBinding
 import com.meetingroom.andersen.feature_landing.domain.entity.UpcomingEventData
-import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
+import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragment
 import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragmentDirections
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class UpcomingEventsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        XInjectionManager.findComponent<LandingComponent>().inject(this)
+        XInjectionManager.bindComponent(this.parentFragment as LandingFragment).inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

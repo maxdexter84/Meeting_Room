@@ -18,7 +18,7 @@ import com.meeringroom.ui.view_utils.visibilityIf
 import com.meetingroom.andersen.feature_landing.R
 import com.meetingroom.andersen.feature_landing.databinding.FragmentHistoryOfEventsBinding
 import com.meetingroom.andersen.feature_landing.databinding.PopoverCopyBinding
-import com.meetingroom.andersen.feature_landing.presentation.di.LandingComponent
+import com.meetingroom.andersen.feature_landing.presentation.landing_fragment.LandingFragment
 import javax.inject.Inject
 
 class HistoryOfEventsFragment :
@@ -38,7 +38,7 @@ class HistoryOfEventsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        XInjectionManager.findComponent<LandingComponent>().inject(this)
+        XInjectionManager.bindComponent(this.parentFragment as LandingFragment).inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
