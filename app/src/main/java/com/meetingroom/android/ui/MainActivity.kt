@@ -3,6 +3,7 @@ package com.meetingroom.android.ui
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupWithNavController
 import com.example.core_module.component_manager.XInjectionManager
@@ -30,6 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
         binding.bottomNavView.mainBottomNavigationView.setupWithNavController(navController)
         navigate()
         destinationListener(binding)
+        setSavedTheme()
     }
 
     override fun onBackPressed() {
@@ -80,11 +82,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>({ActivityMainBinding.infl
         }
     }
 
+    private fun setSavedTheme(){
+        when (userDataPrefHelper.getTheme()) {
+            THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
     companion object {
         private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_ADMIN = 86400000
         private const val LIMIT_TIME_FOR_ACCESS_TOKEN_FOR_USER = 604800000
         private const val BUFFER_TIME_FOR_REFRESH_ACCESS_TOKEN = 1000000
         private const val ROLE_USER = "ROLE_USER"
+        private const val THEME_LIGHT = 0
+        private const val THEME_DARK = 1
     }
 
     override fun getViewBinding(): ActivityMainBinding  = ActivityMainBinding.inflate(layoutInflater)
